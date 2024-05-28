@@ -1,55 +1,67 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using ProgramGuard.Data;
+using ProgramGuard.Dtos.FileDetection;
 using ProgramGuard.Interfaces;
 using ProgramGuard.Models;
 
 namespace ProgramGuard.Repository
 {
-    public class FileListRepository : Repository<FileList>, IFileListRepository
+    public class FileListRepository : IFileListRepository
     {
         private readonly ApplicationDBContext _context;
-        public FileListRepository (ApplicationDBContext context) : base (context)
+
+        public FileListRepository(ApplicationDBContext context)
         {
             _context = context;
         }
 
-        // 根據檔案名稱查找文件清單
-        public async Task<FileList> GetByNameAsync(string fileName)
-        {
-            return await _context.FileLists.FirstOrDefaultAsync(fl => fl.FileName == fileName);
-        }
-
-        // 獲取指定用戶擁有的所有文件清單
-        //public async Task<IEnumerable<FileList>> GetByUserIdAsync(int userId)
-        //{
-        //    return await _context.FileLists.Where(fl => fl.UserId == userId).ToListAsync();
-        //}
-
-        // 添加一個新的文件清單
-        public async Task AddFileListAsync(FileList fileList)
+        public async Task<FileList> AddAsync(FileList fileList)
         {
             await _context.FileLists.AddAsync(fileList);
             await _context.SaveChangesAsync();
+            return fileList;
         }
 
-        // 更新文件清單
-        public async Task UpdateFileListAsync(FileList fileList)
+        public async Task<FileList> DeleteAsync(int id)
         {
-            _context.FileLists.Update(fileList);
-            await _context.SaveChangesAsync();
-        }
-
-        // 刪除文件清單
-        public async Task DeleteFileListAsync(int fileListId)
-        {
-            var fileList = await _context.FileLists.FindAsync(fileListId);
+            var fileList = await _context.FileLists.FindAsync(id);
             if (fileList != null)
             {
                 _context.FileLists.Remove(fileList);
                 await _context.SaveChangesAsync();
             }
+            return null;
         }
 
-        // 可以在這裡實現 FileList 特有的方法
+        public async Task<IEnumerable<FileList>> GetAllAsync()
+        {
+            return await _context.FileLists.ToListAsync();
+        }
+
+        public async Task<FileList> GetByIdAsync(int id)
+        {
+            return await _context.FileLists.FindAsync(id);
+        }
+
+        public async Task<FileList> UpdateAsync(int id, UpdateFileListDto updateDto)
+        {
+            var fileList = await _context.FileLists.FindAsync(id);
+
+            if (fileList == null)
+            {
+                throw new ArgumentException("File not found");
+            }
+
+            fileList.FileName = updateDto.FileName;
+            fileList.FilePath = updateDto.FilePath;
+
+            await _context.SaveChangesAsync();
+
+            return fileList;
+        }
     }
 }

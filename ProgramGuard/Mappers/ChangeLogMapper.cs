@@ -1,4 +1,4 @@
-﻿using ProgramGuard.Dtos;
+﻿using ProgramGuard.Dtos.FileDetection;
 using ProgramGuard.Models;
 using System.ComponentModel.DataAnnotations.Schema;
 

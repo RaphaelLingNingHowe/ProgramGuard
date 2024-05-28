@@ -12,8 +12,8 @@ using ProgramGuard.Data;
 namespace ProgramGuard.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20240524080650_init2")]
-    partial class init2
+    [Migration("20240527093114_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -49,6 +49,20 @@ namespace ProgramGuard.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "c64ad47c-94de-4f51-bfdc-23f93d093476",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "537e9744-a80e-4367-83a3-1866f1b6efe9",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -166,17 +180,23 @@ namespace ProgramGuard.Migrations
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Action")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("ActionTime")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("User")
-                        .IsRequired()
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId1")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("UserName")
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId1");
 
                     b.ToTable("ActionLogs");
                 });
@@ -196,26 +216,21 @@ namespace ProgramGuard.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("ConfirmedByAndTime")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("DigitalSignature")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<int>("FileListId")
                         .HasColumnType("int");
 
                     b.Property<string>("FileName")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("MD5")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("SHA512")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
@@ -234,11 +249,9 @@ namespace ProgramGuard.Migrations
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("FileName")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("FilePath")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
@@ -359,6 +372,15 @@ namespace ProgramGuard.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("ProgramGuard.Models.ActionLog", b =>
+                {
+                    b.HasOne("ProgramGuard.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId1");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ProgramGuard.Models.ChangeLog", b =>

@@ -1,10 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace ProgramGuard.Models
+﻿namespace ProgramGuard.Dtos.LogQuery
 {
-    public class ActionLog
+    public class ActionLogDto
     {
-        public int Id { get; set; }
         public string UserName { get; set; }
         public string Action { get; set; }
         public DateTime ActionTime { get; set; }

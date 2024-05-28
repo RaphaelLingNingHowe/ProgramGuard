@@ -7,7 +7,7 @@ namespace ProgramGuard.Models
         public int Id { get; set; }
         public DateTime ChangeTime { get; set; }
         public bool ConfirmationStatus { get; set; }
-        public string ConfirmedByAndTime { get; set; }
+        public string? ConfirmedByAndTime { get; set; }
         public List<string>? DigitalSignature { get; set; }
         public string FileName { get; set; }
         public string MD5 { get; set; }

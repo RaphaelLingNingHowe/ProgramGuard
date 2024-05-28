@@ -1,4 +1,4 @@
-﻿using ProgramGuard.Dtos;
+﻿using ProgramGuard.Dtos.FileDetection;
 using ProgramGuard.Models;
 
 namespace ProgramGuard.Mappers

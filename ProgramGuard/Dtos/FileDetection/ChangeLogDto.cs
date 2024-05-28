@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ProgramGuard.Dtos
+namespace ProgramGuard.Dtos.FileDetection
 {
     public class ChangeLogDTO
     {
@@ -10,7 +10,7 @@ namespace ProgramGuard.Dtos
         public List<string>? DigitalSignature { get; set; }
         public DateTime ChangeTime { get; set; }
         public bool ConfirmationStatus { get; set; }
-        public string ConfirmedByAndTime { get; set; }
+        public string? ConfirmedByAndTime { get; set; }
         public int FileListId { get; set; }
 
     }

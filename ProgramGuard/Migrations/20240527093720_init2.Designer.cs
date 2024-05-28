@@ -12,8 +12,8 @@ using ProgramGuard.Data;
 namespace ProgramGuard.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20240524075340_init")]
-    partial class init
+    [Migration("20240527093720_init2")]
+    partial class init2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -49,6 +49,20 @@ namespace ProgramGuard.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "4c973d7e-f4ea-4467-b1fc-1efdba765dea",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "241647ae-d7db-4d0b-9404-4ad0509225c8",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -166,14 +180,12 @@ namespace ProgramGuard.Migrations
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Action")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("ActionTime")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("User")
-                        .IsRequired()
+                    b.Property<string>("UserName")
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
@@ -196,26 +208,21 @@ namespace ProgramGuard.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("ConfirmedByAndTime")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("DigitalSignature")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<int>("FileListId")
                         .HasColumnType("int");
 
                     b.Property<string>("FileName")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("MD5")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("SHA512")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
@@ -234,11 +241,9 @@ namespace ProgramGuard.Migrations
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("FileName")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("FilePath")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");

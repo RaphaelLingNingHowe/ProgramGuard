@@ -108,7 +108,9 @@ namespace ProgramGuard.Services
         public bool VerifyFileIntegrity(string filePath)
         {
             var changeLog = _context.ChangeLogs
-                .FirstOrDefault(c => c.FileList.FilePath == filePath);
+                .Where(c => c.FileList.FilePath == filePath)
+                .OrderByDescending(c => c.ChangeTime)
+                .FirstOrDefault();
 
             if (changeLog == null)
             {
@@ -117,15 +119,16 @@ namespace ProgramGuard.Services
             }
 
             var oldMD5 = changeLog.MD5;
-            var oldSHA512 = changeLog.SHA512;
+            var oldSha512 = changeLog.SHA512;
 
             // 計算新的 MD5 和 SHA512 值
             var newMD5 = CalculateMD5(filePath);
-            var newSHA512 = CalculateSHA512(filePath);
+            var newSha512 = CalculateSHA512(filePath);
 
             // 比較 MD5 和 SHA512 值
-            return oldMD5 == newMD5 && oldSHA512 == newSHA512;
+            return oldMD5 == newMD5 && oldSha512 == newSha512;
         }
+
 
     }
 }

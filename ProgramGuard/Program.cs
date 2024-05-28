@@ -23,6 +23,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IFileDetectionService, FileDetectionService>();
 builder.Services.AddScoped<IChangeLogRepository, ChangeLogRepository>();
 builder.Services.AddScoped<IFileListRepository, FileListRepository>();
+builder.Services.AddScoped<IQueryConditionHandler, QueryConditionHandler>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IActionLogRepository, ActionLogRepository>();
+builder.Services.AddScoped<IReviewService, ReviewService>();
 
 builder.Services.AddDbContext<ApplicationDBContext>(options =>
 {
@@ -37,9 +41,9 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
     options.Password.RequireUppercase = true;
     options.Password.RequireNonAlphanumeric = true;
     options.Password.RequiredLength = 8;
-
 })
-.AddEntityFrameworkStores<ApplicationDBContext>();
+.AddEntityFrameworkStores<ApplicationDBContext>()
+.AddDefaultTokenProviders();
 
 builder.Services.AddAuthentication(options =>
 {

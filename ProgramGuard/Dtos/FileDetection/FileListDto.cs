@@ -1,4 +1,4 @@
-﻿namespace ProgramGuard.Dtos
+﻿namespace ProgramGuard.Dtos.FileDetection
 {
     public class FileListDto
     {
