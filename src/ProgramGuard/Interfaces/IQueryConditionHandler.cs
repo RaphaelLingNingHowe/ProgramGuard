@@ -5,7 +5,7 @@ namespace ProgramGuard.Interfaces
 {
     public interface IQueryConditionHandler
     {
-        IQueryable<ChangeLog> HandleQueryConditions(IQueryable<ChangeLog> query, LogQueryDto queryDto);
+        IQueryable<ChangeLog> HandleQueryConditions(IQueryable<ChangeLog> query, SearchDto queryDto);
     }
 
 }

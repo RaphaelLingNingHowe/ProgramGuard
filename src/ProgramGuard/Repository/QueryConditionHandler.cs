@@ -6,7 +6,7 @@ namespace ProgramGuard.Repository
 {
     public class QueryConditionHandler : IQueryConditionHandler
     {
-        public IQueryable<ChangeLog> HandleQueryConditions(IQueryable<ChangeLog> query, LogQueryDto queryDto)
+        public IQueryable<ChangeLog> HandleQueryConditions(IQueryable<ChangeLog> query, SearchDto queryDto)
         {
             if (!string.IsNullOrWhiteSpace(queryDto.FileName))
             {

@@ -1,0 +1,34 @@
+﻿@page
+@model ProgramGuard.Models.FileList
+@{
+}
+
+@(Html.DevExtreme().DataGrid<ProgramGuard.Models.FileList>
+    ()
+    .ID("grid")
+    .DataSource(d => d.WebApi()
+    .Controller("Files")
+    .LoadAction("GetFileLists")
+    .InsertAction("CreateFileList")
+    .UpdateAction("UpdateFileList")
+    .DeleteAction("DeleteFileList")
+    .Key("Id")
+    @*     .OnBeforeSend("beforeSend") *@
+    )
+    .ShowBorders(true)
+    .RepaintChangesOnly(true)
+    .Scrolling(s => s.Mode(GridScrollingMode.Virtual))
+    .Editing(e => e
+    .Mode(GridEditMode.Cell)
+    .RefreshMode(GridEditRefreshMode.Reshape)
+    .AllowAdding(true)
+    .AllowDeleting(true)
+    .AllowUpdating(true)
+    )
+    .Columns(columns =>
+    {
+        columns.Add().DataField("Id").Name("Id");
+        columns.Add().DataField("FileName").Name("FileName");
+        columns.Add().DataField("FilePath").Name("FilePath");
+    })
+)

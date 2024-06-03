@@ -1,0 +1,114 @@
+﻿@page
+@model ProgramGuard.Web.Pages.SearchFilesModel
+@using DevExtreme.AspNet.Mvc
+@{
+    ViewData["Title"] = "Search Files";
+}
+
+<h1>Search Files</h1>
+
+@* <form method="post"> *@
+@using (Html.BeginForm(FormMethod.Post))
+{
+    <div class="dx-field">
+        <div class="dx-field-label">File Name</div>
+        <div class="dx-field-value">
+            @(
+                Html.DevExtreme().TextBox()
+                .Name("FileName")
+                .Placeholder("Enter File Name here...")
+                .InputAttr("aria-label", "File Name")
+                )
+        </div>
+    </div>
+    <div class="dx-field">
+        <div class="dx-field-label">Date and time</div>
+        <div class="dx-field-value">
+            @(
+                Html.DevExtreme().DateBox()
+                .Name("StartTime")
+                .InputAttr("aria-label", "Date And Time")
+                .Type(DateBoxType.DateTime)
+                )
+        </div>
+    </div>
+    <div class="dx-field">
+        <div class="dx-field-label">Date and time</div>
+        <div class="dx-field-value">
+            @(
+                Html.DevExtreme().DateBox()
+                .Name("EndTime")
+                .InputAttr("aria-label", "Date And Time")
+                .Type(DateBoxType.DateTime)
+                )
+        </div>
+    </div>
+    @(
+                   Html.DevExtreme().Button()
+            .Text("Search")
+            .Type(ButtonType.Default)
+            .Width(120)
+            .UseSubmitBehavior(true)
+
+           )
+}
+
+@if (Model.SearchResults != null)
+{
+    <h2>Search Results</h2>
+    @if (Model.SearchResults.Count == 0)
+    {
+        <p>No files found matching the specified criteria.</p>
+    }
+    else
+    {
+        @(Html.DevExtreme().DataGrid()
+                .Columns(columns =>
+                {
+                    columns.Add().DataField("Id");
+                    columns.Add().DataField("FileName");
+                    columns.Add().DataField("ChangeTime").Format("yyyy-MM-dd HH:mm:ss");
+                    columns.Add().DataField("ConfirmationStatus");
+                    columns.Add().DataField("ConfirmedByAndTime");                   
+                })
+                .DataSource(Model.SearchResults)
+                .ShowBorders(true)
+            );
+    }
+}
+
+
+@* @if (Model.SearchResults != null)
+{
+    <h2>Search Results</h2>
+    @if (Model.SearchResults.Count == 0)
+    {
+        <p>No files found matching the specified criteria.</p>
+    }
+    else
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>File Name</th>
+                    <th>Change Time</th>
+                    <th>Confirmation Status</th>
+                    <th>Confirmed By and Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var result in Model.SearchResults)
+                {
+                    <tr>
+                        <td>@result.Id</td>
+                        <td>@result.FileName</td>
+                        <td>@result.ChangeTime</td>
+                        <td>@(result.ConfirmationStatus ? "Confirmed" : "Not Confirmed")</td>
+                        <td>@(result.ConfirmedByAndTime ?? "Not confirmed yet")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+} *@

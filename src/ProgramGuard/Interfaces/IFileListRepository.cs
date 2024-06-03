@@ -10,7 +10,7 @@ namespace ProgramGuard.Interfaces
         Task<FileList> GetByIdAsync(int id);
         Task<IEnumerable<FileList>> GetAllAsync();
         Task<FileList> AddAsync(FileList fileList);
-        Task<FileList> UpdateAsync(int id, UpdateFileListDto updateDto);
+        Task<FileList> UpdateAsync(int id, FileListDto updateDto);
         Task<FileList> DeleteAsync(int id);
     }
 }

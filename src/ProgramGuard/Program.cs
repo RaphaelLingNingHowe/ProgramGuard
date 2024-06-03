@@ -20,10 +20,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//builder.Services.AddScoped<IFileDetectionService, FileDetectionService>();
-builder.Services.AddSingleton<IFileDetectionService, FileDetectionService>();
-//builder.Services.AddScoped<IChangeLogRepository, ChangeLogRepository>();
-builder.Services.AddSingleton<IChangeLogRepository, ChangeLogRepository>();
+builder.Services.AddScoped<IFileDetectionService, FileDetectionService>();
+builder.Services.AddScoped<IChangeLogRepository, ChangeLogRepository>();
 builder.Services.AddScoped<IFileListRepository, FileListRepository>();
 builder.Services.AddScoped<IQueryConditionHandler, QueryConditionHandler>();
 builder.Services.AddScoped<ITokenService, TokenService>();

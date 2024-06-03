@@ -1,0 +1,66 @@
+﻿@page
+@model ProgramGuard.Web.Pages.FileListsModel
+@using DevExtreme.AspNet.Mvc
+@{
+    ViewData["Title"] = "File Lists";
+}
+
+<h1>Create File Lists</h1>
+
+@using (Html.BeginForm(FormMethod.Post))
+{
+    <div class="dx-field">
+        <div class="dx-field-label">File Path:</div>
+        <div class="dx-field-value">
+            @(Html.DevExtreme().TextBox()
+                .Name("FilePath")
+                .Placeholder("Enter file path")
+                )
+        </div>
+    </div>
+    <div class="dx-field">
+        <div class="dx-field-value">
+            @(Html.DevExtreme().Button()
+                .Text("Create")
+                .Type(ButtonType.Success)
+                .UseSubmitBehavior(true)
+                )
+        </div>
+    </div>
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+<h1>File Lists</h1>
+
+<div id="gridContainer">
+    @(Html.DevExtreme().DataGrid()
+        .DataSource(Model.fileList)
+        .ShowBorders(true)
+        .Editing(e => e
+            .Mode(GridEditMode.Row)
+            .AllowUpdating(true)
+            .AllowDeleting(true)
+        )
+        .Columns(columns =>
+        {
+            columns.Add().DataField("Id").Name("Id").Visible(false);
+            columns.Add().DataField("FileName").Name("FileName");
+            columns.Add().DataField("FilePath").Name("FilePath");
+        })
+        .Summary(summary =>
+        {
+            summary.TotalItems(totalItems =>
+            {
+                totalItems.Add().Column("FileName").SummaryType(SummaryType.Count).DisplayFormat("Total Files: {0}");
+            });
+        })
+    )
+</div>
+
+

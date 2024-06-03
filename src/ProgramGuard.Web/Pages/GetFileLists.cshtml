@@ -1,0 +1,34 @@
+@page
+@model ProgramGuard_Web.Pages.GetFileListsModel
+<!DOCTYPE html>
+<html>
+<head>
+    <title>File List</title>
+</head>
+<body>
+    <h1>File List</h1>
+
+    @if (Model.DataList != null && Model.DataList.Any())
+    {
+        <table>
+            <tr>
+                <th>File ID</th>
+                <th>File Name</th>
+                <th>File Path</th>
+            </tr>
+            @foreach (var file in Model.DataList)
+            {
+                <tr>
+                    <td>@file.Id</td>
+                    <td>@file.FileName</td>
+                    <td>@file.FilePath</td>
+                </tr>
+            }
+        </table>
+    }
+    else
+    {
+        <p>No files available.</p>
+    }
+</body>
+</html>

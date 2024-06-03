@@ -31,17 +31,23 @@ namespace ProgramGuard.Controllers
             _fileListRepository = fileListRepository;
         }
 
-        [Authorize]
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetFileLists()
         {
             var filelist = await _fileListRepository.GetAllAsync();
-            return Ok(filelist);
+            // 將實體轉換為 DTO
+            var fileDtos = filelist.Select(file => new FileListDto
+            {
+                Id = file.Id,
+                FileName = file.FileName,
+                FilePath = file.FilePath
+            }).ToList();
+
+            return Ok(fileDtos);
         }
 
-        [Authorize]
         [HttpPost]
-        public async Task<IActionResult> DetectFileAsync(string filePath)
+        public async Task<IActionResult> CreateFileListAsync([FromBody]string filePath)
         {
             if (string.IsNullOrWhiteSpace(filePath))
             {
@@ -90,19 +96,36 @@ namespace ProgramGuard.Controllers
 
                 await _changeLogRepository.AddAsync(changelogModel);
 
-                return Ok(changelog);
+                return Ok();
             }
             return Ok("No changes detected.");
         }
 
-        [Authorize]
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> UpdateFileList(int id, [FromBody] UpdateFileListDto updateDto)
+        //{
+        //    try
+        //    {
+        //        var updatedFileList = await _fileListRepository.UpdateAsync(id, updateDto);
+        //        return Ok(updatedFileList);
+        //    }
+        //    catch (ArgumentException)
+        //    {
+        //        return NotFound();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(500, $"An error occurred: {ex.Message}");
+        //    }
+        //}
+
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateFileList(int id, [FromBody] UpdateFileListDto updateDto)
+        public async Task<IActionResult> UpdateFileList(int id, [FromBody] FileListDto updateDto)
         {
             try
             {
-                var updatedFileList = await _fileListRepository.UpdateAsync(id, updateDto);
-                return Ok(updatedFileList);
+                var fileList = await _fileListRepository.UpdateAsync(id, updateDto);
+                return Ok(fileList);
             }
             catch (ArgumentException)
             {
@@ -115,9 +138,8 @@ namespace ProgramGuard.Controllers
         }
 
         [Authorize]
-        [HttpDelete]
-        [Route("{id:int}")]
-        public async Task<IActionResult> Delete([FromRoute] int id)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteFileList([FromRoute] int id)
         {
             await _fileListRepository.DeleteAsync(id);
             return NoContent();

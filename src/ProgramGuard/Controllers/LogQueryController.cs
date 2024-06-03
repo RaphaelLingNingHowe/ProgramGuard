@@ -35,39 +35,55 @@ namespace ProgramGuard.Controllers
             _review = review;
         }
 
-        [Authorize]
         [HttpPost("search")]
-        public async Task<IActionResult> SearchFilesAsync([FromBody] LogQueryDto queryDto)
+        public async Task<IActionResult> SearchFilesAsync([FromBody] SearchDto searchDto)
         {
             var queryTime = DateTime.UtcNow.ToLocalTime();
             IQueryable<ChangeLog> query = _context.ChangeLogs.Include(cl => cl.FileList);
 
+            
             // 使用 IQueryConditionHandler 處理查詢條件
-            query = _query.HandleQueryConditions(query, queryDto);
+            query = _query.HandleQueryConditions(query, searchDto);
 
-            var searchResults = await query.ToListAsync();
+            if (!query.Any())
+            {
+                return NotFound("No files found matching the specified criteria.");
+            }
+
+            var searchResults = await query.Select(cl => new SearchResultDto
+            {
+                Id = cl.Id,
+                FileName = cl.FileName,
+                ChangeTime = cl.ChangeTime,
+                ConfirmationStatus = cl.ConfirmationStatus,
+                ConfirmedByAndTime = cl.ConfirmedByAndTime
+            }).ToListAsync();
 
             if (searchResults.Count == 0)
             {
                 return NotFound("No files found matching the specified criteria.");
             }
             var currentUser = await _userManager.GetUserAsync(User);
-
-            var actionLog = new ActionLogDto
+            
+            if (currentUser != null)
             {
-                UserName = currentUser.UserName,
-                Action = "查詢" + queryDto.FileName,
-                ActionTime = queryTime
-            };
+                var actionLog = new ActionLogDto
+                {
+                    UserName = currentUser.UserName,
+                    Action = "查詢" + searchDto.FileName,
+                    ActionTime = queryTime
+                };
 
-            var actionLogModel = ActionLogMapper.ActionLogDtoToModel(actionLog);
-            await _actionLog.CreateAsync(actionLogModel);
+                var actionLogModel = ActionLogMapper.ActionLogDtoToModel(actionLog);
+                await _actionLog.CreateAsync(actionLogModel);
+            }
+
+            
 
 
             return Ok(searchResults);
         }
 
-        [Authorize]
         [HttpPost("unconfirmed")]
         public async Task<IActionResult> GetUnconfirmedAsync()
         {

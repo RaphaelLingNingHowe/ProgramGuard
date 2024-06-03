@@ -47,7 +47,7 @@ namespace ProgramGuard.Repository
             return await _context.FileLists.FindAsync(id);
         }
 
-        public async Task<FileList> UpdateAsync(int id, UpdateFileListDto updateDto)
+        public async Task<FileList> UpdateAsync(int id, FileListDto updateDto)
         {
             var fileList = await _context.FileLists.FindAsync(id);
 
@@ -63,5 +63,6 @@ namespace ProgramGuard.Repository
 
             return fileList;
         }
+
     }
 }

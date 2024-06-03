@@ -26,7 +26,7 @@ namespace ProgramGuard.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(loginDto.UserName, loginDto.Password, loginDto.RememberMe, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(loginDto.UserName, loginDto.Password, isPersistent: false, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
                     // 登入成功，生成 Token
@@ -49,8 +49,9 @@ namespace ProgramGuard.Controllers
             }
         }
 
+
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
+        public async Task<IActionResult> Register(RegisterDto registerDto)
         {
             try
             {
