@@ -1,0 +1,6 @@
+@ProgramGuard_HostAddress = http://localhost:5104
+
+GET {{ProgramGuard_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
