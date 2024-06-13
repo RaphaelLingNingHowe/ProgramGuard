@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-
 namespace ProgramGuard.Dtos.Account
 {
     public class CreateUserDto

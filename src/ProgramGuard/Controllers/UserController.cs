@@ -1,15 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using ProgramGuard.Data;
 using ProgramGuard.Dtos.User;
 using ProgramGuard.Interfaces;
 using ProgramGuard.Models;
 using System.Security.Claims;
-
 namespace ProgramGuard.Controllers
 {
     [Route("[controller]")]
@@ -29,50 +25,38 @@ namespace ProgramGuard.Controllers
             _context = context;
             _logger = logger;
         }
-
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto loginDto)
         {
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest("验证失败，请检查输入的格式");
-                }
-
+                
                 var user = await _userManager.FindByNameAsync(loginDto.UserName);
                 if (user == null)
                 {
-                    return BadRequest("用户未找到");
+                    return BadRequest("用戶未找到");
                 }
-
                 if (user.IsFrozen)
                 {
-                    return BadRequest("账户已被冻结");
+                    return BadRequest("賬號已凍結");
                 }
-
                 var result = await _signInManager.PasswordSignInAsync(loginDto.UserName, loginDto.Password, isPersistent: false, lockoutOnFailure: true);
-
                 if (result.Succeeded)
                 {
-                    // 检查上次密码更改日期
                     var daysSinceLastPasswordChange = (DateTime.UtcNow - user.LastPasswordChangedDate).TotalDays;
                     if (daysSinceLastPasswordChange > 1)
                     {
-                        return Ok(new { Message = "密码已超过80天未更改，请更改密码" });
+                        return Ok(new { Message = "密碼已超過80天未更換，請更換密碼" });
                     }
-
                     var existingHistory = await _context.LoginHistories.FirstOrDefaultAsync(h => h.UserId == user.Id);
                     if (existingHistory != null)
                     {
-                        // 如果存在，更新现有记录
                         existingHistory.LoginStatus = true;
                         existingHistory.LoginTime = DateTime.UtcNow.ToLocalTime();
                         _context.LoginHistories.Update(existingHistory);
                     }
                     else
                     {
-                        // 如果不存在，插入新记录
                         var loginHistory = new LoginHistory
                         {
                             UserId = user.Id,
@@ -81,31 +65,25 @@ namespace ProgramGuard.Controllers
                         };
                         _context.LoginHistories.Add(loginHistory);
                     }
-
                     await _context.SaveChangesAsync();
-
                     var token = await _tokenService.CreateTokenAsync(user);
-                    return Ok(new { Token = token });
+                    return Ok( token );
                 }
                 else if (result.IsLockedOut)
                 {
-                    return BadRequest("账号已锁定，请稍后再试");
+                    return BadRequest("賬號已鎖定，請稍後再試");
                 }
                 else
                 {
-                    return BadRequest("登录失败，请检查用户名和密码");
+                    return BadRequest("登錄失敗，請檢查賬號和密碼");
                 }
             }
             catch (Exception ex)
             {
-                // 记录异常日志
-                _logger.LogError(ex, "登录过程中发生异常");
-                return StatusCode(500, "登录失败，请联系管理员");
+                _logger.LogError(ex, "登錄過程中發現異常");
+                return StatusCode(500, "登錄失敗，請聯繫管理員");
             }
         }
-
-
-
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterDto registerDto)
         {
@@ -113,15 +91,12 @@ namespace ProgramGuard.Controllers
             {
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
-
                 var user = new AppUser
                 {
                     UserName = registerDto.Username,
                     Email = registerDto.Email
                 };
-
                 var createdUser = await _userManager.CreateAsync(user, registerDto.Password);
-
                 if (createdUser.Succeeded)
                 {
                     var roleResult = await _userManager.AddToRoleAsync(user, "Admin");
@@ -141,21 +116,16 @@ namespace ProgramGuard.Controllers
             }
             catch (Exception ex)
             {
-                // 记录异常信息
-                _logger.LogError(ex, "注册用户时发生异常");
-
-                return StatusCode(500, "注册用户时发生异常");
+                _logger.LogError(ex, "註冊用戶時發現異常");
+                return StatusCode(500, "註冊用戶時發現異常");
             }
         }
-
         [HttpPost("logout")]
         public async Task<IActionResult> Logout()
         {
             try
             {
                 await _signInManager.SignOutAsync();
-
-                // 记录用户的登出时间
                 var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
                 if (!string.IsNullOrEmpty(userId))
                 {
@@ -168,18 +138,14 @@ namespace ProgramGuard.Controllers
                         await _context.SaveChangesAsync();
                     }
                 }
-
-                return Ok("用户已注销");
+                return Ok("用戶已註銷");
             }
             catch (Exception ex)
             {
-                // 记录异常信息
-                _logger.LogError(ex, "用户注销时发生异常");
-
-                return StatusCode(500, "用户注销时发生异常");
+                _logger.LogError(ex, "用戶註銷時發送異常");
+                return StatusCode(500, "用戶註銷時發送異常");
             }
         }
-
         [HttpPost("change-password")]
         public async Task<IActionResult> ChangePassword(ChangePasswordDto changePasswordDto)
         {
@@ -187,136 +153,60 @@ namespace ProgramGuard.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-                    return BadRequest("验证失败，请检查输入的格式");
+                    return BadRequest("驗證失敗，請檢查輸入的格式");
                 }
                 var user = await _userManager.GetUserAsync(User);
                 if (user == null)
                 {
                     var userName = changePasswordDto.UserName;
-                    user = await _userManager.FindByNameAsync(userName); // 获取当前登录用户
-                }                
-                
+                    user = await _userManager.FindByNameAsync(userName);
+                }
                 if (user == null)
                 {
-                    return BadRequest("未找到当前用户");
+                    return BadRequest("未找到當前用戶");
                 }
-
                 var currentPasswordValid = await _userManager.CheckPasswordAsync(user, changePasswordDto.CurrentPassword);
                 if (!currentPasswordValid)
                 {
-                    return BadRequest("当前密码不正确");
+                    return BadRequest("當前密碼不正確");
                 }
-
                 var passwordHistories = await _context.PasswordHistories
                                         .Where(ph => ph.UserId == user.Id)
                                         .OrderByDescending(ph => ph.CreatedDate)
                                         .Take(3)
                                         .ToListAsync();
-
                 foreach (var history in passwordHistories)
                 {
                     if (_userManager.PasswordHasher.VerifyHashedPassword(user, history.PasswordHash, changePasswordDto.NewPassword) == PasswordVerificationResult.Success)
                     {
-                        return BadRequest("新密码不能与前三次使用的密码相同");
+                        return BadRequest("新密碼不能與前三次使用的密碼相同");
                     }
                 }
-
                 var result = await _userManager.ChangePasswordAsync(user, changePasswordDto.CurrentPassword, changePasswordDto.NewPassword);
                 if (result.Succeeded)
                 {
-                    user.LastPasswordChangedDate = DateTime.UtcNow.ToLocalTime(); // 记录更改密码的时间
+                    user.LastPasswordChangedDate = DateTime.UtcNow.ToLocalTime();
                     await _userManager.UpdateAsync(user);
-
                     var passwordHistory = new PasswordHistory
                     {
                         UserId = user.Id,
                         PasswordHash = _userManager.PasswordHasher.HashPassword(user, changePasswordDto.NewPassword),
                         CreatedDate = DateTime.UtcNow.ToLocalTime()
                     };
-
-                    _context.PasswordHistories.Add(passwordHistory); // 密码记录历史
+                    _context.PasswordHistories.Add(passwordHistory);
                     await _context.SaveChangesAsync();
-
-                    return Ok("密码已更改");
+                    return Ok("密碼已更改");
                 }
                 else
                 {
-                    return BadRequest("更改密码失败");
+                    return BadRequest("更改密碼失敗");
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "在更改密码时发生异常");
-                return StatusCode(500, "在更改密码时发生异常，请稍后再试");
+                _logger.LogError(ex, "在更改密碼時發送異常");
+                return StatusCode(500, "在更改密碼時發送異常，請稍後再試");
             }
         }
-
-        [HttpPost("change-password-authorized")]
-        [Authorize]
-        public async Task<IActionResult> ChangePasswordAuthorized(ChangePasswordDto changePasswordDto)
-        {
-            try
-            {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest("验证失败，请检查输入的格式");
-                }
-                var user = await _userManager.GetUserAsync(User);              
-
-                if (user == null)
-                {
-                    return BadRequest("未找到当前用户");
-                }
-
-                var currentPasswordValid = await _userManager.CheckPasswordAsync(user, changePasswordDto.CurrentPassword);
-                if (!currentPasswordValid)
-                {
-                    return BadRequest("当前密码不正确");
-                }
-
-                var passwordHistories = await _context.PasswordHistories
-                                        .Where(ph => ph.UserId == user.Id)
-                                        .OrderByDescending(ph => ph.CreatedDate)
-                                        .Take(3)
-                                        .ToListAsync();
-
-                foreach (var history in passwordHistories)
-                {
-                    if (_userManager.PasswordHasher.VerifyHashedPassword(user, history.PasswordHash, changePasswordDto.NewPassword) == PasswordVerificationResult.Success)
-                    {
-                        return BadRequest("新密码不能与前三次使用的密码相同");
-                    }
-                }
-
-                var result = await _userManager.ChangePasswordAsync(user, changePasswordDto.CurrentPassword, changePasswordDto.NewPassword);
-                if (result.Succeeded)
-                {
-                    user.LastPasswordChangedDate = DateTime.UtcNow.ToLocalTime(); // 记录更改密码的时间
-                    await _userManager.UpdateAsync(user);
-
-                    var passwordHistory = new PasswordHistory
-                    {
-                        UserId = user.Id,
-                        PasswordHash = _userManager.PasswordHasher.HashPassword(user, changePasswordDto.NewPassword),
-                        CreatedDate = DateTime.UtcNow.ToLocalTime()
-                    };
-
-                    _context.PasswordHistories.Add(passwordHistory); // 密码记录历史
-                    await _context.SaveChangesAsync();
-
-                    return Ok("密码已更改");
-                }
-                else
-                {
-                    return BadRequest("更改密码失败");
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "在更改密码时发生异常");
-                return StatusCode(500, "在更改密码时发生异常，请稍后再试");
-            }
-        }
-
     }
 }

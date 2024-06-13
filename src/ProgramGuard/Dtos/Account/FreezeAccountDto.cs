@@ -1,10 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using ProgramGuard.Dtos.User;
-using ProgramGuard.Models;
-
-namespace ProgramGuard.Dtos.Account
+﻿namespace ProgramGuard.Dtos.Account
 {
     public class FreezeAccountDto
     {

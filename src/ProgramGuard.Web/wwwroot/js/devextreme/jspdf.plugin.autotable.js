@@ -20,11 +20,8 @@
 return /******/ (function() { // webpackBootstrap
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
-
 /***/ 662:
 /***/ (function(__unused_webpack_module, exports) {
-
-
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -67,14 +64,9 @@ var CellHookData = /** @class */ (function (_super) {
     return CellHookData;
 }(HookData));
 exports.CellHookData = CellHookData;
-
-
 /***/ }),
-
 /***/ 790:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var htmlParser_1 = __webpack_require__(148);
 var autoTableText_1 = __webpack_require__(938);
@@ -163,14 +155,9 @@ function default_1(jsPDF) {
     };
 }
 exports["default"] = default_1;
-
-
 /***/ }),
-
 /***/ 938:
 /***/ (function(__unused_webpack_module, exports) {
-
-
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 /**
  * Improved text function with halign and valign support
@@ -226,14 +213,9 @@ function default_1(text, x, y, styles, doc) {
     return doc;
 }
 exports["default"] = default_1;
-
-
 /***/ }),
-
 /***/ 200:
 /***/ (function(__unused_webpack_module, exports) {
-
-
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getPageAvailableWidth = exports.parseSpacing = exports.getFillStyle = exports.addTableBorder = exports.getStringWidth = void 0;
 function getStringWidth(text, styles, doc) {
@@ -334,14 +316,9 @@ function getPageAvailableWidth(doc, table) {
     return doc.pageSize().width - (margins.left + margins.right);
 }
 exports.getPageAvailableWidth = getPageAvailableWidth;
-
-
 /***/ }),
-
 /***/ 913:
 /***/ (function(__unused_webpack_module, exports) {
-
-
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -428,14 +405,9 @@ function getTheme(name) {
     return themes[name];
 }
 exports.getTheme = getTheme;
-
-
 /***/ }),
-
 /***/ 259:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.parseCss = void 0;
 // Limitations
@@ -583,14 +555,9 @@ function parsePadding(style, scaleFactor) {
     }
     return padding;
 }
-
-
 /***/ }),
-
 /***/ 323:
 /***/ (function(__unused_webpack_module, exports) {
-
-
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.DocHandler = void 0;
 var globalDefaults = {};
@@ -754,14 +721,9 @@ var DocHandler = /** @class */ (function () {
     return DocHandler;
 }());
 exports.DocHandler = DocHandler;
-
-
 /***/ }),
-
 /***/ 148:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.parseHtml = void 0;
 var cssParser_1 = __webpack_require__(259);
@@ -842,14 +804,9 @@ function parseCellContent(orgCell) {
     // innerText for ie
     return cell.innerText || cell.textContent || '';
 }
-
-
 /***/ }),
-
 /***/ 587:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.parseInput = void 0;
 var htmlParser_1 = __webpack_require__(148);
@@ -1054,14 +1011,9 @@ function parseColumns(head, body, foot) {
     });
     return result;
 }
-
-
 /***/ }),
-
 /***/ 291:
 /***/ (function(__unused_webpack_module, exports) {
-
-
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 function default_1(doc, global, document, current) {
     var _loop_1 = function (options) {
@@ -1179,14 +1131,9 @@ function checkStyles(styles) {
         }
     }
 }
-
-
 /***/ }),
-
 /***/ 287:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Column = exports.Cell = exports.Row = exports.Table = void 0;
 var config_1 = __webpack_require__(913);
@@ -1409,14 +1356,9 @@ var Column = /** @class */ (function () {
     return Column;
 }());
 exports.Column = Column;
-
-
 /***/ }),
-
 /***/ 360:
 /***/ (function(__unused_webpack_module, exports) {
-
-
 /* eslint-disable @typescript-eslint/no-unused-vars */
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.assign = void 0;
@@ -1442,14 +1384,9 @@ function assign(target, s, s1, s2, s3) {
     return to;
 }
 exports.assign = assign;
-
-
 /***/ }),
-
 /***/ 858:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.createTable = void 0;
 var documentHandler_1 = __webpack_require__(323);
@@ -1602,14 +1539,9 @@ function cellStyles(sectionName, column, rowIndex, themeName, styles, scaleFacto
     var themeStyles = (0, polyfills_1.assign)({}, defaultStyle, otherStyles, rowStyles, colStyles);
     return (0, polyfills_1.assign)(themeStyles, cellInputStyles);
 }
-
-
 /***/ }),
-
 /***/ 49:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.addPage = exports.drawTable = void 0;
 var common_1 = __webpack_require__(200);
@@ -2041,14 +1973,9 @@ function nextPage(doc) {
     }
     return false;
 }
-
-
 /***/ }),
-
 /***/ 435:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.calculateAllColumnsCanFitInPage = void 0;
 var common_1 = __webpack_require__(200);
@@ -2117,14 +2044,9 @@ function calculateAllColumnsCanFitInPage(doc, table) {
     return allResults;
 }
 exports.calculateAllColumnsCanFitInPage = calculateAllColumnsCanFitInPage;
-
-
 /***/ }),
-
 /***/ 189:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ellipsize = exports.resizeColumns = exports.calculateWidths = void 0;
 var common_1 = __webpack_require__(200);
@@ -2430,19 +2352,12 @@ function ellipsizeStr(text, width, styles, doc, overflow) {
     }
     return text.trim() + overflow;
 }
-
-
 /***/ }),
-
 /***/ 84:
 /***/ (function(module) {
-
 if(typeof __WEBPACK_EXTERNAL_MODULE__84__ === 'undefined') { var e = new Error("Cannot find module 'undefined'"); e.code = 'MODULE_NOT_FOUND'; throw e; }
-
 module.exports = __WEBPACK_EXTERNAL_MODULE__84__;
-
 /***/ })
-
 /******/ 	});
 /************************************************************************/
 /******/ 	// The module cache
@@ -2474,7 +2389,6 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 !function() {
 var exports = __webpack_exports__;
-
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Cell = exports.Column = exports.Row = exports.Table = exports.CellHookData = exports.__drawTable = exports.__createTable = exports.applyPlugin = void 0;
 var applyPlugin_1 = __webpack_require__(790);
@@ -2525,7 +2439,6 @@ catch (error) {
     // the nodejs jspdf dist files with the exported applyPlugin
 }
 exports["default"] = autoTable;
-
 }();
 /******/ 	return __webpack_exports__;
 /******/ })()

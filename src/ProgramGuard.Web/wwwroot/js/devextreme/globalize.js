@@ -14,27 +14,21 @@
  * http://git.io/TrdQbw
  */
 (function( root, factory ) {
-
 	// UMD returnExports
 	if ( typeof define === "function" && define.amd ) {
-
 		// AMD
 		define([
 			"cldr",
 			"cldr/event"
 		], factory );
 	} else if ( typeof exports === "object" ) {
-
 		// Node, CommonJS
 		module.exports = factory( require( "cldrjs" ) );
 	} else {
-
 		// Global
 		root.Globalize = factory( root.Cldr );
 	}
 }( this, function( Cldr ) {
-
-
 /**
  * A toString method that outputs meaningful values for objects or arrays and
  * still performs as fast as a plain string in case variable is string, or as
@@ -45,10 +39,6 @@ var toString = function( variable ) {
 	return typeof variable === "string" ? variable : ( typeof variable === "number" ? "" +
 		variable : JSON.stringify( variable ) );
 };
-
-
-
-
 /**
  * formatMessage( message, data )
  *
@@ -68,68 +58,43 @@ var toString = function( variable ) {
  *   }); // Foo <bar@baz.qux>
  */
 var formatMessage = function( message, data ) {
-
 	// Replace {attribute}'s
 	message = message.replace( /{[0-9a-zA-Z-_. ]+}/g, function( name ) {
 		name = name.replace( /^{([^}]*)}$/, "$1" );
 		return toString( data[ name ] );
 	});
-
 	return message;
 };
-
-
-
-
 var objectExtend = function() {
 	var destination = arguments[ 0 ],
 		sources = [].slice.call( arguments, 1 );
-
 	sources.forEach(function( source ) {
 		var prop;
 		for ( prop in source ) {
 			destination[ prop ] = source[ prop ];
 		}
 	});
-
 	return destination;
 };
-
-
-
-
 var createError = function( code, message, attributes ) {
 	var error;
-
 	message = code + ( message ? ": " + formatMessage( message, attributes ) : "" );
 	error = new Error( message );
 	error.code = code;
-
 	objectExtend( error, attributes );
-
 	return error;
 };
-
-
-
-
 /**
  * Pushes part to parts array, concat two consecutive parts of the same type.
  */
 var partsPush = function( parts, type, value ) {
-
 		// Concat two consecutive parts of same type
 		if ( parts.length && parts[ parts.length - 1 ].type === type ) {
 			parts[ parts.length - 1 ].value += value;
 			return;
 		}
-
 		parts.push( { type: type, value: value } );
 };
-
-
-
-
 /**
  * formatMessage( message, data )
  *
@@ -150,10 +115,8 @@ var partsPush = function( parts, type, value ) {
  *   ]
  */
 var formatMessageToParts = function( message, data ) {
-
 	var lastOffset = 0,
 		parts = [];
-
 	// Create parts.
 	message.replace( /{[0-9a-zA-Z-_. ]+}/g, function( nameIncludingBrackets, offset ) {
 		var name = nameIncludingBrackets.slice( 1, -1 );
@@ -162,16 +125,11 @@ var formatMessageToParts = function( message, data ) {
 		parts[ parts.length - 1 ].name = name;
 		lastOffset += offset + nameIncludingBrackets.length;
 	});
-
 	// Skip empty ones such as `{ type: 'literal', value: '' }`.
 	return parts.filter(function( part ) {
 		return part.value !== "";
 	});
 };
-
-
-
-
 /**
  * Returns joined parts values.
  */
@@ -180,10 +138,6 @@ var partsJoin = function( parts ) {
 		return part.value;
 	}).join( "" );
 };
-
-
-
-
 var runtimeStringify = function( args ) {
 	return JSON.stringify( args, function( _key, value ) {
 		if ( value && value.runtimeKey ) {
@@ -192,10 +146,6 @@ var runtimeStringify = function( args ) {
 		return value;
 	} );
 };
-
-
-
-
 // Based on http://stackoverflow.com/questions/7616461/generate-a-hash-from-string-in-javascript-jquery
 var stringHash = function( str ) {
 	return [].reduce.call( str, function( hash, i ) {
@@ -204,110 +154,64 @@ var stringHash = function( str ) {
 		return hash | 0;
 	}, 0 );
 };
-
-
-
-
 var runtimeKey = function( fnName, locale, args, argsStr ) {
 	var hash;
 	argsStr = argsStr || runtimeStringify( args );
 	hash = stringHash( fnName + locale + argsStr );
 	return hash > 0 ? "a" + hash : "b" + Math.abs( hash );
 };
-
-
-
-
 var functionName = function( fn ) {
 	if ( fn.name !== undefined ) {
 		return fn.name;
 	}
-
 	// fn.name is not supported by IE.
 	var matches = /^function\s+([\w\$]+)\s*\(/.exec( fn.toString() );
-
 	if ( matches && matches.length > 0 ) {
 		return matches[ 1 ];
 	}
 };
-
-
-
-
 var runtimeBind = function( args, cldr, fn, runtimeArgs ) {
-
 	var argsStr = runtimeStringify( args ),
 		fnName = functionName( fn ),
 		locale = cldr.locale;
-
 	// If name of the function is not available, this is most likely due to uglification,
 	// which most likely means we are in production, and runtimeBind here is not necessary.
 	if ( !fnName ) {
 		return fn;
 	}
-
 	fn.runtimeKey = runtimeKey( fnName, locale, null, argsStr );
-
 	fn.generatorString = function() {
 		return "Globalize(\"" + locale + "\")." + fnName + "(" + argsStr.slice( 1, -1 ) + ")";
 	};
-
 	fn.runtimeArgs = runtimeArgs;
-
 	return fn;
 };
-
-
-
-
 var validate = function( code, message, check, attributes ) {
 	if ( !check ) {
 		throw createError( code, message, attributes );
 	}
 };
-
-
-
-
 var alwaysArray = function( stringOrArray ) {
 	return Array.isArray( stringOrArray ) ? stringOrArray : stringOrArray ? [ stringOrArray ] : [];
 };
-
-
-
-
 var validateCldr = function( path, value, options ) {
 	var skipBoolean;
 	options = options || {};
-
 	skipBoolean = alwaysArray( options.skip ).some(function( pathRe ) {
 		return pathRe.test( path );
 	});
-
 	validate( "E_MISSING_CLDR", "Missing required CLDR content `{path}`.", value || skipBoolean, {
 		path: path
 	});
 };
-
-
-
-
 var validateDefaultLocale = function( value ) {
 	validate( "E_DEFAULT_LOCALE_NOT_DEFINED", "Default locale has not been defined.",
 		value !== undefined, {} );
 };
-
-
-
-
 var validateParameterPresence = function( value, name ) {
 	validate( "E_MISSING_PARAMETER", "Missing required parameter `{name}`.",
 		value !== undefined, { name: name });
 };
-
-
-
-
 /**
  * range( value, name, minimum, maximum )
  *
@@ -332,10 +236,6 @@ var validateParameterRange = function( value, name, minimum, maximum ) {
 		}
 	);
 };
-
-
-
-
 var validateParameterType = function( value, name, check, expected ) {
 	validate(
 		"E_INVALID_PAR_TYPE",
@@ -348,10 +248,6 @@ var validateParameterType = function( value, name, check, expected ) {
 		}
 	);
 };
-
-
-
-
 var validateParameterTypeLocale = function( value, name ) {
 	validateParameterType(
 		value,
@@ -360,20 +256,12 @@ var validateParameterTypeLocale = function( value, name ) {
 		"String or Cldr instance"
 	);
 };
-
-
-
-
 /**
  * Function inspired by jQuery Core, but reduced to our use case.
  */
 var isPlainObject = function( obj ) {
 	return obj !== null && "" + obj === "[object Object]";
 };
-
-
-
-
 var validateParameterTypePlainObject = function( value, name ) {
 	validateParameterType(
 		value,
@@ -382,25 +270,13 @@ var validateParameterTypePlainObject = function( value, name ) {
 		"Plain Object"
 	);
 };
-
-
-
-
 var alwaysCldr = function( localeOrCldr ) {
 	return localeOrCldr instanceof Cldr ? localeOrCldr : new Cldr( localeOrCldr );
 };
-
-
-
-
 // ref: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions?redirectlocale=en-US&redirectslug=JavaScript%2FGuide%2FRegular_Expressions
 var regexpEscape = function( string ) {
 	return string.replace( /([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1" );
 };
-
-
-
-
 var stringPad = function( str, count, right ) {
 	var length;
 	if ( typeof str !== "string" ) {
@@ -411,15 +287,10 @@ var stringPad = function( str, count, right ) {
 	}
 	return str;
 };
-
-
-
-
 function validateLikelySubtags( cldr ) {
 	cldr.once( "get", validateCldr );
 	cldr.get( "supplemental/likelySubtags" );
 }
-
 /**
  * [new] Globalize( locale|cldr )
  *
@@ -433,15 +304,11 @@ function Globalize( locale ) {
 	if ( !( this instanceof Globalize ) ) {
 		return new Globalize( locale );
 	}
-
 	validateParameterPresence( locale, "locale" );
 	validateParameterTypeLocale( locale, "locale" );
-
 	this.cldr = alwaysCldr( locale );
-
 	validateLikelySubtags( this.cldr );
 }
-
 /**
  * Globalize.load( json, ... )
  *
@@ -451,11 +318,9 @@ function Globalize( locale ) {
  * Somewhat equivalent to previous Globalize.addCultureInfo(...).
  */
 Globalize.load = function() {
-
 	// validations are delegated to Cldr.load().
 	Cldr.load.apply( Cldr, arguments );
 };
-
 /**
  * Globalize.locale( [locale|cldr] )
  *
@@ -469,14 +334,12 @@ Globalize.load = function() {
  */
 Globalize.locale = function( locale ) {
 	validateParameterTypeLocale( locale, "locale" );
-
 	if ( arguments.length ) {
 		this.cldr = alwaysCldr( locale );
 		validateLikelySubtags( this.cldr );
 	}
 	return this.cldr;
 };
-
 /**
  * Optimization to avoid duplicating some internal functions across modules.
  */
@@ -498,10 +361,5 @@ Globalize._validateParameterPresence = validateParameterPresence;
 Globalize._validateParameterRange = validateParameterRange;
 Globalize._validateParameterTypePlainObject = validateParameterTypePlainObject;
 Globalize._validateParameterType = validateParameterType;
-
 return Globalize;
-
-
-
-
 }));

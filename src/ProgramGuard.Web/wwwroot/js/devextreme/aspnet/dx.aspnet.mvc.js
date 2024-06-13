@@ -18,13 +18,11 @@
     var templateCompiler = function() {
         var EXTENDED_OPEN_TAG = /[<[]%/g,
             EXTENDED_CLOSE_TAG = /%[>\]]/g;
-
         function acceptText(bag, text) {
             if (text) {
                 bag.push("_.push(", JSON.stringify(text), ");")
             }
         }
-
         function acceptCode(bag, code) {
             var encode = "-" === code.charAt(0),
                 value = code.substr(1),
@@ -75,7 +73,6 @@
         }
     }();
     var pendingCreateComponentRoutines = [];
-
     function createComponent(name, options, id, validatorOptions) {
         var selector = "#" + String(id).replace(/[^\w-]/g, "\\$&");
         pendingCreateComponentRoutines.push((function() {

@@ -22,15 +22,12 @@
     }
 }(this, (function(exports) {
     function noop() {}
-
     function eigen(x) {
         return x
     }
-
     function isFunction(target) {
         return "function" === typeof target
     }
-
     function wrapSource(source) {
         var buffer = (arrayBuffer = source, new DataView(arrayBuffer));
         var arrayBuffer;
@@ -90,7 +87,6 @@
         };
         return stream
     }
-
     function parseCore(source, roundCoordinates, errors) {
         var shapeData = source[0] ? function(stream, errors) {
             var timeStart;
@@ -265,7 +261,6 @@
         }
         return result
     }
-
     function buildParseArgs(source) {
         source = source || {};
         return ["shp", "dbf"].map((function(key) {
@@ -306,7 +301,6 @@
             }));
             false;
             massDone();
-
             function massDone() {
                 --counter;
                 if (0 === counter && true) {
@@ -322,7 +316,6 @@
             }));
             result = parseCore(dataArray, parameters.precision >= 0 ? function(precision) {
                 var factor = Number("1E" + precision);
-
                 function round(x) {
                     return Math.round(x * factor) / factor
                 }
@@ -334,7 +327,6 @@
         }));
         return result
     };
-
     function readPolyLineShape(stream, record) {
         var bBox = readBBox(stream);
         var numParts = readInteger(stream);
@@ -350,7 +342,6 @@
         record.bBox = bBox;
         record.coordinates = rings
     }
-
     function readPolyLineMShape(stream, record) {
         var bBox = readBBox(stream);
         var numParts = readInteger(stream);
@@ -373,7 +364,6 @@
         record.mBox = mBox;
         record.coordinates = rings
     }
-
     function readPolyLineZShape(stream, record) {
         var bBox = readBBox(stream);
         var numParts = readInteger(stream);
@@ -504,11 +494,9 @@
         MultiPointM: "MultiPoint",
         MultiPatch: "MultiPatch"
     };
-
     function readInteger(stream) {
         return stream.ui32LE()
     }
-
     function readIntegerArray(stream, length) {
         var array = [];
         var i;
@@ -518,7 +506,6 @@
         }
         return array
     }
-
     function readDoubleArray(stream, length) {
         var array = [];
         var i;
@@ -528,15 +515,12 @@
         }
         return array
     }
-
     function readBBox(stream) {
         return readDoubleArray(stream, 4)
     }
-
     function readPair(stream) {
         return [stream.f64LE(), stream.f64LE()]
     }
-
     function readPointArray(stream, count) {
         var points = [];
         var i;
@@ -546,7 +530,6 @@
         }
         return points
     }
-
     function merge_XYM(xy, m, length) {
         var array = [];
         var i;
@@ -556,7 +539,6 @@
         }
         return array
     }
-
     function merge_XYZM(xy, z, m, length) {
         var array = [];
         var i;
@@ -566,7 +548,6 @@
         }
         return array
     }
-
     function parseShapeRecord(stream, generalType, errors) {
         var record = {
             number: stream.ui32BE()
@@ -593,11 +574,9 @@
         return record
     }
     var _fromCharCode = String.fromCharCode;
-
     function getAsciiString(stream, length) {
         return _fromCharCode.apply(null, stream.ui8arr(length))
     }
-
     function parseFieldDescriptor(stream) {
         var desc = {
             name: getAsciiString(stream, 11).replace(/\0*$/gi, ""),
@@ -625,7 +604,6 @@
             return new Date(str.substring(0, 4), str.substring(4, 6) - 1, str.substring(6, 8))
         }
     };
-
     function DBF_FIELD_PARSER_DEFAULT(stream, length) {
         stream.skip(length);
         return null

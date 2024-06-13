@@ -2,7 +2,6 @@ using Microsoft.EntityFrameworkCore;
 using ProgramGuard.Data;
 using ProgramGuard.Interfaces;
 using ProgramGuard.Models;
-
 namespace ProgramGuard.Repository
 {
     public class ChangeLogRepository : IChangeLogRepository
@@ -12,13 +11,11 @@ namespace ProgramGuard.Repository
         {
             _context = context;
         }
-
         public async Task AddAsync(ChangeLog changeLog)
         {
             await _context.ChangeLogs.AddAsync(changeLog);
             await _context.SaveChangesAsync();
         }
-
         public async Task<IEnumerable<ChangeLog>> GetAllAsync()
         {
             return await _context.ChangeLogs.ToListAsync();

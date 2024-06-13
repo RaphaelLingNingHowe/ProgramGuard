@@ -1,5 +1,4 @@
 ﻿using ProgramGuard.Models;
-
 namespace ProgramGuard.Interfaces
 {
     public interface IActionLogRepository

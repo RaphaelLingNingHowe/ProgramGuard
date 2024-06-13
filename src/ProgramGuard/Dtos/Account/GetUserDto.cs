@@ -12,6 +12,5 @@
         public DateTimeOffset? LockoutEnd { get; set; }
         public int AccessFailedCount { get; set; }
         public bool IsFrozen { get; set; }
-
     }
 }

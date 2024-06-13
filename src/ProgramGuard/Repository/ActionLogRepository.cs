@@ -2,7 +2,6 @@
 using ProgramGuard.Data;
 using ProgramGuard.Interfaces;
 using ProgramGuard.Models;
-
 namespace ProgramGuard.Repository
 {
     public class ActionLogRepository : IActionLogRepository
@@ -18,7 +17,6 @@ namespace ProgramGuard.Repository
             await _context.SaveChangesAsync();
             return actionLog;
         }
-
         public async Task<IEnumerable<ActionLog>> GetAllAsync()
         {
             return await _context.ActionLogs.ToListAsync();

@@ -1,9 +1,6 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-
 #nullable disable
-
 namespace ProgramGuard.Migrations
 {
     /// <inheritdoc />
@@ -14,7 +11,6 @@ namespace ProgramGuard.Migrations
         {
             migrationBuilder.AlterDatabase()
                 .Annotation("MySql:CharSet", "utf8mb4");
-
             migrationBuilder.CreateTable(
                 name: "ActionLogs",
                 columns: table => new
@@ -32,7 +28,6 @@ namespace ProgramGuard.Migrations
                     table.PrimaryKey("PK_ActionLogs", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
-
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -51,7 +46,6 @@ namespace ProgramGuard.Migrations
                     table.PrimaryKey("PK_AspNetRoles", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
-
             migrationBuilder.CreateTable(
                 name: "AspNetUsers",
                 columns: table => new
@@ -88,7 +82,6 @@ namespace ProgramGuard.Migrations
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
-
             migrationBuilder.CreateTable(
                 name: "FileLists",
                 columns: table => new
@@ -105,7 +98,6 @@ namespace ProgramGuard.Migrations
                     table.PrimaryKey("PK_FileLists", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
-
             migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
@@ -130,7 +122,6 @@ namespace ProgramGuard.Migrations
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
-
             migrationBuilder.CreateTable(
                 name: "AspNetUserClaims",
                 columns: table => new
@@ -155,7 +146,6 @@ namespace ProgramGuard.Migrations
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
-
             migrationBuilder.CreateTable(
                 name: "AspNetUserLogins",
                 columns: table => new
@@ -180,7 +170,6 @@ namespace ProgramGuard.Migrations
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
-
             migrationBuilder.CreateTable(
                 name: "AspNetUserRoles",
                 columns: table => new
@@ -214,7 +203,6 @@ namespace ProgramGuard.Migrations
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
-
             migrationBuilder.CreateTable(
                 name: "AspNetUserTokens",
                 columns: table => new
@@ -239,7 +227,6 @@ namespace ProgramGuard.Migrations
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
-
             migrationBuilder.CreateTable(
                 name: "LoginHistories",
                 columns: table => new
@@ -261,7 +248,6 @@ namespace ProgramGuard.Migrations
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
-
             migrationBuilder.CreateTable(
                 name: "PasswordHistories",
                 columns: table => new
@@ -285,7 +271,6 @@ namespace ProgramGuard.Migrations
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
-
             migrationBuilder.CreateTable(
                 name: "ChangeLogs",
                 columns: table => new
@@ -318,96 +303,74 @@ namespace ProgramGuard.Migrations
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
-
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
                 column: "RoleId");
-
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
                 table: "AspNetRoles",
                 column: "NormalizedName",
                 unique: true);
-
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserClaims_UserId",
                 table: "AspNetUserClaims",
                 column: "UserId");
-
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserLogins_UserId",
                 table: "AspNetUserLogins",
                 column: "UserId");
-
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserRoles_AppUserId",
                 table: "AspNetUserRoles",
                 column: "AppUserId");
-
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserRoles_RoleId",
                 table: "AspNetUserRoles",
                 column: "RoleId");
-
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
                 table: "AspNetUsers",
                 column: "NormalizedEmail");
-
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
-
             migrationBuilder.CreateIndex(
                 name: "IX_ChangeLogs_FileListId",
                 table: "ChangeLogs",
                 column: "FileListId");
-
             migrationBuilder.CreateIndex(
                 name: "IX_PasswordHistories_UserId",
                 table: "PasswordHistories",
                 column: "UserId");
         }
-
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "ActionLogs");
-
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
-
             migrationBuilder.DropTable(
                 name: "AspNetUserClaims");
-
             migrationBuilder.DropTable(
                 name: "AspNetUserLogins");
-
             migrationBuilder.DropTable(
                 name: "AspNetUserRoles");
-
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
-
             migrationBuilder.DropTable(
                 name: "ChangeLogs");
-
             migrationBuilder.DropTable(
                 name: "LoginHistories");
-
             migrationBuilder.DropTable(
                 name: "PasswordHistories");
-
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
-
             migrationBuilder.DropTable(
                 name: "FileLists");
-
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
         }

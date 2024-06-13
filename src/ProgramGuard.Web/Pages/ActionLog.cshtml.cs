@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 using ProgramGuard.Dtos.FileDetection;
@@ -8,24 +8,12 @@ using ProgramGuard.Web.Model;
 
 namespace ProgramGuard.Web.Pages
 {
-    public class ActionLogModel : BasePageModel
+    public class ActionLogModel : AuthPageModel
     {
-        public ActionLogModel(IHttpClientFactory httpClientFactory, ILogger<BasePageModel> logger, IHttpContextAccessor contextAccessor, IConfiguration configuration)
-            : base(httpClientFactory, logger, contextAccessor, configuration)
+        public ActionLogModel(IHttpClientFactory httpClientFactory, ILogger<AuthPageModel> logger, IHttpContextAccessor contextAccessor)
+            : base(httpClientFactory, logger, contextAccessor)
         {
 
-        }
-        public IActionResult OnGet()
-        {
-            var tokenValid = CheckTokenValidity(); // 检查令牌是否有效的自定义方法
-
-            if (!tokenValid)
-            {
-                return RedirectToPage("/Login");
-            }
-
-            // 已认证用户的处理逻辑
-            return Page();
         }
 
         [BindProperty]
@@ -36,12 +24,17 @@ namespace ProgramGuard.Web.Pages
             {
                 HttpClient client = GetClient();
 
-                HttpResponseMessage response = await client.GetAsync("/ActionLog");
+                if (client == null)
+                {
+                    return RedirectToPage("/Login");
+                }
+
+                HttpResponseMessage response = await client.GetAsync("https://localhost:7053/api/ActionLog");
 
                 if (response.IsSuccessStatusCode)
                 {
-                    List<ActionLogDto> actionLogs = await response.Content.ReadFromJsonAsync<List<ActionLogDto>>();
-                    return new OkObjectResult(actionLogs);
+                    List<ActionLogDto> fileList = await response.Content.ReadFromJsonAsync<List<ActionLogDto>>();
+                    return new OkObjectResult(fileList);
                 }
 
                 return new ObjectResult($"Failed to fetch data from API. Status code:{response.StatusCode}.") { StatusCode = (int)response.StatusCode };

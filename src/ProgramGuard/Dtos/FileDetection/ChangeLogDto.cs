@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace ProgramGuard.Dtos.FileDetection
+﻿namespace ProgramGuard.Dtos.FileDetection
 {
     public class ChangeLogDTO
     {
@@ -13,8 +11,5 @@ namespace ProgramGuard.Dtos.FileDetection
         public string? ConfirmBy { get; set; }
         public DateTime? ConfirmTime { get; set; }
         public int FileListId { get; set; }
-
     }
-
 }
-

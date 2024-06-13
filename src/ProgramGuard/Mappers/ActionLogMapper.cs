@@ -1,7 +1,5 @@
-﻿using ProgramGuard.Dtos.FileDetection;
-using ProgramGuard.Dtos.LogQuery;
+﻿using ProgramGuard.Dtos.LogQuery;
 using ProgramGuard.Models;
-
 namespace ProgramGuard.Mappers
 {
     public static class ActionLogMapper
@@ -13,7 +11,6 @@ namespace ProgramGuard.Mappers
                 UserName = actionLog.UserName,
                 Action = actionLog.Action,
                 ActionTime = actionLog.ActionTime
-                
             };
         }
     }

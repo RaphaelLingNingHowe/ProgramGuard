@@ -1,6 +1,4 @@
-﻿using ProgramGuard.Dtos;
-using ProgramGuard.Models;
-
+﻿using ProgramGuard.Models;
 namespace ProgramGuard.Interfaces
 {
     public interface IChangeLogRepository

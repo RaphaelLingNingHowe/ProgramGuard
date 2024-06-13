@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ProgramGuard.Dtos.FileDetection;
 using ProgramGuard.Dtos.LogQuery;
@@ -7,34 +7,26 @@ using System.Text;
 
 namespace ProgramGuard.Web.Pages
 {
-    public class ChangeLogModel : BasePageModel
+    public class ChangeLogModel : AuthPageModel
     {
-        public ChangeLogModel(IHttpClientFactory httpClientFactory, ILogger<BasePageModel> logger, IHttpContextAccessor contextAccessor, IConfiguration configuration)
-            : base(httpClientFactory, logger, contextAccessor, configuration)
+        public ChangeLogModel(IHttpClientFactory httpClientFactory, ILogger<AuthPageModel> logger, IHttpContextAccessor contextAccessor)
+            : base(httpClientFactory, logger, contextAccessor)
         {
 
         }
 
-        public IActionResult OnGet()
-        {
-            var tokenValid = CheckTokenValidity(); // 检查令牌是否有效的自定义方法
-
-            if (!tokenValid)
-            {
-                return RedirectToPage("/Login");
-            }
-
-            // 已认证用户的处理逻辑
-            return Page();
-        }
-
-        public async Task<IActionResult> OnGetDataAsync()
+        public async Task<IActionResult> OnGetData()
         {
             try
             {
                 HttpClient client = GetClient();
 
-                HttpResponseMessage response = await client.GetAsync("/ChangeLog");
+                if (client == null)
+                {
+                    return RedirectToPage("/Login");
+                }
+
+                HttpResponseMessage response = await client.GetAsync("https://localhost:7053/api/ChangeLog");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -65,7 +57,7 @@ namespace ProgramGuard.Web.Pages
 
                 StringContent jsonContent = new StringContent(values, Encoding.UTF8, "application/json");
 
-                HttpResponseMessage response = await client.PutAsync($"/ChangeLog/confirm/{key}", jsonContent);
+                HttpResponseMessage response = await client.PutAsync($"https://localhost:7053/api/ChangeLog/confirm/{key}", jsonContent);
 
 
 

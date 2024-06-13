@@ -7,17 +7,13 @@
  * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
  */
 "use strict";
-
 function noop() {}
-
 function eigen(x) {
     return x
 }
-
 function isFunction(target) {
     return "function" === typeof target
 }
-
 function wrapSource(source) {
     var buffer = wrapBuffer(source);
     var position = 0;
@@ -66,7 +62,6 @@ function wrapSource(source) {
     };
     return stream
 }
-
 function parseCore(source, roundCoordinates, errors) {
     var shapeData = source[0] ? parseShape(wrapSource(source[0]), errors) : {};
     var dataBaseFileData = source[1] ? parseDBF(wrapSource(source[1]), errors) : {};
@@ -83,7 +78,6 @@ function parseCore(source, roundCoordinates, errors) {
     }
     return result
 }
-
 function buildFeatures(shapeData, dataBaseFileData, roundCoordinates) {
     var features = [];
     var i;
@@ -102,10 +96,8 @@ function buildFeatures(shapeData, dataBaseFileData, roundCoordinates) {
     }
     return features
 }
-
 function createCoordinatesRounder(precision) {
     var factor = Number("1E" + precision);
-
     function round(x) {
         return Math.round(x * factor) / factor
     }
@@ -113,7 +105,6 @@ function createCoordinatesRounder(precision) {
         return values.map(values[0].length ? process : round)
     }
 }
-
 function buildParseArgs(source) {
     source = source || {};
     return ["shp", "dbf"].map((function(key) {
@@ -129,7 +120,6 @@ function buildParseArgs(source) {
         }
     }))
 }
-
 function parse(source, parameters, callback) {
     var result;
     when(buildParseArgs(source), (function(errorArray, dataArray) {
@@ -145,7 +135,6 @@ function parse(source, parameters, callback) {
     return result
 }
 exports.parse = parse;
-
 function when(actions, callback) {
     var errorArray = [];
     var dataArray = [];
@@ -160,7 +149,6 @@ function when(actions, callback) {
     }));
     false;
     massDone();
-
     function massDone() {
         --counter;
         if (0 === counter && true) {
@@ -168,7 +156,6 @@ function when(actions, callback) {
         }
     }
 }
-
 function parseShape(stream, errors) {
     var timeStart;
     var timeEnd;
@@ -212,11 +199,9 @@ function parseShape(stream, errors) {
         time: timeEnd - timeStart
     }
 }
-
 function readPointShape(stream, record) {
     record.coordinates = readPointArray(stream, 1)[0]
 }
-
 function readPolyLineShape(stream, record) {
     var bBox = readBBox(stream);
     var numParts = readInteger(stream);
@@ -232,17 +217,14 @@ function readPolyLineShape(stream, record) {
     record.bBox = bBox;
     record.coordinates = rings
 }
-
 function readMultiPointShape(stream, record) {
     record.bBox = readBBox(stream);
     record.coordinates = readPointArray(stream, readInteger(stream))
 }
-
 function readPointMShape(stream, record) {
     record.coordinates = readPointArray(stream, 1)[0];
     record.coordinates.push(readDoubleArray(stream, 1)[0])
 }
-
 function readMultiPointMShape(stream, record) {
     var bBox = readBBox(stream);
     var numPoints = readInteger(stream);
@@ -253,7 +235,6 @@ function readMultiPointMShape(stream, record) {
     record.mBox = mBox;
     record.coordinates = merge_XYM(points, mValues, numPoints)
 }
-
 function readPolyLineMShape(stream, record) {
     var bBox = readBBox(stream);
     var numParts = readInteger(stream);
@@ -276,12 +257,10 @@ function readPolyLineMShape(stream, record) {
     record.mBox = mBox;
     record.coordinates = rings
 }
-
 function readPointZShape(stream, record) {
     record.coordinates = readPointArray(stream, 1)[0];
     record.push(readDoubleArray(stream, 1)[0], readDoubleArray(stream, 1)[0])
 }
-
 function readMultiPointZShape(stream, record) {
     var bBox = readBBox(stream);
     var numPoints = readInteger(stream);
@@ -295,7 +274,6 @@ function readMultiPointZShape(stream, record) {
     record.mBox = mBox;
     record.coordinates = merge_XYZM(points, zValues, mValue, numPoints)
 }
-
 function readPolyLineZShape(stream, record) {
     var bBox = readBBox(stream);
     var numParts = readInteger(stream);
@@ -321,7 +299,6 @@ function readPolyLineZShape(stream, record) {
     record.mBox = mBox;
     record.coordinates = rings
 }
-
 function readMultiPatchShape(stream, record) {
     var bBox = readBBox(stream);
     var numParts = readInteger(stream);
@@ -396,7 +373,6 @@ var SHP_TYPE_TO_GEOJSON_TYPE_MAP = {
     MultiPointM: "MultiPoint",
     MultiPatch: "MultiPatch"
 };
-
 function parseShapeHeader(stream) {
     var header = {};
     header.fileCode = stream.ui32BE();
@@ -409,11 +385,9 @@ function parseShapeHeader(stream) {
     header.bBox_ZM = readPointArray(stream, 2);
     return header
 }
-
 function readInteger(stream) {
     return stream.ui32LE()
 }
-
 function readIntegerArray(stream, length) {
     var array = [];
     var i;
@@ -423,7 +397,6 @@ function readIntegerArray(stream, length) {
     }
     return array
 }
-
 function readDoubleArray(stream, length) {
     var array = [];
     var i;
@@ -433,15 +406,12 @@ function readDoubleArray(stream, length) {
     }
     return array
 }
-
 function readBBox(stream) {
     return readDoubleArray(stream, 4)
 }
-
 function readPair(stream) {
     return [stream.f64LE(), stream.f64LE()]
 }
-
 function readPointArray(stream, count) {
     var points = [];
     var i;
@@ -451,7 +421,6 @@ function readPointArray(stream, count) {
     }
     return points
 }
-
 function merge_XYM(xy, m, length) {
     var array = [];
     var i;
@@ -461,7 +430,6 @@ function merge_XYM(xy, m, length) {
     }
     return array
 }
-
 function merge_XYZM(xy, z, m, length) {
     var array = [];
     var i;
@@ -471,7 +439,6 @@ function merge_XYZM(xy, z, m, length) {
     }
     return array
 }
-
 function parseShapeRecord(stream, generalType, errors) {
     var record = {
         number: stream.ui32BE()
@@ -497,7 +464,6 @@ function parseShapeRecord(stream, generalType, errors) {
     }
     return record
 }
-
 function parseDBF(stream, errors) {
     var timeStart;
     var timeEnd;
@@ -519,7 +485,6 @@ function parseDBF(stream, errors) {
         time: timeEnd - timeStart
     }
 }
-
 function parseDataBaseFileHeader(stream, errors) {
     var i;
     var header = {
@@ -542,11 +507,9 @@ function parseDataBaseFileHeader(stream, errors) {
     return header
 }
 var _fromCharCode = String.fromCharCode;
-
 function getAsciiString(stream, length) {
     return _fromCharCode.apply(null, stream.ui8arr(length))
 }
-
 function parseFieldDescriptor(stream) {
     var desc = {
         name: getAsciiString(stream, 11).replace(/\0*$/gi, ""),
@@ -574,12 +537,10 @@ var DBF_FIELD_PARSERS = {
         return new Date(str.substring(0, 4), str.substring(4, 6) - 1, str.substring(6, 8))
     }
 };
-
 function DBF_FIELD_PARSER_DEFAULT(stream, length) {
     stream.skip(length);
     return null
 }
-
 function prepareDataBaseFileRecordParseData(header, errors) {
     var list = [];
     var i = 0;
@@ -606,7 +567,6 @@ function prepareDataBaseFileRecordParseData(header, errors) {
     }
     return list
 }
-
 function parseDataBaseFileRecords(stream, recordCount, recordLength, parseData, errors) {
     var i;
     var j;
@@ -631,41 +591,32 @@ function parseDataBaseFileRecords(stream, recordCount, recordLength, parseData, 
     }
     return records
 }
-
 function wrapBuffer(buffer) {
     return buffer
 }
-
 function ui8(stream, position) {
     return stream[position]
 }
-
 function ui16LE(stream, position) {
     return stream.readUInt16LE(position)
 }
-
 function ui32LE(stream, position) {
     return stream.readUInt32LE(position)
 }
-
 function ui32BE(stream, position) {
     return stream.readUInt32BE(position)
 }
-
 function f64LE(stream, position) {
     return stream.readDoubleLE(position)
 }
 var fs = require("fs");
-
 function sendRequest(path, callback) {
     fs.readFile(path, callback)
 }
 var path = require("path");
-
 function normalizeJsName(value) {
     return value.trim().replace("-", "_").replace(" ", "_")
 }
-
 function processFile(file, options, callback) {
     var name = path.basename(file, path.extname(file));
     options.info("%s: started", name);
@@ -691,7 +642,6 @@ function processFile(file, options, callback) {
         }
     }))
 }
-
 function collectFiles(dir, done) {
     var input = path.resolve(dir || "");
     fs.stat(input, (function(e, stat) {
@@ -713,16 +663,13 @@ function collectFiles(dir, done) {
             done(null, [])
         }
     }));
-
     function checkFile(name) {
         return ".shp" === path.extname(name).toLowerCase()
     }
-
     function normalizeFile(name) {
         return path.basename(name, ".shp")
     }
 }
-
 function importFile(file) {
     var content;
     try {
@@ -730,15 +677,12 @@ function importFile(file) {
     } catch (_) {}
     return content
 }
-
 function pickFunctionOption(value) {
     return isFunction(value) && value || value && importFile(String(value)) || null
 }
-
 function processFileContentByDefault(content, name) {
     return name + " = " + content + ";"
 }
-
 function prepareSettings(source, options) {
     options = Object.assign({}, options);
     if (options.settings) {
@@ -755,7 +699,6 @@ function prepareSettings(source, options) {
         error: options.isQuiet ? noop : console.error.bind(console)
     })
 }
-
 function processFiles(source, options, callback) {
     var settings = prepareSettings(source, options && options.trim ? importFile(options) : options);
     settings.info("Started");
@@ -822,7 +765,6 @@ var COMMAND_LINE_ARG_KEYS = [{
     name: "isHelp",
     desc: "Print help"
 }];
-
 function parseCommandLineArgs() {
     var args = process.argv.slice(2);
     var options = {
@@ -844,7 +786,6 @@ function parseCommandLineArgs() {
     }
     return options
 }
-
 function printCommandLineHelp() {
     var parts = ["node ", path.basename(process.argv[1]), " Source "];
     var lines = [];
@@ -863,7 +804,6 @@ function printCommandLineHelp() {
     message = ["Generates dxVectorMap-compatible files from shapefiles.", "\n", parts.join("")].concat(lines).join("\n");
     console.log(message)
 }
-
 function runFromConsole() {
     var args = parseCommandLineArgs();
     if (args) {

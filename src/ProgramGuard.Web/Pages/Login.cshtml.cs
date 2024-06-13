@@ -1,26 +1,29 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using ProgramGuard.Dtos.Account;
 using ProgramGuard.Dtos.User;
-using ProgramGuard.Web.Model;
 
 namespace ProgramGuard.Web.Pages
 {
-    public class LoginModel : BasePageModel
+    public class LoginModel : PageModel
     {
-        public LoginModel(IHttpClientFactory httpClientFactory, ILogger<BasePageModel> logger, IHttpContextAccessor contextAccessor, IConfiguration configuration)
-            : base(httpClientFactory, logger, contextAccessor, configuration)
+        private readonly IHttpClientFactory _httpClientFactory;
+
+        public LoginModel(IHttpClientFactory httpClientFactory)
         {
-
+            _httpClientFactory = httpClientFactory;
         }
-
-     
 
         [BindProperty]
         public LoginDto LoginDto { get; set; }
+
+        public void OnGet()
+        {
+        }
 
         public async Task<IActionResult> OnPostAsync()
         {
@@ -29,36 +32,28 @@ namespace ProgramGuard.Web.Pages
                 return Page();
             }
 
-            // 使用基类方法获取 HttpClient 实例
-            using (HttpClient client = GetClient())
+            var client = _httpClientFactory.CreateClient();
+            var loginContent = new StringContent(JsonConvert.SerializeObject(LoginDto), Encoding.UTF8, "application/json");
+
+            var response = await client.PostAsync("https://localhost:7053/api/account/login", loginContent);
+
+            if (response.IsSuccessStatusCode)
             {
-                if (client == null)
+                var token = await response.Content.ReadAsStringAsync();
+                // Handle successful login and token storage here (e.g., save token in cookie or session)
+                Response.Cookies.Append("auth_token", token, new CookieOptions
                 {
-                    ModelState.AddModelError(string.Empty, "Failed to create HttpClient.");
-                    return Page();
-                }
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.Strict
+                });
 
-                var loginContent = new StringContent(JsonConvert.SerializeObject(LoginDto), Encoding.UTF8, "application/json");
-
-                var response = await client.PostAsync("/User/login", loginContent);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    var token = await response.Content.ReadAsStringAsync();
-                    Response.Cookies.Append("auth_token", token, new CookieOptions
-                    {
-                        HttpOnly = true,
-                        Secure = true,
-                        SameSite = SameSiteMode.Strict
-                    });
-
-                    return RedirectToPage("/FileLists");
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return Page();
-                }
+                return RedirectToPage("/FileLists"); // Redirect to a different page after successful login
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                return Page();
             }
         }
     }

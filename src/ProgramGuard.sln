@@ -5,12 +5,12 @@ VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProgramGuard", "ProgramGuard\ProgramGuard.csproj", "{DAE23922-7085-46CC-B95C-AD0CD9548D08}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProgramGuard.Web", "ProgramGuard.Web\ProgramGuard.Web.csproj", "{A88E9570-DE55-43F4-B993-F510A2AA08E4}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DevExtreme NuGet.config", "DevExtreme NuGet.config", "{AC55EFA5-710F-489D-B596-F24F172F14E5}"
 	ProjectSection(SolutionItems) = preProject
 		NuGet.config = NuGet.config
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProgramGuard.Web", "ProgramGuard.Web\ProgramGuard.Web.csproj", "{1E78B13C-6BFD-4C6F-8235-BAA50A9E0561}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,10 +22,10 @@ Global
 		{DAE23922-7085-46CC-B95C-AD0CD9548D08}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DAE23922-7085-46CC-B95C-AD0CD9548D08}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DAE23922-7085-46CC-B95C-AD0CD9548D08}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A88E9570-DE55-43F4-B993-F510A2AA08E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A88E9570-DE55-43F4-B993-F510A2AA08E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A88E9570-DE55-43F4-B993-F510A2AA08E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A88E9570-DE55-43F4-B993-F510A2AA08E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E78B13C-6BFD-4C6F-8235-BAA50A9E0561}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E78B13C-6BFD-4C6F-8235-BAA50A9E0561}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E78B13C-6BFD-4C6F-8235-BAA50A9E0561}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E78B13C-6BFD-4C6F-8235-BAA50A9E0561}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

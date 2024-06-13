@@ -1,10 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using ProgramGuard.Data;
+﻿using ProgramGuard.Data;
 using ProgramGuard.Interfaces;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
-
 namespace ProgramGuard.Services
 {
     public class FileDetectionService : IFileDetectionService
@@ -38,7 +36,6 @@ namespace ProgramGuard.Services
                 return null;
             }
         }
-
         public string CalculateSHA512(string filePath)
         {
             try
@@ -63,11 +60,9 @@ namespace ProgramGuard.Services
                 return null;
             }
         }
-
         public List<string> GetDigitalSignature(string filePath)
         {
             List<string> signatureInfo = new List<string>(); // 創建存儲數位簽章信息的列表
-
             try
             {
                 using (X509Certificate2 certificate = new X509Certificate2(filePath))
@@ -76,13 +71,11 @@ namespace ProgramGuard.Services
                     string subject = certificate.Subject;
                     string issuer = certificate.Issuer;
                     DateTime expirationDate = certificate.NotAfter;
-
                     // 添加數位簽章信息到列表中
                     signatureInfo.Add($"Subject: {subject}");
                     signatureInfo.Add($"Issuer: {issuer}");
                     signatureInfo.Add($"Expiration Date: {expirationDate}");
                 }
-
                 // 返回包含數位簽章信息的列表
                 return signatureInfo;
             }
@@ -102,37 +95,24 @@ namespace ProgramGuard.Services
                 throw new Exception($"Error processing certificate: {ex.Message}");
             }
         }
-
-
-
         public bool VerifyFileIntegrity(string filePath)
         {
             var changeLog = _context.ChangeLogs
                 .Where(c => c.FileList.FilePath == filePath)
                 .OrderByDescending(c => c.ChangeTime)
                 .FirstOrDefault();
-
             if (changeLog == null)
             {
                 // 文件不存在或無法驗證
                 return false;
             }
-
             var oldMD5 = changeLog.MD5;
             var oldSha512 = changeLog.SHA512;
-
             // 計算新的 MD5 和 SHA512 值
             var newMD5 = CalculateMD5(filePath);
             var newSha512 = CalculateSHA512(filePath);
-
             // 比較 MD5 和 SHA512 值
             return oldMD5 == newMD5 && oldSha512 == newSha512;
         }
-
-
     }
 }
-
-
-
-
