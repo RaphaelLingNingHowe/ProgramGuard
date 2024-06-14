@@ -1,25 +1,33 @@
 /*!
+
 JSZip v3.10.1 - A JavaScript class for generating and reading zip files
 <http://stuartk.com/jszip>
+
 (c) 2009-2016 Stuart Knightley <stuart [at] stuartk.com>
 Dual licenced under the MIT license or GPLv3. See https://raw.github.com/Stuk/jszip/main/LICENSE.markdown.
+
 JSZip uses the library pako released under the MIT license :
 https://github.com/nodeca/pako/blob/main/LICENSE
 */
+
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.JSZip = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 "use strict";
 var utils = require("./utils");
 var support = require("./support");
 // private property
 var _keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+
+
 // public method for encoding
 exports.encode = function(input) {
     var output = [];
     var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
     var i = 0, len = input.length, remainingBytes = len;
+
     var isArray = utils.getTypeOf(input) !== "string";
     while (i < input.length) {
         remainingBytes = len - i;
+
         if (!isArray) {
             chr1 = input.charCodeAt(i++);
             chr2 = i < len ? input.charCodeAt(i++) : 0;
@@ -29,20 +37,27 @@ exports.encode = function(input) {
             chr2 = i < len ? input[i++] : 0;
             chr3 = i < len ? input[i++] : 0;
         }
+
         enc1 = chr1 >> 2;
         enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
         enc3 = remainingBytes > 1 ? (((chr2 & 15) << 2) | (chr3 >> 6)) : 64;
         enc4 = remainingBytes > 2 ? (chr3 & 63) : 64;
+
         output.push(_keyStr.charAt(enc1) + _keyStr.charAt(enc2) + _keyStr.charAt(enc3) + _keyStr.charAt(enc4));
+
     }
+
     return output.join("");
 };
+
 // public method for decoding
 exports.decode = function(input) {
     var chr1, chr2, chr3;
     var enc1, enc2, enc3, enc4;
     var i = 0, resultIndex = 0;
+
     var dataUrlPrefix = "data:";
+
     if (input.substr(0, dataUrlPrefix.length) === dataUrlPrefix) {
         // This is a common error: people give a data url
         // (data:image/png;base64,iVBOR...) with a {base64: true} and
@@ -52,7 +67,9 @@ exports.decode = function(input) {
         // be too dangerous.
         throw new Error("Invalid base64 input, it looks like a data url.");
     }
+
     input = input.replace(/[^A-Za-z0-9+/=]/g, "");
+
     var totalLength = input.length * 3 / 4;
     if(input.charAt(input.length - 1) === _keyStr.charAt(64)) {
         totalLength--;
@@ -75,30 +92,40 @@ exports.decode = function(input) {
     } else {
         output = new Array(totalLength|0);
     }
+
     while (i < input.length) {
+
         enc1 = _keyStr.indexOf(input.charAt(i++));
         enc2 = _keyStr.indexOf(input.charAt(i++));
         enc3 = _keyStr.indexOf(input.charAt(i++));
         enc4 = _keyStr.indexOf(input.charAt(i++));
+
         chr1 = (enc1 << 2) | (enc2 >> 4);
         chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
         chr3 = ((enc3 & 3) << 6) | enc4;
+
         output[resultIndex++] = chr1;
+
         if (enc3 !== 64) {
             output[resultIndex++] = chr2;
         }
         if (enc4 !== 64) {
             output[resultIndex++] = chr3;
         }
+
     }
+
     return output;
 };
+
 },{"./support":30,"./utils":32}],2:[function(require,module,exports){
 "use strict";
+
 var external = require("./external");
 var DataWorker = require("./stream/DataWorker");
 var Crc32Probe = require("./stream/Crc32Probe");
 var DataLengthProbe = require("./stream/DataLengthProbe");
+
 /**
  * Represent a compressed object, with everything needed to decompress it.
  * @constructor
@@ -115,6 +142,7 @@ function CompressedObject(compressedSize, uncompressedSize, crc32, compression, 
     this.compression = compression;
     this.compressedContent = data;
 }
+
 CompressedObject.prototype = {
     /**
      * Create a worker to get the uncompressed content.
@@ -124,6 +152,7 @@ CompressedObject.prototype = {
         var worker = new DataWorker(external.Promise.resolve(this.compressedContent))
             .pipe(this.compression.uncompressWorker())
             .pipe(new DataLengthProbe("data_length"));
+
         var that = this;
         worker.on("end", function () {
             if (this.streamInfo["data_length"] !== that.uncompressedSize) {
@@ -145,6 +174,7 @@ CompressedObject.prototype = {
         ;
     }
 };
+
 /**
  * Chain the given worker with other workers to compress the content with the
  * given compression.
@@ -161,10 +191,14 @@ CompressedObject.createWorkerFrom = function (uncompressedWorker, compression, c
         .pipe(new DataLengthProbe("compressedSize"))
         .withStreamInfo("compression", compression);
 };
+
 module.exports = CompressedObject;
+
 },{"./external":6,"./stream/Crc32Probe":25,"./stream/DataLengthProbe":26,"./stream/DataWorker":27}],3:[function(require,module,exports){
 "use strict";
+
 var GenericWorker = require("./stream/GenericWorker");
+
 exports.STORE = {
     magic: "\x00\x00",
     compressWorker : function () {
@@ -175,16 +209,21 @@ exports.STORE = {
     }
 };
 exports.DEFLATE = require("./flate");
+
 },{"./flate":7,"./stream/GenericWorker":28}],4:[function(require,module,exports){
 "use strict";
+
 var utils = require("./utils");
+
 /**
  * The following functions come from pako, from pako/lib/zlib/crc32.js
  * released under the MIT license, see pako https://github.com/nodeca/pako/
  */
+
 // Use ordinary array, since untyped makes no boost here
 function makeTable() {
     var c, table = [];
+
     for(var n =0; n < 256; n++){
         c = n;
         for(var k =0; k < 8; k++){
@@ -192,19 +231,28 @@ function makeTable() {
         }
         table[n] = c;
     }
+
     return table;
 }
+
 // Create table on load. Just 255 signed longs. Not a problem.
 var crcTable = makeTable();
+
+
 function crc32(crc, buf, len, pos) {
     var t = crcTable, end = pos + len;
+
     crc = crc ^ (-1);
+
     for (var i = pos; i < end; i++ ) {
         crc = (crc >>> 8) ^ t[(crc ^ buf[i]) & 0xFF];
     }
+
     return (crc ^ (-1)); // >>> 0;
 }
+
 // That's all for the pako functions.
+
 /**
  * Compute the crc32 of a string.
  * This is almost the same as the function crc32, but for strings. Using the
@@ -217,23 +265,30 @@ function crc32(crc, buf, len, pos) {
  */
 function crc32str(crc, str, len, pos) {
     var t = crcTable, end = pos + len;
+
     crc = crc ^ (-1);
+
     for (var i = pos; i < end; i++ ) {
         crc = (crc >>> 8) ^ t[(crc ^ str.charCodeAt(i)) & 0xFF];
     }
+
     return (crc ^ (-1)); // >>> 0;
 }
+
 module.exports = function crc32wrapper(input, crc) {
     if (typeof input === "undefined" || !input.length) {
         return 0;
     }
+
     var isArray = utils.getTypeOf(input) !== "string";
+
     if(isArray) {
         return crc32(crc|0, input, input.length, 0);
     } else {
         return crc32str(crc|0, input, input.length, 0);
     }
 };
+
 },{"./utils":32}],5:[function(require,module,exports){
 "use strict";
 exports.base64 = false;
@@ -246,8 +301,10 @@ exports.compressionOptions = null;
 exports.comment = null;
 exports.unixPermissions = null;
 exports.dosPermissions = null;
+
 },{}],6:[function(require,module,exports){
 "use strict";
+
 // load the global object first:
 // - it should be better integrated in the system (unhandledRejection in node)
 // - the environment may have a custom Promise implementation (see zone.js)
@@ -257,20 +314,26 @@ if (typeof Promise !== "undefined") {
 } else {
     ES6Promise = require("lie");
 }
+
 /**
  * Let the user use/change some implementations.
  */
 module.exports = {
     Promise: ES6Promise
 };
+
 },{"lie":37}],7:[function(require,module,exports){
 "use strict";
 var USE_TYPEDARRAY = (typeof Uint8Array !== "undefined") && (typeof Uint16Array !== "undefined") && (typeof Uint32Array !== "undefined");
+
 var pako = require("pako");
 var utils = require("./utils");
 var GenericWorker = require("./stream/GenericWorker");
+
 var ARRAY_TYPE = USE_TYPEDARRAY ? "uint8array" : "array";
+
 exports.magic = "\x08\x00";
+
 /**
  * Create a worker that uses pako to inflate/deflate.
  * @constructor
@@ -279,6 +342,7 @@ exports.magic = "\x08\x00";
  */
 function FlateWorker(action, options) {
     GenericWorker.call(this, "FlateWorker/" + action);
+
     this._pako = null;
     this._pakoAction = action;
     this._pakoOptions = options;
@@ -286,7 +350,9 @@ function FlateWorker(action, options) {
     // this allow this worker to pass around metadata
     this.meta = {};
 }
+
 utils.inherits(FlateWorker, GenericWorker);
+
 /**
  * @see GenericWorker.processChunk
  */
@@ -297,6 +363,7 @@ FlateWorker.prototype.processChunk = function (chunk) {
     }
     this._pako.push(utils.transformTo(ARRAY_TYPE, chunk.data), false);
 };
+
 /**
  * @see GenericWorker.flush
  */
@@ -314,6 +381,7 @@ FlateWorker.prototype.cleanUp = function () {
     GenericWorker.prototype.cleanUp.call(this);
     this._pako = null;
 };
+
 /**
  * Create the _pako object.
  * TODO: lazy-loading this object isn't the best solution but it's the
@@ -333,19 +401,23 @@ FlateWorker.prototype._createPako = function () {
         });
     };
 };
+
 exports.compressWorker = function (compressionOptions) {
     return new FlateWorker("Deflate", compressionOptions);
 };
 exports.uncompressWorker = function () {
     return new FlateWorker("Inflate", {});
 };
+
 },{"./stream/GenericWorker":28,"./utils":32,"pako":38}],8:[function(require,module,exports){
 "use strict";
+
 var utils = require("../utils");
 var GenericWorker = require("../stream/GenericWorker");
 var utf8 = require("../utf8");
 var crc32 = require("../crc32");
 var signature = require("../signature");
+
 /**
  * Transform an integer into a string in hexadecimal.
  * @private
@@ -361,6 +433,7 @@ var decToHex = function(dec, bytes) {
     }
     return hex;
 };
+
 /**
  * Generate the UNIX part of the external file attributes.
  * @param {Object} unixPermissions the unix permissions or null.
@@ -377,6 +450,7 @@ var decToHex = function(dec, bytes) {
  *                           ^^^^^^ DOS attribute bits : Archive, Directory, Volume label, System file, Hidden, Read only
  */
 var generateUnixExternalFileAttr = function (unixPermissions, isDir) {
+
     var result = unixPermissions;
     if (!unixPermissions) {
         // I can't use octal values in strict mode, hence the hexa.
@@ -386,6 +460,7 @@ var generateUnixExternalFileAttr = function (unixPermissions, isDir) {
     }
     return (result & 0xFFFF) << 16;
 };
+
 /**
  * Generate the DOS part of the external file attributes.
  * @param {Object} dosPermissions the dos permissions or null.
@@ -403,6 +478,7 @@ var generateDosExternalFileAttr = function (dosPermissions) {
     // the dir flag is already set for compatibility
     return (dosPermissions || 0)  & 0x3F;
 };
+
 /**
  * Generate the various parts used in the construction of the final zip file.
  * @param {Object} streamInfo the hash with information about the compressed file.
@@ -431,11 +507,14 @@ var generateZipParts = function(streamInfo, streamedContent, streamingEnded, off
         unicodeCommentExtraField = "",
         dir = file.dir,
         date = file.date;
+
+
     var dataInfo = {
         crc32 : 0,
         compressedSize : 0,
         uncompressedSize : 0
     };
+
     // if the content is streamed, the sizes/crc32 are only available AFTER
     // the end of the stream.
     if (!streamedContent || streamingEnded) {
@@ -443,6 +522,7 @@ var generateZipParts = function(streamInfo, streamedContent, streamingEnded, off
         dataInfo.compressedSize = streamInfo["compressedSize"];
         dataInfo.uncompressedSize = streamInfo["uncompressedSize"];
     }
+
     var bitflag = 0;
     if (streamedContent) {
         // Bit 3: the sizes/crc32 are set to zero in the local header.
@@ -454,6 +534,8 @@ var generateZipParts = function(streamInfo, streamedContent, streamingEnded, off
         // Bit 11: Language encoding flag (EFS).
         bitflag |= 0x0800;
     }
+
+
     var extFileAttr = 0;
     var versionMadeBy = 0;
     if (dir) {
@@ -467,20 +549,24 @@ var generateZipParts = function(streamInfo, streamedContent, streamingEnded, off
         versionMadeBy = 0x0014; // DOS, version 2.0
         extFileAttr |= generateDosExternalFileAttr(file.dosPermissions, dir);
     }
+
     // date
     // @see http://www.delorie.com/djgpp/doc/rbinter/it/52/13.html
     // @see http://www.delorie.com/djgpp/doc/rbinter/it/65/16.html
     // @see http://www.delorie.com/djgpp/doc/rbinter/it/66/16.html
+
     dosTime = date.getUTCHours();
     dosTime = dosTime << 6;
     dosTime = dosTime | date.getUTCMinutes();
     dosTime = dosTime << 5;
     dosTime = dosTime | date.getUTCSeconds() / 2;
+
     dosDate = date.getUTCFullYear() - 1980;
     dosDate = dosDate << 4;
     dosDate = dosDate | (date.getUTCMonth() + 1);
     dosDate = dosDate << 5;
     dosDate = dosDate | date.getUTCDate();
+
     if (useUTF8ForFileName) {
         // set the unicode path extra field. unzip needs at least one extra
         // field to correctly handle unicode path, so using the path is as good
@@ -498,6 +584,7 @@ var generateZipParts = function(streamInfo, streamedContent, streamingEnded, off
             decToHex(crc32(encodedFileName), 4) +
             // UnicodeName
             utfEncodedFileName;
+
         extraFields +=
             // Info-ZIP Unicode Path Extra Field
             "\x75\x70" +
@@ -506,7 +593,9 @@ var generateZipParts = function(streamInfo, streamedContent, streamingEnded, off
             // content
             unicodePathExtraField;
     }
+
     if(useUTF8ForComment) {
+
         unicodeCommentExtraField =
             // Version
             decToHex(1, 1) +
@@ -514,6 +603,7 @@ var generateZipParts = function(streamInfo, streamedContent, streamingEnded, off
             decToHex(crc32(encodedComment), 4) +
             // UnicodeName
             utfEncodedComment;
+
         extraFields +=
             // Info-ZIP Unicode Path Extra Field
             "\x75\x63" +
@@ -522,7 +612,9 @@ var generateZipParts = function(streamInfo, streamedContent, streamingEnded, off
             // content
             unicodeCommentExtraField;
     }
+
     var header = "";
+
     // version needed to extract
     header += "\x0A\x00";
     // general purpose bit flag
@@ -543,7 +635,10 @@ var generateZipParts = function(streamInfo, streamedContent, streamingEnded, off
     header += decToHex(encodedFileName.length, 2);
     // extra field length
     header += decToHex(extraFields.length, 2);
+
+
     var fileRecord = signature.LOCAL_FILE_HEADER + header + encodedFileName + extraFields;
+
     var dirRecord = signature.CENTRAL_FILE_HEADER +
         // version made by (00: DOS)
         decToHex(versionMadeBy, 2) +
@@ -565,11 +660,13 @@ var generateZipParts = function(streamInfo, streamedContent, streamingEnded, off
         extraFields +
         // file comment
         encodedComment;
+
     return {
         fileRecord: fileRecord,
         dirRecord: dirRecord
     };
 };
+
 /**
  * Generate the EOCD record.
  * @param {Number} entriesCount the number of entries in the zip file.
@@ -582,6 +679,7 @@ var generateZipParts = function(streamInfo, streamedContent, streamingEnded, off
 var generateCentralDirectoryEnd = function (entriesCount, centralDirLength, localDirLength, comment, encodeFileName) {
     var dirEnd = "";
     var encodedComment = utils.transformTo("string", encodeFileName(comment));
+
     // end of central dir signature
     dirEnd = signature.CENTRAL_DIRECTORY_END +
         // number of this disk
@@ -600,8 +698,10 @@ var generateCentralDirectoryEnd = function (entriesCount, centralDirLength, loca
         decToHex(encodedComment.length, 2) +
         // .ZIP file comment
         encodedComment;
+
     return dirEnd;
 };
+
 /**
  * Generate data descriptors for a file entry.
  * @param {Object} streamInfo the hash generated by a worker, containing information
@@ -617,8 +717,11 @@ var generateDataDescriptors = function (streamInfo) {
         decToHex(streamInfo["compressedSize"], 4) +
         // uncompressed size               4 bytes
         decToHex(streamInfo["uncompressedSize"], 4);
+
     return descriptor;
 };
+
+
 /**
  * A worker to concatenate other workers to create a zip file.
  * @param {Boolean} streamFiles `true` to stream the content of the files,
@@ -655,20 +758,27 @@ function ZipFileWorker(streamFiles, comment, platform, encodeFileName) {
     // the name of the file currently being added, null when handling the end of the zip file.
     // Used for the emitted metadata.
     this.currentFile = null;
+
+
+
     this._sources = [];
 }
 utils.inherits(ZipFileWorker, GenericWorker);
+
 /**
  * @see GenericWorker.push
  */
 ZipFileWorker.prototype.push = function (chunk) {
+
     var currentFilePercent = chunk.meta.percent || 0;
     var entriesCount = this.entriesCount;
     var remainingFiles = this._sources.length;
+
     if(this.accumulate) {
         this.contentBuffer.push(chunk);
     } else {
         this.bytesWritten += chunk.data.length;
+
         GenericWorker.prototype.push.call(this, {
             data : chunk.data,
             meta : {
@@ -678,6 +788,7 @@ ZipFileWorker.prototype.push = function (chunk) {
         });
     }
 };
+
 /**
  * The worker started a new source (an other worker).
  * @param {Object} streamInfo the streamInfo object from the new source.
@@ -685,7 +796,9 @@ ZipFileWorker.prototype.push = function (chunk) {
 ZipFileWorker.prototype.openedSource = function (streamInfo) {
     this.currentSourceOffset = this.bytesWritten;
     this.currentFile = streamInfo["file"].name;
+
     var streamedContent = this.streamFiles && !streamInfo["file"].dir;
+
     // don't stream folders (because they don't have any content)
     if(streamedContent) {
         var record = generateZipParts(streamInfo, streamedContent, false, this.currentSourceOffset, this.zipPlatform, this.encodeFileName);
@@ -698,6 +811,7 @@ ZipFileWorker.prototype.openedSource = function (streamInfo) {
         this.accumulate = true;
     }
 };
+
 /**
  * The worker finished a source (an other worker).
  * @param {Object} streamInfo the streamInfo object from the finished source.
@@ -706,6 +820,7 @@ ZipFileWorker.prototype.closedSource = function (streamInfo) {
     this.accumulate = false;
     var streamedContent = this.streamFiles && !streamInfo["file"].dir;
     var record = generateZipParts(streamInfo, streamedContent, true, this.currentSourceOffset, this.zipPlatform, this.encodeFileName);
+
     this.dirRecords.push(record.dirRecord);
     if(streamedContent) {
         // after the streamed file, we put data descriptors
@@ -726,10 +841,12 @@ ZipFileWorker.prototype.closedSource = function (streamInfo) {
     }
     this.currentFile = null;
 };
+
 /**
  * @see GenericWorker.flush
  */
 ZipFileWorker.prototype.flush = function () {
+
     var localDirLength = this.bytesWritten;
     for(var i = 0; i < this.dirRecords.length; i++) {
         this.push({
@@ -738,12 +855,15 @@ ZipFileWorker.prototype.flush = function () {
         });
     }
     var centralDirLength = this.bytesWritten - localDirLength;
+
     var dirEnd = generateCentralDirectoryEnd(this.dirRecords.length, centralDirLength, localDirLength, this.zipComment, this.encodeFileName);
+
     this.push({
         data : dirEnd,
         meta : {percent:100}
     });
 };
+
 /**
  * Prepare the next source to be read.
  */
@@ -756,12 +876,14 @@ ZipFileWorker.prototype.prepareNextSource = function () {
         this.previous.resume();
     }
 };
+
 /**
  * @see GenericWorker.registerPrevious
  */
 ZipFileWorker.prototype.registerPrevious = function (previous) {
     this._sources.push(previous);
     var self = this;
+
     previous.on("data", function (chunk) {
         self.processChunk(chunk);
     });
@@ -778,6 +900,7 @@ ZipFileWorker.prototype.registerPrevious = function (previous) {
     });
     return this;
 };
+
 /**
  * @see GenericWorker.resume
  */
@@ -785,6 +908,7 @@ ZipFileWorker.prototype.resume = function () {
     if(!GenericWorker.prototype.resume.call(this)) {
         return false;
     }
+
     if (!this.previous && this._sources.length) {
         this.prepareNextSource();
         return true;
@@ -794,6 +918,7 @@ ZipFileWorker.prototype.resume = function () {
         return true;
     }
 };
+
 /**
  * @see GenericWorker.error
  */
@@ -811,6 +936,7 @@ ZipFileWorker.prototype.error = function (e) {
     }
     return true;
 };
+
 /**
  * @see GenericWorker.lock
  */
@@ -821,11 +947,15 @@ ZipFileWorker.prototype.lock = function () {
         sources[i].lock();
     }
 };
+
 module.exports = ZipFileWorker;
+
 },{"../crc32":4,"../signature":23,"../stream/GenericWorker":28,"../utf8":31,"../utils":32}],9:[function(require,module,exports){
 "use strict";
+
 var compressions = require("../compressions");
 var ZipFileWorker = require("./ZipFileWorker");
+
 /**
  * Find the compression to use.
  * @param {String} fileCompression the compression defined at the file level, if any.
@@ -833,6 +963,7 @@ var ZipFileWorker = require("./ZipFileWorker");
  * @return {Object} the compression object to use.
  */
 var getCompression = function (fileCompression, zipCompression) {
+
     var compressionName = fileCompression || zipCompression;
     var compression = compressions[compressionName];
     if (!compression) {
@@ -840,6 +971,7 @@ var getCompression = function (fileCompression, zipCompression) {
     }
     return compression;
 };
+
 /**
  * Create a worker to generate a zip file.
  * @param {JSZip} zip the JSZip instance at the right root level.
@@ -847,14 +979,17 @@ var getCompression = function (fileCompression, zipCompression) {
  * @param {String} comment the comment to use.
  */
 exports.generateWorker = function (zip, options, comment) {
+
     var zipFileWorker = new ZipFileWorker(options.streamFiles, comment, options.platform, options.encodeFileName);
     var entriesCount = 0;
     try {
+
         zip.forEach(function (relativePath, file) {
             entriesCount++;
             var compression = getCompression(file.options.compression, options.compression);
             var compressionOptions = file.options.compressionOptions || options.compressionOptions || {};
             var dir = file.dir, date = file.date;
+
             file._compressWorker(compression, compressionOptions)
                 .withStreamInfo("file", {
                     name : relativePath,
@@ -870,10 +1005,13 @@ exports.generateWorker = function (zip, options, comment) {
     } catch (e) {
         zipFileWorker.error(e);
     }
+
     return zipFileWorker;
 };
+
 },{"../compressions":3,"./ZipFileWorker":8}],10:[function(require,module,exports){
 "use strict";
+
 /**
  * Representation a of zip file in js
  * @constructor
@@ -883,9 +1021,11 @@ function JSZip() {
     if(!(this instanceof JSZip)) {
         return new JSZip();
     }
+
     if(arguments.length) {
         throw new Error("The constructor with parameters has been removed in JSZip 3.0, please check the upgrade guide.");
     }
+
     // object containing the files :
     // {
     //   "folder/" : {...},
@@ -895,7 +1035,9 @@ function JSZip() {
     // want filenames like "toString" coming from a zip file
     // to overwrite methods and attributes in a normal Object.
     this.files = Object.create(null);
+
     this.comment = null;
+
     // Where we are in the hierarchy
     this.root = "";
     this.clone = function() {
@@ -912,14 +1054,18 @@ JSZip.prototype = require("./object");
 JSZip.prototype.loadAsync = require("./load");
 JSZip.support = require("./support");
 JSZip.defaults = require("./defaults");
+
 // TODO find a better way to handle this version,
 // a require('package.json').version doesn't work with webpack, see #327
 JSZip.version = "3.10.1";
+
 JSZip.loadAsync = function (content, options) {
     return new JSZip().loadAsync(content, options);
 };
+
 JSZip.external = require("./external");
 module.exports = JSZip;
+
 },{"./defaults":5,"./external":6,"./load":11,"./object":15,"./support":30}],11:[function(require,module,exports){
 "use strict";
 var utils = require("./utils");
@@ -928,6 +1074,7 @@ var utf8 = require("./utf8");
 var ZipEntries = require("./zipEntries");
 var Crc32Probe = require("./stream/Crc32Probe");
 var nodejsUtils = require("./nodejsUtils");
+
 /**
  * Check the CRC32 of an entry.
  * @param {ZipEntry} zipEntry the zip entry to check.
@@ -949,6 +1096,7 @@ function checkEntryCRC32(zipEntry) {
             .resume();
     });
 }
+
 module.exports = function (data, options) {
     var zip = this;
     options = utils.extend(options || {}, {
@@ -958,9 +1106,11 @@ module.exports = function (data, options) {
         createFolders: false,
         decodeFileName: utf8.utf8decode
     });
+
     if (nodejsUtils.isNode && nodejsUtils.isStream(data)) {
         return external.Promise.reject(new Error("JSZip can't accept a stream when loading a zip file."));
     }
+
     return utils.prepareContent("the loaded zip file", data, true, options.optimizedBinaryString, options.base64)
         .then(function (data) {
             var zipEntries = new ZipEntries(options);
@@ -980,8 +1130,10 @@ module.exports = function (data, options) {
             var files = zipEntries.files;
             for (var i = 0; i < files.length; i++) {
                 var input = files[i];
+
                 var unsafeName = input.fileNameStr;
                 var safeName = utils.resolve(input.fileNameStr);
+
                 zip.file(safeName, input.decompressed, {
                     binary: true,
                     optimizedBinaryString: true,
@@ -999,13 +1151,17 @@ module.exports = function (data, options) {
             if (zipEntries.zipComment.length) {
                 zip.comment = zipEntries.zipComment;
             }
+
             return zip;
         });
 };
+
 },{"./external":6,"./nodejsUtils":14,"./stream/Crc32Probe":25,"./utf8":31,"./utils":32,"./zipEntries":33}],12:[function(require,module,exports){
 "use strict";
+
 var utils = require("../utils");
 var GenericWorker = require("../stream/GenericWorker");
+
 /**
  * A worker that use a nodejs stream as source.
  * @constructor
@@ -1017,7 +1173,9 @@ function NodejsStreamInputAdapter(filename, stream) {
     this._upstreamEnded = false;
     this._bindStream(stream);
 }
+
 utils.inherits(NodejsStreamInputAdapter, GenericWorker);
+
 /**
  * Prepare the stream and bind the callbacks on it.
  * Do this ASAP on node 0.10 ! A lazy binding doesn't always work.
@@ -1062,19 +1220,26 @@ NodejsStreamInputAdapter.prototype.resume = function () {
     if(!GenericWorker.prototype.resume.call(this)) {
         return false;
     }
+
     if(this._upstreamEnded) {
         this.end();
     } else {
         this._stream.resume();
     }
+
     return true;
 };
+
 module.exports = NodejsStreamInputAdapter;
+
 },{"../stream/GenericWorker":28,"../utils":32}],13:[function(require,module,exports){
 "use strict";
+
 var Readable = require("readable-stream").Readable;
+
 var utils = require("../utils");
 utils.inherits(NodejsStreamOutputAdapter, Readable);
+
 /**
 * A nodejs stream using a worker as source.
 * @see the SourceWrapper in http://nodejs.org/api/stream.html
@@ -1086,6 +1251,7 @@ utils.inherits(NodejsStreamOutputAdapter, Readable);
 function NodejsStreamOutputAdapter(helper, options, updateCb) {
     Readable.call(this, options);
     this._helper = helper;
+
     var self = this;
     helper.on("data", function (data, meta) {
         if (!self.push(data)) {
@@ -1102,12 +1268,17 @@ function NodejsStreamOutputAdapter(helper, options, updateCb) {
             self.push(null);
         });
 }
+
+
 NodejsStreamOutputAdapter.prototype._read = function() {
     this._helper.resume();
 };
+
 module.exports = NodejsStreamOutputAdapter;
+
 },{"../utils":32,"readable-stream":16}],14:[function(require,module,exports){
 "use strict";
+
 module.exports = {
     /**
      * True if this is running in Nodejs, will be undefined in a browser.
@@ -1155,6 +1326,7 @@ module.exports = {
     isBuffer : function(b){
         return Buffer.isBuffer(b);
     },
+
     isStream : function (obj) {
         return obj &&
             typeof obj.on === "function" &&
@@ -1162,6 +1334,7 @@ module.exports = {
             typeof obj.resume === "function";
     }
 };
+
 },{}],15:[function(require,module,exports){
 "use strict";
 var utf8 = require("./utf8");
@@ -1174,6 +1347,8 @@ var ZipObject = require("./zipObject");
 var generate = require("./generate");
 var nodejsUtils = require("./nodejsUtils");
 var NodejsStreamInputAdapter = require("./nodejs/NodejsStreamInputAdapter");
+
+
 /**
  * Add a file in the current folder.
  * @private
@@ -1186,17 +1361,22 @@ var fileAdd = function(name, data, originalOptions) {
     // be sure sub folders exist
     var dataType = utils.getTypeOf(data),
         parent;
+
+
     /*
      * Correct options.
      */
+
     var o = utils.extend(originalOptions || {}, defaults);
     o.date = o.date || new Date();
     if (o.compression !== null) {
         o.compression = o.compression.toUpperCase();
     }
+
     if (typeof o.unixPermissions === "string") {
         o.unixPermissions = parseInt(o.unixPermissions, 8);
     }
+
     // UNX_IFDIR  0040000 see zipinfo.c
     if (o.unixPermissions && (o.unixPermissions & 0x4000)) {
         o.dir = true;
@@ -1205,17 +1385,22 @@ var fileAdd = function(name, data, originalOptions) {
     if (o.dosPermissions && (o.dosPermissions & 0x0010)) {
         o.dir = true;
     }
+
     if (o.dir) {
         name = forceTrailingSlash(name);
     }
     if (o.createFolders && (parent = parentFolder(name))) {
         folderAdd.call(this, parent, true);
     }
+
     var isUnicodeString = dataType === "string" && o.binary === false && o.base64 === false;
     if (!originalOptions || typeof originalOptions.binary === "undefined") {
         o.binary = !isUnicodeString;
     }
+
+
     var isCompressedEmpty = (data instanceof CompressedObject) && data.uncompressedSize === 0;
+
     if (isCompressedEmpty || o.dir || !data || data.length === 0) {
         o.base64 = false;
         o.binary = true;
@@ -1223,9 +1408,11 @@ var fileAdd = function(name, data, originalOptions) {
         o.compression = "STORE";
         dataType = "string";
     }
+
     /*
      * Convert content to fit.
      */
+
     var zipObjectContent = null;
     if (data instanceof CompressedObject || data instanceof GenericWorker) {
         zipObjectContent = data;
@@ -1234,6 +1421,7 @@ var fileAdd = function(name, data, originalOptions) {
     } else {
         zipObjectContent = utils.prepareContent(name, data, o.binary, o.optimizedBinaryString, o.base64);
     }
+
     var object = new ZipObject(name, zipObjectContent, o);
     this.files[name] = object;
     /*
@@ -1242,12 +1430,14 @@ var fileAdd = function(name, data, originalOptions) {
     promise is useless because file(name, data) returns the JSZip
     object for chaining. Should we break that to allow the user
     to catch the error ?
+
     return external.Promise.resolve(zipObjectContent)
     .then(function () {
         return object;
     });
     */
 };
+
 /**
  * Find the parent folder of the path.
  * @private
@@ -1261,6 +1451,7 @@ var parentFolder = function (path) {
     var lastSlash = path.lastIndexOf("/");
     return (lastSlash > 0) ? path.substring(0, lastSlash) : "";
 };
+
 /**
  * Returns the path with a slash at the end.
  * @private
@@ -1274,6 +1465,7 @@ var forceTrailingSlash = function(path) {
     }
     return path;
 };
+
 /**
  * Add a (sub) folder in the current folder.
  * @private
@@ -1284,7 +1476,9 @@ var forceTrailingSlash = function(path) {
  */
 var folderAdd = function(name, createFolders) {
     createFolders = (typeof createFolders !== "undefined") ? createFolders : defaults.createFolders;
+
     name = forceTrailingSlash(name);
+
     // Does this folder already exist?
     if (!this.files[name]) {
         fileAdd.call(this, name, null, {
@@ -1294,6 +1488,7 @@ var folderAdd = function(name, createFolders) {
     }
     return this.files[name];
 };
+
 /**
 * Cross-window, cross-Node-context regular expression detection
 * @param  {Object}  object Anything
@@ -1303,6 +1498,7 @@ var folderAdd = function(name, createFolders) {
 function isRegExp(object) {
     return Object.prototype.toString.call(object) === "[object RegExp]";
 }
+
 // return the actual prototype of JSZip
 var out = {
     /**
@@ -1311,6 +1507,8 @@ var out = {
     load: function() {
         throw new Error("This method has been removed in JSZip 3.0, please check the upgrade guide.");
     },
+
+
     /**
      * Call a callback function for each entry at this folder level.
      * @param {Function} cb the callback function:
@@ -1329,6 +1527,7 @@ var out = {
             }
         }
     },
+
     /**
      * Filter nested files/folders with the specified function.
      * @param {Function} search the predicate to use :
@@ -1342,9 +1541,11 @@ var out = {
             if (search(relativePath, entry)) { // the file matches the function
                 result.push(entry);
             }
+
         });
         return result;
     },
+
     /**
      * Add a file to the zip file, or search a file.
      * @param   {string|RegExp} name The name of the file to add (if data is defined),
@@ -1377,6 +1578,7 @@ var out = {
         }
         return this;
     },
+
     /**
      * Add a directory to the zip file, or search.
      * @param   {String|RegExp} arg The name of the directory to add, or a regex to search folders.
@@ -1386,19 +1588,23 @@ var out = {
         if (!arg) {
             return this;
         }
+
         if (isRegExp(arg)) {
             return this.filter(function(relativePath, file) {
                 return file.dir && arg.test(relativePath);
             });
         }
+
         // else, name is a new folder
         var name = this.root + arg;
         var newFolder = folderAdd.call(this, name);
+
         // Allow chaining by returning a new object with this folder as the root
         var ret = this.clone();
         ret.root = newFolder.name;
         return ret;
     },
+
     /**
      * Delete a file, or a directory and all sub-files, from the zip
      * @param {string} name the name of the file to delete
@@ -1414,6 +1620,7 @@ var out = {
             }
             file = this.files[name];
         }
+
         if (file && !file.dir) {
             // file
             delete this.files[name];
@@ -1426,14 +1633,17 @@ var out = {
                 delete this.files[kids[i].name];
             }
         }
+
         return this;
     },
+
     /**
      * @deprecated This method has been removed in JSZip 3.0, please check the upgrade guide.
      */
     generate: function() {
         throw new Error("This method has been removed in JSZip 3.0, please check the upgrade guide.");
     },
+
     /**
      * Generate the complete zip file as an internal stream.
      * @param {Object} options the options to generate the zip file :
@@ -1454,16 +1664,21 @@ var out = {
                 mimeType: "application/zip",
                 encodeFileName: utf8.utf8encode
             });
+
             opts.type = opts.type.toLowerCase();
             opts.compression = opts.compression.toUpperCase();
+
             // "binarystring" is preferred but the internals use "string".
             if(opts.type === "binarystring") {
                 opts.type = "string";
             }
+
             if (!opts.type) {
                 throw new Error("No output type specified.");
             }
+
             utils.checkSupport(opts.type);
+
             // accept nodejs `process.platform`
             if(
                 opts.platform === "darwin" ||
@@ -1476,6 +1691,7 @@ var out = {
             if (opts.platform === "win32") {
                 opts.platform = "DOS";
             }
+
             var comment = opts.comment || this.comment || "";
             worker = generate.generateWorker(this, opts, comment);
         } catch (e) {
@@ -1504,6 +1720,7 @@ var out = {
     }
 };
 module.exports = out;
+
 },{"./compressedObject":2,"./defaults":5,"./generate":9,"./nodejs/NodejsStreamInputAdapter":12,"./nodejsUtils":14,"./stream/GenericWorker":28,"./stream/StreamHelper":29,"./utf8":31,"./utils":32,"./zipObject":35}],16:[function(require,module,exports){
 "use strict";
 /*
@@ -1515,10 +1732,12 @@ module.exports = out;
  * two).
  */
 module.exports = require("stream");
+
 },{"stream":undefined}],17:[function(require,module,exports){
 "use strict";
 var DataReader = require("./DataReader");
 var utils = require("../utils");
+
 function ArrayReader(data) {
     DataReader.call(this, data);
     for(var i = 0; i < this.data.length; i++) {
@@ -1545,6 +1764,7 @@ ArrayReader.prototype.lastIndexOfSignature = function(sig) {
             return i - this.zero;
         }
     }
+
     return -1;
 };
 /**
@@ -1571,9 +1791,11 @@ ArrayReader.prototype.readData = function(size) {
     return result;
 };
 module.exports = ArrayReader;
+
 },{"../utils":32,"./DataReader":18}],18:[function(require,module,exports){
 "use strict";
 var utils = require("../utils");
+
 function DataReader(data) {
     this.data = data; // type : see implementation
     this.length = data.length;
@@ -1687,14 +1909,17 @@ DataReader.prototype = {
     }
 };
 module.exports = DataReader;
+
 },{"../utils":32}],19:[function(require,module,exports){
 "use strict";
 var Uint8ArrayReader = require("./Uint8ArrayReader");
 var utils = require("../utils");
+
 function NodeBufferReader(data) {
     Uint8ArrayReader.call(this, data);
 }
 utils.inherits(NodeBufferReader, Uint8ArrayReader);
+
 /**
  * @see DataReader.readData
  */
@@ -1705,10 +1930,12 @@ NodeBufferReader.prototype.readData = function(size) {
     return result;
 };
 module.exports = NodeBufferReader;
+
 },{"../utils":32,"./Uint8ArrayReader":21}],20:[function(require,module,exports){
 "use strict";
 var DataReader = require("./DataReader");
 var utils = require("../utils");
+
 function StringReader(data) {
     DataReader.call(this, data);
 }
@@ -1743,10 +1970,12 @@ StringReader.prototype.readData = function(size) {
     return result;
 };
 module.exports = StringReader;
+
 },{"../utils":32,"./DataReader":18}],21:[function(require,module,exports){
 "use strict";
 var ArrayReader = require("./ArrayReader");
 var utils = require("../utils");
+
 function Uint8ArrayReader(data) {
     ArrayReader.call(this, data);
 }
@@ -1765,14 +1994,17 @@ Uint8ArrayReader.prototype.readData = function(size) {
     return result;
 };
 module.exports = Uint8ArrayReader;
+
 },{"../utils":32,"./ArrayReader":17}],22:[function(require,module,exports){
 "use strict";
+
 var utils = require("../utils");
 var support = require("../support");
 var ArrayReader = require("./ArrayReader");
 var StringReader = require("./StringReader");
 var NodeBufferReader = require("./NodeBufferReader");
 var Uint8ArrayReader = require("./Uint8ArrayReader");
+
 /**
  * Create a reader adapted to the data.
  * @param {String|ArrayBuffer|Uint8Array|Buffer} data the data to read.
@@ -1792,6 +2024,7 @@ module.exports = function (data) {
     }
     return new ArrayReader(utils.transformTo("array", data));
 };
+
 },{"../support":30,"../utils":32,"./ArrayReader":17,"./NodeBufferReader":19,"./StringReader":20,"./Uint8ArrayReader":21}],23:[function(require,module,exports){
 "use strict";
 exports.LOCAL_FILE_HEADER = "PK\x03\x04";
@@ -1800,10 +2033,13 @@ exports.CENTRAL_DIRECTORY_END = "PK\x05\x06";
 exports.ZIP64_CENTRAL_DIRECTORY_LOCATOR = "PK\x06\x07";
 exports.ZIP64_CENTRAL_DIRECTORY_END = "PK\x06\x06";
 exports.DATA_DESCRIPTOR = "PK\x07\x08";
+
 },{}],24:[function(require,module,exports){
 "use strict";
+
 var GenericWorker = require("./GenericWorker");
 var utils = require("../utils");
+
 /**
  * A worker which convert chunks to a specified type.
  * @constructor
@@ -1814,6 +2050,7 @@ function ConvertWorker(destType) {
     this.destType = destType;
 }
 utils.inherits(ConvertWorker, GenericWorker);
+
 /**
  * @see GenericWorker.processChunk
  */
@@ -1824,11 +2061,14 @@ ConvertWorker.prototype.processChunk = function (chunk) {
     });
 };
 module.exports = ConvertWorker;
+
 },{"../utils":32,"./GenericWorker":28}],25:[function(require,module,exports){
 "use strict";
+
 var GenericWorker = require("./GenericWorker");
 var crc32 = require("../crc32");
 var utils = require("../utils");
+
 /**
  * A worker which calculate the crc32 of the data flowing through.
  * @constructor
@@ -1838,6 +2078,7 @@ function Crc32Probe() {
     this.withStreamInfo("crc32", 0);
 }
 utils.inherits(Crc32Probe, GenericWorker);
+
 /**
  * @see GenericWorker.processChunk
  */
@@ -1846,10 +2087,13 @@ Crc32Probe.prototype.processChunk = function (chunk) {
     this.push(chunk);
 };
 module.exports = Crc32Probe;
+
 },{"../crc32":4,"../utils":32,"./GenericWorker":28}],26:[function(require,module,exports){
 "use strict";
+
 var utils = require("../utils");
 var GenericWorker = require("./GenericWorker");
+
 /**
  * A worker which calculate the total length of the data flowing through.
  * @constructor
@@ -1861,6 +2105,7 @@ function DataLengthProbe(propName) {
     this.withStreamInfo(propName, 0);
 }
 utils.inherits(DataLengthProbe, GenericWorker);
+
 /**
  * @see GenericWorker.processChunk
  */
@@ -1872,13 +2117,18 @@ DataLengthProbe.prototype.processChunk = function (chunk) {
     GenericWorker.prototype.processChunk.call(this, chunk);
 };
 module.exports = DataLengthProbe;
+
+
 },{"../utils":32,"./GenericWorker":28}],27:[function(require,module,exports){
 "use strict";
+
 var utils = require("../utils");
 var GenericWorker = require("./GenericWorker");
+
 // the size of the generated chunks
 // TODO expose this as a public variable
 var DEFAULT_BLOCK_SIZE = 16 * 1024;
+
 /**
  * A worker that reads a content and emits chunks.
  * @constructor
@@ -1892,7 +2142,9 @@ function DataWorker(dataP) {
     this.max = 0;
     this.data = null;
     this.type = "";
+
     this._tickScheduled = false;
+
     dataP.then(function (data) {
         self.dataIsReady = true;
         self.data = data;
@@ -1905,7 +2157,9 @@ function DataWorker(dataP) {
         self.error(e);
     });
 }
+
 utils.inherits(DataWorker, GenericWorker);
+
 /**
  * @see GenericWorker.cleanUp
  */
@@ -1913,6 +2167,7 @@ DataWorker.prototype.cleanUp = function () {
     GenericWorker.prototype.cleanUp.call(this);
     this.data = null;
 };
+
 /**
  * @see GenericWorker.resume
  */
@@ -1920,12 +2175,14 @@ DataWorker.prototype.resume = function () {
     if(!GenericWorker.prototype.resume.call(this)) {
         return false;
     }
+
     if (!this._tickScheduled && this.dataIsReady) {
         this._tickScheduled = true;
         utils.delay(this._tickAndRepeat, [], this);
     }
     return true;
 };
+
 /**
  * Trigger a tick a schedule an other call to this function.
  */
@@ -1940,13 +2197,16 @@ DataWorker.prototype._tickAndRepeat = function() {
         this._tickScheduled = true;
     }
 };
+
 /**
  * Read and push a chunk.
  */
 DataWorker.prototype._tick = function() {
+
     if(this.isPaused || this.isFinished) {
         return false;
     }
+
     var size = DEFAULT_BLOCK_SIZE;
     var data = null, nextIndex = Math.min(this.max, this.index + size);
     if (this.index >= this.max) {
@@ -1974,9 +2234,12 @@ DataWorker.prototype._tick = function() {
         });
     }
 };
+
 module.exports = DataWorker;
+
 },{"../utils":32,"./GenericWorker":28}],28:[function(require,module,exports){
 "use strict";
+
 /**
  * A worker that does nothing but passing chunks to the next one. This is like
  * a nodejs stream but with some differences. On the good side :
@@ -2015,6 +2278,7 @@ function GenericWorker(name) {
     // the previous worker, if any
     this.previous = null;
 }
+
 GenericWorker.prototype = {
     /**
      * Push a chunk to the next workers.
@@ -2031,6 +2295,7 @@ GenericWorker.prototype = {
         if (this.isFinished) {
             return false;
         }
+
         this.flush();
         try {
             this.emit("end");
@@ -2050,17 +2315,21 @@ GenericWorker.prototype = {
         if (this.isFinished) {
             return false;
         }
+
         if(this.isPaused) {
             this.generatedError = e;
         } else {
             this.isFinished = true;
+
             this.emit("error", e);
+
             // in the workers chain exploded in the middle of the chain,
             // the error event will go downward but we also need to notify
             // workers upward that there has been an error.
             if(this.previous) {
                 this.previous.error(e);
             }
+
             this.cleanUp();
         }
         return true;
@@ -2114,6 +2383,7 @@ GenericWorker.prototype = {
         if (this.isLocked) {
             throw new Error("The stream '" + this + "' has already been used.");
         }
+
         // sharing the streamInfo...
         this.streamInfo = previous.streamInfo;
         // ... and adding our own bits
@@ -2140,6 +2410,7 @@ GenericWorker.prototype = {
             return false;
         }
         this.isPaused = true;
+
         if(this.previous) {
             this.previous.pause();
         }
@@ -2154,6 +2425,7 @@ GenericWorker.prototype = {
             return false;
         }
         this.isPaused = false;
+
         // if true, the worker tried to resume but failed
         var withError = false;
         if(this.generatedError) {
@@ -2163,6 +2435,7 @@ GenericWorker.prototype = {
         if(this.previous) {
             this.previous.resume();
         }
+
         return !withError;
     },
     /**
@@ -2198,6 +2471,7 @@ GenericWorker.prototype = {
             this.streamInfo[key] = this.extraStreamInfo[key];
         }
     },
+
     /**
      * Lock the stream to prevent further updates on the workers chain.
      * After calling this method, all calls to pipe will fail.
@@ -2211,6 +2485,7 @@ GenericWorker.prototype = {
             this.previous.lock();
         }
     },
+
     /**
      *
      * Pretty print the workers chain.
@@ -2224,15 +2499,19 @@ GenericWorker.prototype = {
         }
     }
 };
+
 module.exports = GenericWorker;
+
 },{}],29:[function(require,module,exports){
 "use strict";
+
 var utils = require("../utils");
 var ConvertWorker = require("./ConvertWorker");
 var GenericWorker = require("./GenericWorker");
 var base64 = require("../base64");
 var support = require("../support");
 var external = require("../external");
+
 var NodejsStreamOutputAdapter = null;
 if (support.nodestream) {
     try {
@@ -2241,6 +2520,7 @@ if (support.nodestream) {
         // ignore
     }
 }
+
 /**
  * Apply the final transformation of the data. If the user wants a Blob for
  * example, it's easier to work with an U8intArray and finally do the
@@ -2260,6 +2540,7 @@ function transformZipOutput(type, content, mimeType) {
         return utils.transformTo(type, content);
     }
 }
+
 /**
  * Concatenate an array of data of the given type.
  * @param {String} type the type of the data in the given array.
@@ -2290,6 +2571,7 @@ function concat (type, dataArray) {
         throw new Error("concat : unsupported type '"  + type + "'");
     }
 }
+
 /**
  * Listen a StreamHelper, accumulate its content and concatenate it into a
  * complete block.
@@ -2328,6 +2610,7 @@ function accumulate(helper, updateCallback) {
             .resume();
     });
 }
+
 /**
  * An helper to easily use workers outside of JSZip.
  * @constructor
@@ -2346,6 +2629,7 @@ function StreamHelper(worker, outputType, mimeType) {
         internalType = "string";
         break;
     }
+
     try {
         // the type used internally
         this._internalType = internalType;
@@ -2363,6 +2647,7 @@ function StreamHelper(worker, outputType, mimeType) {
         this._worker.error(e);
     }
 }
+
 StreamHelper.prototype = {
     /**
      * Listen a StreamHelper, accumulate its content and concatenate it into a
@@ -2381,6 +2666,7 @@ StreamHelper.prototype = {
      */
     on : function (evt, fn) {
         var self = this;
+
         if(evt === "data") {
             this._worker.on(evt, function (chunk) {
                 fn.call(self, chunk.data, chunk.meta);
@@ -2422,14 +2708,19 @@ StreamHelper.prototype = {
             // bug report !
             throw new Error(this._outputType + " is not supported by this method");
         }
+
         return new NodejsStreamOutputAdapter(this, {
             objectMode : this._outputType !== "nodebuffer"
         }, updateCb);
     }
 };
+
+
 module.exports = StreamHelper;
+
 },{"../base64":1,"../external":6,"../nodejs/NodejsStreamOutputAdapter":13,"../support":30,"../utils":32,"./ConvertWorker":24,"./GenericWorker":28}],30:[function(require,module,exports){
 "use strict";
+
 exports.base64 = true;
 exports.array = true;
 exports.string = true;
@@ -2437,6 +2728,7 @@ exports.arraybuffer = typeof ArrayBuffer !== "undefined" && typeof Uint8Array !=
 exports.nodebuffer = typeof Buffer !== "undefined";
 // contains true if JSZip can read/generate Uint8Array, false otherwise.
 exports.uint8array = typeof Uint8Array !== "undefined";
+
 if (typeof ArrayBuffer === "undefined") {
     exports.blob = false;
 }
@@ -2459,21 +2751,26 @@ else {
         }
     }
 }
+
 try {
     exports.nodestream = !!require("readable-stream").Readable;
 } catch(e) {
     exports.nodestream = false;
 }
+
 },{"readable-stream":16}],31:[function(require,module,exports){
 "use strict";
+
 var utils = require("./utils");
 var support = require("./support");
 var nodejsUtils = require("./nodejsUtils");
 var GenericWorker = require("./stream/GenericWorker");
+
 /**
  * The following functions come from pako, from pako/lib/utils/strings
  * released under the MIT license, see pako https://github.com/nodeca/pako/
  */
+
 // Table with utf8 lengths (calculated by first byte of sequence)
 // Note, that 5 & 6-byte values and some 4-byte values can not be represented in JS,
 // because max possible codepoint is 0x10ffff
@@ -2482,9 +2779,11 @@ for (var i=0; i<256; i++) {
     _utf8len[i] = (i >= 252 ? 6 : i >= 248 ? 5 : i >= 240 ? 4 : i >= 224 ? 3 : i >= 192 ? 2 : 1);
 }
 _utf8len[254]=_utf8len[254]=1; // Invalid sequence start
+
 // convert string to array (typed, when possible)
 var string2buf = function (str) {
     var buf, c, c2, m_pos, i, str_len = str.length, buf_len = 0;
+
     // count binary size
     for (m_pos = 0; m_pos < str_len; m_pos++) {
         c = str.charCodeAt(m_pos);
@@ -2497,12 +2796,14 @@ var string2buf = function (str) {
         }
         buf_len += c < 0x80 ? 1 : c < 0x800 ? 2 : c < 0x10000 ? 3 : 4;
     }
+
     // allocate buffer
     if (support.uint8array) {
         buf = new Uint8Array(buf_len);
     } else {
         buf = new Array(buf_len);
     }
+
     // convert
     for (i=0, m_pos = 0; i < buf_len; m_pos++) {
         c = str.charCodeAt(m_pos);
@@ -2533,8 +2834,10 @@ var string2buf = function (str) {
             buf[i++] = 0x80 | (c & 0x3f);
         }
     }
+
     return buf;
 };
+
 // Calculate max possible position in utf8 buffer,
 // that will not break sequence. If that's not possible
 // - (very small limits) return max size as is.
@@ -2543,34 +2846,44 @@ var string2buf = function (str) {
 // max   - length limit (mandatory);
 var utf8border = function(buf, max) {
     var pos;
+
     max = max || buf.length;
     if (max > buf.length) { max = buf.length; }
+
     // go back from last position, until start of sequence found
     pos = max-1;
     while (pos >= 0 && (buf[pos] & 0xC0) === 0x80) { pos--; }
+
     // Fuckup - very small and broken sequence,
     // return max, because we should return something anyway.
     if (pos < 0) { return max; }
+
     // If we came to start of buffer - that means vuffer is too small,
     // return max too.
     if (pos === 0) { return max; }
+
     return (pos + _utf8len[buf[pos]] > max) ? pos : max;
 };
+
 // convert array to string
 var buf2string = function (buf) {
     var i, out, c, c_len;
     var len = buf.length;
+
     // Reserve max possible length (2 words per char)
     // NB: by unknown reasons, Array is significantly faster for
     //     String.fromCharCode.apply than Uint16Array.
     var utf16buf = new Array(len*2);
+
     for (out=0, i=0; i<len;) {
         c = buf[i++];
         // quick process ascii
         if (c < 0x80) { utf16buf[out++] = c; continue; }
+
         c_len = _utf8len[c];
         // skip 5 & 6 byte codes
         if (c_len > 4) { utf16buf[out++] = 0xfffd; i += c_len-1; continue; }
+
         // apply mask on first byte
         c &= c_len === 2 ? 0x1f : c_len === 3 ? 0x0f : 0x07;
         // join the rest
@@ -2578,8 +2891,10 @@ var buf2string = function (buf) {
             c = (c << 6) | (buf[i++] & 0x3f);
             c_len--;
         }
+
         // terminated by end of string?
         if (c_len > 1) { utf16buf[out++] = 0xfffd; continue; }
+
         if (c < 0x10000) {
             utf16buf[out++] = c;
         } else {
@@ -2588,6 +2903,7 @@ var buf2string = function (buf) {
             utf16buf[out++] = 0xdc00 | (c & 0x3ff);
         }
     }
+
     // shrinkBuf(utf16buf, out)
     if (utf16buf.length !== out) {
         if(utf16buf.subarray) {
@@ -2596,10 +2912,15 @@ var buf2string = function (buf) {
             utf16buf.length = out;
         }
     }
+
     // return String.fromCharCode.apply(null, utf16buf);
     return utils.applyFromCharCode(utf16buf);
 };
+
+
 // That's all for the pako functions.
+
+
 /**
  * Transform a javascript string into an array (typed if possible) of bytes,
  * UTF-8 encoded.
@@ -2610,8 +2931,11 @@ exports.utf8encode = function utf8encode(str) {
     if (support.nodebuffer) {
         return nodejsUtils.newBufferFrom(str, "utf-8");
     }
+
     return string2buf(str);
 };
+
+
 /**
  * Transform a bytes array (or a representation) representing an UTF-8 encoded
  * string into a javascript string.
@@ -2622,9 +2946,12 @@ exports.utf8decode = function utf8decode(buf) {
     if (support.nodebuffer) {
         return utils.transformTo("nodebuffer", buf).toString("utf-8");
     }
+
     buf = utils.transformTo(support.uint8array ? "uint8array" : "array", buf);
+
     return buf2string(buf);
 };
+
 /**
  * A worker to decode utf8 encoded binary chunks into string chunks.
  * @constructor
@@ -2635,11 +2962,14 @@ function Utf8DecodeWorker() {
     this.leftOver = null;
 }
 utils.inherits(Utf8DecodeWorker, GenericWorker);
+
 /**
  * @see GenericWorker.processChunk
  */
 Utf8DecodeWorker.prototype.processChunk = function (chunk) {
+
     var data = utils.transformTo(support.uint8array ? "uint8array" : "array", chunk.data);
+
     // 1st step, re-use what's left of the previous chunk
     if (this.leftOver && this.leftOver.length) {
         if(support.uint8array) {
@@ -2652,6 +2982,7 @@ Utf8DecodeWorker.prototype.processChunk = function (chunk) {
         }
         this.leftOver = null;
     }
+
     var nextBoundary = utf8border(data);
     var usableData = data;
     if (nextBoundary !== data.length) {
@@ -2663,11 +2994,13 @@ Utf8DecodeWorker.prototype.processChunk = function (chunk) {
             this.leftOver = data.slice(nextBoundary, data.length);
         }
     }
+
     this.push({
         data : exports.utf8decode(usableData),
         meta : chunk.meta
     });
 };
+
 /**
  * @see GenericWorker.flush
  */
@@ -2681,6 +3014,7 @@ Utf8DecodeWorker.prototype.flush = function () {
     }
 };
 exports.Utf8DecodeWorker = Utf8DecodeWorker;
+
 /**
  * A worker to endcode string chunks into utf8 encoded binary chunks.
  * @constructor
@@ -2689,6 +3023,7 @@ function Utf8EncodeWorker() {
     GenericWorker.call(this, "utf-8 encode");
 }
 utils.inherits(Utf8EncodeWorker, GenericWorker);
+
 /**
  * @see GenericWorker.processChunk
  */
@@ -2699,13 +3034,17 @@ Utf8EncodeWorker.prototype.processChunk = function (chunk) {
     });
 };
 exports.Utf8EncodeWorker = Utf8EncodeWorker;
+
 },{"./nodejsUtils":14,"./stream/GenericWorker":28,"./support":30,"./utils":32}],32:[function(require,module,exports){
 "use strict";
+
 var support = require("./support");
 var base64 = require("./base64");
 var nodejsUtils = require("./nodejsUtils");
 var external = require("./external");
 require("setimmediate");
+
+
 /**
  * Convert a string that pass as a "binary string": it should represent a byte
  * array but may have > 255 char codes. Be sure to take only the first byte
@@ -2722,6 +3061,7 @@ function string2binary(str) {
     }
     return stringToArrayLike(str, result);
 }
+
 /**
  * Create a new blob with the given content and the given type.
  * @param {String|ArrayBuffer} part the content to put in the blob. DO NOT use
@@ -2737,6 +3077,7 @@ function string2binary(str) {
  */
 exports.newBlob = function(part, type) {
     exports.checkSupport("blob");
+
     try {
         // Blob constructor
         return new Blob([part], {
@@ -2744,6 +3085,7 @@ exports.newBlob = function(part, type) {
         });
     }
     catch (e) {
+
         try {
             // deprecated, browser only, old way
             var Builder = self.BlobBuilder || self.WebKitBlobBuilder || self.MozBlobBuilder || self.MSBlobBuilder;
@@ -2752,10 +3094,13 @@ exports.newBlob = function(part, type) {
             return builder.getBlob(type);
         }
         catch (e) {
+
             // well, fuck ?!
             throw new Error("Bug : can't construct the Blob.");
         }
     }
+
+
 };
 /**
  * The identity function.
@@ -2765,6 +3110,7 @@ exports.newBlob = function(part, type) {
 function identity(input) {
     return input;
 }
+
 /**
  * Fill in an array with a string.
  * @param {String} str the string to use.
@@ -2777,6 +3123,7 @@ function stringToArrayLike(str, array) {
     }
     return array;
 }
+
 /**
  * An helper for the function arrayLikeToString.
  * This contains static information and functions that
@@ -2846,6 +3193,7 @@ var arrayToStringHelper = {
         })()
     }
 };
+
 /**
  * Transform an array-like object to a string.
  * @param {Array|ArrayBuffer|Uint8Array|Buffer} array the array to transform.
@@ -2870,6 +3218,7 @@ function arrayLikeToString(array) {
     } else if (type === "nodebuffer") {
         canUseApply = arrayToStringHelper.applyCanBeUsed.nodebuffer;
     }
+
     if (canUseApply) {
         while (chunk > 1) {
             try {
@@ -2879,11 +3228,15 @@ function arrayLikeToString(array) {
             }
         }
     }
+
     // no apply or chunk error : slow and painful algorithm
     // default browser on android 4.*
     return arrayToStringHelper.stringifyByChar(array);
 }
+
 exports.applyFromCharCode = arrayLikeToString;
+
+
 /**
  * Copy the data from an array-like to an other array-like.
  * @param {Array|ArrayBuffer|Uint8Array|Buffer} arrayFrom the origin array.
@@ -2896,8 +3249,10 @@ function arrayLikeToArrayLike(arrayFrom, arrayTo) {
     }
     return arrayTo;
 }
+
 // a matrix containing functions to transform everything into everything.
 var transform = {};
+
 // string to ?
 transform["string"] = {
     "string": identity,
@@ -2914,6 +3269,7 @@ transform["string"] = {
         return stringToArrayLike(input, nodejsUtils.allocBuffer(input.length));
     }
 };
+
 // array to ?
 transform["array"] = {
     "string": arrayLikeToString,
@@ -2928,6 +3284,7 @@ transform["array"] = {
         return nodejsUtils.newBufferFrom(input);
     }
 };
+
 // arraybuffer to ?
 transform["arraybuffer"] = {
     "string": function(input) {
@@ -2944,6 +3301,7 @@ transform["arraybuffer"] = {
         return nodejsUtils.newBufferFrom(new Uint8Array(input));
     }
 };
+
 // uint8array to ?
 transform["uint8array"] = {
     "string": arrayLikeToString,
@@ -2958,6 +3316,7 @@ transform["uint8array"] = {
         return nodejsUtils.newBufferFrom(input);
     }
 };
+
 // nodebuffer to ?
 transform["nodebuffer"] = {
     "string": arrayLikeToString,
@@ -2972,6 +3331,7 @@ transform["nodebuffer"] = {
     },
     "nodebuffer": identity
 };
+
 /**
  * Transform an input into any type.
  * The supported output type are : string, array, uint8array, arraybuffer, nodebuffer.
@@ -2994,6 +3354,7 @@ exports.transformTo = function(outputType, input) {
     var result = transform[inputType][outputType](input);
     return result;
 };
+
 /**
  * Resolve all relative path components, "." and "..", in a path. If these relative components
  * traverse above the root then the resulting path will only contain the final path component.
@@ -3018,6 +3379,7 @@ exports.resolve = function(path) {
     }
     return result.join("/");
 };
+
 /**
  * Return the type of the input.
  * The type will be in a format valid for JSZip.utils.transformTo : string, array, uint8array, arraybuffer.
@@ -3041,6 +3403,7 @@ exports.getTypeOf = function(input) {
         return "arraybuffer";
     }
 };
+
 /**
  * Throw an exception if the type is not supported.
  * @param {String} type the type to check.
@@ -3052,8 +3415,10 @@ exports.checkSupport = function(type) {
         throw new Error(type + " is not supported by this platform");
     }
 };
+
 exports.MAX_VALUE_16BITS = 65535;
 exports.MAX_VALUE_32BITS = -1; // well, "\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF" is parsed as -1
+
 /**
  * Prettify a string read as binary.
  * @param {string} str the string to prettify.
@@ -3068,6 +3433,7 @@ exports.pretty = function(str) {
     }
     return res;
 };
+
 /**
  * Defer the call of a function.
  * @param {Function} callback the function to call asynchronously.
@@ -3078,6 +3444,7 @@ exports.delay = function(callback, args, self) {
         callback.apply(self || null, args || []);
     });
 };
+
 /**
  * Extends a prototype with an other, without calling a constructor with
  * side effects. Inspired by nodejs' `utils.inherits`
@@ -3089,6 +3456,7 @@ exports.inherits = function (ctor, superCtor) {
     Obj.prototype = superCtor.prototype;
     ctor.prototype = new Obj();
 };
+
 /**
  * Merge the objects passed as parameters into a new one.
  * @private
@@ -3106,6 +3474,7 @@ exports.extend = function() {
     }
     return result;
 };
+
 /**
  * Transform arbitrary content into a Promise.
  * @param {String} name a name for the content being processed.
@@ -3116,12 +3485,17 @@ exports.extend = function() {
  * @return {Promise} a promise in a format usable by JSZip.
  */
 exports.prepareContent = function(name, inputData, isBinary, isOptimizedBinaryString, isBase64) {
+
     // if inputData is already a promise, this flatten it.
     var promise = external.Promise.resolve(inputData).then(function(data) {
+
+
         var isBlob = support.blob && (data instanceof Blob || ["[object File]", "[object Blob]"].indexOf(Object.prototype.toString.call(data)) !== -1);
+
         if (isBlob && typeof FileReader !== "undefined") {
             return new external.Promise(function (resolve, reject) {
                 var reader = new FileReader();
+
                 reader.onload = function(e) {
                     resolve(e.target.result);
                 };
@@ -3134,8 +3508,10 @@ exports.prepareContent = function(name, inputData, isBinary, isOptimizedBinarySt
             return data;
         }
     });
+
     return promise.then(function(data) {
         var dataType = exports.getTypeOf(data);
+
         if (!dataType) {
             return external.Promise.reject(
                 new Error("Can't read the data of '" + name + "'. Is it " +
@@ -3161,6 +3537,7 @@ exports.prepareContent = function(name, inputData, isBinary, isOptimizedBinarySt
         return data;
     });
 };
+
 },{"./base64":1,"./external":6,"./nodejsUtils":14,"./support":30,"setimmediate":54}],33:[function(require,module,exports){
 "use strict";
 var readerFor = require("./reader/readerFor");
@@ -3215,6 +3592,7 @@ ZipEntries.prototype = {
         this.centralDirRecords = this.reader.readInt(2);
         this.centralDirSize = this.reader.readInt(4);
         this.centralDirOffset = this.reader.readInt(4);
+
         this.zipCommentLength = this.reader.readInt(2);
         // warning : the encoding depends of the system locale
         // On a linux machine with LANG=en_US.utf8, this field is utf8 encoded.
@@ -3243,6 +3621,7 @@ ZipEntries.prototype = {
         this.centralDirRecords = this.reader.readInt(8);
         this.centralDirSize = this.reader.readInt(8);
         this.centralDirOffset = this.reader.readInt(8);
+
         this.zip64ExtensibleData = {};
         var extraDataSize = this.zip64EndOfCentralSize - 44,
             index = 0,
@@ -3290,6 +3669,7 @@ ZipEntries.prototype = {
      */
     readCentralDir: function() {
         var file;
+
         this.reader.setIndex(this.centralDirOffset);
         while (this.reader.readAndCheckSignature(sig.CENTRAL_FILE_HEADER)) {
             file = new ZipEntry({
@@ -3298,6 +3678,7 @@ ZipEntries.prototype = {
             file.readCentralPart(this.reader);
             this.files.push(file);
         }
+
         if (this.centralDirRecords !== this.files.length) {
             if (this.centralDirRecords !== 0 && this.files.length === 0) {
                 // We expected some records but couldn't find ANY.
@@ -3322,17 +3703,21 @@ ZipEntries.prototype = {
             // If an ajax request was used without responseType, we will also
             // get unreadable data.
             var isGarbage = !this.isSignature(0, sig.LOCAL_FILE_HEADER);
+
             if (isGarbage) {
                 throw new Error("Can't find end of central directory : is this a zip file ? " +
                                 "If it is, see https://stuk.github.io/jszip/documentation/howto/read_zip.html");
             } else {
                 throw new Error("Corrupted zip: can't find end of central directory");
             }
+
         }
         this.reader.setIndex(offset);
         var endOfCentralDirOffset = offset;
         this.checkSignature(sig.CENTRAL_DIRECTORY_END);
         this.readBlockEndOfCentral();
+
+
         /* extract from the zip spec :
             4)  If one of the fields in the end of central directory
                 record is too small to hold required data, the field
@@ -3345,6 +3730,7 @@ ZipEntries.prototype = {
          */
         if (this.diskNumber === utils.MAX_VALUE_16BITS || this.diskWithCentralDirStart === utils.MAX_VALUE_16BITS || this.centralDirRecordsOnThisDisk === utils.MAX_VALUE_16BITS || this.centralDirRecords === utils.MAX_VALUE_16BITS || this.centralDirSize === utils.MAX_VALUE_32BITS || this.centralDirOffset === utils.MAX_VALUE_32BITS) {
             this.zip64 = true;
+
             /*
             Warning : the zip64 extension is supported, but ONLY if the 64bits integer read from
             the zip file can fit into a 32bits integer. This cannot be solved : JavaScript represents
@@ -3353,6 +3739,7 @@ ZipEntries.prototype = {
             see https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Operators/Bitwise_Operators
             and http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-262.pdf section 8.5
             */
+
             // should look for a zip64 EOCD locator
             offset = this.reader.lastIndexOfSignature(sig.ZIP64_CENTRAL_DIRECTORY_LOCATOR);
             if (offset < 0) {
@@ -3361,6 +3748,7 @@ ZipEntries.prototype = {
             this.reader.setIndex(offset);
             this.checkSignature(sig.ZIP64_CENTRAL_DIRECTORY_LOCATOR);
             this.readBlockZip64EndOfCentralLocator();
+
             // now the zip64 EOCD record
             if (!this.isSignature(this.relativeOffsetEndOfZip64CentralDir, sig.ZIP64_CENTRAL_DIRECTORY_END)) {
                 // console.warn("ZIP64 end of central directory not where expected.");
@@ -3373,12 +3761,15 @@ ZipEntries.prototype = {
             this.checkSignature(sig.ZIP64_CENTRAL_DIRECTORY_END);
             this.readBlockZip64EndOfCentral();
         }
+
         var expectedEndOfCentralDirOffset = this.centralDirOffset + this.centralDirSize;
         if (this.zip64) {
             expectedEndOfCentralDirOffset += 20; // end of central dir 64 locator
             expectedEndOfCentralDirOffset += 12 /* should not include the leading 12 bytes */ + this.zip64EndOfCentralSize;
         }
+
         var extraBytes = endOfCentralDirOffset - expectedEndOfCentralDirOffset;
+
         if (extraBytes > 0) {
             // console.warn(extraBytes, "extra bytes at beginning or within zipfile");
             if (this.isSignature(endOfCentralDirOffset, sig.CENTRAL_FILE_HEADER)) {
@@ -3409,6 +3800,7 @@ ZipEntries.prototype = {
 };
 // }}} end of ZipEntries
 module.exports = ZipEntries;
+
 },{"./reader/readerFor":22,"./signature":23,"./support":30,"./utils":32,"./zipEntry":34}],34:[function(require,module,exports){
 "use strict";
 var readerFor = require("./reader/readerFor");
@@ -3418,8 +3810,10 @@ var crc32fn = require("./crc32");
 var utf8 = require("./utf8");
 var compressions = require("./compressions");
 var support = require("./support");
+
 var MADE_BY_DOS = 0x00;
 var MADE_BY_UNIX = 0x03;
+
 /**
  * Find a compression registered in JSZip.
  * @param {string} compressionMethod the method magic to find.
@@ -3436,6 +3830,7 @@ var findCompression = function(compressionMethod) {
     }
     return null;
 };
+
 // class ZipEntry {{{
 /**
  * An entry in the zip file.
@@ -3470,6 +3865,7 @@ ZipEntry.prototype = {
      */
     readLocalPart: function(reader) {
         var compression, localExtraFieldsLength;
+
         // we already know everything from the central dir !
         // If the central dir data are false, we are doomed.
         // On the bright side, the local part is scary  : zip64, data descriptors, both, etc.
@@ -3492,15 +3888,18 @@ ZipEntry.prototype = {
         // the fileName is stored as binary data, the handleUTF8 method will take care of the encoding.
         this.fileName = reader.readData(this.fileNameLength);
         reader.skip(localExtraFieldsLength);
+
         if (this.compressedSize === -1 || this.uncompressedSize === -1) {
             throw new Error("Bug or corrupted zip : didn't get enough information from the central directory " + "(compressedSize === -1 || uncompressedSize === -1)");
         }
+
         compression = findCompression(this.compressionMethod);
         if (compression === null) { // no compression found
             throw new Error("Corrupted zip : compression " + utils.pretty(this.compressionMethod) + " unknown (inner file : " + utils.transformTo("string", this.fileName) + ")");
         }
         this.decompressed = new CompressedObject(this.compressedSize, this.uncompressedSize, this.crc32, compression, reader.readData(this.compressedSize));
     },
+
     /**
      * Read the central part of a zip file and add the info in this object.
      * @param {DataReader} reader the reader to use.
@@ -3522,15 +3921,18 @@ ZipEntry.prototype = {
         this.internalFileAttributes = reader.readInt(2);
         this.externalFileAttributes = reader.readInt(4);
         this.localHeaderOffset = reader.readInt(4);
+
         if (this.isEncrypted()) {
             throw new Error("Encrypted zip are not supported");
         }
+
         // will be read in the local part, see the comments there
         reader.skip(fileNameLength);
         this.readExtraFields(reader);
         this.parseZIP64ExtraField(reader);
         this.fileComment = reader.readData(this.fileCommentLength);
     },
+
     /**
      * Parse the external file attributes and get the unix/dos permissions.
      */
@@ -3538,23 +3940,28 @@ ZipEntry.prototype = {
         this.unixPermissions = null;
         this.dosPermissions = null;
         var madeBy = this.versionMadeBy >> 8;
+
         // Check if we have the DOS directory flag set.
         // We look for it in the DOS and UNIX permissions
         // but some unknown platform could set it as a compatibility flag.
         this.dir = this.externalFileAttributes & 0x0010 ? true : false;
+
         if(madeBy === MADE_BY_DOS) {
             // first 6 bits (0 to 5)
             this.dosPermissions = this.externalFileAttributes & 0x3F;
         }
+
         if(madeBy === MADE_BY_UNIX) {
             this.unixPermissions = (this.externalFileAttributes >> 16) & 0xFFFF;
             // the octal permissions are in (this.unixPermissions & 0x01FF).toString(8);
         }
+
         // fail safe : if the name ends with a / it probably means a folder
         if (!this.dir && this.fileNameStr.slice(-1) === "/") {
             this.dir = true;
         }
     },
+
     /**
      * Parse the ZIP64 extra field and merge the info in the current ZipEntry.
      * @param {DataReader} reader the reader to use.
@@ -3563,8 +3970,10 @@ ZipEntry.prototype = {
         if (!this.extraFields[0x0001]) {
             return;
         }
+
         // should be something, preparing the extra reader
         var extraReader = readerFor(this.extraFields[0x0001].value);
+
         // I really hope that these 64bits integer can fit in 32 bits integer, because js
         // won't let us have more.
         if (this.uncompressedSize === utils.MAX_VALUE_32BITS) {
@@ -3589,19 +3998,23 @@ ZipEntry.prototype = {
             extraFieldId,
             extraFieldLength,
             extraFieldValue;
+
         if (!this.extraFields) {
             this.extraFields = {};
         }
+
         while (reader.index + 4 < end) {
             extraFieldId = reader.readInt(2);
             extraFieldLength = reader.readInt(2);
             extraFieldValue = reader.readData(extraFieldLength);
+
             this.extraFields[extraFieldId] = {
                 id: extraFieldId,
                 length: extraFieldLength,
                 value: extraFieldValue
             };
         }
+
         reader.setIndex(end);
     },
     /**
@@ -3621,6 +4034,7 @@ ZipEntry.prototype = {
                 var fileNameByteArray =  utils.transformTo(decodeParamType, this.fileName);
                 this.fileNameStr = this.loadOptions.decodeFileName(fileNameByteArray);
             }
+
             var ucomment = this.findExtraFieldUnicodeComment();
             if (ucomment !== null) {
                 this.fileCommentStr = ucomment;
@@ -3631,6 +4045,7 @@ ZipEntry.prototype = {
             }
         }
     },
+
     /**
      * Find the unicode path declared in the extra field, if any.
      * @return {String} the unicode path, null otherwise.
@@ -3639,18 +4054,22 @@ ZipEntry.prototype = {
         var upathField = this.extraFields[0x7075];
         if (upathField) {
             var extraReader = readerFor(upathField.value);
+
             // wrong version
             if (extraReader.readInt(1) !== 1) {
                 return null;
             }
+
             // the crc of the filename changed, this field is out of date.
             if (crc32fn(this.fileName) !== extraReader.readInt(4)) {
                 return null;
             }
+
             return utf8.utf8decode(extraReader.readData(upathField.length - 5));
         }
         return null;
     },
+
     /**
      * Find the unicode comment declared in the extra field, if any.
      * @return {String} the unicode comment, null otherwise.
@@ -3659,27 +4078,33 @@ ZipEntry.prototype = {
         var ucommentField = this.extraFields[0x6375];
         if (ucommentField) {
             var extraReader = readerFor(ucommentField.value);
+
             // wrong version
             if (extraReader.readInt(1) !== 1) {
                 return null;
             }
+
             // the crc of the comment changed, this field is out of date.
             if (crc32fn(this.fileComment) !== extraReader.readInt(4)) {
                 return null;
             }
+
             return utf8.utf8decode(extraReader.readData(ucommentField.length - 5));
         }
         return null;
     }
 };
 module.exports = ZipEntry;
+
 },{"./compressedObject":2,"./compressions":3,"./crc32":4,"./reader/readerFor":22,"./support":30,"./utf8":31,"./utils":32}],35:[function(require,module,exports){
 "use strict";
+
 var StreamHelper = require("./stream/StreamHelper");
 var DataWorker = require("./stream/DataWorker");
 var utf8 = require("./utf8");
 var CompressedObject = require("./compressedObject");
 var GenericWorker = require("./stream/GenericWorker");
+
 /**
  * A simple object representing a file in the zip file.
  * @constructor
@@ -3694,6 +4119,7 @@ var ZipObject = function(name, data, options) {
     this.comment = options.comment;
     this.unixPermissions = options.unixPermissions;
     this.dosPermissions = options.dosPermissions;
+
     this._data = data;
     this._dataBinary = options.binary;
     // keep only the compression
@@ -3702,6 +4128,7 @@ var ZipObject = function(name, data, options) {
         compressionOptions : options.compressionOptions
     };
 };
+
 ZipObject.prototype = {
     /**
      * Create an internal stream for the content of this object.
@@ -3720,7 +4147,9 @@ ZipObject.prototype = {
                 outputType = "string";
             }
             result = this._decompressWorker();
+
             var isUnicodeString = !this._dataBinary;
+
             if (isUnicodeString && !askUnicodeString) {
                 result = result.pipe(new utf8.Utf8EncodeWorker());
             }
@@ -3731,8 +4160,10 @@ ZipObject.prototype = {
             result = new GenericWorker("error");
             result.error(e);
         }
+
         return new StreamHelper(result, outputType, "");
     },
+
     /**
      * Prepare the content in the asked type.
      * @param {String} type the type of the result.
@@ -3742,6 +4173,7 @@ ZipObject.prototype = {
     async: function (type, onUpdate) {
         return this.internalStream(type).accumulate(onUpdate);
     },
+
     /**
      * Prepare the content as a nodejs stream.
      * @param {String} type the type of each chunk.
@@ -3751,6 +4183,7 @@ ZipObject.prototype = {
     nodeStream: function (type, onUpdate) {
         return this.internalStream(type || "nodebuffer").toNodejsStream(onUpdate);
     },
+
     /**
      * Return a worker for the compressed content.
      * @private
@@ -3787,19 +4220,24 @@ ZipObject.prototype = {
         }
     }
 };
+
 var removedMethods = ["asText", "asBinary", "asNodeBuffer", "asUint8Array", "asArrayBuffer"];
 var removedFn = function () {
     throw new Error("This method has been removed in JSZip 3.0, please check the upgrade guide.");
 };
+
 for(var i = 0; i < removedMethods.length; i++) {
     ZipObject.prototype[removedMethods[i]] = removedFn;
 }
 module.exports = ZipObject;
+
 },{"./compressedObject":2,"./stream/DataWorker":27,"./stream/GenericWorker":28,"./stream/StreamHelper":29,"./utf8":31}],36:[function(require,module,exports){
 (function (global){
 'use strict';
 var Mutation = global.MutationObserver || global.WebKitMutationObserver;
+
 var scheduleDrain;
+
 {
   if (Mutation) {
     var called = 0;
@@ -3819,11 +4257,13 @@ var scheduleDrain;
     };
   } else if ('document' in global && 'onreadystatechange' in global.document.createElement('script')) {
     scheduleDrain = function () {
+
       // Create a <script> element; its readystatechange event will be fired asynchronously once it is inserted
       // into the document. Do so, thus queuing up the task. Remember to clean up once it's been called.
       var scriptEl = global.document.createElement('script');
       scriptEl.onreadystatechange = function () {
         nextTick();
+
         scriptEl.onreadystatechange = null;
         scriptEl.parentNode.removeChild(scriptEl);
         scriptEl = null;
@@ -3836,6 +4276,7 @@ var scheduleDrain;
     };
   }
 }
+
 var draining;
 var queue = [];
 //named nextTick for less confusing stack traces
@@ -3854,23 +4295,30 @@ function nextTick() {
   }
   draining = false;
 }
+
 module.exports = immediate;
 function immediate(task) {
   if (queue.push(task) === 1 && !draining) {
     scheduleDrain();
   }
 }
+
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],37:[function(require,module,exports){
 'use strict';
 var immediate = require('immediate');
+
 /* istanbul ignore next */
 function INTERNAL() {}
+
 var handlers = {};
+
 var REJECTED = ['REJECTED'];
 var FULFILLED = ['FULFILLED'];
 var PENDING = ['PENDING'];
+
 module.exports = Promise;
+
 function Promise(resolver) {
   if (typeof resolver !== 'function') {
     throw new TypeError('resolver must be a function');
@@ -3882,12 +4330,14 @@ function Promise(resolver) {
     safelyResolveThenable(this, resolver);
   }
 }
+
 Promise.prototype["finally"] = function (callback) {
   if (typeof callback !== 'function') {
     return this;
   }
   var p = this.constructor;
   return this.then(resolve, reject);
+
   function resolve(value) {
     function yes () {
       return value;
@@ -3916,6 +4366,7 @@ Promise.prototype.then = function (onFulfilled, onRejected) {
   } else {
     this.queue.push(new QueueItem(promise, onFulfilled, onRejected));
   }
+
   return promise;
 };
 function QueueItem(promise, onFulfilled, onRejected) {
@@ -3941,6 +4392,7 @@ QueueItem.prototype.callRejected = function (value) {
 QueueItem.prototype.otherCallRejected = function (value) {
   unwrap(this.promise, this.onRejected, value);
 };
+
 function unwrap(promise, func, value) {
   immediate(function () {
     var returnValue;
@@ -3956,12 +4408,14 @@ function unwrap(promise, func, value) {
     }
   });
 }
+
 handlers.resolve = function (self, value) {
   var result = tryCatch(getThen, value);
   if (result.status === 'error') {
     return handlers.reject(self, result.value);
   }
   var thenable = result.value;
+
   if (thenable) {
     safelyResolveThenable(self, thenable);
   } else {
@@ -3985,6 +4439,7 @@ handlers.reject = function (self, error) {
   }
   return self;
 };
+
 function getThen(obj) {
   // Make sure we only access the accessor once as required by the spec
   var then = obj && obj.then;
@@ -3994,6 +4449,7 @@ function getThen(obj) {
     };
   }
 }
+
 function safelyResolveThenable(self, thenable) {
   // Either fulfill, reject or reject with error
   var called = false;
@@ -4004,6 +4460,7 @@ function safelyResolveThenable(self, thenable) {
     called = true;
     handlers.reject(self, value);
   }
+
   function onSuccess(value) {
     if (called) {
       return;
@@ -4011,14 +4468,17 @@ function safelyResolveThenable(self, thenable) {
     called = true;
     handlers.resolve(self, value);
   }
+
   function tryToUnwrap() {
     thenable(onSuccess, onError);
   }
+
   var result = tryCatch(tryToUnwrap);
   if (result.status === 'error') {
     onError(result.value);
   }
 }
+
 function tryCatch(func, value) {
   var out = {};
   try {
@@ -4030,6 +4490,7 @@ function tryCatch(func, value) {
   }
   return out;
 }
+
 Promise.resolve = resolve;
 function resolve(value) {
   if (value instanceof this) {
@@ -4037,26 +4498,31 @@ function resolve(value) {
   }
   return handlers.resolve(new this(INTERNAL), value);
 }
+
 Promise.reject = reject;
 function reject(reason) {
   var promise = new this(INTERNAL);
   return handlers.reject(promise, reason);
 }
+
 Promise.all = all;
 function all(iterable) {
   var self = this;
   if (Object.prototype.toString.call(iterable) !== '[object Array]') {
     return this.reject(new TypeError('must be an array'));
   }
+
   var len = iterable.length;
   var called = false;
   if (!len) {
     return this.resolve([]);
   }
+
   var values = new Array(len);
   var resolved = 0;
   var i = -1;
   var promise = new this(INTERNAL);
+
   while (++i < len) {
     allResolver(iterable[i], i);
   }
@@ -4077,19 +4543,23 @@ function all(iterable) {
     }
   }
 }
+
 Promise.race = race;
 function race(iterable) {
   var self = this;
   if (Object.prototype.toString.call(iterable) !== '[object Array]') {
     return this.reject(new TypeError('must be an array'));
   }
+
   var len = iterable.length;
   var called = false;
   if (!len) {
     return this.resolve([]);
   }
+
   var i = -1;
   var promise = new this(INTERNAL);
+
   while (++i < len) {
     resolver(iterable[i]);
   }
@@ -4108,35 +4578,54 @@ function race(iterable) {
     });
   }
 }
+
 },{"immediate":36}],38:[function(require,module,exports){
 // Top level file is just a mixin of submodules & constants
 'use strict';
+
 var assign    = require('./lib/utils/common').assign;
+
 var deflate   = require('./lib/deflate');
 var inflate   = require('./lib/inflate');
 var constants = require('./lib/zlib/constants');
+
 var pako = {};
+
 assign(pako, deflate, inflate, constants);
+
 module.exports = pako;
+
 },{"./lib/deflate":39,"./lib/inflate":40,"./lib/utils/common":41,"./lib/zlib/constants":44}],39:[function(require,module,exports){
 'use strict';
+
+
 var zlib_deflate = require('./zlib/deflate');
 var utils        = require('./utils/common');
 var strings      = require('./utils/strings');
 var msg          = require('./zlib/messages');
 var ZStream      = require('./zlib/zstream');
+
 var toString = Object.prototype.toString;
+
 /* Public constants ==*/
 /* =====*/
+
 var Z_NO_FLUSH      = 0;
 var Z_FINISH        = 4;
+
 var Z_OK            = 0;
 var Z_STREAM_END    = 1;
 var Z_SYNC_FLUSH    = 2;
+
 var Z_DEFAULT_COMPRESSION = -1;
+
 var Z_DEFAULT_STRATEGY    = 0;
+
 var Z_DEFLATED  = 8;
+
 /* =====*/
+
+
 /**
  * class Deflate
  *
@@ -4144,11 +4633,13 @@ var Z_DEFLATED  = 8;
  * streaming behaviour - use more simple functions: [[deflate]],
  * [[deflateRaw]] and [[gzip]].
  **/
+
 /* internal
  * Deflate.chunks -> Array
  *
  * Chunks of output data, if [[Deflate#onData]] not overriden.
  **/
+
 /**
  * Deflate.result -> Uint8Array|Array
  *
@@ -4158,6 +4649,7 @@ var Z_DEFLATED  = 8;
  * push a chunk with explicit flush (call [[Deflate#push]] with
  * `Z_SYNC_FLUSH` param).
  **/
+
 /**
  * Deflate.err -> Number
  *
@@ -4166,11 +4658,14 @@ var Z_DEFLATED  = 8;
  * are possible only on wrong options or bad `onData` / `onEnd`
  * custom handlers.
  **/
+
 /**
  * Deflate.msg -> String
  *
  * Error message, if [[Deflate.err]] != 0
  **/
+
+
 /**
  * new Deflate(options)
  * - options (Object): zlib deflate options.
@@ -4222,6 +4717,7 @@ var Z_DEFLATED  = 8;
  **/
 function Deflate(options) {
   if (!(this instanceof Deflate)) return new Deflate(options);
+
   this.options = utils.assign({
     level: Z_DEFAULT_COMPRESSION,
     method: Z_DEFLATED,
@@ -4231,19 +4727,25 @@ function Deflate(options) {
     strategy: Z_DEFAULT_STRATEGY,
     to: ''
   }, options || {});
+
   var opt = this.options;
+
   if (opt.raw && (opt.windowBits > 0)) {
     opt.windowBits = -opt.windowBits;
   }
+
   else if (opt.gzip && (opt.windowBits > 0) && (opt.windowBits < 16)) {
     opt.windowBits += 16;
   }
+
   this.err    = 0;      // error code, if happens (0 = Z_OK)
   this.msg    = '';     // error message
   this.ended  = false;  // used to avoid multiple onEnd() calls
   this.chunks = [];     // chunks of compressed data
+
   this.strm = new ZStream();
   this.strm.avail_out = 0;
+
   var status = zlib_deflate.deflateInit2(
     this.strm,
     opt.level,
@@ -4252,12 +4754,15 @@ function Deflate(options) {
     opt.memLevel,
     opt.strategy
   );
+
   if (status !== Z_OK) {
     throw new Error(msg[status]);
   }
+
   if (opt.header) {
     zlib_deflate.deflateSetHeader(this.strm, opt.header);
   }
+
   if (opt.dictionary) {
     var dict;
     // Convert data if needed
@@ -4269,13 +4774,17 @@ function Deflate(options) {
     } else {
       dict = opt.dictionary;
     }
+
     status = zlib_deflate.deflateSetDictionary(this.strm, dict);
+
     if (status !== Z_OK) {
       throw new Error(msg[status]);
     }
+
     this._dict_set = true;
   }
 }
+
 /**
  * Deflate#push(data[, mode]) -> Boolean
  * - data (Uint8Array|Array|ArrayBuffer|String): input data. Strings will be
@@ -4309,8 +4818,11 @@ Deflate.prototype.push = function (data, mode) {
   var strm = this.strm;
   var chunkSize = this.options.chunkSize;
   var status, _mode;
+
   if (this.ended) { return false; }
+
   _mode = (mode === ~~mode) ? mode : ((mode === true) ? Z_FINISH : Z_NO_FLUSH);
+
   // Convert data if needed
   if (typeof data === 'string') {
     // If we need to compress text, change encoding to utf8.
@@ -4320,8 +4832,10 @@ Deflate.prototype.push = function (data, mode) {
   } else {
     strm.input = data;
   }
+
   strm.next_in = 0;
   strm.avail_in = strm.input.length;
+
   do {
     if (strm.avail_out === 0) {
       strm.output = new utils.Buf8(chunkSize);
@@ -4329,6 +4843,7 @@ Deflate.prototype.push = function (data, mode) {
       strm.avail_out = chunkSize;
     }
     status = zlib_deflate.deflate(strm, _mode);    /* no bad return value */
+
     if (status !== Z_STREAM_END && status !== Z_OK) {
       this.onEnd(status);
       this.ended = true;
@@ -4342,6 +4857,7 @@ Deflate.prototype.push = function (data, mode) {
       }
     }
   } while ((strm.avail_in > 0 || strm.avail_out === 0) && status !== Z_STREAM_END);
+
   // Finalize on the last chunk.
   if (_mode === Z_FINISH) {
     status = zlib_deflate.deflateEnd(this.strm);
@@ -4349,14 +4865,18 @@ Deflate.prototype.push = function (data, mode) {
     this.ended = true;
     return status === Z_OK;
   }
+
   // callback interim results if Z_SYNC_FLUSH.
   if (_mode === Z_SYNC_FLUSH) {
     this.onEnd(Z_OK);
     strm.avail_out = 0;
     return true;
   }
+
   return true;
 };
+
+
 /**
  * Deflate#onData(chunk) -> Void
  * - chunk (Uint8Array|Array|String): ouput data. Type of array depends
@@ -4369,6 +4889,8 @@ Deflate.prototype.push = function (data, mode) {
 Deflate.prototype.onData = function (chunk) {
   this.chunks.push(chunk);
 };
+
+
 /**
  * Deflate#onEnd(status) -> Void
  * - status (Number): deflate status. 0 (Z_OK) on success,
@@ -4392,6 +4914,8 @@ Deflate.prototype.onEnd = function (status) {
   this.err = status;
   this.msg = this.strm.msg;
 };
+
+
 /**
  * deflate(data[, options]) -> Uint8Array|Array|String
  * - data (Uint8Array|Array|String): input data to compress.
@@ -4428,11 +4952,16 @@ Deflate.prototype.onEnd = function (status) {
  **/
 function deflate(input, options) {
   var deflator = new Deflate(options);
+
   deflator.push(input, true);
+
   // That will never happens, if you don't cheat with options :)
   if (deflator.err) { throw deflator.msg || msg[deflator.err]; }
+
   return deflator.result;
 }
+
+
 /**
  * deflateRaw(data[, options]) -> Uint8Array|Array|String
  * - data (Uint8Array|Array|String): input data to compress.
@@ -4446,6 +4975,8 @@ function deflateRaw(input, options) {
   options.raw = true;
   return deflate(input, options);
 }
+
+
 /**
  * gzip(data[, options]) -> Uint8Array|Array|String
  * - data (Uint8Array|Array|String): input data to compress.
@@ -4459,12 +4990,17 @@ function gzip(input, options) {
   options.gzip = true;
   return deflate(input, options);
 }
+
+
 exports.Deflate = Deflate;
 exports.deflate = deflate;
 exports.deflateRaw = deflateRaw;
 exports.gzip = gzip;
+
 },{"./utils/common":41,"./utils/strings":42,"./zlib/deflate":46,"./zlib/messages":51,"./zlib/zstream":53}],40:[function(require,module,exports){
 'use strict';
+
+
 var zlib_inflate = require('./zlib/inflate');
 var utils        = require('./utils/common');
 var strings      = require('./utils/strings');
@@ -4472,7 +5008,9 @@ var c            = require('./zlib/constants');
 var msg          = require('./zlib/messages');
 var ZStream      = require('./zlib/zstream');
 var GZheader     = require('./zlib/gzheader');
+
 var toString = Object.prototype.toString;
+
 /**
  * class Inflate
  *
@@ -4480,11 +5018,13 @@ var toString = Object.prototype.toString;
  * streaming behaviour - use more simple functions: [[inflate]]
  * and [[inflateRaw]].
  **/
+
 /* internal
  * inflate.chunks -> Array
  *
  * Chunks of output data, if [[Inflate#onData]] not overriden.
  **/
+
 /**
  * Inflate.result -> Uint8Array|Array|String
  *
@@ -4494,17 +5034,21 @@ var toString = Object.prototype.toString;
  * push a chunk with explicit flush (call [[Inflate#push]] with
  * `Z_SYNC_FLUSH` param).
  **/
+
 /**
  * Inflate.err -> Number
  *
  * Error code after inflate finished. 0 (Z_OK) on success.
  * Should be checked if broken data possible.
  **/
+
 /**
  * Inflate.msg -> String
  *
  * Error message, if [[Inflate.err]] != 0
  **/
+
+
 /**
  * new Inflate(options)
  * - options (Object): zlib inflate options.
@@ -4548,23 +5092,28 @@ var toString = Object.prototype.toString;
  **/
 function Inflate(options) {
   if (!(this instanceof Inflate)) return new Inflate(options);
+
   this.options = utils.assign({
     chunkSize: 16384,
     windowBits: 0,
     to: ''
   }, options || {});
+
   var opt = this.options;
+
   // Force window size for `raw` data, if not set directly,
   // because we have no header for autodetect.
   if (opt.raw && (opt.windowBits >= 0) && (opt.windowBits < 16)) {
     opt.windowBits = -opt.windowBits;
     if (opt.windowBits === 0) { opt.windowBits = -15; }
   }
+
   // If `windowBits` not defined (and mode not raw) - set autodetect flag for gzip/deflate
   if ((opt.windowBits >= 0) && (opt.windowBits < 16) &&
       !(options && options.windowBits)) {
     opt.windowBits += 32;
   }
+
   // Gzip header has no info about windows size, we can do autodetect only
   // for deflate. So, if window size not set, force it to max when gzip possible
   if ((opt.windowBits > 15) && (opt.windowBits < 48)) {
@@ -4574,22 +5123,29 @@ function Inflate(options) {
       opt.windowBits |= 15;
     }
   }
+
   this.err    = 0;      // error code, if happens (0 = Z_OK)
   this.msg    = '';     // error message
   this.ended  = false;  // used to avoid multiple onEnd() calls
   this.chunks = [];     // chunks of compressed data
+
   this.strm   = new ZStream();
   this.strm.avail_out = 0;
+
   var status  = zlib_inflate.inflateInit2(
     this.strm,
     opt.windowBits
   );
+
   if (status !== c.Z_OK) {
     throw new Error(msg[status]);
   }
+
   this.header = new GZheader();
+
   zlib_inflate.inflateGetHeader(this.strm, this.header);
 }
+
 /**
  * Inflate#push(data[, mode]) -> Boolean
  * - data (Uint8Array|Array|ArrayBuffer|String): input data
@@ -4625,11 +5181,14 @@ Inflate.prototype.push = function (data, mode) {
   var status, _mode;
   var next_out_utf8, tail, utf8str;
   var dict;
+
   // Flag to properly process Z_BUF_ERROR on testing inflate call
   // when we check that all output data was flushed.
   var allowBufError = false;
+
   if (this.ended) { return false; }
   _mode = (mode === ~~mode) ? mode : ((mode === true) ? c.Z_FINISH : c.Z_NO_FLUSH);
+
   // Convert data if needed
   if (typeof data === 'string') {
     // Only binary strings can be decompressed on practice
@@ -4639,15 +5198,19 @@ Inflate.prototype.push = function (data, mode) {
   } else {
     strm.input = data;
   }
+
   strm.next_in = 0;
   strm.avail_in = strm.input.length;
+
   do {
     if (strm.avail_out === 0) {
       strm.output = new utils.Buf8(chunkSize);
       strm.next_out = 0;
       strm.avail_out = chunkSize;
     }
+
     status = zlib_inflate.inflate(strm, c.Z_NO_FLUSH);    /* no bad return value */
+
     if (status === c.Z_NEED_DICT && dictionary) {
       // Convert data if needed
       if (typeof dictionary === 'string') {
@@ -4657,33 +5220,45 @@ Inflate.prototype.push = function (data, mode) {
       } else {
         dict = dictionary;
       }
+
       status = zlib_inflate.inflateSetDictionary(this.strm, dict);
+
     }
+
     if (status === c.Z_BUF_ERROR && allowBufError === true) {
       status = c.Z_OK;
       allowBufError = false;
     }
+
     if (status !== c.Z_STREAM_END && status !== c.Z_OK) {
       this.onEnd(status);
       this.ended = true;
       return false;
     }
+
     if (strm.next_out) {
       if (strm.avail_out === 0 || status === c.Z_STREAM_END || (strm.avail_in === 0 && (_mode === c.Z_FINISH || _mode === c.Z_SYNC_FLUSH))) {
+
         if (this.options.to === 'string') {
+
           next_out_utf8 = strings.utf8border(strm.output, strm.next_out);
+
           tail = strm.next_out - next_out_utf8;
           utf8str = strings.buf2string(strm.output, next_out_utf8);
+
           // move tail
           strm.next_out = tail;
           strm.avail_out = chunkSize - tail;
           if (tail) { utils.arraySet(strm.output, strm.output, next_out_utf8, tail, 0); }
+
           this.onData(utf8str);
+
         } else {
           this.onData(utils.shrinkBuf(strm.output, strm.next_out));
         }
       }
     }
+
     // When no more input data, we should check that internal inflate buffers
     // are flushed. The only way to do it when avail_out = 0 - run one more
     // inflate pass. But if output data not exists, inflate return Z_BUF_ERROR.
@@ -4694,10 +5269,13 @@ Inflate.prototype.push = function (data, mode) {
     if (strm.avail_in === 0 && strm.avail_out === 0) {
       allowBufError = true;
     }
+
   } while ((strm.avail_in > 0 || strm.avail_out === 0) && status !== c.Z_STREAM_END);
+
   if (status === c.Z_STREAM_END) {
     _mode = c.Z_FINISH;
   }
+
   // Finalize on the last chunk.
   if (_mode === c.Z_FINISH) {
     status = zlib_inflate.inflateEnd(this.strm);
@@ -4705,14 +5283,18 @@ Inflate.prototype.push = function (data, mode) {
     this.ended = true;
     return status === c.Z_OK;
   }
+
   // callback interim results if Z_SYNC_FLUSH.
   if (_mode === c.Z_SYNC_FLUSH) {
     this.onEnd(c.Z_OK);
     strm.avail_out = 0;
     return true;
   }
+
   return true;
 };
+
+
 /**
  * Inflate#onData(chunk) -> Void
  * - chunk (Uint8Array|Array|String): ouput data. Type of array depends
@@ -4725,6 +5307,8 @@ Inflate.prototype.push = function (data, mode) {
 Inflate.prototype.onData = function (chunk) {
   this.chunks.push(chunk);
 };
+
+
 /**
  * Inflate#onEnd(status) -> Void
  * - status (Number): inflate status. 0 (Z_OK) on success,
@@ -4750,6 +5334,8 @@ Inflate.prototype.onEnd = function (status) {
   this.err = status;
   this.msg = this.strm.msg;
 };
+
+
 /**
  * inflate(data[, options]) -> Uint8Array|Array|String
  * - data (Uint8Array|Array|String): input data to decompress.
@@ -4791,11 +5377,16 @@ Inflate.prototype.onEnd = function (status) {
  **/
 function inflate(input, options) {
   var inflator = new Inflate(options);
+
   inflator.push(input, true);
+
   // That will never happens, if you don't cheat with options :)
   if (inflator.err) { throw inflator.msg || msg[inflator.err]; }
+
   return inflator.result;
 }
+
+
 /**
  * inflateRaw(data[, options]) -> Uint8Array|Array|String
  * - data (Uint8Array|Array|String): input data to decompress.
@@ -4809,6 +5400,8 @@ function inflateRaw(input, options) {
   options.raw = true;
   return inflate(input, options);
 }
+
+
 /**
  * ungzip(data[, options]) -> Uint8Array|Array|String
  * - data (Uint8Array|Array|String): input data to decompress.
@@ -4817,31 +5410,43 @@ function inflateRaw(input, options) {
  * Just shortcut to [[inflate]], because it autodetects format
  * by header.content. Done for convenience.
  **/
+
+
 exports.Inflate = Inflate;
 exports.inflate = inflate;
 exports.inflateRaw = inflateRaw;
 exports.ungzip  = inflate;
+
 },{"./utils/common":41,"./utils/strings":42,"./zlib/constants":44,"./zlib/gzheader":47,"./zlib/inflate":49,"./zlib/messages":51,"./zlib/zstream":53}],41:[function(require,module,exports){
 'use strict';
+
+
 var TYPED_OK =  (typeof Uint8Array !== 'undefined') &&
                 (typeof Uint16Array !== 'undefined') &&
                 (typeof Int32Array !== 'undefined');
+
+
 exports.assign = function (obj /*from1, from2, from3, ...*/) {
   var sources = Array.prototype.slice.call(arguments, 1);
   while (sources.length) {
     var source = sources.shift();
     if (!source) { continue; }
+
     if (typeof source !== 'object') {
       throw new TypeError(source + 'must be non-object');
     }
+
     for (var p in source) {
       if (source.hasOwnProperty(p)) {
         obj[p] = source[p];
       }
     }
   }
+
   return obj;
 };
+
+
 // reduce buffer size, avoiding mem copy
 exports.shrinkBuf = function (buf, size) {
   if (buf.length === size) { return buf; }
@@ -4849,6 +5454,8 @@ exports.shrinkBuf = function (buf, size) {
   buf.length = size;
   return buf;
 };
+
+
 var fnTyped = {
   arraySet: function (dest, src, src_offs, len, dest_offs) {
     if (src.subarray && dest.subarray) {
@@ -4863,11 +5470,13 @@ var fnTyped = {
   // Join array of chunks to single array.
   flattenChunks: function (chunks) {
     var i, l, len, pos, chunk, result;
+
     // calculate data length
     len = 0;
     for (i = 0, l = chunks.length; i < l; i++) {
       len += chunks[i].length;
     }
+
     // join chunks
     result = new Uint8Array(len);
     pos = 0;
@@ -4876,9 +5485,11 @@ var fnTyped = {
       result.set(chunk, pos);
       pos += chunk.length;
     }
+
     return result;
   }
 };
+
 var fnUntyped = {
   arraySet: function (dest, src, src_offs, len, dest_offs) {
     for (var i = 0; i < len; i++) {
@@ -4890,6 +5501,8 @@ var fnUntyped = {
     return [].concat.apply([], chunks);
   }
 };
+
+
 // Enable/Disable typed arrays use, for testing
 //
 exports.setTyped = function (on) {
@@ -4905,11 +5518,17 @@ exports.setTyped = function (on) {
     exports.assign(exports, fnUntyped);
   }
 };
+
 exports.setTyped(TYPED_OK);
+
 },{}],42:[function(require,module,exports){
 // String encode/decode helpers
 'use strict';
+
+
 var utils = require('./common');
+
+
 // Quick check if we can use fast array to bin string conversion
 //
 // - apply(Array) can fail on Android 2.2
@@ -4917,8 +5536,11 @@ var utils = require('./common');
 //
 var STR_APPLY_OK = true;
 var STR_APPLY_UIA_OK = true;
+
 try { String.fromCharCode.apply(null, [ 0 ]); } catch (__) { STR_APPLY_OK = false; }
 try { String.fromCharCode.apply(null, new Uint8Array(1)); } catch (__) { STR_APPLY_UIA_OK = false; }
+
+
 // Table with utf8 lengths (calculated by first byte of sequence)
 // Note, that 5 & 6-byte values and some 4-byte values can not be represented in JS,
 // because max possible codepoint is 0x10ffff
@@ -4927,9 +5549,12 @@ for (var q = 0; q < 256; q++) {
   _utf8len[q] = (q >= 252 ? 6 : q >= 248 ? 5 : q >= 240 ? 4 : q >= 224 ? 3 : q >= 192 ? 2 : 1);
 }
 _utf8len[254] = _utf8len[254] = 1; // Invalid sequence start
+
+
 // convert string to array (typed, when possible)
 exports.string2buf = function (str) {
   var buf, c, c2, m_pos, i, str_len = str.length, buf_len = 0;
+
   // count binary size
   for (m_pos = 0; m_pos < str_len; m_pos++) {
     c = str.charCodeAt(m_pos);
@@ -4942,8 +5567,10 @@ exports.string2buf = function (str) {
     }
     buf_len += c < 0x80 ? 1 : c < 0x800 ? 2 : c < 0x10000 ? 3 : 4;
   }
+
   // allocate buffer
   buf = new utils.Buf8(buf_len);
+
   // convert
   for (i = 0, m_pos = 0; i < buf_len; m_pos++) {
     c = str.charCodeAt(m_pos);
@@ -4974,8 +5601,10 @@ exports.string2buf = function (str) {
       buf[i++] = 0x80 | (c & 0x3f);
     }
   }
+
   return buf;
 };
+
 // Helper (used in 2 places)
 function buf2binstring(buf, len) {
   // use fallback for big arrays to avoid stack overflow
@@ -4984,16 +5613,21 @@ function buf2binstring(buf, len) {
       return String.fromCharCode.apply(null, utils.shrinkBuf(buf, len));
     }
   }
+
   var result = '';
   for (var i = 0; i < len; i++) {
     result += String.fromCharCode(buf[i]);
   }
   return result;
 }
+
+
 // Convert byte array to binary string
 exports.buf2binstring = function (buf) {
   return buf2binstring(buf, buf.length);
 };
+
+
 // Convert binary string (typed, when possible)
 exports.binstring2buf = function (str) {
   var buf = new utils.Buf8(str.length);
@@ -5002,21 +5636,27 @@ exports.binstring2buf = function (str) {
   }
   return buf;
 };
+
+
 // convert array to string
 exports.buf2string = function (buf, max) {
   var i, out, c, c_len;
   var len = max || buf.length;
+
   // Reserve max possible length (2 words per char)
   // NB: by unknown reasons, Array is significantly faster for
   //     String.fromCharCode.apply than Uint16Array.
   var utf16buf = new Array(len * 2);
+
   for (out = 0, i = 0; i < len;) {
     c = buf[i++];
     // quick process ascii
     if (c < 0x80) { utf16buf[out++] = c; continue; }
+
     c_len = _utf8len[c];
     // skip 5 & 6 byte codes
     if (c_len > 4) { utf16buf[out++] = 0xfffd; i += c_len - 1; continue; }
+
     // apply mask on first byte
     c &= c_len === 2 ? 0x1f : c_len === 3 ? 0x0f : 0x07;
     // join the rest
@@ -5024,8 +5664,10 @@ exports.buf2string = function (buf, max) {
       c = (c << 6) | (buf[i++] & 0x3f);
       c_len--;
     }
+
     // terminated by end of string?
     if (c_len > 1) { utf16buf[out++] = 0xfffd; continue; }
+
     if (c < 0x10000) {
       utf16buf[out++] = c;
     } else {
@@ -5034,8 +5676,11 @@ exports.buf2string = function (buf, max) {
       utf16buf[out++] = 0xdc00 | (c & 0x3ff);
     }
   }
+
   return buf2binstring(utf16buf, out);
 };
+
+
 // Calculate max possible position in utf8 buffer,
 // that will not break sequence. If that's not possible
 // - (very small limits) return max size as is.
@@ -5044,24 +5689,32 @@ exports.buf2string = function (buf, max) {
 // max   - length limit (mandatory);
 exports.utf8border = function (buf, max) {
   var pos;
+
   max = max || buf.length;
   if (max > buf.length) { max = buf.length; }
+
   // go back from last position, until start of sequence found
   pos = max - 1;
   while (pos >= 0 && (buf[pos] & 0xC0) === 0x80) { pos--; }
+
   // Fuckup - very small and broken sequence,
   // return max, because we should return something anyway.
   if (pos < 0) { return max; }
+
   // If we came to start of buffer - that means vuffer is too small,
   // return max too.
   if (pos === 0) { return max; }
+
   return (pos + _utf8len[buf[pos]] > max) ? pos : max;
 };
+
 },{"./common":41}],43:[function(require,module,exports){
 'use strict';
+
 // Note: adler32 takes 12% for level 0 and 2% for level 6.
 // It doesn't worth to make additional optimizationa as in original.
 // Small size is preferable.
+
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
 // (C) 2014-2017 Vitaly Puzrin and Andrey Tupitsin
 //
@@ -5080,28 +5733,37 @@ exports.utf8border = function (buf, max) {
 // 2. Altered source versions must be plainly marked as such, and must not be
 //   misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
+
 function adler32(adler, buf, len, pos) {
   var s1 = (adler & 0xffff) |0,
       s2 = ((adler >>> 16) & 0xffff) |0,
       n = 0;
+
   while (len !== 0) {
     // Set limit ~ twice less than 5552, to keep
     // s2 in 31-bits, because we force signed ints.
     // in other case %= will fail.
     n = len > 2000 ? 2000 : len;
     len -= n;
+
     do {
       s1 = (s1 + buf[pos++]) |0;
       s2 = (s2 + s1) |0;
     } while (--n);
+
     s1 %= 65521;
     s2 %= 65521;
   }
+
   return (s1 | (s2 << 16)) |0;
 }
+
+
 module.exports = adler32;
+
 },{}],44:[function(require,module,exports){
 'use strict';
+
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
 // (C) 2014-2017 Vitaly Puzrin and Andrey Tupitsin
 //
@@ -5120,7 +5782,9 @@ module.exports = adler32;
 // 2. Altered source versions must be plainly marked as such, and must not be
 //   misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
+
 module.exports = {
+
   /* Allowed flush values; see deflate() and inflate() below for details */
   Z_NO_FLUSH:         0,
   Z_PARTIAL_FLUSH:    1,
@@ -5129,6 +5793,7 @@ module.exports = {
   Z_FINISH:           4,
   Z_BLOCK:            5,
   Z_TREES:            6,
+
   /* Return codes for the compression/decompression functions. Negative values
   * are errors, positive values are used for special but normal events.
   */
@@ -5141,30 +5806,38 @@ module.exports = {
   //Z_MEM_ERROR:     -4,
   Z_BUF_ERROR:       -5,
   //Z_VERSION_ERROR: -6,
+
   /* compression levels */
   Z_NO_COMPRESSION:         0,
   Z_BEST_SPEED:             1,
   Z_BEST_COMPRESSION:       9,
   Z_DEFAULT_COMPRESSION:   -1,
+
+
   Z_FILTERED:               1,
   Z_HUFFMAN_ONLY:           2,
   Z_RLE:                    3,
   Z_FIXED:                  4,
   Z_DEFAULT_STRATEGY:       0,
+
   /* Possible values of the data_type field (though see inflate()) */
   Z_BINARY:                 0,
   Z_TEXT:                   1,
   //Z_ASCII:                1, // = Z_TEXT (deprecated)
   Z_UNKNOWN:                2,
+
   /* The deflate compression method */
   Z_DEFLATED:               8
   //Z_NULL:                 null // Use -1 or null inline, depending on var type
 };
+
 },{}],45:[function(require,module,exports){
 'use strict';
+
 // Note: we can't get significant speed boost here.
 // So write code to minimize size - no pregenerated tables
 // and array tools dependencies.
+
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
 // (C) 2014-2017 Vitaly Puzrin and Andrey Tupitsin
 //
@@ -5183,9 +5856,11 @@ module.exports = {
 // 2. Altered source versions must be plainly marked as such, and must not be
 //   misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
+
 // Use ordinary array, since untyped makes no boost here
 function makeTable() {
   var c, table = [];
+
   for (var n = 0; n < 256; n++) {
     c = n;
     for (var k = 0; k < 8; k++) {
@@ -5193,22 +5868,33 @@ function makeTable() {
     }
     table[n] = c;
   }
+
   return table;
 }
+
 // Create table on load. Just 255 signed longs. Not a problem.
 var crcTable = makeTable();
+
+
 function crc32(crc, buf, len, pos) {
   var t = crcTable,
       end = pos + len;
+
   crc ^= -1;
+
   for (var i = pos; i < end; i++) {
     crc = (crc >>> 8) ^ t[(crc ^ buf[i]) & 0xFF];
   }
+
   return (crc ^ (-1)); // >>> 0;
 }
+
+
 module.exports = crc32;
+
 },{}],46:[function(require,module,exports){
 'use strict';
+
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
 // (C) 2014-2017 Vitaly Puzrin and Andrey Tupitsin
 //
@@ -5227,13 +5913,17 @@ module.exports = crc32;
 // 2. Altered source versions must be plainly marked as such, and must not be
 //   misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
+
 var utils   = require('../utils/common');
 var trees   = require('./trees');
 var adler32 = require('./adler32');
 var crc32   = require('./crc32');
 var msg     = require('./messages');
+
 /* Public constants ==*/
 /* =====*/
+
+
 /* Allowed flush values; see deflate() and inflate() below for details */
 var Z_NO_FLUSH      = 0;
 var Z_PARTIAL_FLUSH = 1;
@@ -5242,6 +5932,8 @@ var Z_FULL_FLUSH    = 3;
 var Z_FINISH        = 4;
 var Z_BLOCK         = 5;
 //var Z_TREES         = 6;
+
+
 /* Return codes for the compression/decompression functions. Negative values
  * are errors, positive values are used for special but normal events.
  */
@@ -5254,29 +5946,41 @@ var Z_DATA_ERROR    = -3;
 //var Z_MEM_ERROR     = -4;
 var Z_BUF_ERROR     = -5;
 //var Z_VERSION_ERROR = -6;
+
+
 /* compression levels */
 //var Z_NO_COMPRESSION      = 0;
 //var Z_BEST_SPEED          = 1;
 //var Z_BEST_COMPRESSION    = 9;
 var Z_DEFAULT_COMPRESSION = -1;
+
+
 var Z_FILTERED            = 1;
 var Z_HUFFMAN_ONLY        = 2;
 var Z_RLE                 = 3;
 var Z_FIXED               = 4;
 var Z_DEFAULT_STRATEGY    = 0;
+
 /* Possible values of the data_type field (though see inflate()) */
 //var Z_BINARY              = 0;
 //var Z_TEXT                = 1;
 //var Z_ASCII               = 1; // = Z_TEXT
 var Z_UNKNOWN             = 2;
+
+
 /* The deflate compression method */
 var Z_DEFLATED  = 8;
+
 /*======*/
+
+
 var MAX_MEM_LEVEL = 9;
 /* Maximum value for memLevel in deflateInit2 */
 var MAX_WBITS = 15;
 /* 32K LZ77 window */
 var DEF_MEM_LEVEL = 8;
+
+
 var LENGTH_CODES  = 29;
 /* number of length codes, not counting the special END_BLOCK code */
 var LITERALS      = 256;
@@ -5291,10 +5995,13 @@ var HEAP_SIZE     = 2 * L_CODES + 1;
 /* maximum heap size */
 var MAX_BITS  = 15;
 /* All codes must not exceed MAX_BITS bits */
+
 var MIN_MATCH = 3;
 var MAX_MATCH = 258;
 var MIN_LOOKAHEAD = (MAX_MATCH + MIN_MATCH + 1);
+
 var PRESET_DICT = 0x20;
+
 var INIT_STATE = 42;
 var EXTRA_STATE = 69;
 var NAME_STATE = 73;
@@ -5302,19 +6009,26 @@ var COMMENT_STATE = 91;
 var HCRC_STATE = 103;
 var BUSY_STATE = 113;
 var FINISH_STATE = 666;
+
 var BS_NEED_MORE      = 1; /* block not completed, need more input or more output */
 var BS_BLOCK_DONE     = 2; /* block flush performed */
 var BS_FINISH_STARTED = 3; /* finish started, need only more output at next deflate */
 var BS_FINISH_DONE    = 4; /* finish done, accept no more input or output */
+
 var OS_CODE = 0x03; // Unix :) . Don't detect, use this default.
+
 function err(strm, errorCode) {
   strm.msg = msg[errorCode];
   return errorCode;
 }
+
 function rank(f) {
   return ((f) << 1) - ((f) > 4 ? 9 : 0);
 }
+
 function zero(buf) { var len = buf.length; while (--len >= 0) { buf[len] = 0; } }
+
+
 /* ===
  * Flush as much pending output as possible. All deflate() output goes
  * through this function so some applications may wish to modify it
@@ -5323,12 +6037,14 @@ function zero(buf) { var len = buf.length; while (--len >= 0) { buf[len] = 0; } 
  */
 function flush_pending(strm) {
   var s = strm.state;
+
   //_tr_flush_bits(s);
   var len = s.pending;
   if (len > strm.avail_out) {
     len = strm.avail_out;
   }
   if (len === 0) { return; }
+
   utils.arraySet(strm.output, s.pending_buf, s.pending_out, len, strm.next_out);
   strm.next_out += len;
   s.pending_out += len;
@@ -5339,14 +6055,20 @@ function flush_pending(strm) {
     s.pending_out = 0;
   }
 }
+
+
 function flush_block_only(s, last) {
   trees._tr_flush_block(s, (s.block_start >= 0 ? s.block_start : -1), s.strstart - s.block_start, last);
   s.block_start = s.strstart;
   flush_pending(s.strm);
 }
+
+
 function put_byte(s, b) {
   s.pending_buf[s.pending++] = b;
 }
+
+
 /* ===
  * Put a short in the pending buffer. The 16-bit value is put in MSB order.
  * IN assertion: the stream state is correct and there is enough room in
@@ -5358,6 +6080,8 @@ function putShortMSB(s, b) {
   s.pending_buf[s.pending++] = (b >>> 8) & 0xff;
   s.pending_buf[s.pending++] = b & 0xff;
 }
+
+
 /* =====
  * Read a new buffer from the current input stream, update the adler32
  * and total number of bytes read.  All deflate() input goes through
@@ -5367,21 +6091,29 @@ function putShortMSB(s, b) {
  */
 function read_buf(strm, buf, start, size) {
   var len = strm.avail_in;
+
   if (len > size) { len = size; }
   if (len === 0) { return 0; }
+
   strm.avail_in -= len;
+
   // zmemcpy(buf, strm->next_in, len);
   utils.arraySet(buf, strm.input, strm.next_in, len, start);
   if (strm.state.wrap === 1) {
     strm.adler = adler32(strm.adler, buf, len, start);
   }
+
   else if (strm.state.wrap === 2) {
     strm.adler = crc32(strm.adler, buf, len, start);
   }
+
   strm.next_in += len;
   strm.total_in += len;
+
   return len;
 }
+
+
 /* =====
  * Set match_start to the longest match starting at the given string and
  * return its length. Matches shorter or equal to prev_length are discarded,
@@ -5400,19 +6132,25 @@ function longest_match(s, cur_match) {
   var nice_match = s.nice_match;             /* stop if match long enough */
   var limit = (s.strstart > (s.w_size - MIN_LOOKAHEAD)) ?
       s.strstart - (s.w_size - MIN_LOOKAHEAD) : 0/*NIL*/;
+
   var _win = s.window; // shortcut
+
   var wmask = s.w_mask;
   var prev  = s.prev;
+
   /* Stop when cur_match becomes <= limit. To simplify the code,
    * we prevent matches with the string of window index 0.
    */
+
   var strend = s.strstart + MAX_MATCH;
   var scan_end1  = _win[scan + best_len - 1];
   var scan_end   = _win[scan + best_len];
+
   /* The code is optimized for HASH_BITS >= 8 and MAX_MATCH-2 multiple of 16.
    * It is easy to get rid of this optimization if necessary.
    */
   // Assert(s->hash_bits >= 8 && MAX_MATCH == 258, "Code too clever");
+
   /* Do not waste too much time if we already have a good match: */
   if (s.prev_length >= s.good_match) {
     chain_length >>= 2;
@@ -5421,10 +6159,13 @@ function longest_match(s, cur_match) {
    * to make deflate deterministic.
    */
   if (nice_match > s.lookahead) { nice_match = s.lookahead; }
+
   // Assert((ulg)s->strstart <= s->window_size-MIN_LOOKAHEAD, "need lookahead");
+
   do {
     // Assert(cur_match < s->strstart, "no future");
     match = cur_match;
+
     /* Skip to next match if the match length cannot increase
      * or if the match length is less than 2.  Note that the checks below
      * for insufficient lookahead only occur occasionally for performance
@@ -5433,12 +6174,14 @@ function longest_match(s, cur_match) {
      * However the length of the match is limited to the lookahead, so
      * the output of deflate is not affected by the uninitialized values.
      */
+
     if (_win[match + best_len]     !== scan_end  ||
         _win[match + best_len - 1] !== scan_end1 ||
         _win[match]                !== _win[scan] ||
         _win[++match]              !== _win[scan + 1]) {
       continue;
     }
+
     /* The check at best_len-1 can be removed because it will be made
      * again later. (This heuristic is not always a win.)
      * It is not necessary to compare scan[2] and match[2] since they
@@ -5448,6 +6191,7 @@ function longest_match(s, cur_match) {
     scan += 2;
     match++;
     // Assert(*scan == *match, "match[2]?");
+
     /* We check for insufficient lookahead only every 8th comparison;
      * the 256th check will be made at strstart+258.
      */
@@ -5458,9 +6202,12 @@ function longest_match(s, cur_match) {
              _win[++scan] === _win[++match] && _win[++scan] === _win[++match] &&
              _win[++scan] === _win[++match] && _win[++scan] === _win[++match] &&
              scan < strend);
+
     // Assert(scan <= s->window+(unsigned)(s->window_size-1), "wild scan");
+
     len = MAX_MATCH - (strend - scan);
     scan = strend - MAX_MATCH;
+
     if (len > best_len) {
       s.match_start = cur_match;
       best_len = len;
@@ -5471,11 +6218,14 @@ function longest_match(s, cur_match) {
       scan_end   = _win[scan + best_len];
     }
   } while ((cur_match = prev[cur_match & wmask]) > limit && --chain_length !== 0);
+
   if (best_len <= s.lookahead) {
     return best_len;
   }
   return s.lookahead;
 }
+
+
 /* =====
  * Fill the window when the lookahead becomes insufficient.
  * Updates strstart and lookahead.
@@ -5489,9 +6239,12 @@ function longest_match(s, cur_match) {
 function fill_window(s) {
   var _w_size = s.w_size;
   var p, n, m, more, str;
+
   //Assert(s->lookahead < MIN_LOOKAHEAD, "already enough lookahead");
+
   do {
     more = s.window_size - s.lookahead - s.strstart;
+
     // JS ints have 32 bit, block below not needed
     /* Deal with !@#$% 64K limit: */
     //if (sizeof(int) <= 2) {
@@ -5505,27 +6258,33 @@ function fill_window(s) {
     //        more--;
     //    }
     //}
+
+
     /* If the window is almost full and there is insufficient lookahead,
      * move the upper half to the lower one to make room in the upper half.
      */
     if (s.strstart >= _w_size + (_w_size - MIN_LOOKAHEAD)) {
+
       utils.arraySet(s.window, s.window, _w_size, _w_size, 0);
       s.match_start -= _w_size;
       s.strstart -= _w_size;
       /* we now have strstart >= MAX_DIST */
       s.block_start -= _w_size;
+
       /* Slide the hash table (could be avoided with 32 bit values
        at the expense of memory usage). We slide even when level == 0
        to keep the hash table consistent if we switch back to level > 0
        later. (Using level 0 permanently is not an optimal usage of
        zlib, so we don't care about this pathological case.)
        */
+
       n = s.hash_size;
       p = n;
       do {
         m = s.head[--p];
         s.head[p] = (m >= _w_size ? m - _w_size : 0);
       } while (--n);
+
       n = _w_size;
       p = n;
       do {
@@ -5535,11 +6294,13 @@ function fill_window(s) {
          * its value will never be used.
          */
       } while (--n);
+
       more += _w_size;
     }
     if (s.strm.avail_in === 0) {
       break;
     }
+
     /* If there was no sliding:
      *    strstart <= WSIZE+MAX_DIST-1 && lookahead <= MIN_LOOKAHEAD - 1 &&
      *    more == window_size - lookahead - strstart
@@ -5554,10 +6315,12 @@ function fill_window(s) {
     //Assert(more >= 2, "more < 2");
     n = read_buf(s.strm, s.window, s.strstart + s.lookahead, more);
     s.lookahead += n;
+
     /* Initialize the hash value now that we have some input: */
     if (s.lookahead + s.insert >= MIN_MATCH) {
       str = s.strstart - s.insert;
       s.ins_h = s.window[str];
+
       /* UPDATE_HASH(s, s->ins_h, s->window[str + 1]); */
       s.ins_h = ((s.ins_h << s.hash_shift) ^ s.window[str + 1]) & s.hash_mask;
 //#if MIN_MATCH != 3
@@ -5566,6 +6329,7 @@ function fill_window(s) {
       while (s.insert) {
         /* UPDATE_HASH(s, s->ins_h, s->window[str + MIN_MATCH-1]); */
         s.ins_h = ((s.ins_h << s.hash_shift) ^ s.window[str + MIN_MATCH - 1]) & s.hash_mask;
+
         s.prev[str & s.w_mask] = s.head[s.ins_h];
         s.head[s.ins_h] = str;
         str++;
@@ -5578,7 +6342,9 @@ function fill_window(s) {
     /* If the whole input has less than MIN_MATCH bytes, ins_h is garbage,
      * but this is not important since only literal bytes will be emitted.
      */
+
   } while (s.lookahead < MIN_LOOKAHEAD && s.strm.avail_in !== 0);
+
   /* If the WIN_INIT bytes after the end of the current data have never been
    * written, then zero those bytes in order to avoid memory check reports of
    * the use of uninitialized (or uninitialised as Julian writes) bytes by
@@ -5616,6 +6382,7 @@ function fill_window(s) {
 //  Assert((ulg)s->strstart <= s->window_size - MIN_LOOKAHEAD,
 //    "not enough room for search");
 }
+
 /* =====
  * Copy without compression as much as possible from the input stream, return
  * the current block state.
@@ -5630,23 +6397,28 @@ function deflate_stored(s, flush) {
    * to pending_buf_size, and each stored block has a 5 byte header:
    */
   var max_block_size = 0xffff;
+
   if (max_block_size > s.pending_buf_size - 5) {
     max_block_size = s.pending_buf_size - 5;
   }
+
   /* Copy as much as possible from input to output: */
   for (;;) {
     /* Fill the window as much as possible: */
     if (s.lookahead <= 1) {
+
       //Assert(s->strstart < s->w_size+MAX_DIST(s) ||
       //  s->block_start >= (long)s->w_size, "slide too late");
 //      if (!(s.strstart < s.w_size + (s.w_size - MIN_LOOKAHEAD) ||
 //        s.block_start >= s.w_size)) {
 //        throw  new Error("slide too late");
 //      }
+
       fill_window(s);
       if (s.lookahead === 0 && flush === Z_NO_FLUSH) {
         return BS_NEED_MORE;
       }
+
       if (s.lookahead === 0) {
         break;
       }
@@ -5654,10 +6426,13 @@ function deflate_stored(s, flush) {
     }
     //Assert(s->block_start >= 0L, "block gone");
 //    if (s.block_start < 0) throw new Error("block gone");
+
     s.strstart += s.lookahead;
     s.lookahead = 0;
+
     /* Emit a stored block if pending_buf will be full: */
     var max_start = s.block_start + max_block_size;
+
     if (s.strstart === 0 || s.strstart >= max_start) {
       /* strstart == 0 is possible when wraparound on 16-bit machine */
       s.lookahead = s.strstart - max_start;
@@ -5668,6 +6443,8 @@ function deflate_stored(s, flush) {
         return BS_NEED_MORE;
       }
       /***/
+
+
     }
     /* Flush if we may have to slide, otherwise block_start may become
      * negative and the data will be gone:
@@ -5681,7 +6458,9 @@ function deflate_stored(s, flush) {
       /***/
     }
   }
+
   s.insert = 0;
+
   if (flush === Z_FINISH) {
     /*** FLUSH_BLOCK(s, 1); ***/
     flush_block_only(s, true);
@@ -5691,6 +6470,7 @@ function deflate_stored(s, flush) {
     /***/
     return BS_FINISH_DONE;
   }
+
   if (s.strstart > s.block_start) {
     /*** FLUSH_BLOCK(s, 0); ***/
     flush_block_only(s, false);
@@ -5699,8 +6479,10 @@ function deflate_stored(s, flush) {
     }
     /***/
   }
+
   return BS_NEED_MORE;
 }
+
 /* =====
  * Compress as much as possible from the input stream, return the current
  * block state.
@@ -5711,6 +6493,7 @@ function deflate_stored(s, flush) {
 function deflate_fast(s, flush) {
   var hash_head;        /* head of the hash chain */
   var bflush;           /* set if current block must be flushed */
+
   for (;;) {
     /* Make sure that we always have enough lookahead, except
      * at the end of the input file. We need MAX_MATCH bytes
@@ -5726,6 +6509,7 @@ function deflate_fast(s, flush) {
         break; /* flush the current block */
       }
     }
+
     /* Insert the string window[strstart .. strstart+2] in the
      * dictionary, and set hash_head to the head of the hash chain:
      */
@@ -5737,6 +6521,7 @@ function deflate_fast(s, flush) {
       s.head[s.ins_h] = s.strstart;
       /***/
     }
+
     /* Find the longest match, discarding those <= prev_length.
      * At this point we have always match_length < MIN_MATCH
      */
@@ -5750,10 +6535,13 @@ function deflate_fast(s, flush) {
     }
     if (s.match_length >= MIN_MATCH) {
       // check_match(s, s.strstart, s.match_start, s.match_length); // for debug only
+
       /*** _tr_tally_dist(s, s.strstart - s.match_start,
                      s.match_length - MIN_MATCH, bflush); ***/
       bflush = trees._tr_tally(s, s.strstart - s.match_start, s.match_length - MIN_MATCH);
+
       s.lookahead -= s.match_length;
+
       /* Insert new strings in the hash table only if the match length
        * is not too large. This saves time but degrades compression.
        */
@@ -5778,6 +6566,7 @@ function deflate_fast(s, flush) {
         s.ins_h = s.window[s.strstart];
         /* UPDATE_HASH(s, s.ins_h, s.window[s.strstart+1]); */
         s.ins_h = ((s.ins_h << s.hash_shift) ^ s.window[s.strstart + 1]) & s.hash_mask;
+
 //#if MIN_MATCH != 3
 //                Call UPDATE_HASH() MIN_MATCH-3 more times
 //#endif
@@ -5790,6 +6579,7 @@ function deflate_fast(s, flush) {
       //Tracevv((stderr,"%c", s.window[s.strstart]));
       /*** _tr_tally_lit(s, s.window[s.strstart], bflush); ***/
       bflush = trees._tr_tally(s, 0, s.window[s.strstart]);
+
       s.lookahead--;
       s.strstart++;
     }
@@ -5822,6 +6612,7 @@ function deflate_fast(s, flush) {
   }
   return BS_BLOCK_DONE;
 }
+
 /* =====
  * Same as above, but achieves better compression. We use a lazy
  * evaluation for matches: a match is finally adopted only if there is
@@ -5830,7 +6621,9 @@ function deflate_fast(s, flush) {
 function deflate_slow(s, flush) {
   var hash_head;          /* head of hash chain */
   var bflush;              /* set if current block must be flushed */
+
   var max_insert;
+
   /* Process the input block. */
   for (;;) {
     /* Make sure that we always have enough lookahead, except
@@ -5845,6 +6638,7 @@ function deflate_slow(s, flush) {
       }
       if (s.lookahead === 0) { break; } /* flush the current block */
     }
+
     /* Insert the string window[strstart .. strstart+2] in the
      * dictionary, and set hash_head to the head of the hash chain:
      */
@@ -5856,11 +6650,13 @@ function deflate_slow(s, flush) {
       s.head[s.ins_h] = s.strstart;
       /***/
     }
+
     /* Find the longest match, discarding those <= prev_length.
      */
     s.prev_length = s.match_length;
     s.prev_match = s.match_start;
     s.match_length = MIN_MATCH - 1;
+
     if (hash_head !== 0/*NIL*/ && s.prev_length < s.max_lazy_match &&
         s.strstart - hash_head <= (s.w_size - MIN_LOOKAHEAD)/*MAX_DIST(s)*/) {
       /* To simplify the code, we prevent matches with the string
@@ -5869,8 +6665,10 @@ function deflate_slow(s, flush) {
        */
       s.match_length = longest_match(s, hash_head);
       /* longest_match() sets match_start */
+
       if (s.match_length <= 5 &&
          (s.strategy === Z_FILTERED || (s.match_length === MIN_MATCH && s.strstart - s.match_start > 4096/*TOO_FAR*/))) {
+
         /* If prev_match is also MIN_MATCH, match_start is garbage
          * but we will ignore the current match anyway.
          */
@@ -5883,7 +6681,9 @@ function deflate_slow(s, flush) {
     if (s.prev_length >= MIN_MATCH && s.match_length <= s.prev_length) {
       max_insert = s.strstart + s.lookahead - MIN_MATCH;
       /* Do not insert strings in hash table beyond this. */
+
       //check_match(s, s.strstart-1, s.prev_match, s.prev_length);
+
       /***_tr_tally_dist(s, s.strstart - 1 - s.prev_match,
                      s.prev_length - MIN_MATCH, bflush);***/
       bflush = trees._tr_tally(s, s.strstart - 1 - s.prev_match, s.prev_length - MIN_MATCH);
@@ -5906,6 +6706,7 @@ function deflate_slow(s, flush) {
       s.match_available = 0;
       s.match_length = MIN_MATCH - 1;
       s.strstart++;
+
       if (bflush) {
         /*** FLUSH_BLOCK(s, 0); ***/
         flush_block_only(s, false);
@@ -5914,6 +6715,7 @@ function deflate_slow(s, flush) {
         }
         /***/
       }
+
     } else if (s.match_available) {
       /* If there was no match at the previous position, output a
        * single literal. If there was a match but the current match
@@ -5922,6 +6724,7 @@ function deflate_slow(s, flush) {
       //Tracevv((stderr,"%c", s->window[s->strstart-1]));
       /*** _tr_tally_lit(s, s.window[s.strstart-1], bflush); ***/
       bflush = trees._tr_tally(s, 0, s.window[s.strstart - 1]);
+
       if (bflush) {
         /*** FLUSH_BLOCK_ONLY(s, 0) ***/
         flush_block_only(s, false);
@@ -5946,6 +6749,7 @@ function deflate_slow(s, flush) {
     //Tracevv((stderr,"%c", s->window[s->strstart-1]));
     /*** _tr_tally_lit(s, s.window[s.strstart-1], bflush); ***/
     bflush = trees._tr_tally(s, 0, s.window[s.strstart - 1]);
+
     s.match_available = 0;
   }
   s.insert = s.strstart < MIN_MATCH - 1 ? s.strstart : MIN_MATCH - 1;
@@ -5966,8 +6770,11 @@ function deflate_slow(s, flush) {
     }
     /***/
   }
+
   return BS_BLOCK_DONE;
 }
+
+
 /* =====
  * For Z_RLE, simply look for runs of bytes, generate matches only of distance
  * one.  Do not maintain a hash table.  (It will be regenerated if this run of
@@ -5977,7 +6784,9 @@ function deflate_rle(s, flush) {
   var bflush;            /* set if current block must be flushed */
   var prev;              /* byte at distance one to match */
   var scan, strend;      /* scan goes up to strend for length of run */
+
   var _win = s.window;
+
   for (;;) {
     /* Make sure that we always have enough lookahead, except
      * at the end of the input file. We need MAX_MATCH bytes
@@ -5990,6 +6799,7 @@ function deflate_rle(s, flush) {
       }
       if (s.lookahead === 0) { break; } /* flush the current block */
     }
+
     /* See how many times the previous byte repeats */
     s.match_length = 0;
     if (s.lookahead >= MIN_MATCH && s.strstart > 0) {
@@ -6011,11 +6821,14 @@ function deflate_rle(s, flush) {
       }
       //Assert(scan <= s->window+(uInt)(s->window_size-1), "wild scan");
     }
+
     /* Emit match if have run of MIN_MATCH or longer, else emit literal */
     if (s.match_length >= MIN_MATCH) {
       //check_match(s, s.strstart, s.strstart - 1, s.match_length);
+
       /*** _tr_tally_dist(s, 1, s.match_length - MIN_MATCH, bflush); ***/
       bflush = trees._tr_tally(s, 1, s.match_length - MIN_MATCH);
+
       s.lookahead -= s.match_length;
       s.strstart += s.match_length;
       s.match_length = 0;
@@ -6024,6 +6837,7 @@ function deflate_rle(s, flush) {
       //Tracevv((stderr,"%c", s->window[s->strstart]));
       /*** _tr_tally_lit(s, s.window[s.strstart], bflush); ***/
       bflush = trees._tr_tally(s, 0, s.window[s.strstart]);
+
       s.lookahead--;
       s.strstart++;
     }
@@ -6056,12 +6870,14 @@ function deflate_rle(s, flush) {
   }
   return BS_BLOCK_DONE;
 }
+
 /* =====
  * For Z_HUFFMAN_ONLY, do not look for matches.  Do not maintain a hash table.
  * (It will be regenerated if this run of deflate switches away from Huffman.)
  */
 function deflate_huff(s, flush) {
   var bflush;             /* set if current block must be flushed */
+
   for (;;) {
     /* Make sure that we have a literal to write. */
     if (s.lookahead === 0) {
@@ -6073,6 +6889,7 @@ function deflate_huff(s, flush) {
         break;      /* flush the current block */
       }
     }
+
     /* Output a literal byte */
     s.match_length = 0;
     //Tracevv((stderr,"%c", s->window[s->strstart]));
@@ -6109,6 +6926,7 @@ function deflate_huff(s, flush) {
   }
   return BS_BLOCK_DONE;
 }
+
 /* Values for max_lazy_match, good_match and max_chain_length, depending on
  * the desired pack level (0..9). The values given below have been tuned to
  * exclude worst case performance for pathological files. Better values may be
@@ -6121,13 +6939,16 @@ function Config(good_length, max_lazy, nice_length, max_chain, func) {
   this.max_chain = max_chain;
   this.func = func;
 }
+
 var configuration_table;
+
 configuration_table = [
   /*      good lazy nice chain */
   new Config(0, 0, 0, 0, deflate_stored),          /* 0 store only */
   new Config(4, 4, 8, 4, deflate_fast),            /* 1 max speed, no lazy matches */
   new Config(4, 5, 16, 8, deflate_fast),           /* 2 */
   new Config(4, 6, 32, 32, deflate_fast),          /* 3 */
+
   new Config(4, 4, 16, 16, deflate_slow),          /* 4 lazy matches */
   new Config(8, 16, 32, 32, deflate_slow),         /* 5 */
   new Config(8, 16, 128, 128, deflate_slow),       /* 6 */
@@ -6135,19 +6956,24 @@ configuration_table = [
   new Config(32, 128, 258, 1024, deflate_slow),    /* 8 */
   new Config(32, 258, 258, 4096, deflate_slow)     /* 9 max compression */
 ];
+
+
 /* =====
  * Initialize the "longest match" routines for a new zlib stream
  */
 function lm_init(s) {
   s.window_size = 2 * s.w_size;
+
   /*** CLEAR_HASH(s); ***/
   zero(s.head); // Fill with NIL (= 0);
+
   /* Set the default configuration parameters:
    */
   s.max_lazy_match = configuration_table[s.level].max_lazy;
   s.good_match = configuration_table[s.level].good_length;
   s.nice_match = configuration_table[s.level].nice_length;
   s.max_chain_length = configuration_table[s.level].max_chain;
+
   s.strstart = 0;
   s.block_start = 0;
   s.lookahead = 0;
@@ -6156,6 +6982,8 @@ function lm_init(s) {
   s.match_available = 0;
   s.ins_h = 0;
 }
+
+
 function DeflateState() {
   this.strm = null;            /* pointer back to this zlib stream */
   this.status = 0;            /* as the name implies */
@@ -6168,9 +6996,11 @@ function DeflateState() {
   this.gzindex = 0;           /* where in extra, name, or comment */
   this.method = Z_DEFLATED; /* can only be DEFLATED */
   this.last_flush = -1;   /* value of flush param for previous deflate call */
+
   this.w_size = 0;  /* LZ77 window size (32K by default) */
   this.w_bits = 0;  /* log2(w_size)  (8..16) */
   this.w_mask = 0;  /* w_size - 1 */
+
   this.window = null;
   /* Sliding window. Input bytes are read into the second half of the window,
    * and move to the first half later to keep a dictionary of at least wSize
@@ -6178,45 +7008,55 @@ function DeflateState() {
    * wSize-MAX_MATCH bytes, but this ensures that IO is always
    * performed with a length multiple of the block size.
    */
+
   this.window_size = 0;
   /* Actual size of window: 2*wSize, except when the user input buffer
    * is directly used as sliding window.
    */
+
   this.prev = null;
   /* Link to older string with same hash index. To limit the size of this
    * array to 64K, this link is maintained only for the last 32K strings.
    * An index in this array is thus a window index modulo 32K.
    */
+
   this.head = null;   /* Heads of the hash chains or NIL. */
+
   this.ins_h = 0;       /* hash index of string to be inserted */
   this.hash_size = 0;   /* number of elements in hash table */
   this.hash_bits = 0;   /* log2(hash_size) */
   this.hash_mask = 0;   /* hash_size-1 */
+
   this.hash_shift = 0;
   /* Number of bits by which ins_h must be shifted at each input
    * step. It must be such that after MIN_MATCH steps, the oldest
    * byte no longer takes part in the hash key, that is:
    *   hash_shift * MIN_MATCH >= hash_bits
    */
+
   this.block_start = 0;
   /* Window position at the beginning of the current output block. Gets
    * negative when the window is moved backwards.
    */
+
   this.match_length = 0;      /* length of best match */
   this.prev_match = 0;        /* previous match */
   this.match_available = 0;   /* set if previous match exists */
   this.strstart = 0;          /* start of string to insert */
   this.match_start = 0;       /* start of matching string */
   this.lookahead = 0;         /* number of valid bytes ahead in window */
+
   this.prev_length = 0;
   /* Length of the best match at previous step. Matches not greater than this
    * are discarded. This is used in the lazy match evaluation.
    */
+
   this.max_chain_length = 0;
   /* To speed up deflation, hash chains are never searched beyond this
    * length.  A higher limit improves compression ratio but degrades the
    * speed.
    */
+
   this.max_lazy_match = 0;
   /* Attempt to find a better match only when the current match is strictly
    * smaller than this value. This mechanism is used only for compression
@@ -6228,16 +7068,23 @@ function DeflateState() {
    * greater than this length. This saves time but degrades compression.
    * max_insert_length is used only for compression levels <= 3.
    */
+
   this.level = 0;     /* compression level (1..9) */
   this.strategy = 0;  /* favor or force Huffman coding*/
+
   this.good_match = 0;
   /* Use a faster search when the previous match is longer than this */
+
   this.nice_match = 0; /* Stop searching when current match exceeds this */
+
               /* used by trees.c: */
+
   /* Didn't use ct_data typedef below to suppress compiler warning */
+
   // struct ct_data_s dyn_ltree[HEAP_SIZE];   /* literal and length tree */
   // struct ct_data_s dyn_dtree[2*D_CODES+1]; /* distance tree */
   // struct ct_data_s bl_tree[2*BL_CODES+1];  /* Huffman tree for bit lengths */
+
   // Use flat array of DOUBLE size, with interleaved fata,
   // because JS does not support effective
   this.dyn_ltree  = new utils.Buf16(HEAP_SIZE * 2);
@@ -6246,25 +7093,32 @@ function DeflateState() {
   zero(this.dyn_ltree);
   zero(this.dyn_dtree);
   zero(this.bl_tree);
+
   this.l_desc   = null;         /* desc. for literal tree */
   this.d_desc   = null;         /* desc. for distance tree */
   this.bl_desc  = null;         /* desc. for bit length tree */
+
   //ush bl_count[MAX_BITS+1];
   this.bl_count = new utils.Buf16(MAX_BITS + 1);
   /* number of codes at each bit length for an optimal tree */
+
   //int heap[2*L_CODES+1];      /* heap used to build the Huffman trees */
   this.heap = new utils.Buf16(2 * L_CODES + 1);  /* heap used to build the Huffman trees */
   zero(this.heap);
+
   this.heap_len = 0;               /* number of elements in the heap */
   this.heap_max = 0;               /* element of largest frequency */
   /* The sons of heap[n] are heap[2*n] and heap[2*n+1]. heap[0] is not used.
    * The same heap array is used to build all trees.
    */
+
   this.depth = new utils.Buf16(2 * L_CODES + 1); //uch depth[2*L_CODES+1];
   zero(this.depth);
   /* Depth of each subtree used as tie breaker for trees of equal frequency
    */
+
   this.l_buf = 0;          /* buffer index for literals or lengths */
+
   this.lit_bufsize = 0;
   /* Size of match buffer for literals/lengths.  There are 4 reasons for
    * limiting lit_bufsize to 64K:
@@ -6284,16 +7138,21 @@ function DeflateState() {
    *     trees more frequently.
    *   - I can't count above 4
    */
+
   this.last_lit = 0;      /* running index in l_buf */
+
   this.d_buf = 0;
   /* Buffer index for distances. To simplify the code, d_buf and l_buf have
    * the same number of elements. To use different lengths, an extra flag
    * array would be necessary.
    */
+
   this.opt_len = 0;       /* bit length of current block with optimal trees */
   this.static_len = 0;    /* bit length of current block with static trees */
   this.matches = 0;       /* number of string matches in current block */
   this.insert = 0;        /* bytes at end of window left to insert */
+
+
   this.bi_buf = 0;
   /* Output buffer. bits are inserted starting at the bottom (least
    * significant bits).
@@ -6302,6 +7161,7 @@ function DeflateState() {
   /* Number of valid bits in bi_buf.  All bits above the last valid bit
    * are always zero.
    */
+
   // Used for window memory init. We safely ignore it for JS. That makes
   // sense only for pointers and memory check tools.
   //this.high_water = 0;
@@ -6311,16 +7171,22 @@ function DeflateState() {
    * updated to the new high water mark.
    */
 }
+
+
 function deflateResetKeep(strm) {
   var s;
+
   if (!strm || !strm.state) {
     return err(strm, Z_STREAM_ERROR);
   }
+
   strm.total_in = strm.total_out = 0;
   strm.data_type = Z_UNKNOWN;
+
   s = strm.state;
   s.pending = 0;
   s.pending_out = 0;
+
   if (s.wrap < 0) {
     s.wrap = -s.wrap;
     /* was made negative by deflate(..., Z_FINISH); */
@@ -6334,6 +7200,8 @@ function deflateResetKeep(strm) {
   trees._tr_init(s);
   return Z_OK;
 }
+
+
 function deflateReset(strm) {
   var ret = deflateResetKeep(strm);
   if (ret === Z_OK) {
@@ -6341,90 +7209,123 @@ function deflateReset(strm) {
   }
   return ret;
 }
+
+
 function deflateSetHeader(strm, head) {
   if (!strm || !strm.state) { return Z_STREAM_ERROR; }
   if (strm.state.wrap !== 2) { return Z_STREAM_ERROR; }
   strm.state.gzhead = head;
   return Z_OK;
 }
+
+
 function deflateInit2(strm, level, method, windowBits, memLevel, strategy) {
   if (!strm) { // === Z_NULL
     return Z_STREAM_ERROR;
   }
   var wrap = 1;
+
   if (level === Z_DEFAULT_COMPRESSION) {
     level = 6;
   }
+
   if (windowBits < 0) { /* suppress zlib wrapper */
     wrap = 0;
     windowBits = -windowBits;
   }
+
   else if (windowBits > 15) {
     wrap = 2;           /* write gzip wrapper instead */
     windowBits -= 16;
   }
+
+
   if (memLevel < 1 || memLevel > MAX_MEM_LEVEL || method !== Z_DEFLATED ||
     windowBits < 8 || windowBits > 15 || level < 0 || level > 9 ||
     strategy < 0 || strategy > Z_FIXED) {
     return err(strm, Z_STREAM_ERROR);
   }
+
+
   if (windowBits === 8) {
     windowBits = 9;
   }
   /* until 256-byte window bug fixed */
+
   var s = new DeflateState();
+
   strm.state = s;
   s.strm = strm;
+
   s.wrap = wrap;
   s.gzhead = null;
   s.w_bits = windowBits;
   s.w_size = 1 << s.w_bits;
   s.w_mask = s.w_size - 1;
+
   s.hash_bits = memLevel + 7;
   s.hash_size = 1 << s.hash_bits;
   s.hash_mask = s.hash_size - 1;
   s.hash_shift = ~~((s.hash_bits + MIN_MATCH - 1) / MIN_MATCH);
+
   s.window = new utils.Buf8(s.w_size * 2);
   s.head = new utils.Buf16(s.hash_size);
   s.prev = new utils.Buf16(s.w_size);
+
   // Don't need mem init magic for JS.
   //s.high_water = 0;  /* nothing written to s->window yet */
+
   s.lit_bufsize = 1 << (memLevel + 6); /* 16K elements by default */
+
   s.pending_buf_size = s.lit_bufsize * 4;
+
   //overlay = (ushf *) ZALLOC(strm, s->lit_bufsize, sizeof(ush)+2);
   //s->pending_buf = (uchf *) overlay;
   s.pending_buf = new utils.Buf8(s.pending_buf_size);
+
   // It is offset from `s.pending_buf` (size is `s.lit_bufsize * 2`)
   //s->d_buf = overlay + s->lit_bufsize/sizeof(ush);
   s.d_buf = 1 * s.lit_bufsize;
+
   //s->l_buf = s->pending_buf + (1+sizeof(ush))*s->lit_bufsize;
   s.l_buf = (1 + 2) * s.lit_bufsize;
+
   s.level = level;
   s.strategy = strategy;
   s.method = method;
+
   return deflateReset(strm);
 }
+
 function deflateInit(strm, level) {
   return deflateInit2(strm, level, Z_DEFLATED, MAX_WBITS, DEF_MEM_LEVEL, Z_DEFAULT_STRATEGY);
 }
+
+
 function deflate(strm, flush) {
   var old_flush, s;
   var beg, val; // for gzip header write only
+
   if (!strm || !strm.state ||
     flush > Z_BLOCK || flush < 0) {
     return strm ? err(strm, Z_STREAM_ERROR) : Z_STREAM_ERROR;
   }
+
   s = strm.state;
+
   if (!strm.output ||
       (!strm.input && strm.avail_in !== 0) ||
       (s.status === FINISH_STATE && flush !== Z_FINISH)) {
     return err(strm, (strm.avail_out === 0) ? Z_BUF_ERROR : Z_STREAM_ERROR);
   }
+
   s.strm = strm; /* just in case */
   old_flush = s.last_flush;
   s.last_flush = flush;
+
   /* Write the header */
   if (s.status === INIT_STATE) {
+
     if (s.wrap === 2) { // GZIP header
       strm.adler = 0;  //crc32(0L, Z_NULL, 0);
       put_byte(s, 31);
@@ -6472,6 +7373,7 @@ function deflate(strm, flush) {
     {
       var header = (Z_DEFLATED + ((s.w_bits - 8) << 4)) << 8;
       var level_flags = -1;
+
       if (s.strategy >= Z_HUFFMAN_ONLY || s.level < 2) {
         level_flags = 0;
       } else if (s.level < 6) {
@@ -6484,8 +7386,10 @@ function deflate(strm, flush) {
       header |= (level_flags << 6);
       if (s.strstart !== 0) { header |= PRESET_DICT; }
       header += 31 - (header % 31);
+
       s.status = BUSY_STATE;
       putShortMSB(s, header);
+
       /* Save the adler32 of the preset dictionary: */
       if (s.strstart !== 0) {
         putShortMSB(s, strm.adler >>> 16);
@@ -6494,10 +7398,12 @@ function deflate(strm, flush) {
       strm.adler = 1; // adler32(0L, Z_NULL, 0);
     }
   }
+
 //#ifdef GZIP
   if (s.status === EXTRA_STATE) {
     if (s.gzhead.extra/* != Z_NULL*/) {
       beg = s.pending;  /* start of bytes to update crc */
+
       while (s.gzindex < (s.gzhead.extra.length & 0xffff)) {
         if (s.pending === s.pending_buf_size) {
           if (s.gzhead.hcrc && s.pending > beg) {
@@ -6528,6 +7434,7 @@ function deflate(strm, flush) {
     if (s.gzhead.name/* != Z_NULL*/) {
       beg = s.pending;  /* start of bytes to update crc */
       //int val;
+
       do {
         if (s.pending === s.pending_buf_size) {
           if (s.gzhead.hcrc && s.pending > beg) {
@@ -6548,6 +7455,7 @@ function deflate(strm, flush) {
         }
         put_byte(s, val);
       } while (val !== 0);
+
       if (s.gzhead.hcrc && s.pending > beg) {
         strm.adler = crc32(strm.adler, s.pending_buf, s.pending - beg, beg);
       }
@@ -6564,6 +7472,7 @@ function deflate(strm, flush) {
     if (s.gzhead.comment/* != Z_NULL*/) {
       beg = s.pending;  /* start of bytes to update crc */
       //int val;
+
       do {
         if (s.pending === s.pending_buf_size) {
           if (s.gzhead.hcrc && s.pending > beg) {
@@ -6584,6 +7493,7 @@ function deflate(strm, flush) {
         }
         put_byte(s, val);
       } while (val !== 0);
+
       if (s.gzhead.hcrc && s.pending > beg) {
         strm.adler = crc32(strm.adler, s.pending_buf, s.pending - beg, beg);
       }
@@ -6612,6 +7522,7 @@ function deflate(strm, flush) {
     }
   }
 //#endif
+
   /* Flush as much pending output as possible */
   if (s.pending !== 0) {
     flush_pending(strm);
@@ -6625,6 +7536,7 @@ function deflate(strm, flush) {
       s.last_flush = -1;
       return Z_OK;
     }
+
     /* Make sure there is something to do and avoid duplicate consecutive
      * flushes. For repeated and useless calls with Z_FINISH, we keep
      * returning Z_STREAM_END instead of Z_BUF_ERROR.
@@ -6633,10 +7545,12 @@ function deflate(strm, flush) {
     flush !== Z_FINISH) {
     return err(strm, Z_BUF_ERROR);
   }
+
   /* User must not provide more input after the first FINISH: */
   if (s.status === FINISH_STATE && strm.avail_in !== 0) {
     return err(strm, Z_BUF_ERROR);
   }
+
   /* Start a new block or continue the current one.
    */
   if (strm.avail_in !== 0 || s.lookahead !== 0 ||
@@ -6644,6 +7558,7 @@ function deflate(strm, flush) {
     var bstate = (s.strategy === Z_HUFFMAN_ONLY) ? deflate_huff(s, flush) :
       (s.strategy === Z_RLE ? deflate_rle(s, flush) :
         configuration_table[s.level].func(s, flush));
+
     if (bstate === BS_FINISH_STARTED || bstate === BS_FINISH_DONE) {
       s.status = FINISH_STATE;
     }
@@ -6666,6 +7581,7 @@ function deflate(strm, flush) {
         trees._tr_align(s);
       }
       else if (flush !== Z_BLOCK) { /* FULL_FLUSH or SYNC_FLUSH */
+
         trees._tr_stored_block(s, 0, 0, false);
         /* For a full flush, this empty block will be recognized
          * as a special marker by inflate_sync().
@@ -6673,6 +7589,7 @@ function deflate(strm, flush) {
         if (flush === Z_FULL_FLUSH) {
           /*** CLEAR_HASH(s); ***/             /* forget history */
           zero(s.head); // Fill with NIL (= 0);
+
           if (s.lookahead === 0) {
             s.strstart = 0;
             s.block_start = 0;
@@ -6689,8 +7606,10 @@ function deflate(strm, flush) {
   }
   //Assert(strm->avail_out > 0, "bug2");
   //if (strm.avail_out <= 0) { throw new Error("bug2");}
+
   if (flush !== Z_FINISH) { return Z_OK; }
   if (s.wrap <= 0) { return Z_STREAM_END; }
+
   /* Write the trailer */
   if (s.wrap === 2) {
     put_byte(s, strm.adler & 0xff);
@@ -6707,6 +7626,7 @@ function deflate(strm, flush) {
     putShortMSB(s, strm.adler >>> 16);
     putShortMSB(s, strm.adler & 0xffff);
   }
+
   flush_pending(strm);
   /* If avail_out is zero, the application will call deflate again
    * to flush the rest.
@@ -6715,11 +7635,14 @@ function deflate(strm, flush) {
   /* write the trailer only once! */
   return s.pending !== 0 ? Z_OK : Z_STREAM_END;
 }
+
 function deflateEnd(strm) {
   var status;
+
   if (!strm/*== Z_NULL*/ || !strm.state/*== Z_NULL*/) {
     return Z_STREAM_ERROR;
   }
+
   status = strm.state.status;
   if (status !== INIT_STATE &&
     status !== EXTRA_STATE &&
@@ -6731,15 +7654,20 @@ function deflateEnd(strm) {
   ) {
     return err(strm, Z_STREAM_ERROR);
   }
+
   strm.state = null;
+
   return status === BUSY_STATE ? err(strm, Z_DATA_ERROR) : Z_OK;
 }
+
+
 /* ===
  * Initializes the compression dictionary from the given byte
  * sequence without producing any compressed output.
  */
 function deflateSetDictionary(strm, dictionary) {
   var dictLength = dictionary.length;
+
   var s;
   var str, n;
   var wrap;
@@ -6747,20 +7675,26 @@ function deflateSetDictionary(strm, dictionary) {
   var next;
   var input;
   var tmpDict;
+
   if (!strm/*== Z_NULL*/ || !strm.state/*== Z_NULL*/) {
     return Z_STREAM_ERROR;
   }
+
   s = strm.state;
   wrap = s.wrap;
+
   if (wrap === 2 || (wrap === 1 && s.status !== INIT_STATE) || s.lookahead) {
     return Z_STREAM_ERROR;
   }
+
   /* when using zlib wrappers, compute Adler-32 for provided dictionary */
   if (wrap === 1) {
     /* adler32(strm->adler, dictionary, dictLength); */
     strm.adler = adler32(strm.adler, dictionary, dictLength, 0);
   }
+
   s.wrap = 0;   /* avoid computing Adler-32 in read_buf */
+
   /* if dictionary would fill window, just replace the history */
   if (dictLength >= s.w_size) {
     if (wrap === 0) {            /* already empty otherwise */
@@ -6791,7 +7725,9 @@ function deflateSetDictionary(strm, dictionary) {
     do {
       /* UPDATE_HASH(s, s->ins_h, s->window[str + MIN_MATCH-1]); */
       s.ins_h = ((s.ins_h << s.hash_shift) ^ s.window[str + MIN_MATCH - 1]) & s.hash_mask;
+
       s.prev[str & s.w_mask] = s.head[s.ins_h];
+
       s.head[s.ins_h] = str;
       str++;
     } while (--n);
@@ -6811,6 +7747,8 @@ function deflateSetDictionary(strm, dictionary) {
   s.wrap = wrap;
   return Z_OK;
 }
+
+
 exports.deflateInit = deflateInit;
 exports.deflateInit2 = deflateInit2;
 exports.deflateReset = deflateReset;
@@ -6820,6 +7758,7 @@ exports.deflate = deflate;
 exports.deflateEnd = deflateEnd;
 exports.deflateSetDictionary = deflateSetDictionary;
 exports.deflateInfo = 'pako deflate (from Nodeca project)';
+
 /* Not implemented
 exports.deflateBound = deflateBound;
 exports.deflateCopy = deflateCopy;
@@ -6828,8 +7767,10 @@ exports.deflatePending = deflatePending;
 exports.deflatePrime = deflatePrime;
 exports.deflateTune = deflateTune;
 */
+
 },{"../utils/common":41,"./adler32":43,"./crc32":45,"./messages":51,"./trees":52}],47:[function(require,module,exports){
 'use strict';
+
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
 // (C) 2014-2017 Vitaly Puzrin and Andrey Tupitsin
 //
@@ -6848,6 +7789,7 @@ exports.deflateTune = deflateTune;
 // 2. Altered source versions must be plainly marked as such, and must not be
 //   misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
+
 function GZheader() {
   /* true if compressed data believed to be text */
   this.text       = 0;
@@ -6862,10 +7804,12 @@ function GZheader() {
   /* extra field length (valid if extra != Z_NULL) */
   this.extra_len  = 0; // Actually, we don't need it in JS,
                        // but leave for few code modifications
+
   //
   // Setup limits is not necessary because in js we should not preallocate memory
   // for inflate use constant limit in 65536 bytes
   //
+
   /* space at extra (only when reading header) */
   // this.extra_max  = 0;
   /* pointer to zero-terminated file name or Z_NULL */
@@ -6881,9 +7825,12 @@ function GZheader() {
   /* true when done reading gzip header (not used when writing a gzip file) */
   this.done       = false;
 }
+
 module.exports = GZheader;
+
 },{}],48:[function(require,module,exports){
 'use strict';
+
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
 // (C) 2014-2017 Vitaly Puzrin and Andrey Tupitsin
 //
@@ -6902,9 +7849,11 @@ module.exports = GZheader;
 // 2. Altered source versions must be plainly marked as such, and must not be
 //   misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
+
 // See state defs from inflate.js
 var BAD = 30;       /* got a data error -- remain here until reset */
 var TYPE = 12;      /* i: waiting for type bits, including last-flag bit */
+
 /*
    Decode literal, length, and distance codes and write out the resulting
    literal and match bytes until either not enough input or output is
@@ -6912,22 +7861,29 @@ var TYPE = 12;      /* i: waiting for type bits, including last-flag bit */
    When large enough input and output buffers are supplied to inflate(), for
    example, a 16K input buffer and a 64K output buffer, more than 95% of the
    inflate execution time is spent in this routine.
+
    Entry assumptions:
+
         state.mode === LEN
         strm.avail_in >= 6
         strm.avail_out >= 258
         start >= strm.avail_out
         state.bits < 8
+
    On return, state.mode is one of:
+
         LEN -- ran out of enough output space or enough available input
         TYPE -- reached end of block code, inflate() to interpret next block
         BAD -- error in block data
+
    Notes:
+
     - The maximum input bits used by a length/distance pair is 15 bits for the
       length code, 5 bits for the length extra, 15 bits for the distance code,
       and 13 bits for the distance extra.  This totals 48 bits, or six bytes.
       Therefore if strm.avail_in >= 6, then there is enough input to avoid
       checking for available input while decoding.
+
     - The maximum bytes that a single length/distance pair can output is 258
       bytes, which is the maximum length that can be coded.  inflate_fast()
       requires strm.avail_out >= 258 for each loop to avoid checking for
@@ -6961,7 +7917,10 @@ module.exports = function inflate_fast(strm, start) {
   var dist;                   /* match distance */
   var from;                   /* where to copy match from */
   var from_source;
+
+
   var input, output; // JS specific, because we have no pointers
+
   /* copy state to local variables */
   state = strm.state;
   //here = state.here;
@@ -6985,8 +7944,11 @@ module.exports = function inflate_fast(strm, start) {
   dcode = state.distcode;
   lmask = (1 << state.lenbits) - 1;
   dmask = (1 << state.distbits) - 1;
+
+
   /* decode literals and length/distances until end-of-block or not enough
      input data or output space */
+
   top:
   do {
     if (bits < 15) {
@@ -6995,7 +7957,9 @@ module.exports = function inflate_fast(strm, start) {
       hold += input[_in++] << bits;
       bits += 8;
     }
+
     here = lcode[hold & lmask];
+
     dolen:
     for (;;) { // Goto emulation
       op = here >>> 24/*here.bits*/;
@@ -7028,12 +7992,14 @@ module.exports = function inflate_fast(strm, start) {
           bits += 8;
         }
         here = dcode[hold & dmask];
+
         dodist:
         for (;;) { // goto emulation
           op = here >>> 24/*here.bits*/;
           hold >>>= op;
           bits -= op;
           op = (here >>> 16) & 0xff/*here.op*/;
+
           if (op & 16) {                      /* distance base */
             dist = here & 0xffff/*here.val*/;
             op &= 15;                       /* number of extra bits */
@@ -7065,6 +8031,7 @@ module.exports = function inflate_fast(strm, start) {
                   state.mode = BAD;
                   break top;
                 }
+
 // (!) This block is disabled in zlib defailts,
 // don't enable it for binary compatibility
 //#ifdef INFLATE_ALLOW_INVALID_DISTANCE_TOOFAR_ARRR
@@ -7169,6 +8136,7 @@ module.exports = function inflate_fast(strm, start) {
             state.mode = BAD;
             break top;
           }
+
           break; // need to emulate goto via "continue"
         }
       }
@@ -7186,14 +8154,17 @@ module.exports = function inflate_fast(strm, start) {
         state.mode = BAD;
         break top;
       }
+
       break; // need to emulate goto via "continue"
     }
   } while (_in < last && _out < end);
+
   /* return unused bytes (on entry, bits < 8, so in won't go too far back) */
   len = bits >> 3;
   _in -= len;
   bits -= len << 3;
   hold &= (1 << bits) - 1;
+
   /* update state and return */
   strm.next_in = _in;
   strm.next_out = _out;
@@ -7203,8 +8174,10 @@ module.exports = function inflate_fast(strm, start) {
   state.bits = bits;
   return;
 };
+
 },{}],49:[function(require,module,exports){
 'use strict';
+
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
 // (C) 2014-2017 Vitaly Puzrin and Andrey Tupitsin
 //
@@ -7223,16 +8196,21 @@ module.exports = function inflate_fast(strm, start) {
 // 2. Altered source versions must be plainly marked as such, and must not be
 //   misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
+
 var utils         = require('../utils/common');
 var adler32       = require('./adler32');
 var crc32         = require('./crc32');
 var inflate_fast  = require('./inffast');
 var inflate_table = require('./inftrees');
+
 var CODES = 0;
 var LENS = 1;
 var DISTS = 2;
+
 /* Public constants ==*/
 /* =====*/
+
+
 /* Allowed flush values; see deflate() and inflate() below for details */
 //var Z_NO_FLUSH      = 0;
 //var Z_PARTIAL_FLUSH = 1;
@@ -7241,6 +8219,8 @@ var DISTS = 2;
 var Z_FINISH        = 4;
 var Z_BLOCK         = 5;
 var Z_TREES         = 6;
+
+
 /* Return codes for the compression/decompression functions. Negative values
  * are errors, positive values are used for special but normal events.
  */
@@ -7253,10 +8233,15 @@ var Z_DATA_ERROR    = -3;
 var Z_MEM_ERROR     = -4;
 var Z_BUF_ERROR     = -5;
 //var Z_VERSION_ERROR = -6;
+
 /* The deflate compression method */
 var Z_DEFLATED  = 8;
+
+
 /* STATES =====*/
 /* =====*/
+
+
 var    HEAD = 1;       /* i: waiting for magic header */
 var    FLAGS = 2;      /* i: waiting for method and flags (gzip) */
 var    TIME = 3;       /* i: waiting for modification time (gzip) */
@@ -7289,19 +8274,28 @@ var    DONE = 29;      /* finished check, done -- remain here until reset */
 var    BAD = 30;       /* got a data error -- remain here until reset */
 var    MEM = 31;       /* got an inflate() memory error -- remain here until reset */
 var    SYNC = 32;      /* looking for synchronization bytes to restart inflate() */
+
 /* =====*/
+
+
+
 var ENOUGH_LENS = 852;
 var ENOUGH_DISTS = 592;
 //var ENOUGH =  (ENOUGH_LENS+ENOUGH_DISTS);
+
 var MAX_WBITS = 15;
 /* 32K LZ77 window */
 var DEF_WBITS = MAX_WBITS;
+
+
 function zswap32(q) {
   return  (((q >>> 24) & 0xff) +
           ((q >>> 8) & 0xff00) +
           ((q & 0xff00) << 8) +
           ((q & 0xff) << 24));
 }
+
+
 function InflateState() {
   this.mode = 0;             /* current inflate mode */
   this.last = false;          /* true if processing last block */
@@ -7313,33 +8307,41 @@ function InflateState() {
   this.total = 0;             /* protected copy of output count */
   // TODO: may be {}
   this.head = null;           /* where to save gzip header information */
+
   /* sliding window */
   this.wbits = 0;             /* log base 2 of requested window size */
   this.wsize = 0;             /* window size or zero if not using window */
   this.whave = 0;             /* valid bytes in the window */
   this.wnext = 0;             /* window write index */
   this.window = null;         /* allocated sliding window, if needed */
+
   /* bit accumulator */
   this.hold = 0;              /* input bit accumulator */
   this.bits = 0;              /* number of bits in "in" */
+
   /* for string and stored block copying */
   this.length = 0;            /* literal or length of data to copy */
   this.offset = 0;            /* distance back to copy string from */
+
   /* for table and code decoding */
   this.extra = 0;             /* extra bits needed */
+
   /* fixed and dynamic code tables */
   this.lencode = null;          /* starting table for length/literal codes */
   this.distcode = null;         /* starting table for distance codes */
   this.lenbits = 0;           /* index bits for lencode */
   this.distbits = 0;          /* index bits for distcode */
+
   /* dynamic table building */
   this.ncode = 0;             /* number of code length code lengths */
   this.nlen = 0;              /* number of length code lengths */
   this.ndist = 0;             /* number of distance code lengths */
   this.have = 0;              /* number of code lengths in lens[] */
   this.next = null;              /* next available space in codes[] */
+
   this.lens = new utils.Buf16(320); /* temporary storage for code lengths */
   this.work = new utils.Buf16(288); /* work area for code table building */
+
   /*
    because we don't have pointers in js, we use lencode and distcode directly
    as buffers so we don't need codes
@@ -7351,8 +8353,10 @@ function InflateState() {
   this.back = 0;                   /* bits back of last unprocessed length/lit */
   this.was = 0;                    /* initial length of match */
 }
+
 function inflateResetKeep(strm) {
   var state;
+
   if (!strm || !strm.state) { return Z_STREAM_ERROR; }
   state = strm.state;
   strm.total_in = strm.total_out = state.total = 0;
@@ -7370,26 +8374,33 @@ function inflateResetKeep(strm) {
   //state.lencode = state.distcode = state.next = state.codes;
   state.lencode = state.lendyn = new utils.Buf32(ENOUGH_LENS);
   state.distcode = state.distdyn = new utils.Buf32(ENOUGH_DISTS);
+
   state.sane = 1;
   state.back = -1;
   //Tracev((stderr, "inflate: reset\n"));
   return Z_OK;
 }
+
 function inflateReset(strm) {
   var state;
+
   if (!strm || !strm.state) { return Z_STREAM_ERROR; }
   state = strm.state;
   state.wsize = 0;
   state.whave = 0;
   state.wnext = 0;
   return inflateResetKeep(strm);
+
 }
+
 function inflateReset2(strm, windowBits) {
   var wrap;
   var state;
+
   /* get the state */
   if (!strm || !strm.state) { return Z_STREAM_ERROR; }
   state = strm.state;
+
   /* extract wrap request from windowBits parameter */
   if (windowBits < 0) {
     wrap = 0;
@@ -7401,6 +8412,7 @@ function inflateReset2(strm, windowBits) {
       windowBits &= 15;
     }
   }
+
   /* set number of window bits, free window if different */
   if (windowBits && (windowBits < 8 || windowBits > 15)) {
     return Z_STREAM_ERROR;
@@ -7408,17 +8420,22 @@ function inflateReset2(strm, windowBits) {
   if (state.window !== null && state.wbits !== windowBits) {
     state.window = null;
   }
+
   /* update state and reset the rest of it */
   state.wrap = wrap;
   state.wbits = windowBits;
   return inflateReset(strm);
 }
+
 function inflateInit2(strm, windowBits) {
   var ret;
   var state;
+
   if (!strm) { return Z_STREAM_ERROR; }
   //strm.msg = Z_NULL;                 /* in case we return an error */
+
   state = new InflateState();
+
   //if (state === Z_NULL) return Z_MEM_ERROR;
   //Tracev((stderr, "inflate: allocated\n"));
   strm.state = state;
@@ -7429,9 +8446,12 @@ function inflateInit2(strm, windowBits) {
   }
   return ret;
 }
+
 function inflateInit(strm) {
   return inflateInit2(strm, DEF_WBITS);
 }
+
+
 /*
  Return state with length and distance decoding tables and index sizes set to
  fixed code decoding.  Normally this returns fixed tables from inffixed.h.
@@ -7443,32 +8463,43 @@ function inflateInit(strm) {
  may not be thread-safe.
  */
 var virgin = true;
+
 var lenfix, distfix; // We have no pointers in JS, so keep tables separate
+
 function fixedtables(state) {
   /* build fixed huffman tables if first call (may not be thread safe) */
   if (virgin) {
     var sym;
+
     lenfix = new utils.Buf32(512);
     distfix = new utils.Buf32(32);
+
     /* literal/length table */
     sym = 0;
     while (sym < 144) { state.lens[sym++] = 8; }
     while (sym < 256) { state.lens[sym++] = 9; }
     while (sym < 280) { state.lens[sym++] = 7; }
     while (sym < 288) { state.lens[sym++] = 8; }
+
     inflate_table(LENS,  state.lens, 0, 288, lenfix,   0, state.work, { bits: 9 });
+
     /* distance table */
     sym = 0;
     while (sym < 32) { state.lens[sym++] = 5; }
+
     inflate_table(DISTS, state.lens, 0, 32,   distfix, 0, state.work, { bits: 5 });
+
     /* do this just once */
     virgin = false;
   }
+
   state.lencode = lenfix;
   state.lenbits = 9;
   state.distcode = distfix;
   state.distbits = 5;
 }
+
+
 /*
  Update the window with the last wsize (normally 32K) bytes written before
  returning.  If window does not exist yet, create it.  This is only called
@@ -7476,6 +8507,7 @@ function fixedtables(state) {
  inflate call, but the end of the deflate stream has not been reached yet.
  It is also called to create a window for dictionary data when a dictionary
  is loaded.
+
  Providing output buffers larger than 32K to inflate() should provide a speed
  advantage, since only the last 32K of output is copied to the sliding window
  upon return from inflate(), and since all distances after the first 32K of
@@ -7485,13 +8517,16 @@ function fixedtables(state) {
 function updatewindow(strm, src, end, copy) {
   var dist;
   var state = strm.state;
+
   /* if it hasn't been done already, allocate space for the window */
   if (state.window === null) {
     state.wsize = 1 << state.wbits;
     state.wnext = 0;
     state.whave = 0;
+
     state.window = new utils.Buf8(state.wsize);
   }
+
   /* copy state->wsize or less output bytes into the circular window */
   if (copy >= state.wsize) {
     utils.arraySet(state.window, src, end - state.wsize, state.wsize, 0);
@@ -7520,6 +8555,7 @@ function updatewindow(strm, src, end, copy) {
   }
   return 0;
 }
+
 function inflate(strm, flush) {
   var state;
   var input, output;          // input/output buffers
@@ -7540,15 +8576,22 @@ function inflate(strm, flush) {
   var ret;                    /* return code */
   var hbuf = new utils.Buf8(4);    /* buffer for gzip header crc calculation */
   var opts;
+
   var n; // temporary var for NEED_BITS
+
   var order = /* permutation of code lengths */
     [ 16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15 ];
+
+
   if (!strm || !strm.state || !strm.output ||
       (!strm.input && strm.avail_in !== 0)) {
     return Z_STREAM_ERROR;
   }
+
   state = strm.state;
   if (state.mode === TYPE) { state.mode = TYPEDO; }    /* skip check */
+
+
   //--- LOAD() ---
   put = strm.next_out;
   output = strm.output;
@@ -7559,9 +8602,11 @@ function inflate(strm, flush) {
   hold = state.hold;
   bits = state.bits;
   //---
+
   _in = have;
   _out = left;
   ret = Z_OK;
+
   inf_leave: // goto emulation
   for (;;) {
     switch (state.mode) {
@@ -7585,6 +8630,7 @@ function inflate(strm, flush) {
         hbuf[1] = (hold >>> 8) & 0xff;
         state.check = crc32(state.check, hbuf, 2, 0);
         //===//
+
         //=== INITBITS();
         hold = 0;
         bits = 0;
@@ -7799,6 +8845,7 @@ function inflate(strm, flush) {
             state.head.name += String.fromCharCode(len);
           }
         } while (len && copy < have);
+
         if (state.flags & 0x0200) {
           state.check = crc32(state.check, input, copy, next);
         }
@@ -7919,6 +8966,7 @@ function inflate(strm, flush) {
       hold >>>= 1;
       bits -= 1;
       //---//
+
       switch ((hold & 0x03)/*BITS(2)*/) {
       case 0:                             /* stored block */
         //Tracev((stderr, "inflate:     stored block%s\n",
@@ -8062,9 +9110,11 @@ function inflate(strm, flush) {
       // Switch to use dynamic table
       state.lencode = state.lendyn;
       state.lenbits = 7;
+
       opts = { bits: state.lenbits };
       ret = inflate_table(CODES, state.lens, 0, 19, state.lencode, 0, state.work, opts);
       state.lenbits = opts.bits;
+
       if (ret) {
         strm.msg = 'invalid code lengths set';
         state.mode = BAD;
@@ -8081,6 +9131,7 @@ function inflate(strm, flush) {
           here_bits = here >>> 24;
           here_op = (here >>> 16) & 0xff;
           here_val = here & 0xffff;
+
           if ((here_bits) <= bits) { break; }
           //--- PULLBYTE() ---//
           if (have === 0) { break inf_leave; }
@@ -8175,29 +9226,35 @@ function inflate(strm, flush) {
           }
         }
       }
+
       /* handle error breaks in while */
       if (state.mode === BAD) { break; }
+
       /* check for end-of-block code (better have one) */
       if (state.lens[256] === 0) {
         strm.msg = 'invalid code -- missing end-of-block';
         state.mode = BAD;
         break;
       }
+
       /* build code tables -- note: do not change the lenbits or distbits
          values here (9 and 6) without reading the comments in inftrees.h
          concerning the ENOUGH constants, which depend on those values */
       state.lenbits = 9;
+
       opts = { bits: state.lenbits };
       ret = inflate_table(LENS, state.lens, 0, state.nlen, state.lencode, 0, state.work, opts);
       // We have separate tables & no pointers. 2 commented lines below not needed.
       // state.next_index = opts.table_index;
       state.lenbits = opts.bits;
       // state.lencode = state.next;
+
       if (ret) {
         strm.msg = 'invalid literal/lengths set';
         state.mode = BAD;
         break;
       }
+
       state.distbits = 6;
       //state.distcode.copy(state.codes);
       // Switch to use dynamic table
@@ -8208,6 +9265,7 @@ function inflate(strm, flush) {
       // state.next_index = opts.table_index;
       state.distbits = opts.bits;
       // state.distcode = state.next;
+
       if (ret) {
         strm.msg = 'invalid distances set';
         state.mode = BAD;
@@ -8241,6 +9299,7 @@ function inflate(strm, flush) {
         hold = state.hold;
         bits = state.bits;
         //---
+
         if (state.mode === TYPE) {
           state.back = -1;
         }
@@ -8252,6 +9311,7 @@ function inflate(strm, flush) {
         here_bits = here >>> 24;
         here_op = (here >>> 16) & 0xff;
         here_val = here & 0xffff;
+
         if (here_bits <= bits) { break; }
         //--- PULLBYTE() ---//
         if (have === 0) { break inf_leave; }
@@ -8270,6 +9330,7 @@ function inflate(strm, flush) {
           here_bits = here >>> 24;
           here_op = (here >>> 16) & 0xff;
           here_val = here & 0xffff;
+
           if ((last_bits + here_bits) <= bits) { break; }
           //--- PULLBYTE() ---//
           if (have === 0) { break inf_leave; }
@@ -8339,6 +9400,7 @@ function inflate(strm, flush) {
         here_bits = here >>> 24;
         here_op = (here >>> 16) & 0xff;
         here_val = here & 0xffff;
+
         if ((here_bits) <= bits) { break; }
         //--- PULLBYTE() ---//
         if (have === 0) { break inf_leave; }
@@ -8357,6 +9419,7 @@ function inflate(strm, flush) {
           here_bits = here >>> 24;
           here_op = (here >>> 16) & 0xff;
           here_val = here & 0xffff;
+
           if ((last_bits + here_bits) <= bits) { break; }
           //--- PULLBYTE() ---//
           if (have === 0) { break inf_leave; }
@@ -8487,6 +9550,7 @@ function inflate(strm, flush) {
           strm.adler = state.check =
               /*UPDATE(state.check, put - _out, _out);*/
               (state.flags ? crc32(state.check, output, _out, put - _out) : adler32(state.check, output, _out, put - _out));
+
         }
         _out = left;
         // NB: crc32 stored as signed 32-bit int, zswap32 returns signed too
@@ -8540,13 +9604,16 @@ function inflate(strm, flush) {
       return Z_STREAM_ERROR;
     }
   }
+
   // inf_leave <- here is real place for "goto inf_leave", emulated via "break inf_leave"
+
   /*
      Return from inflate(), updating the total counts and the check value.
      If there was no progress during the inflate() call, return a buffer
      error.  Call updatewindow() to create and/or update the window state.
      Note: a memory error from inflate() is non-recoverable.
    */
+
   //--- RESTORE() ---
   strm.next_out = put;
   strm.avail_out = left;
@@ -8555,6 +9622,7 @@ function inflate(strm, flush) {
   state.hold = hold;
   state.bits = bits;
   //---
+
   if (state.wsize || (_out !== strm.avail_out && state.mode < BAD &&
                       (state.mode < CHECK || flush !== Z_FINISH))) {
     if (updatewindow(strm, strm.output, strm.next_out, _out - strm.avail_out)) {
@@ -8579,10 +9647,13 @@ function inflate(strm, flush) {
   }
   return ret;
 }
+
 function inflateEnd(strm) {
+
   if (!strm || !strm.state /*|| strm->zfree == (free_func)0*/) {
     return Z_STREAM_ERROR;
   }
+
   var state = strm.state;
   if (state.window) {
     state.window = null;
@@ -8590,28 +9661,36 @@ function inflateEnd(strm) {
   strm.state = null;
   return Z_OK;
 }
+
 function inflateGetHeader(strm, head) {
   var state;
+
   /* check state */
   if (!strm || !strm.state) { return Z_STREAM_ERROR; }
   state = strm.state;
   if ((state.wrap & 2) === 0) { return Z_STREAM_ERROR; }
+
   /* save header structure */
   state.head = head;
   head.done = false;
   return Z_OK;
 }
+
 function inflateSetDictionary(strm, dictionary) {
   var dictLength = dictionary.length;
+
   var state;
   var dictid;
   var ret;
+
   /* check state */
   if (!strm /* == Z_NULL */ || !strm.state /* == Z_NULL */) { return Z_STREAM_ERROR; }
   state = strm.state;
+
   if (state.wrap !== 0 && state.mode !== DICT) {
     return Z_STREAM_ERROR;
   }
+
   /* check for correct dictionary identifier */
   if (state.mode === DICT) {
     dictid = 1; /* adler32(0, null, 0)*/
@@ -8632,6 +9711,7 @@ function inflateSetDictionary(strm, dictionary) {
   // Tracev((stderr, "inflate:   dictionary set\n"));
   return Z_OK;
 }
+
 exports.inflateReset = inflateReset;
 exports.inflateReset2 = inflateReset2;
 exports.inflateResetKeep = inflateResetKeep;
@@ -8642,6 +9722,7 @@ exports.inflateEnd = inflateEnd;
 exports.inflateGetHeader = inflateGetHeader;
 exports.inflateSetDictionary = inflateSetDictionary;
 exports.inflateInfo = 'pako inflate (from Nodeca project)';
+
 /* Not implemented
 exports.inflateCopy = inflateCopy;
 exports.inflateGetDictionary = inflateGetDictionary;
@@ -8651,8 +9732,10 @@ exports.inflateSync = inflateSync;
 exports.inflateSyncPoint = inflateSyncPoint;
 exports.inflateUndermine = inflateUndermine;
 */
+
 },{"../utils/common":41,"./adler32":43,"./crc32":45,"./inffast":48,"./inftrees":50}],50:[function(require,module,exports){
 'use strict';
+
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
 // (C) 2014-2017 Vitaly Puzrin and Andrey Tupitsin
 //
@@ -8671,36 +9754,45 @@ exports.inflateUndermine = inflateUndermine;
 // 2. Altered source versions must be plainly marked as such, and must not be
 //   misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
+
 var utils = require('../utils/common');
+
 var MAXBITS = 15;
 var ENOUGH_LENS = 852;
 var ENOUGH_DISTS = 592;
 //var ENOUGH = (ENOUGH_LENS+ENOUGH_DISTS);
+
 var CODES = 0;
 var LENS = 1;
 var DISTS = 2;
+
 var lbase = [ /* Length codes 257..285 base */
   3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 17, 19, 23, 27, 31,
   35, 43, 51, 59, 67, 83, 99, 115, 131, 163, 195, 227, 258, 0, 0
 ];
+
 var lext = [ /* Length codes 257..285 extra */
   16, 16, 16, 16, 16, 16, 16, 16, 17, 17, 17, 17, 18, 18, 18, 18,
   19, 19, 19, 19, 20, 20, 20, 20, 21, 21, 21, 21, 16, 72, 78
 ];
+
 var dbase = [ /* Distance codes 0..29 base */
   1, 2, 3, 4, 5, 7, 9, 13, 17, 25, 33, 49, 65, 97, 129, 193,
   257, 385, 513, 769, 1025, 1537, 2049, 3073, 4097, 6145,
   8193, 12289, 16385, 24577, 0, 0
 ];
+
 var dext = [ /* Distance codes 0..29 extra */
   16, 16, 16, 16, 17, 17, 18, 18, 19, 19, 20, 20, 21, 21, 22, 22,
   23, 23, 24, 24, 25, 25, 26, 26, 27, 27,
   28, 28, 29, 29, 64, 64
 ];
+
 module.exports = function inflate_table(type, lens, lens_index, codes, table, table_index, work, opts)
 {
   var bits = opts.bits;
       //here = opts.here; /* table entry for duplication */
+
   var len = 0;               /* a code's length in bits */
   var sym = 0;               /* index of code symbols */
   var min = 0, max = 0;          /* minimum and maximum code lengths */
@@ -8723,7 +9815,9 @@ module.exports = function inflate_table(type, lens, lens_index, codes, table, ta
   var offs = new utils.Buf16(MAXBITS + 1); //[MAXBITS+1];     /* offsets in table for each length */
   var extra = null;
   var extra_index = 0;
+
   var here_bits, here_op, here_val;
+
   /*
    Process a set of code lengths to create a canonical Huffman code.  The
    code lengths are lens[0..codes-1].  Each length corresponds to the
@@ -8736,21 +9830,25 @@ module.exports = function inflate_table(type, lens, lens_index, codes, table, ta
    from their more natural integer increment ordering, and so when the
    decoding tables are built in the large loop below, the integer codes
    are incremented backwards.
+
    This routine assumes, but does not check, that all of the entries in
    lens[] are in the range 0..MAXBITS.  The caller must assure this.
    1..MAXBITS is interpreted as that code length.  zero means that that
    symbol does not occur in this code.
+
    The codes are sorted by computing a count of codes for each length,
    creating from that a table of starting indices for each length in the
    sorted table, and then entering the symbols in order in the sorted
    table.  The sorted table is work[], with that space being provided by
    the caller.
+
    The length counts are used for other purposes as well, i.e. finding
    the minimum and maximum length codes, determining if there are any
    codes at all, checking for a valid set of lengths, and looking ahead
    at length counts to determine sub-table sizes when building the
    decoding tables.
    */
+
   /* accumulate lengths for codes (assumes lens[] all in 0..MAXBITS) */
   for (len = 0; len <= MAXBITS; len++) {
     count[len] = 0;
@@ -8758,6 +9856,7 @@ module.exports = function inflate_table(type, lens, lens_index, codes, table, ta
   for (sym = 0; sym < codes; sym++) {
     count[lens[lens_index + sym]]++;
   }
+
   /* bound code lengths, force root to be within code lengths */
   root = bits;
   for (max = MAXBITS; max >= 1; max--) {
@@ -8771,10 +9870,13 @@ module.exports = function inflate_table(type, lens, lens_index, codes, table, ta
     //table.bits[opts.table_index] = 1;   //here.bits = (var char)1;
     //table.val[opts.table_index++] = 0;   //here.val = (var short)0;
     table[table_index++] = (1 << 24) | (64 << 16) | 0;
+
+
     //table.op[opts.table_index] = 64;
     //table.bits[opts.table_index] = 1;
     //table.val[opts.table_index++] = 0;
     table[table_index++] = (1 << 24) | (64 << 16) | 0;
+
     opts.bits = 1;
     return 0;     /* no symbols, but wait for decoding to report error */
   }
@@ -8784,6 +9886,7 @@ module.exports = function inflate_table(type, lens, lens_index, codes, table, ta
   if (root < min) {
     root = min;
   }
+
   /* check for an over-subscribed or incomplete set of lengths */
   left = 1;
   for (len = 1; len <= MAXBITS; len++) {
@@ -8796,17 +9899,20 @@ module.exports = function inflate_table(type, lens, lens_index, codes, table, ta
   if (left > 0 && (type === CODES || max !== 1)) {
     return -1;                      /* incomplete set */
   }
+
   /* generate offsets into symbol table for each length for sorting */
   offs[1] = 0;
   for (len = 1; len < MAXBITS; len++) {
     offs[len + 1] = offs[len] + count[len];
   }
+
   /* sort symbols by length, by symbol order within each length */
   for (sym = 0; sym < codes; sym++) {
     if (lens[lens_index + sym] !== 0) {
       work[offs[lens[lens_index + sym]]++] = sym;
     }
   }
+
   /*
    Create and fill in decoding tables.  In this loop, the table being
    filled is at next and has curr index bits.  The code being used is huff
@@ -8814,42 +9920,50 @@ module.exports = function inflate_table(type, lens, lens_index, codes, table, ta
    bits off of the bottom.  For codes where len is less than drop + curr,
    those top drop + curr - len bits are incremented through all values to
    fill the table with replicated entries.
+
    root is the number of index bits for the root table.  When len exceeds
    root, sub-tables are created pointed to by the root entry with an index
    of the low root bits of huff.  This is saved in low to check for when a
    new sub-table should be started.  drop is zero when the root table is
    being filled, and drop is root when sub-tables are being filled.
+
    When a new sub-table is needed, it is necessary to look ahead in the
    code lengths to determine what size sub-table is needed.  The length
    counts are used for this, and so count[] is decremented as codes are
    entered in the tables.
+
    used keeps track of how many table entries have been allocated from the
    provided *table space.  It is checked for LENS and DIST tables against
    the constants ENOUGH_LENS and ENOUGH_DISTS to guard against changes in
    the initial root table size constants.  See the comments in inftrees.h
    for more information.
+
    sym increments through all symbols, and the loop terminates when
    all codes of length max, i.e. all codes, have been processed.  This
    routine permits incomplete codes, so another loop after this one fills
    in the rest of the decoding tables with invalid code markers.
    */
+
   /* set up for code type */
   // poor man optimization - use if-else instead of switch,
   // to avoid deopts in old v8
   if (type === CODES) {
     base = extra = work;    /* dummy value--not used */
     end = 19;
+
   } else if (type === LENS) {
     base = lbase;
     base_index -= 257;
     extra = lext;
     extra_index -= 257;
     end = 256;
+
   } else {                    /* DISTS */
     base = dbase;
     extra = dext;
     end = -1;
   }
+
   /* initialize opts for loop */
   huff = 0;                   /* starting code */
   sym = 0;                    /* starting code symbol */
@@ -8860,11 +9974,13 @@ module.exports = function inflate_table(type, lens, lens_index, codes, table, ta
   low = -1;                   /* trigger new sub-table when len > root */
   used = 1 << root;          /* use root table entries */
   mask = used - 1;            /* mask for comparing low */
+
   /* check available table space */
   if ((type === LENS && used > ENOUGH_LENS) ||
     (type === DISTS && used > ENOUGH_DISTS)) {
     return 1;
   }
+
   /* process all codes and make table entries */
   for (;;) {
     /* create table entry */
@@ -8881,6 +9997,7 @@ module.exports = function inflate_table(type, lens, lens_index, codes, table, ta
       here_op = 32 + 64;         /* end of block */
       here_val = 0;
     }
+
     /* replicate for those indices with low len bits equal to huff */
     incr = 1 << (len - drop);
     fill = 1 << curr;
@@ -8889,6 +10006,7 @@ module.exports = function inflate_table(type, lens, lens_index, codes, table, ta
       fill -= incr;
       table[next + (huff >> drop) + fill] = (here_bits << 24) | (here_op << 16) | here_val |0;
     } while (fill !== 0);
+
     /* backwards increment the len-bit code huff */
     incr = 1 << (len - 1);
     while (huff & incr) {
@@ -8900,20 +10018,24 @@ module.exports = function inflate_table(type, lens, lens_index, codes, table, ta
     } else {
       huff = 0;
     }
+
     /* go to next symbol, update count, len */
     sym++;
     if (--count[len] === 0) {
       if (len === max) { break; }
       len = lens[lens_index + work[sym]];
     }
+
     /* create new sub-table if needed */
     if (len > root && (huff & mask) !== low) {
       /* if first time, transition to sub-tables */
       if (drop === 0) {
         drop = root;
       }
+
       /* increment past last table */
       next += min;            /* here min is 1 << curr */
+
       /* determine length of next table */
       curr = len - drop;
       left = 1 << curr;
@@ -8923,12 +10045,14 @@ module.exports = function inflate_table(type, lens, lens_index, codes, table, ta
         curr++;
         left <<= 1;
       }
+
       /* check for enough space */
       used += 1 << curr;
       if ((type === LENS && used > ENOUGH_LENS) ||
         (type === DISTS && used > ENOUGH_DISTS)) {
         return 1;
       }
+
       /* point entry in root table to sub-table */
       low = huff & mask;
       /*table.op[low] = curr;
@@ -8937,6 +10061,7 @@ module.exports = function inflate_table(type, lens, lens_index, codes, table, ta
       table[low] = (root << 24) | (curr << 16) | (next - table_index) |0;
     }
   }
+
   /* fill in remaining table entry if code is incomplete (guaranteed to have
    at most one remaining entry, since if the code is incomplete, the
    maximum code length that was allowed to get this far is one bit) */
@@ -8946,13 +10071,16 @@ module.exports = function inflate_table(type, lens, lens_index, codes, table, ta
     //table.val[next + huff] = 0;
     table[next + huff] = ((len - drop) << 24) | (64 << 16) |0;
   }
+
   /* set return parameters */
   //opts.table_index += used;
   opts.bits = root;
   return 0;
 };
+
 },{"../utils/common":41}],51:[function(require,module,exports){
 'use strict';
+
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
 // (C) 2014-2017 Vitaly Puzrin and Andrey Tupitsin
 //
@@ -8971,6 +10099,7 @@ module.exports = function inflate_table(type, lens, lens_index, codes, table, ta
 // 2. Altered source versions must be plainly marked as such, and must not be
 //   misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
+
 module.exports = {
   2:      'need dictionary',     /* Z_NEED_DICT       2  */
   1:      'stream end',          /* Z_STREAM_END      1  */
@@ -8982,8 +10111,10 @@ module.exports = {
   '-5':   'buffer error',        /* Z_BUF_ERROR     (-5) */
   '-6':   'incompatible version' /* Z_VERSION_ERROR (-6) */
 };
+
 },{}],52:[function(require,module,exports){
 'use strict';
+
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
 // (C) 2014-2017 Vitaly Puzrin and Andrey Tupitsin
 //
@@ -9002,80 +10133,116 @@ module.exports = {
 // 2. Altered source versions must be plainly marked as such, and must not be
 //   misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
+
 var utils = require('../utils/common');
+
 /* Public constants ==*/
 /* =====*/
+
+
 //var Z_FILTERED          = 1;
 //var Z_HUFFMAN_ONLY      = 2;
 //var Z_RLE               = 3;
 var Z_FIXED               = 4;
 //var Z_DEFAULT_STRATEGY  = 0;
+
 /* Possible values of the data_type field (though see inflate()) */
 var Z_BINARY              = 0;
 var Z_TEXT                = 1;
 //var Z_ASCII             = 1; // = Z_TEXT
 var Z_UNKNOWN             = 2;
+
 /*======*/
+
+
 function zero(buf) { var len = buf.length; while (--len >= 0) { buf[len] = 0; } }
+
 // From zutil.h
+
 var STORED_BLOCK = 0;
 var STATIC_TREES = 1;
 var DYN_TREES    = 2;
 /* The three kinds of block type */
+
 var MIN_MATCH    = 3;
 var MAX_MATCH    = 258;
 /* The minimum and maximum match lengths */
+
 // From deflate.h
 /* =====
  * Internal compression state.
  */
+
 var LENGTH_CODES  = 29;
 /* number of length codes, not counting the special END_BLOCK code */
+
 var LITERALS      = 256;
 /* number of literal bytes 0..255 */
+
 var L_CODES       = LITERALS + 1 + LENGTH_CODES;
 /* number of Literal or Length codes, including the END_BLOCK code */
+
 var D_CODES       = 30;
 /* number of distance codes */
+
 var BL_CODES      = 19;
 /* number of codes used to transfer the bit lengths */
+
 var HEAP_SIZE     = 2 * L_CODES + 1;
 /* maximum heap size */
+
 var MAX_BITS      = 15;
 /* All codes must not exceed MAX_BITS bits */
+
 var Buf_size      = 16;
 /* size of bit buffer in bi_buf */
+
+
 /* =====
  * Constants
  */
+
 var MAX_BL_BITS = 7;
 /* Bit length codes must not exceed MAX_BL_BITS bits */
+
 var END_BLOCK   = 256;
 /* end of block literal code */
+
 var REP_3_6     = 16;
 /* repeat previous bit length 3-6 times (2 bits of repeat count) */
+
 var REPZ_3_10   = 17;
 /* repeat a zero length 3-10 times  (3 bits of repeat count) */
+
 var REPZ_11_138 = 18;
 /* repeat a zero length 11-138 times  (7 bits of repeat count) */
+
 /* eslint-disable comma-spacing,array-bracket-spacing */
 var extra_lbits =   /* extra bits for each length code */
   [0,0,0,0,0,0,0,0,1,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,0];
+
 var extra_dbits =   /* extra bits for each distance code */
   [0,0,0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12,13,13];
+
 var extra_blbits =  /* extra bits for each bit length code */
   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,3,7];
+
 var bl_order =
   [16,17,18,0,8,7,9,6,10,5,11,4,12,3,13,2,14,1,15];
 /* eslint-enable comma-spacing,array-bracket-spacing */
+
 /* The lengths of the bit length codes are sent in order of decreasing
  * probability, to avoid transmitting the lengths for unused bit length codes.
  */
+
 /* =====
  * Local data. These are initialized only once.
  */
+
 // We pre-fill arrays with 0 to avoid uninitialized gaps
+
 var DIST_CODE_LEN = 512; /* see definition of array dist_code below */
+
 // !!!! Use flat array insdead of structure, Freq = i*2, Len = i*2+1
 var static_ltree  = new Array((L_CODES + 2) * 2);
 zero(static_ltree);
@@ -9084,46 +10251,64 @@ zero(static_ltree);
  * The codes 286 and 287 are needed to build a canonical tree (see _tr_init
  * below).
  */
+
 var static_dtree  = new Array(D_CODES * 2);
 zero(static_dtree);
 /* The static distance tree. (Actually a trivial tree since all codes use
  * 5 bits.)
  */
+
 var _dist_code    = new Array(DIST_CODE_LEN);
 zero(_dist_code);
 /* Distance codes. The first 256 values correspond to the distances
  * 3 .. 258, the last 256 values correspond to the top 8 bits of
  * the 15 bit distances.
  */
+
 var _length_code  = new Array(MAX_MATCH - MIN_MATCH + 1);
 zero(_length_code);
 /* length code for each normalized match length (0 == MIN_MATCH) */
+
 var base_length   = new Array(LENGTH_CODES);
 zero(base_length);
 /* First normalized length for each code (0 = MIN_MATCH) */
+
 var base_dist     = new Array(D_CODES);
 zero(base_dist);
 /* First normalized distance for each code (0 = distance of 1) */
+
+
 function StaticTreeDesc(static_tree, extra_bits, extra_base, elems, max_length) {
+
   this.static_tree  = static_tree;  /* static tree or NULL */
   this.extra_bits   = extra_bits;   /* extra bits for each code or NULL */
   this.extra_base   = extra_base;   /* base index for extra_bits */
   this.elems        = elems;        /* max number of elements in the tree */
   this.max_length   = max_length;   /* max bit length for the codes */
+
   // show if `static_tree` has data or dummy - needed for monomorphic objects
   this.has_stree    = static_tree && static_tree.length;
 }
+
+
 var static_l_desc;
 var static_d_desc;
 var static_bl_desc;
+
+
 function TreeDesc(dyn_tree, stat_desc) {
   this.dyn_tree = dyn_tree;     /* the dynamic tree */
   this.max_code = 0;            /* largest code with non zero frequency */
   this.stat_desc = stat_desc;   /* the corresponding static tree */
 }
+
+
+
 function d_code(dist) {
   return dist < 256 ? _dist_code[dist] : _dist_code[256 + (dist >>> 7)];
 }
+
+
 /* =====
  * Output a short LSB first on the stream.
  * IN assertion: there is enough room in pendingBuf.
@@ -9134,6 +10319,8 @@ function put_short(s, w) {
   s.pending_buf[s.pending++] = (w) & 0xff;
   s.pending_buf[s.pending++] = (w >>> 8) & 0xff;
 }
+
+
 /* =====
  * Send a value on a given number of bits.
  * IN assertion: length <= 16 and value fits in length bits.
@@ -9149,9 +10336,13 @@ function send_bits(s, value, length) {
     s.bi_valid += length;
   }
 }
+
+
 function send_code(s, c, tree) {
   send_bits(s, tree[c * 2]/*.Code*/, tree[c * 2 + 1]/*.Len*/);
 }
+
+
 /* =====
  * Reverse the first len bits of a code, using straightforward code (a faster
  * method would use a table)
@@ -9166,6 +10357,8 @@ function bi_reverse(code, len) {
   } while (--len > 0);
   return res >>> 1;
 }
+
+
 /* =====
  * Flush the bit buffer, keeping at most 7 bits in it.
  */
@@ -9174,12 +10367,15 @@ function bi_flush(s) {
     put_short(s, s.bi_buf);
     s.bi_buf = 0;
     s.bi_valid = 0;
+
   } else if (s.bi_valid >= 8) {
     s.pending_buf[s.pending++] = s.bi_buf & 0xff;
     s.bi_buf >>= 8;
     s.bi_valid -= 8;
   }
 }
+
+
 /* =====
  * Compute the optimal bit lengths for a tree and update the total bit length
  * for the current block.
@@ -9207,13 +10403,16 @@ function gen_bitlen(s, desc)
   var xbits;          /* extra bits */
   var f;              /* frequency */
   var overflow = 0;   /* number of elements with bit length too large */
+
   for (bits = 0; bits <= MAX_BITS; bits++) {
     s.bl_count[bits] = 0;
   }
+
   /* In a first pass, compute the optimal bit lengths (which may
    * overflow in the case of the bit length tree).
    */
   tree[s.heap[s.heap_max] * 2 + 1]/*.Len*/ = 0; /* root of the heap */
+
   for (h = s.heap_max + 1; h < HEAP_SIZE; h++) {
     n = s.heap[h];
     bits = tree[tree[n * 2 + 1]/*.Dad*/ * 2 + 1]/*.Len*/ + 1;
@@ -9223,7 +10422,9 @@ function gen_bitlen(s, desc)
     }
     tree[n * 2 + 1]/*.Len*/ = bits;
     /* We overwrite tree[n].Dad which is no longer needed */
+
     if (n > max_code) { continue; } /* not a leaf node */
+
     s.bl_count[bits]++;
     xbits = 0;
     if (n >= base) {
@@ -9236,8 +10437,10 @@ function gen_bitlen(s, desc)
     }
   }
   if (overflow === 0) { return; }
+
   // Trace((stderr,"\nbit length overflow\n"));
   /* This happens for example on obj2 and pic of the Calgary corpus */
+
   /* Find the first bit length which could increase: */
   do {
     bits = max_length - 1;
@@ -9250,6 +10453,7 @@ function gen_bitlen(s, desc)
      */
     overflow -= 2;
   } while (overflow > 0);
+
   /* Now recompute all bit lengths, scanning in increasing frequency.
    * h is still equal to HEAP_SIZE. (It is simpler to reconstruct all
    * lengths instead of fixing only the wrong ones. This idea is taken
@@ -9269,6 +10473,8 @@ function gen_bitlen(s, desc)
     }
   }
 }
+
+
 /* =====
  * Generate the codes for a given tree and bit counts (which need not be
  * optimal).
@@ -9286,6 +10492,7 @@ function gen_codes(tree, max_code, bl_count)
   var code = 0;              /* running code value */
   var bits;                  /* bit index */
   var n;                     /* code index */
+
   /* The distribution counts are first used to generate the code values
    * without bit reversal.
    */
@@ -9298,15 +10505,19 @@ function gen_codes(tree, max_code, bl_count)
   //Assert (code + bl_count[MAX_BITS]-1 == (1<<MAX_BITS)-1,
   //        "inconsistent bit counts");
   //Tracev((stderr,"\ngen_codes: max_code %d ", max_code));
+
   for (n = 0;  n <= max_code; n++) {
     var len = tree[n * 2 + 1]/*.Len*/;
     if (len === 0) { continue; }
     /* Now reverse the bits */
     tree[n * 2]/*.Code*/ = bi_reverse(next_code[len]++, len);
+
     //Tracecv(tree != static_ltree, (stderr,"\nn %3d %c l %2d c %4x (%x) ",
     //     n, (isgraph(n) ? n : ' '), len, tree[n].Code, next_code[len]-1));
   }
 }
+
+
 /* =====
  * Initialize the various 'constant' tables.
  */
@@ -9318,8 +10529,10 @@ function tr_static_init() {
   var dist;     /* distance index */
   var bl_count = new Array(MAX_BITS + 1);
   /* number of codes at each bit length for an optimal tree */
+
   // do check in _tr_init()
   //if (static_init_done) return;
+
   /* For some embedded targets, global variables are not initialized: */
 /*#ifdef NO_INIT_GLOBAL_POINTERS
   static_l_desc.static_tree = static_ltree;
@@ -9328,6 +10541,7 @@ function tr_static_init() {
   static_d_desc.extra_bits = extra_dbits;
   static_bl_desc.extra_bits = extra_blbits;
 #endif*/
+
   /* Initialize the mapping length (0..255) -> length code (0..28) */
   length = 0;
   for (code = 0; code < LENGTH_CODES - 1; code++) {
@@ -9342,6 +10556,7 @@ function tr_static_init() {
    * overwrite length_code[255] to use the best encoding:
    */
   _length_code[length - 1] = code;
+
   /* Initialize the mapping dist (0..32K) -> dist code (0..29) */
   dist = 0;
   for (code = 0; code < 16; code++) {
@@ -9359,10 +10574,12 @@ function tr_static_init() {
     }
   }
   //Assert (dist == 256, "tr_static_init: 256+dist != 512");
+
   /* Construct the codes of the static literal tree */
   for (bits = 0; bits <= MAX_BITS; bits++) {
     bl_count[bits] = 0;
   }
+
   n = 0;
   while (n <= 143) {
     static_ltree[n * 2 + 1]/*.Len*/ = 8;
@@ -9389,30 +10606,39 @@ function tr_static_init() {
    * all ones)
    */
   gen_codes(static_ltree, L_CODES + 1, bl_count);
+
   /* The static distance tree is trivial: */
   for (n = 0; n < D_CODES; n++) {
     static_dtree[n * 2 + 1]/*.Len*/ = 5;
     static_dtree[n * 2]/*.Code*/ = bi_reverse(n, 5);
   }
+
   // Now data ready and we can init static trees
   static_l_desc = new StaticTreeDesc(static_ltree, extra_lbits, LITERALS + 1, L_CODES, MAX_BITS);
   static_d_desc = new StaticTreeDesc(static_dtree, extra_dbits, 0,          D_CODES, MAX_BITS);
   static_bl_desc = new StaticTreeDesc(new Array(0), extra_blbits, 0,         BL_CODES, MAX_BL_BITS);
+
   //static_init_done = true;
 }
+
+
 /* =====
  * Initialize a new block.
  */
 function init_block(s) {
   var n; /* iterates over tree elements */
+
   /* Initialize the trees. */
   for (n = 0; n < L_CODES;  n++) { s.dyn_ltree[n * 2]/*.Freq*/ = 0; }
   for (n = 0; n < D_CODES;  n++) { s.dyn_dtree[n * 2]/*.Freq*/ = 0; }
   for (n = 0; n < BL_CODES; n++) { s.bl_tree[n * 2]/*.Freq*/ = 0; }
+
   s.dyn_ltree[END_BLOCK * 2]/*.Freq*/ = 1;
   s.opt_len = s.static_len = 0;
   s.last_lit = s.matches = 0;
 }
+
+
 /* =====
  * Flush the bit buffer and align the output on a byte boundary
  */
@@ -9427,6 +10653,7 @@ function bi_windup(s)
   s.bi_buf = 0;
   s.bi_valid = 0;
 }
+
 /* =====
  * Copy a stored block, storing first the length and its
  * one's complement if requested.
@@ -9438,6 +10665,7 @@ function copy_block(s, buf, len, header)
 //int      header;  /* true if block header must be written */
 {
   bi_windup(s);        /* align on byte boundary */
+
   if (header) {
     put_short(s, len);
     put_short(s, ~len);
@@ -9448,6 +10676,7 @@ function copy_block(s, buf, len, header)
   utils.arraySet(s.pending_buf, s.window, buf, len, s.pending);
   s.pending += len;
 }
+
 /* =====
  * Compares to subtrees, using the tree depth as tie breaker when
  * the subtrees have equal frequency. This minimizes the worst case length.
@@ -9458,6 +10687,7 @@ function smaller(tree, n, m, depth) {
   return (tree[_n2]/*.Freq*/ < tree[_m2]/*.Freq*/ ||
          (tree[_n2]/*.Freq*/ === tree[_m2]/*.Freq*/ && depth[n] <= depth[m]));
 }
+
 /* =====
  * Restore the heap property by moving down the tree starting at node k,
  * exchanging a node with the smallest of its two sons if necessary, stopping
@@ -9479,16 +10709,21 @@ function pqdownheap(s, tree, k)
     }
     /* Exit if v is smaller than both sons */
     if (smaller(tree, v, s.heap[j], s.depth)) { break; }
+
     /* Exchange v with the smallest son */
     s.heap[k] = s.heap[j];
     k = j;
+
     /* And continue down the tree, setting j to the left son of k */
     j <<= 1;
   }
   s.heap[k] = v;
 }
+
+
 // inlined manually
 // var SMALLEST = 1;
+
 /* =====
  * Send the block data compressed using the given Huffman trees
  */
@@ -9502,11 +10737,13 @@ function compress_block(s, ltree, dtree)
   var lx = 0;         /* running index in l_buf */
   var code;           /* the code to send */
   var extra;          /* number of extra bits to send */
+
   if (s.last_lit !== 0) {
     do {
       dist = (s.pending_buf[s.d_buf + lx * 2] << 8) | (s.pending_buf[s.d_buf + lx * 2 + 1]);
       lc = s.pending_buf[s.l_buf + lx];
       lx++;
+
       if (dist === 0) {
         send_code(s, lc, ltree); /* send a literal byte */
         //Tracecv(isgraph(lc), (stderr," '%c' ", lc));
@@ -9522,6 +10759,7 @@ function compress_block(s, ltree, dtree)
         dist--; /* dist is now the match distance - 1 */
         code = d_code(dist);
         //Assert (code < D_CODES, "bad d_code");
+
         send_code(s, code, dtree);       /* send the distance code */
         extra = extra_dbits[code];
         if (extra !== 0) {
@@ -9529,13 +10767,18 @@ function compress_block(s, ltree, dtree)
           send_bits(s, dist, extra);   /* send the extra distance bits */
         }
       } /* literal or match pair ? */
+
       /* Check that the overlay between pending_buf and d_buf+l_buf is ok: */
       //Assert((uInt)(s->pending) < s->lit_bufsize + 2*lx,
       //       "pendingBuf overflow");
+
     } while (lx < s.last_lit);
   }
+
   send_code(s, END_BLOCK, ltree);
 }
+
+
 /* =====
  * Construct one Huffman tree and assigns the code bit strings and lengths.
  * Update the total bit length for the current block.
@@ -9555,20 +10798,24 @@ function build_tree(s, desc)
   var n, m;          /* iterate over heap elements */
   var max_code = -1; /* largest code with non zero frequency */
   var node;          /* new node being created */
+
   /* Construct the initial heap, with least frequent element in
    * heap[SMALLEST]. The sons of heap[n] are heap[2*n] and heap[2*n+1].
    * heap[0] is not used.
    */
   s.heap_len = 0;
   s.heap_max = HEAP_SIZE;
+
   for (n = 0; n < elems; n++) {
     if (tree[n * 2]/*.Freq*/ !== 0) {
       s.heap[++s.heap_len] = max_code = n;
       s.depth[n] = 0;
+
     } else {
       tree[n * 2 + 1]/*.Len*/ = 0;
     }
   }
+
   /* The pkzip format requires that at least one distance code exists,
    * and that at least one bit should be sent even if there is only one
    * possible code. So to avoid special checks later on we force at least
@@ -9579,16 +10826,19 @@ function build_tree(s, desc)
     tree[node * 2]/*.Freq*/ = 1;
     s.depth[node] = 0;
     s.opt_len--;
+
     if (has_stree) {
       s.static_len -= stree[node * 2 + 1]/*.Len*/;
     }
     /* node is 0 or 1 so it does not have extra bits */
   }
   desc.max_code = max_code;
+
   /* The elements heap[heap_len/2+1 .. heap_len] are leaves of the tree,
    * establish sub-heaps of increasing lengths:
    */
   for (n = (s.heap_len >> 1/*int /2*/); n >= 1; n--) { pqdownheap(s, tree, n); }
+
   /* Construct the Huffman tree by repeatedly combining the least two
    * frequent nodes.
    */
@@ -9600,25 +10850,35 @@ function build_tree(s, desc)
     s.heap[1/*SMALLEST*/] = s.heap[s.heap_len--];
     pqdownheap(s, tree, 1/*SMALLEST*/);
     /***/
+
     m = s.heap[1/*SMALLEST*/]; /* m = node of next least frequency */
+
     s.heap[--s.heap_max] = n; /* keep the nodes sorted by frequency */
     s.heap[--s.heap_max] = m;
+
     /* Create a new node father of n and m */
     tree[node * 2]/*.Freq*/ = tree[n * 2]/*.Freq*/ + tree[m * 2]/*.Freq*/;
     s.depth[node] = (s.depth[n] >= s.depth[m] ? s.depth[n] : s.depth[m]) + 1;
     tree[n * 2 + 1]/*.Dad*/ = tree[m * 2 + 1]/*.Dad*/ = node;
+
     /* and insert the new node in the heap */
     s.heap[1/*SMALLEST*/] = node++;
     pqdownheap(s, tree, 1/*SMALLEST*/);
+
   } while (s.heap_len >= 2);
+
   s.heap[--s.heap_max] = s.heap[1/*SMALLEST*/];
+
   /* At this point, the fields freq and dad are set. We can now
    * generate the bit lengths.
    */
   gen_bitlen(s, desc);
+
   /* The field len is now set, we can generate the bit codes */
   gen_codes(tree, max_code, s.bl_count);
 }
+
+
 /* =====
  * Scan a literal or distance tree to determine the frequencies of the codes
  * in the bit length tree.
@@ -9631,44 +10891,60 @@ function scan_tree(s, tree, max_code)
   var n;                     /* iterates over all tree elements */
   var prevlen = -1;          /* last emitted length */
   var curlen;                /* length of current code */
+
   var nextlen = tree[0 * 2 + 1]/*.Len*/; /* length of next code */
+
   var count = 0;             /* repeat count of the current code */
   var max_count = 7;         /* max repeat count */
   var min_count = 4;         /* min repeat count */
+
   if (nextlen === 0) {
     max_count = 138;
     min_count = 3;
   }
   tree[(max_code + 1) * 2 + 1]/*.Len*/ = 0xffff; /* guard */
+
   for (n = 0; n <= max_code; n++) {
     curlen = nextlen;
     nextlen = tree[(n + 1) * 2 + 1]/*.Len*/;
+
     if (++count < max_count && curlen === nextlen) {
       continue;
+
     } else if (count < min_count) {
       s.bl_tree[curlen * 2]/*.Freq*/ += count;
+
     } else if (curlen !== 0) {
+
       if (curlen !== prevlen) { s.bl_tree[curlen * 2]/*.Freq*/++; }
       s.bl_tree[REP_3_6 * 2]/*.Freq*/++;
+
     } else if (count <= 10) {
       s.bl_tree[REPZ_3_10 * 2]/*.Freq*/++;
+
     } else {
       s.bl_tree[REPZ_11_138 * 2]/*.Freq*/++;
     }
+
     count = 0;
     prevlen = curlen;
+
     if (nextlen === 0) {
       max_count = 138;
       min_count = 3;
+
     } else if (curlen === nextlen) {
       max_count = 6;
       min_count = 3;
+
     } else {
       max_count = 7;
       min_count = 4;
     }
   }
 }
+
+
 /* =====
  * Send a literal or distance tree in compressed form, using the codes in
  * bl_tree.
@@ -9681,22 +10957,29 @@ function send_tree(s, tree, max_code)
   var n;                     /* iterates over all tree elements */
   var prevlen = -1;          /* last emitted length */
   var curlen;                /* length of current code */
+
   var nextlen = tree[0 * 2 + 1]/*.Len*/; /* length of next code */
+
   var count = 0;             /* repeat count of the current code */
   var max_count = 7;         /* max repeat count */
   var min_count = 4;         /* min repeat count */
+
   /* tree[max_code+1].Len = -1; */  /* guard already set */
   if (nextlen === 0) {
     max_count = 138;
     min_count = 3;
   }
+
   for (n = 0; n <= max_code; n++) {
     curlen = nextlen;
     nextlen = tree[(n + 1) * 2 + 1]/*.Len*/;
+
     if (++count < max_count && curlen === nextlen) {
       continue;
+
     } else if (count < min_count) {
       do { send_code(s, curlen, s.bl_tree); } while (--count !== 0);
+
     } else if (curlen !== 0) {
       if (curlen !== prevlen) {
         send_code(s, curlen, s.bl_tree);
@@ -9705,41 +10988,51 @@ function send_tree(s, tree, max_code)
       //Assert(count >= 3 && count <= 6, " 3_6?");
       send_code(s, REP_3_6, s.bl_tree);
       send_bits(s, count - 3, 2);
+
     } else if (count <= 10) {
       send_code(s, REPZ_3_10, s.bl_tree);
       send_bits(s, count - 3, 3);
+
     } else {
       send_code(s, REPZ_11_138, s.bl_tree);
       send_bits(s, count - 11, 7);
     }
+
     count = 0;
     prevlen = curlen;
     if (nextlen === 0) {
       max_count = 138;
       min_count = 3;
+
     } else if (curlen === nextlen) {
       max_count = 6;
       min_count = 3;
+
     } else {
       max_count = 7;
       min_count = 4;
     }
   }
 }
+
+
 /* =====
  * Construct the Huffman tree for the bit lengths and return the index in
  * bl_order of the last bit length code to send.
  */
 function build_bl_tree(s) {
   var max_blindex;  /* index of last bit length code of non zero freq */
+
   /* Determine the bit length frequencies for literal and distance trees */
   scan_tree(s, s.dyn_ltree, s.l_desc.max_code);
   scan_tree(s, s.dyn_dtree, s.d_desc.max_code);
+
   /* Build the bit length tree: */
   build_tree(s, s.bl_desc);
   /* opt_len now includes the length of the tree representations, except
    * the lengths of the bit lengths codes and the 5+5+4 bits for the counts.
    */
+
   /* Determine the number of bit length codes to send. The pkzip format
    * requires that at least 4 bit length codes be sent. (appnote.txt says
    * 3 but the actual value used is 4.)
@@ -9753,8 +11046,11 @@ function build_bl_tree(s) {
   s.opt_len += 3 * (max_blindex + 1) + 5 + 5 + 4;
   //Tracev((stderr, "\ndyn trees: dyn %ld, stat %ld",
   //        s->opt_len, s->static_len));
+
   return max_blindex;
 }
+
+
 /* =====
  * Send the header for a block using dynamic Huffman trees: the counts, the
  * lengths of the bit length codes, the literal tree and the distance tree.
@@ -9765,6 +11061,7 @@ function send_all_trees(s, lcodes, dcodes, blcodes)
 //    int lcodes, dcodes, blcodes; /* number of codes for each tree */
 {
   var rank;                    /* index in bl_order */
+
   //Assert (lcodes >= 257 && dcodes >= 1 && blcodes >= 4, "not enough codes");
   //Assert (lcodes <= L_CODES && dcodes <= D_CODES && blcodes <= BL_CODES,
   //        "too many codes");
@@ -9777,11 +11074,15 @@ function send_all_trees(s, lcodes, dcodes, blcodes)
     send_bits(s, s.bl_tree[bl_order[rank] * 2 + 1]/*.Len*/, 3);
   }
   //Tracev((stderr, "\nbl tree: sent %ld", s->bits_sent));
+
   send_tree(s, s.dyn_ltree, lcodes - 1); /* literal tree */
   //Tracev((stderr, "\nlit tree: sent %ld", s->bits_sent));
+
   send_tree(s, s.dyn_dtree, dcodes - 1); /* distance tree */
   //Tracev((stderr, "\ndist tree: sent %ld", s->bits_sent));
 }
+
+
 /* =====
  * Check if the data type is TEXT or BINARY, using the following algorithm:
  * - TEXT if the two conditions below are satisfied:
@@ -9802,12 +11103,14 @@ function detect_data_type(s) {
    */
   var black_mask = 0xf3ffc07f;
   var n;
+
   /* Check for non-textual ("black-listed") bytes. */
   for (n = 0; n <= 31; n++, black_mask >>>= 1) {
     if ((black_mask & 1) && (s.dyn_ltree[n * 2]/*.Freq*/ !== 0)) {
       return Z_BINARY;
     }
   }
+
   /* Check for textual ("white-listed") bytes. */
   if (s.dyn_ltree[9 * 2]/*.Freq*/ !== 0 || s.dyn_ltree[10 * 2]/*.Freq*/ !== 0 ||
       s.dyn_ltree[13 * 2]/*.Freq*/ !== 0) {
@@ -9818,29 +11121,39 @@ function detect_data_type(s) {
       return Z_TEXT;
     }
   }
+
   /* There are no "black-listed" or "white-listed" bytes:
    * this stream either is empty or has tolerated ("gray-listed") bytes only.
    */
   return Z_BINARY;
 }
+
+
 var static_init_done = false;
+
 /* =====
  * Initialize the tree data structures for a new zlib stream.
  */
 function _tr_init(s)
 {
+
   if (!static_init_done) {
     tr_static_init();
     static_init_done = true;
   }
+
   s.l_desc  = new TreeDesc(s.dyn_ltree, static_l_desc);
   s.d_desc  = new TreeDesc(s.dyn_dtree, static_d_desc);
   s.bl_desc = new TreeDesc(s.bl_tree, static_bl_desc);
+
   s.bi_buf = 0;
   s.bi_valid = 0;
+
   /* Initialize the first block of the first file: */
   init_block(s);
 }
+
+
 /* =====
  * Send a stored block
  */
@@ -9853,6 +11166,8 @@ function _tr_stored_block(s, buf, stored_len, last)
   send_bits(s, (STORED_BLOCK << 1) + (last ? 1 : 0), 3);    /* send block type */
   copy_block(s, buf, stored_len, true); /* with header */
 }
+
+
 /* =====
  * Send one empty static block to give enough lookahead for inflate.
  * This takes 10 bits, of which 7 may remain in the bit buffer.
@@ -9862,6 +11177,8 @@ function _tr_align(s) {
   send_code(s, END_BLOCK, static_ltree);
   bi_flush(s);
 }
+
+
 /* =====
  * Determine the best encoding for the current block: dynamic trees, static
  * trees or store, and output the encoded block to the zip file.
@@ -9874,39 +11191,50 @@ function _tr_flush_block(s, buf, stored_len, last)
 {
   var opt_lenb, static_lenb;  /* opt_len and static_len in bytes */
   var max_blindex = 0;        /* index of last bit length code of non zero freq */
+
   /* Build the Huffman trees unless a stored block is forced */
   if (s.level > 0) {
+
     /* Check if the file is binary or text */
     if (s.strm.data_type === Z_UNKNOWN) {
       s.strm.data_type = detect_data_type(s);
     }
+
     /* Construct the literal and distance trees */
     build_tree(s, s.l_desc);
     // Tracev((stderr, "\nlit data: dyn %ld, stat %ld", s->opt_len,
     //        s->static_len));
+
     build_tree(s, s.d_desc);
     // Tracev((stderr, "\ndist data: dyn %ld, stat %ld", s->opt_len,
     //        s->static_len));
     /* At this point, opt_len and static_len are the total bit lengths of
      * the compressed block data, excluding the tree representations.
      */
+
     /* Build the bit length tree for the above two trees, and get the index
      * in bl_order of the last bit length code to send.
      */
     max_blindex = build_bl_tree(s);
+
     /* Determine the best encoding. Compute the block lengths in bytes. */
     opt_lenb = (s.opt_len + 3 + 7) >>> 3;
     static_lenb = (s.static_len + 3 + 7) >>> 3;
+
     // Tracev((stderr, "\nopt %lu(%lu) stat %lu(%lu) stored %lu lit %u ",
     //        opt_lenb, s->opt_len, static_lenb, s->static_len, stored_len,
     //        s->last_lit));
+
     if (static_lenb <= opt_lenb) { opt_lenb = static_lenb; }
+
   } else {
     // Assert(buf != (char*)0, "lost buf");
     opt_lenb = static_lenb = stored_len + 5; /* force a stored block */
   }
+
   if ((stored_len + 4 <= opt_lenb) && (buf !== -1)) {
     /* 4: two words for the lengths */
+
     /* The test buf != NULL is only necessary if LIT_BUFSIZE > WSIZE.
      * Otherwise we can't have processed more than WSIZE input bytes since
      * the last block flush, because compression would have been
@@ -9914,9 +11242,12 @@ function _tr_flush_block(s, buf, stored_len, last)
      * transform a block into a stored block.
      */
     _tr_stored_block(s, buf, stored_len, last);
+
   } else if (s.strategy === Z_FIXED || static_lenb === opt_lenb) {
+
     send_bits(s, (STATIC_TREES << 1) + (last ? 1 : 0), 3);
     compress_block(s, static_ltree, static_dtree);
+
   } else {
     send_bits(s, (DYN_TREES << 1) + (last ? 1 : 0), 3);
     send_all_trees(s, s.l_desc.max_code + 1, s.d_desc.max_code + 1, max_blindex + 1);
@@ -9927,12 +11258,14 @@ function _tr_flush_block(s, buf, stored_len, last)
    * and uLong implemented on 32 bits.
    */
   init_block(s);
+
   if (last) {
     bi_windup(s);
   }
   // Tracev((stderr,"\ncomprlen %lu(%lu) ", s->compressed_len>>3,
   //       s->compressed_len-7*last));
 }
+
 /* =====
  * Save the match info and tally the frequency counts. Return true if
  * the current block must be flushed.
@@ -9943,10 +11276,13 @@ function _tr_tally(s, dist, lc)
 //    unsigned lc;    /* match length-MIN_MATCH or unmatched char (if dist==0) */
 {
   //var out_length, in_length, dcode;
+
   s.pending_buf[s.d_buf + s.last_lit * 2]     = (dist >>> 8) & 0xff;
   s.pending_buf[s.d_buf + s.last_lit * 2 + 1] = dist & 0xff;
+
   s.pending_buf[s.l_buf + s.last_lit] = lc & 0xff;
   s.last_lit++;
+
   if (dist === 0) {
     /* lc is the unmatched char */
     s.dyn_ltree[lc * 2]/*.Freq*/++;
@@ -9957,11 +11293,14 @@ function _tr_tally(s, dist, lc)
     //Assert((ush)dist < (ush)MAX_DIST(s) &&
     //       (ush)lc <= (ush)(MAX_MATCH-MIN_MATCH) &&
     //       (ush)d_code(dist) < (ush)D_CODES,  "_tr_tally: bad match");
+
     s.dyn_ltree[(_length_code[lc] + LITERALS + 1) * 2]/*.Freq*/++;
     s.dyn_dtree[d_code(dist) * 2]/*.Freq*/++;
   }
+
 // (!) This block is disabled in zlib defailts,
 // don't enable it for binary compatibility
+
 //#ifdef TRUNCATE_BLOCK
 //  /* Try to guess if it is profitable to stop the current block here */
 //  if ((s.last_lit & 0x1fff) === 0 && s.level > 2) {
@@ -9981,19 +11320,23 @@ function _tr_tally(s, dist, lc)
 //    }
 //  }
 //#endif
+
   return (s.last_lit === s.lit_bufsize - 1);
   /* We avoid equality with lit_bufsize because of wraparound at 64K
    * on 16 bit machines and because stored blocks are restricted to
    * 64K-1 bytes.
    */
 }
+
 exports._tr_init  = _tr_init;
 exports._tr_stored_block = _tr_stored_block;
 exports._tr_flush_block  = _tr_flush_block;
 exports._tr_tally = _tr_tally;
 exports._tr_align = _tr_align;
+
 },{"../utils/common":41}],53:[function(require,module,exports){
 'use strict';
+
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
 // (C) 2014-2017 Vitaly Puzrin and Andrey Tupitsin
 //
@@ -10012,6 +11355,7 @@ exports._tr_align = _tr_align;
 // 2. Altered source versions must be plainly marked as such, and must not be
 //   misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
+
 function ZStream() {
   /* next input byte */
   this.input = null; // JS specific, because we have no pointers
@@ -10036,19 +11380,24 @@ function ZStream() {
   /* adler32 value of the uncompressed data */
   this.adler = 0;
 }
+
 module.exports = ZStream;
+
 },{}],54:[function(require,module,exports){
 (function (global){
 (function (global, undefined) {
     "use strict";
+
     if (global.setImmediate) {
         return;
     }
+
     var nextHandle = 1; // Spec says greater than zero
     var tasksByHandle = {};
     var currentlyRunningATask = false;
     var doc = global.document;
     var registerImmediate;
+
     function setImmediate(callback) {
       // Callback can either be a function or a string
       if (typeof callback !== "function") {
@@ -10065,9 +11414,11 @@ module.exports = ZStream;
       registerImmediate(nextHandle);
       return nextHandle++;
     }
+
     function clearImmediate(handle) {
         delete tasksByHandle[handle];
     }
+
     function run(task) {
         var callback = task.callback;
         var args = task.args;
@@ -10089,6 +11440,7 @@ module.exports = ZStream;
             break;
         }
     }
+
     function runIfPresent(handle) {
         // From the spec: "Wait until any invocations of this algorithm started before this one have completed."
         // So if we're currently running a task, we'll need to delay this invocation.
@@ -10109,11 +11461,13 @@ module.exports = ZStream;
             }
         }
     }
+
     function installNextTickImplementation() {
         registerImmediate = function(handle) {
             process.nextTick(function () { runIfPresent(handle); });
         };
     }
+
     function canUsePostMessage() {
         // The test against `importScripts` prevents this implementation from being installed inside a web worker,
         // where `global.postMessage` means something completely different and can't be used for this purpose.
@@ -10128,10 +11482,12 @@ module.exports = ZStream;
             return postMessageIsAsynchronous;
         }
     }
+
     function installPostMessageImplementation() {
         // Installs an event handler on `global` for the `message` event: see
         // * https://developer.mozilla.org/en/DOM/window.postMessage
         // * http://www.whatwg.org/specs/web-apps/current-work/multipage/comms.html#crossDocumentMessages
+
         var messagePrefix = "setImmediate$" + Math.random() + "$";
         var onGlobalMessage = function(event) {
             if (event.source === global &&
@@ -10140,25 +11496,30 @@ module.exports = ZStream;
                 runIfPresent(+event.data.slice(messagePrefix.length));
             }
         };
+
         if (global.addEventListener) {
             global.addEventListener("message", onGlobalMessage, false);
         } else {
             global.attachEvent("onmessage", onGlobalMessage);
         }
+
         registerImmediate = function(handle) {
             global.postMessage(messagePrefix + handle, "*");
         };
     }
+
     function installMessageChannelImplementation() {
         var channel = new MessageChannel();
         channel.port1.onmessage = function(event) {
             var handle = event.data;
             runIfPresent(handle);
         };
+
         registerImmediate = function(handle) {
             channel.port2.postMessage(handle);
         };
     }
+
     function installReadyStateChangeImplementation() {
         var html = doc.documentElement;
         registerImmediate = function(handle) {
@@ -10174,34 +11535,43 @@ module.exports = ZStream;
             html.appendChild(script);
         };
     }
+
     function installSetTimeoutImplementation() {
         registerImmediate = function(handle) {
             setTimeout(runIfPresent, 0, handle);
         };
     }
+
     // If supported, we should attach to the prototype of global, since that is where setTimeout et al. live.
     var attachTo = Object.getPrototypeOf && Object.getPrototypeOf(global);
     attachTo = attachTo && attachTo.setTimeout ? attachTo : global;
+
     // Don't get fooled by e.g. browserify environments.
     if ({}.toString.call(global.process) === "[object process]") {
         // For Node.js before 0.9
         installNextTickImplementation();
+
     } else if (canUsePostMessage()) {
         // For non-IE10 modern browsers
         installPostMessageImplementation();
+
     } else if (global.MessageChannel) {
         // For web workers, where supported
         installMessageChannelImplementation();
+
     } else if (doc && "onreadystatechange" in doc.createElement("script")) {
         // For IE 6–8
         installReadyStateChangeImplementation();
+
     } else {
         // For older browsers
         installSetTimeoutImplementation();
     }
+
     attachTo.setImmediate = setImmediate;
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
+
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}]},{},[10])(10)
 });

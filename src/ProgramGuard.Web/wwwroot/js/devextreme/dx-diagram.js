@@ -19,8 +19,11 @@
 return /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
+
 /***/ 9279:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var Browser = (function () {
     function Browser() {
@@ -236,9 +239,14 @@ var Browser = (function () {
     return Browser;
 }());
 exports.Browser = Browser;
+
+
 /***/ }),
+
 /***/ 1772:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var BatchUpdatableObject = (function () {
     function BatchUpdatableObject() {
@@ -300,9 +308,14 @@ var EmptyBatchUpdatableObject = (function () {
     return EmptyBatchUpdatableObject;
 }());
 exports.EmptyBatchUpdatableObject = EmptyBatchUpdatableObject;
+
+
 /***/ }),
+
 /***/ 7820:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var Flag = (function () {
     function Flag(initValue) {
@@ -346,9 +359,14 @@ var Flag = (function () {
     return Flag;
 }());
 exports.Flag = Flag;
+
+
 /***/ }),
+
 /***/ 6799:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var tslib_1 = __webpack_require__(655);
 var MinMax = (function () {
@@ -401,9 +419,14 @@ var ExtendedMinMax = (function (_super) {
     return ExtendedMinMax;
 }(MinMax));
 exports.ExtendedMinMax = ExtendedMinMax;
+
+
 /***/ }),
+
 /***/ 9291:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var UnitConverter = (function () {
     function UnitConverter() {
@@ -540,9 +563,14 @@ var UnitConverter = (function () {
     return UnitConverter;
 }());
 exports.UnitConverter = UnitConverter;
+
+
 /***/ }),
+
 /***/ 5596:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var Metrics = (function () {
     function Metrics() {
@@ -558,9 +586,14 @@ var Metrics = (function () {
     return Metrics;
 }());
 exports.Metrics = Metrics;
+
+
 /***/ }),
+
 /***/ 4125:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var Offsets = (function () {
     function Offsets(left, right, top, bottom) {
@@ -666,9 +699,14 @@ var Offsets = (function () {
     return Offsets;
 }());
 exports.Offsets = Offsets;
+
+
 /***/ }),
+
 /***/ 8900:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var Point = (function () {
     function Point(x, y) {
@@ -740,9 +778,14 @@ var Point = (function () {
     return Point;
 }());
 exports.Point = Point;
+
+
 /***/ }),
+
 /***/ 8011:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var flag_1 = __webpack_require__(7820);
 var algorithms_1 = __webpack_require__(1104);
@@ -1054,9 +1097,14 @@ var RectangleDeviation = (function () {
     return RectangleDeviation;
 }());
 exports.RectangleDeviation = RectangleDeviation;
+
+
 /***/ }),
+
 /***/ 1335:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var math_1 = __webpack_require__(8679);
 var metrics_1 = __webpack_require__(5596);
@@ -1144,9 +1192,14 @@ var Segment = (function () {
     return Segment;
 }());
 exports.Segment = Segment;
+
+
 /***/ }),
+
 /***/ 6353:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var Size = (function () {
     function Size(width, height) {
@@ -1208,9 +1261,14 @@ var Size = (function () {
     return Size;
 }());
 exports.Size = Size;
+
+
 /***/ }),
+
 /***/ 9716:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var Vector = (function () {
     function Vector(x, y) {
@@ -1269,9 +1327,14 @@ var Vector = (function () {
     return Vector;
 }());
 exports.Vector = Vector;
+
+
 /***/ }),
+
 /***/ 1104:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var list_1 = __webpack_require__(2940);
 var search_1 = __webpack_require__(2400);
@@ -1432,9 +1495,14 @@ var IntervalAlgorithms = (function () {
     return IntervalAlgorithms;
 }());
 exports.IntervalAlgorithms = IntervalAlgorithms;
+
+
 /***/ }),
+
 /***/ 7814:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var ConstInterval = (function () {
     function ConstInterval() {
@@ -1476,9 +1544,14 @@ var ConstInterval = (function () {
     return ConstInterval;
 }());
 exports.ConstInterval = ConstInterval;
+
+
 /***/ }),
+
 /***/ 8860:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var tslib_1 = __webpack_require__(655);
 var mutable_1 = __webpack_require__(8678);
@@ -1541,9 +1614,14 @@ var FixedInterval = (function (_super) {
     return FixedInterval;
 }(mutable_1.MutableInterval));
 exports.FixedInterval = FixedInterval;
+
+
 /***/ }),
+
 /***/ 8678:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var tslib_1 = __webpack_require__(655);
 var const_1 = __webpack_require__(7814);
@@ -1560,9 +1638,14 @@ var MutableInterval = (function (_super) {
     return MutableInterval;
 }(const_1.ConstInterval));
 exports.MutableInterval = MutableInterval;
+
+
 /***/ }),
+
 /***/ 6102:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var intervals_1 = __webpack_require__(448);
 var SparseIntervalsCollector = (function () {
@@ -1584,9 +1667,14 @@ var SparseIntervalsCollector = (function () {
     return SparseIntervalsCollector;
 }());
 exports.SparseIntervalsCollector = SparseIntervalsCollector;
+
+
 /***/ }),
+
 /***/ 448:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var iterator_1 = __webpack_require__(8094);
 var objects_iterator_1 = __webpack_require__(510);
@@ -1628,9 +1716,14 @@ var SparseIntervals = (function () {
     return SparseIntervals;
 }());
 exports.SparseIntervals = SparseIntervals;
+
+
 /***/ }),
+
 /***/ 8094:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var SparseIntervalsIterator = (function () {
     function SparseIntervalsIterator(sparseIntervals) {
@@ -1686,9 +1779,14 @@ var SparseIntervalsIterator = (function () {
     return SparseIntervalsIterator;
 }());
 exports.SparseIntervalsIterator = SparseIntervalsIterator;
+
+
 /***/ }),
+
 /***/ 510:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var tslib_1 = __webpack_require__(655);
 var iterator_1 = __webpack_require__(8094);
@@ -1705,9 +1803,14 @@ var SparseObjectsIterator = (function (_super) {
     return SparseObjectsIterator;
 }(iterator_1.SparseIntervalsIterator));
 exports.SparseObjectsIterator = SparseObjectsIterator;
+
+
 /***/ }),
+
 /***/ 6477:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var file_1 = __webpack_require__(2674);
 var mime_type_1 = __webpack_require__(4633);
@@ -1771,9 +1874,14 @@ var Base64Utils = (function () {
     return Base64Utils;
 }());
 exports.Base64Utils = Base64Utils;
+
+
 /***/ }),
+
 /***/ 13:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var string_1 = __webpack_require__(49);
 var ColorUtils = (function () {
@@ -1924,9 +2032,14 @@ var ColorUtils = (function () {
     return ColorUtils;
 }());
 exports.ColorUtils = ColorUtils;
+
+
 /***/ }),
+
 /***/ 2491:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var string_1 = __webpack_require__(49);
 function isDefined(value) {
@@ -1971,9 +2084,14 @@ function numberToStringHex(num, minLength) {
     return string_1.StringUtils.padLeft(num.toString(16), minLength, '0');
 }
 exports.numberToStringHex = numberToStringHex;
+
+
 /***/ }),
+
 /***/ 4170:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var Comparers = (function () {
     function Comparers() {
@@ -2004,9 +2122,14 @@ var Equals = (function () {
     return Equals;
 }());
 exports.Equals = Equals;
+
+
 /***/ }),
+
 /***/ 6907:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var browser_1 = __webpack_require__(9279);
 var common_1 = __webpack_require__(2491);
@@ -2492,9 +2615,14 @@ function getAbsoluteScrollOffset_OperaFF(curEl, isX) {
     }
     return pos;
 }
+
+
 /***/ }),
+
 /***/ 9712:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var EncodeUtils = (function () {
     function EncodeUtils() {
@@ -2535,9 +2663,14 @@ var EncodeUtils = (function () {
     return EncodeUtils;
 }());
 exports.EncodeUtils = EncodeUtils;
+
+
 /***/ }),
+
 /***/ 3714:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var browser_1 = __webpack_require__(9279);
 var common_1 = __webpack_require__(2491);
@@ -2637,9 +2770,14 @@ var EvtUtils = (function () {
     return EvtUtils;
 }());
 exports.EvtUtils = EvtUtils;
+
+
 /***/ }),
+
 /***/ 2674:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var browser_1 = __webpack_require__(9279);
 var base64_1 = __webpack_require__(6477);
@@ -2701,9 +2839,14 @@ var FileUtils = (function () {
     return FileUtils;
 }());
 exports.FileUtils = FileUtils;
+
+
 /***/ }),
+
 /***/ 2153:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var browser_1 = __webpack_require__(9279);
 var encode_1 = __webpack_require__(9712);
@@ -2976,9 +3119,14 @@ var KeyCode;
     KeyCode[KeyCode["CloseBracket"] = 221] = "CloseBracket";
     KeyCode[KeyCode["SingleQuote"] = 222] = "SingleQuote";
 })(KeyCode = exports.KeyCode || (exports.KeyCode = {}));
+
+
 /***/ }),
+
 /***/ 2940:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var min_max_1 = __webpack_require__(6799);
 var comparers_1 = __webpack_require__(4170);
@@ -3425,9 +3573,14 @@ var ListUtils = (function () {
     return ListUtils;
 }());
 exports.ListUtils = ListUtils;
+
+
 /***/ }),
+
 /***/ 8679:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var list_1 = __webpack_require__(2940);
 var MathUtils = (function () {
@@ -3480,9 +3633,14 @@ var MathUtils = (function () {
     return MathUtils;
 }());
 exports.MathUtils = MathUtils;
+
+
 /***/ }),
+
 /***/ 4633:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 var _a, _b, _c;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.OpenXmlMimeType = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
@@ -3606,9 +3764,14 @@ var MimeTypeUtils = (function () {
     return MimeTypeUtils;
 }());
 exports.MimeTypeUtils = MimeTypeUtils;
+
+
 /***/ }),
+
 /***/ 2400:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var SearchUtils = (function () {
     function SearchUtils() {
@@ -3674,9 +3837,14 @@ var SearchUtils = (function () {
     return SearchUtils;
 }());
 exports.SearchUtils = SearchUtils;
+
+
 /***/ }),
+
 /***/ 49:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var StringUtils = (function () {
     function StringUtils() {
@@ -3793,9 +3961,14 @@ var StringUtils = (function () {
     return StringUtils;
 }());
 exports.StringUtils = StringUtils;
+
+
 /***/ }),
+
 /***/ 1632:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var browser_1 = __webpack_require__(9279);
 var common_1 = __webpack_require__(2491);
@@ -3832,27 +4005,42 @@ var TouchUtils = (function () {
     return TouchUtils;
 }());
 exports.TouchUtils = TouchUtils;
+
+
 /***/ }),
+
 /***/ 7097:
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+
+
+
 (__webpack_require__(8091).polyfill)();
+
+
 /***/ }),
+
 /***/ 8091:
 /***/ ((module) => {
+
 /**
  * Code refactored from Mozilla Developer Network:
  * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
  */
+
+
+
 function assign(target, firstSource) {
   if (target === undefined || target === null) {
     throw new TypeError('Cannot convert first argument to object');
   }
+
   var to = Object(target);
   for (var i = 1; i < arguments.length; i++) {
     var nextSource = arguments[i];
     if (nextSource === undefined || nextSource === null) {
       continue;
     }
+
     var keysArray = Object.keys(Object(nextSource));
     for (var nextIndex = 0, len = keysArray.length; nextIndex < len; nextIndex++) {
       var nextKey = keysArray[nextIndex];
@@ -3864,6 +4052,7 @@ function assign(target, firstSource) {
   }
   return to;
 }
+
 function polyfill() {
   if (!Object.assign) {
     Object.defineProperty(Object, 'assign', {
@@ -3874,18 +4063,28 @@ function polyfill() {
     });
   }
 }
+
 module.exports = {
   assign: assign,
   polyfill: polyfill
 };
+
+
 /***/ }),
+
 /***/ 8721:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
 __webpack_require__.r(__webpack_exports__);
 // extracted by mini-css-extract-plugin
+
+
 /***/ }),
+
 /***/ 5656:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -4004,9 +4203,14 @@ var ApiControllerAction;
 (function (ApiControllerAction) {
     ApiControllerAction[ApiControllerAction["SelectionChanged"] = 1] = "SelectionChanged";
 })(ApiControllerAction || (ApiControllerAction = {}));
+
+
 /***/ }),
+
 /***/ 7185:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -4066,9 +4270,14 @@ var NativeConnector = (function (_super) {
     return NativeConnector;
 }(NativeItem));
 exports.NativeConnector = NativeConnector;
+
+
 /***/ }),
+
 /***/ 8906:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -4136,9 +4345,14 @@ var AutoLayoutCommandBase = (function (_super) {
     return AutoLayoutCommandBase;
 }(SimpleCommandBase_1.SimpleCommandBase));
 exports.AutoLayoutCommandBase = AutoLayoutCommandBase;
+
+
 /***/ }),
+
 /***/ 30:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -4173,9 +4387,14 @@ var AutoLayoutLayeredHorizontalCommand = (function (_super) {
     return AutoLayoutLayeredHorizontalCommand;
 }(AutoLayoutCommandBase_1.AutoLayoutCommandBase));
 exports.AutoLayoutLayeredHorizontalCommand = AutoLayoutLayeredHorizontalCommand;
+
+
 /***/ }),
+
 /***/ 7826:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -4206,9 +4425,14 @@ var AutoLayoutLayeredHorizontalRightToLeftCommand = (function (_super) {
     return AutoLayoutLayeredHorizontalRightToLeftCommand;
 }(AutoLayoutLayeredHorizontalCommand_1.AutoLayoutLayeredHorizontalCommand));
 exports.AutoLayoutLayeredHorizontalRightToLeftCommand = AutoLayoutLayeredHorizontalRightToLeftCommand;
+
+
 /***/ }),
+
 /***/ 554:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -4239,9 +4463,14 @@ var AutoLayoutLayeredVerticalBottomToTopCommand = (function (_super) {
     return AutoLayoutLayeredVerticalBottomToTopCommand;
 }(AutoLayoutLayeredVerticalCommand_1.AutoLayoutLayeredVerticalCommand));
 exports.AutoLayoutLayeredVerticalBottomToTopCommand = AutoLayoutLayeredVerticalBottomToTopCommand;
+
+
 /***/ }),
+
 /***/ 9427:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -4276,9 +4505,14 @@ var AutoLayoutLayeredVerticalCommand = (function (_super) {
     return AutoLayoutLayeredVerticalCommand;
 }(AutoLayoutCommandBase_1.AutoLayoutCommandBase));
 exports.AutoLayoutLayeredVerticalCommand = AutoLayoutLayeredVerticalCommand;
+
+
 /***/ }),
+
 /***/ 7004:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -4314,9 +4548,14 @@ var AutoLayoutTreeHorizontalCommand = (function (_super) {
     return AutoLayoutTreeHorizontalCommand;
 }(AutoLayoutCommandBase_1.AutoLayoutCommandBase));
 exports.AutoLayoutTreeHorizontalCommand = AutoLayoutTreeHorizontalCommand;
+
+
 /***/ }),
+
 /***/ 5010:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -4347,9 +4586,14 @@ var AutoLayoutTreeHorizontalRightToLeftCommand = (function (_super) {
     return AutoLayoutTreeHorizontalRightToLeftCommand;
 }(AutoLayoutTreeHorizontalCommand_1.AutoLayoutTreeHorizontalCommand));
 exports.AutoLayoutTreeHorizontalRightToLeftCommand = AutoLayoutTreeHorizontalRightToLeftCommand;
+
+
 /***/ }),
+
 /***/ 2217:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -4380,9 +4624,14 @@ var AutoLayoutTreeVerticalBottomToTopCommand = (function (_super) {
     return AutoLayoutTreeVerticalBottomToTopCommand;
 }(AutoLayoutTreeVerticalCommand_1.AutoLayoutTreeVerticalCommand));
 exports.AutoLayoutTreeVerticalBottomToTopCommand = AutoLayoutTreeVerticalBottomToTopCommand;
+
+
 /***/ }),
+
 /***/ 375:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -4418,9 +4667,14 @@ var AutoLayoutTreeVerticalCommand = (function (_super) {
     return AutoLayoutTreeVerticalCommand;
 }(AutoLayoutCommandBase_1.AutoLayoutCommandBase));
 exports.AutoLayoutTreeVerticalCommand = AutoLayoutTreeVerticalCommand;
+
+
 /***/ }),
+
 /***/ 4982:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -4459,9 +4713,14 @@ var ClipboardCommand = (function (_super) {
     return ClipboardCommand;
 }(SimpleCommandBase_1.SimpleCommandBase));
 exports.ClipboardCommand = ClipboardCommand;
+
+
 /***/ }),
+
 /***/ 5827:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -4499,9 +4758,14 @@ var CopySelectionCommand = (function (_super) {
     return CopySelectionCommand;
 }(ClipboardCommand_1.ClipboardCommand));
 exports.CopySelectionCommand = CopySelectionCommand;
+
+
 /***/ }),
+
 /***/ 2664:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -4547,9 +4811,14 @@ var CutSelectionCommand = (function (_super) {
     return CutSelectionCommand;
 }(ClipboardCommand_1.ClipboardCommand));
 exports.CutSelectionCommand = CutSelectionCommand;
+
+
 /***/ }),
+
 /***/ 4200:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -4578,9 +4847,14 @@ var PasteSelectionCommand = (function (_super) {
     return PasteSelectionCommand;
 }(PasteSelectionCommandBase_1.PasteSelectionCommandBase));
 exports.PasteSelectionCommand = PasteSelectionCommand;
+
+
 /***/ }),
+
 /***/ 7688:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -4754,9 +5028,14 @@ var PasteSelectionCommandBase = (function (_super) {
     return PasteSelectionCommandBase;
 }(ClipboardCommand_1.ClipboardCommand));
 exports.PasteSelectionCommandBase = PasteSelectionCommandBase;
+
+
 /***/ }),
+
 /***/ 437:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -4799,9 +5078,14 @@ var PasteSelectionInPositionCommand = (function (_super) {
     return PasteSelectionInPositionCommand;
 }(PasteSelectionCommandBase_1.PasteSelectionCommandBase));
 exports.PasteSelectionInPositionCommand = PasteSelectionInPositionCommand;
+
+
 /***/ }),
+
 /***/ 9687:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.CommandBase = void 0;
 var CommandBase = (function () {
@@ -4867,9 +5151,14 @@ var CommandBase = (function () {
     return CommandBase;
 }());
 exports.CommandBase = CommandBase;
+
+
 /***/ }),
+
 /***/ 7156:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.CommandManager = exports.DiagramCommand = void 0;
 var DeleteCommand_1 = __webpack_require__(264);
@@ -5173,9 +5462,14 @@ var CommandManager = (function () {
     return CommandManager;
 }());
 exports.CommandManager = CommandManager;
+
+
 /***/ }),
+
 /***/ 2102:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.SimpleCommandState = void 0;
 var SimpleCommandState = (function () {
@@ -5191,9 +5485,14 @@ var SimpleCommandState = (function () {
     return SimpleCommandState;
 }());
 exports.SimpleCommandState = SimpleCommandState;
+
+
 /***/ }),
+
 /***/ 264:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -5235,9 +5534,14 @@ var DeleteCommand = (function (_super) {
     return DeleteCommand;
 }(SimpleCommandBase_1.SimpleCommandBase));
 exports.DeleteCommand = DeleteCommand;
+
+
 /***/ }),
+
 /***/ 3614:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -5273,9 +5577,14 @@ var RedoCommand = (function (_super) {
     return RedoCommand;
 }(SimpleCommandBase_1.SimpleCommandBase));
 exports.RedoCommand = RedoCommand;
+
+
 /***/ }),
+
 /***/ 2452:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -5309,9 +5618,14 @@ var SelectAllCommand = (function (_super) {
     return SelectAllCommand;
 }(SimpleCommandBase_1.SimpleCommandBase));
 exports.SelectAllCommand = SelectAllCommand;
+
+
 /***/ }),
+
 /***/ 6679:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -5347,9 +5661,14 @@ var UndoCommand = (function (_super) {
     return UndoCommand;
 }(SimpleCommandBase_1.SimpleCommandBase));
 exports.UndoCommand = UndoCommand;
+
+
 /***/ }),
+
 /***/ 9538:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -5394,9 +5713,14 @@ var BindDocumentCommand = (function (_super) {
     return BindDocumentCommand;
 }(SimpleCommandBase_1.SimpleCommandBase));
 exports.BindDocumentCommand = BindDocumentCommand;
+
+
 /***/ }),
+
 /***/ 125:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -5433,9 +5757,14 @@ var UnbindDocumentCommand = (function (_super) {
     return UnbindDocumentCommand;
 }(SimpleCommandBase_1.SimpleCommandBase));
 exports.UnbindDocumentCommand = UnbindDocumentCommand;
+
+
 /***/ }),
+
 /***/ 4845:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -5467,9 +5796,14 @@ var ExportCommand = (function (_super) {
     return ExportCommand;
 }(ExportImportCommandBase_1.ExportImportCommandBase));
 exports.ExportCommand = ExportCommand;
+
+
 /***/ }),
+
 /***/ 4012:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -5548,9 +5882,14 @@ var ExportImageCommand = (function (_super) {
     return ExportImageCommand;
 }(ExportImportCommandBase_1.ExportImportCommandBase));
 exports.ExportImageCommand = ExportImageCommand;
+
+
 /***/ }),
+
 /***/ 1081:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -5578,9 +5917,14 @@ var ExportImportCommandBase = (function (_super) {
     return ExportImportCommandBase;
 }(SimpleCommandBase_1.SimpleCommandBase));
 exports.ExportImportCommandBase = ExportImportCommandBase;
+
+
 /***/ }),
+
 /***/ 1203:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -5609,9 +5953,14 @@ var ExportJpgCommand = (function (_super) {
     return ExportJpgCommand;
 }(ExportImageCommand_1.ExportImageCommand));
 exports.ExportJpgCommand = ExportJpgCommand;
+
+
 /***/ }),
+
 /***/ 3690:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -5640,9 +5989,14 @@ var ExportPngCommand = (function (_super) {
     return ExportPngCommand;
 }(ExportImageCommand_1.ExportImageCommand));
 exports.ExportPngCommand = ExportPngCommand;
+
+
 /***/ }),
+
 /***/ 2276:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -5671,9 +6025,14 @@ var ExportSvgCommand = (function (_super) {
     return ExportSvgCommand;
 }(ExportImageCommand_1.ExportImageCommand));
 exports.ExportSvgCommand = ExportSvgCommand;
+
+
 /***/ }),
+
 /***/ 1239:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -5749,9 +6108,14 @@ var ImportBPMNCommand = (function (_super) {
     return ImportBPMNCommand;
 }(ExportImportCommandBase_1.ExportImportCommandBase));
 exports.ImportBPMNCommand = ImportBPMNCommand;
+
+
 /***/ }),
+
 /***/ 6596:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -5792,9 +6156,14 @@ var ImportCommand = (function (_super) {
     return ImportCommand;
 }(ExportImportCommandBase_1.ExportImportCommandBase));
 exports.ImportCommand = ImportCommand;
+
+
 /***/ }),
+
 /***/ 5830:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -5826,9 +6195,14 @@ var ImportXMLCommand = (function (_super) {
     return ImportXMLCommand;
 }(ExportImportCommandBase_1.ExportImportCommandBase));
 exports.ImportXMLCommand = ImportXMLCommand;
+
+
 /***/ }),
+
 /***/ 4999:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -5918,9 +6292,14 @@ var CloneDownCommand = (function (_super) {
     return CloneDownCommand;
 }(CloneCommand));
 exports.CloneDownCommand = CloneDownCommand;
+
+
 /***/ }),
+
 /***/ 5925:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -6069,9 +6448,14 @@ var MoveStepDownCommand = (function (_super) {
     return MoveStepDownCommand;
 }(MoveCommand));
 exports.MoveStepDownCommand = MoveStepDownCommand;
+
+
 /***/ }),
+
 /***/ 7550:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -6132,9 +6516,14 @@ var ChangeGridSizeItemsCommand = (function (_super) {
     return ChangeGridSizeItemsCommand;
 }(SimpleCommandBase_1.SimpleCommandBase));
 exports.ChangeGridSizeItemsCommand = ChangeGridSizeItemsCommand;
+
+
 /***/ }),
+
 /***/ 8016:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -6171,9 +6560,14 @@ var ChangePageColorCommand = (function (_super) {
     return ChangePageColorCommand;
 }(ChangePagePropertyCommand_1.ChangePagePropertyCommand));
 exports.ChangePageColorCommand = ChangePageColorCommand;
+
+
 /***/ }),
+
 /***/ 7649:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -6205,9 +6599,14 @@ var ChangePageLandscapeCommand = (function (_super) {
     return ChangePageLandscapeCommand;
 }(ChangePagePropertyCommand_1.ChangePagePropertyCommand));
 exports.ChangePageLandscapeCommand = ChangePageLandscapeCommand;
+
+
 /***/ }),
+
 /***/ 3499:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -6245,9 +6644,14 @@ var ChangePagePropertyCommand = (function (_super) {
     return ChangePagePropertyCommand;
 }(SimpleCommandBase_1.SimpleCommandBase));
 exports.ChangePagePropertyCommand = ChangePagePropertyCommand;
+
+
 /***/ }),
+
 /***/ 1813:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -6323,9 +6727,14 @@ var ChangePageSizeItemsCommand = (function (_super) {
     return ChangePageSizeItemsCommand;
 }(SimpleCommandBase_1.SimpleCommandBase));
 exports.ChangePageSizeItemsCommand = ChangePageSizeItemsCommand;
+
+
 /***/ }),
+
 /***/ 72:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -6364,9 +6773,14 @@ var ChangeShowGridCommand = (function (_super) {
     return ChangeShowGridCommand;
 }(SimpleCommandBase_1.SimpleCommandBase));
 exports.ChangeShowGridCommand = ChangeShowGridCommand;
+
+
 /***/ }),
+
 /***/ 4503:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -6402,9 +6816,14 @@ var ChangeSnapToGridCommand = (function (_super) {
     return ChangeSnapToGridCommand;
 }(SimpleCommandBase_1.SimpleCommandBase));
 exports.ChangeSnapToGridCommand = ChangeSnapToGridCommand;
+
+
 /***/ }),
+
 /***/ 4419:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -6469,9 +6888,14 @@ var ChangeViewUnitsCommand = (function (_super) {
     return ChangeViewUnitsCommand;
 }(SimpleCommandBase_1.SimpleCommandBase));
 exports.ChangeViewUnitsCommand = ChangeViewUnitsCommand;
+
+
 /***/ }),
+
 /***/ 4522:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -6758,9 +7182,14 @@ var ToggleAutoZoomCommand = (function (_super) {
     return ToggleAutoZoomCommand;
 }(SimpleCommandBase_1.SimpleCommandBase));
 exports.ToggleAutoZoomCommand = ToggleAutoZoomCommand;
+
+
 /***/ }),
+
 /***/ 6619:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -6799,9 +7228,14 @@ var ToggleFullscreenCommand = (function (_super) {
     return ToggleFullscreenCommand;
 }(SimpleCommandBase_1.SimpleCommandBase));
 exports.ToggleFullscreenCommand = ToggleFullscreenCommand;
+
+
 /***/ }),
+
 /***/ 9970:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -6839,9 +7273,14 @@ var ToggleReadOnlyCommand = (function (_super) {
     return ToggleReadOnlyCommand;
 }(SimpleCommandBase_1.SimpleCommandBase));
 exports.ToggleReadOnlyCommand = ToggleReadOnlyCommand;
+
+
 /***/ }),
+
 /***/ 7795:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -6880,9 +7319,14 @@ var ToggleSimpleViewCommand = (function (_super) {
     return ToggleSimpleViewCommand;
 }(SimpleCommandBase_1.SimpleCommandBase));
 exports.ToggleSimpleViewCommand = ToggleSimpleViewCommand;
+
+
 /***/ }),
+
 /***/ 3591:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -6949,9 +7393,14 @@ var BringToFrontCommand = (function (_super) {
     return BringToFrontCommand;
 }(SimpleCommandBase_1.SimpleCommandBase));
 exports.BringToFrontCommand = BringToFrontCommand;
+
+
 /***/ }),
+
 /***/ 2301:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -6997,9 +7446,14 @@ var ChangeConnectorEndLineEndingCommand = (function (_super) {
     return ChangeConnectorEndLineEndingCommand;
 }(ChangeConnectorPropertyCommand_1.ChangeConnectorPropertyCommand));
 exports.ChangeConnectorEndLineEndingCommand = ChangeConnectorEndLineEndingCommand;
+
+
 /***/ }),
+
 /***/ 7306:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -7031,9 +7485,14 @@ var ChangeConnectorLineOptionCommand = (function (_super) {
     return ChangeConnectorLineOptionCommand;
 }(ChangeConnectorPropertyCommand_1.ChangeConnectorPropertyCommand));
 exports.ChangeConnectorLineOptionCommand = ChangeConnectorLineOptionCommand;
+
+
 /***/ }),
+
 /***/ 7551:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -7084,9 +7543,14 @@ var ChangeConnectorPropertyCommand = (function (_super) {
     return ChangeConnectorPropertyCommand;
 }(SimpleCommandBase_1.SimpleCommandBase));
 exports.ChangeConnectorPropertyCommand = ChangeConnectorPropertyCommand;
+
+
 /***/ }),
+
 /***/ 7717:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -7120,9 +7584,14 @@ var ChangeConnectorRoutingModeCommand = (function (_super) {
     return ChangeConnectorRoutingModeCommand;
 }(SimpleCommandBase_1.SimpleCommandBase));
 exports.ChangeConnectorRoutingModeCommand = ChangeConnectorRoutingModeCommand;
+
+
 /***/ }),
+
 /***/ 1307:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -7160,9 +7629,14 @@ var ChangeLockedCommand = (function (_super) {
     return ChangeLockedCommand;
 }(SimpleCommandBase_1.SimpleCommandBase));
 exports.ChangeLockedCommand = ChangeLockedCommand;
+
+
 /***/ }),
+
 /***/ 9031:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -7190,9 +7664,14 @@ var LockCommand = (function (_super) {
     return LockCommand;
 }(ChangeLockedCommand_1.ChangeLockedCommand));
 exports.LockCommand = LockCommand;
+
+
 /***/ }),
+
 /***/ 4624:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -7259,9 +7738,14 @@ var SendToBackCommand = (function (_super) {
     return SendToBackCommand;
 }(SimpleCommandBase_1.SimpleCommandBase));
 exports.SendToBackCommand = SendToBackCommand;
+
+
 /***/ }),
+
 /***/ 6049:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -7289,9 +7773,14 @@ var UnLockCommand = (function (_super) {
     return UnLockCommand;
 }(ChangeLockedCommand_1.ChangeLockedCommand));
 exports.UnLockCommand = UnLockCommand;
+
+
 /***/ }),
+
 /***/ 962:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -7323,9 +7812,14 @@ var DeleteShapeImageCommand = (function (_super) {
     return DeleteShapeImageCommand;
 }(EditShapeImageCommandBase_1.EditShapeImageCommandBase));
 exports.DeleteShapeImageCommand = DeleteShapeImageCommand;
+
+
 /***/ }),
+
 /***/ 4281:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -7354,9 +7848,14 @@ var EditShapeImageCommand = (function (_super) {
     return EditShapeImageCommand;
 }(EditShapeImageCommandBase_1.EditShapeImageCommandBase));
 exports.EditShapeImageCommand = EditShapeImageCommand;
+
+
 /***/ }),
+
 /***/ 7650:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -7402,9 +7901,14 @@ var EditShapeImageCommandBase = (function (_super) {
     return EditShapeImageCommandBase;
 }(SimpleCommandBase_1.SimpleCommandBase));
 exports.EditShapeImageCommandBase = EditShapeImageCommandBase;
+
+
 /***/ }),
+
 /***/ 9158:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -7433,9 +7937,14 @@ var InsertShapeImageCommand = (function (_super) {
     return InsertShapeImageCommand;
 }(EditShapeImageCommandBase_1.EditShapeImageCommandBase));
 exports.InsertShapeImageCommand = InsertShapeImageCommand;
+
+
 /***/ }),
+
 /***/ 9741:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -7502,9 +8011,14 @@ var SimpleCommandBase = (function (_super) {
     return SimpleCommandBase;
 }(CommandBase_1.CommandBase));
 exports.SimpleCommandBase = SimpleCommandBase;
+
+
 /***/ }),
+
 /***/ 1649:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -7536,9 +8050,14 @@ var ChangeFillColorCommand = (function (_super) {
     return ChangeFillColorCommand;
 }(ChangeStylePropertyCommand_1.ChangeStylePropertyCommand));
 exports.ChangeFillColorCommand = ChangeFillColorCommand;
+
+
 /***/ }),
+
 /***/ 6106:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -7570,9 +8089,14 @@ var ChangeFontColorCommand = (function (_super) {
     return ChangeFontColorCommand;
 }(ChangeStyleTextPropertyCommand_1.ChangeStyleTextPropertyCommand));
 exports.ChangeFontColorCommand = ChangeFontColorCommand;
+
+
 /***/ }),
+
 /***/ 7480:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -7600,9 +8124,14 @@ var ChangeFontNameCommand = (function (_super) {
     return ChangeFontNameCommand;
 }(ChangeStyleTextPropertyCommand_1.ChangeStyleTextPropertyCommand));
 exports.ChangeFontNameCommand = ChangeFontNameCommand;
+
+
 /***/ }),
+
 /***/ 4077:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -7630,9 +8159,14 @@ var ChangeFontSizeCommand = (function (_super) {
     return ChangeFontSizeCommand;
 }(ChangeStyleTextPropertyCommand_1.ChangeStyleTextPropertyCommand));
 exports.ChangeFontSizeCommand = ChangeFontSizeCommand;
+
+
 /***/ }),
+
 /***/ 3166:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -7664,9 +8198,14 @@ var ChangeStrokeColorCommand = (function (_super) {
     return ChangeStrokeColorCommand;
 }(ChangeStylePropertyCommand_1.ChangeStylePropertyCommand));
 exports.ChangeStrokeColorCommand = ChangeStrokeColorCommand;
+
+
 /***/ }),
+
 /***/ 4643:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -7694,9 +8233,14 @@ var ChangeStrokeStyleCommand = (function (_super) {
     return ChangeStrokeStyleCommand;
 }(ChangeStylePropertyCommand_1.ChangeStylePropertyCommand));
 exports.ChangeStrokeStyleCommand = ChangeStrokeStyleCommand;
+
+
 /***/ }),
+
 /***/ 4681:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -7724,9 +8268,14 @@ var ChangeStrokeWidthCommand = (function (_super) {
     return ChangeStrokeWidthCommand;
 }(ChangeStylePropertyCommand_1.ChangeStylePropertyCommand));
 exports.ChangeStrokeWidthCommand = ChangeStrokeWidthCommand;
+
+
 /***/ }),
+
 /***/ 5726:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -7768,9 +8317,14 @@ var ChangeStylePropertyCommand = (function (_super) {
     return ChangeStylePropertyCommand;
 }(ChangeStylePropertyCommandBase_1.ChangeStylePropertyCommandBase));
 exports.ChangeStylePropertyCommand = ChangeStylePropertyCommand;
+
+
 /***/ }),
+
 /***/ 521:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -7814,9 +8368,14 @@ var ChangeStylePropertyCommandBase = (function (_super) {
     return ChangeStylePropertyCommandBase;
 }(StylePropertyCommandBase_1.StylePropertyCommandBase));
 exports.ChangeStylePropertyCommandBase = ChangeStylePropertyCommandBase;
+
+
 /***/ }),
+
 /***/ 2722:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -7858,9 +8417,14 @@ var ChangeStyleTextPropertyCommand = (function (_super) {
     return ChangeStyleTextPropertyCommand;
 }(ChangeStylePropertyCommandBase_1.ChangeStylePropertyCommandBase));
 exports.ChangeStyleTextPropertyCommand = ChangeStyleTextPropertyCommand;
+
+
 /***/ }),
+
 /***/ 8700:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -7921,9 +8485,14 @@ var TextRightAlignCommand = (function (_super) {
     return TextRightAlignCommand;
 }(ChangeTextAlignCommand));
 exports.TextRightAlignCommand = TextRightAlignCommand;
+
+
 /***/ }),
+
 /***/ 8351:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -7951,9 +8520,14 @@ var StylePropertyCommandBase = (function (_super) {
     return StylePropertyCommandBase;
 }(SimpleCommandBase_1.SimpleCommandBase));
 exports.StylePropertyCommandBase = StylePropertyCommandBase;
+
+
 /***/ }),
+
 /***/ 4378:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -7984,9 +8558,14 @@ var ToggleFontBoldCommand = (function (_super) {
     return ToggleFontBoldCommand;
 }(ToggleStyleTextPropertyCommand_1.ToggleStyleTextPropertyCommand));
 exports.ToggleFontBoldCommand = ToggleFontBoldCommand;
+
+
 /***/ }),
+
 /***/ 7607:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -8017,9 +8596,14 @@ var ToggleFontItalicCommand = (function (_super) {
     return ToggleFontItalicCommand;
 }(ToggleStyleTextPropertyCommand_1.ToggleStyleTextPropertyCommand));
 exports.ToggleFontItalicCommand = ToggleFontItalicCommand;
+
+
 /***/ }),
+
 /***/ 3411:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -8050,9 +8634,14 @@ var ToggleFontUnderlineCommand = (function (_super) {
     return ToggleFontUnderlineCommand;
 }(ToggleStyleTextPropertyCommand_1.ToggleStyleTextPropertyCommand));
 exports.ToggleFontUnderlineCommand = ToggleFontUnderlineCommand;
+
+
 /***/ }),
+
 /***/ 6980:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -8102,9 +8691,14 @@ var ToggleStyleTextPropertyCommand = (function (_super) {
     return ToggleStyleTextPropertyCommand;
 }(StylePropertyCommandBase_1.StylePropertyCommandBase));
 exports.ToggleStyleTextPropertyCommand = ToggleStyleTextPropertyCommand;
+
+
 /***/ }),
+
 /***/ 5035:
 /***/ (function(__unused_webpack_module, exports) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -8196,9 +8790,14 @@ var DataSourceEdgeDataImporter = (function (_super) {
     return DataSourceEdgeDataImporter;
 }(DataSourceItemDataImporter));
 exports.DataSourceEdgeDataImporter = DataSourceEdgeDataImporter;
+
+
 /***/ }),
+
 /***/ 3503:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.DataLayoutParameters = exports.DataLayoutType = void 0;
 var LayoutSettings_1 = __webpack_require__(8710);
@@ -8236,9 +8835,14 @@ var DataLayoutParameters = (function () {
     return DataLayoutParameters;
 }());
 exports.DataLayoutParameters = DataLayoutParameters;
+
+
 /***/ }),
+
 /***/ 4225:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.DataSource = void 0;
 var unit_converter_1 = __webpack_require__(9291);
@@ -9030,9 +9634,14 @@ var DataSource = (function () {
     return DataSource;
 }());
 exports.DataSource = DataSource;
+
+
 /***/ }),
+
 /***/ 5558:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -9091,9 +9700,14 @@ var DataSourceEdgeItem = (function (_super) {
     return DataSourceEdgeItem;
 }(DataSourceItem));
 exports.DataSourceEdgeItem = DataSourceEdgeItem;
+
+
 /***/ }),
+
 /***/ 8717:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -9794,9 +10408,14 @@ var DocumentDataSource = (function (_super) {
     return DocumentDataSource;
 }(DataSource_1.DataSource));
 exports.DocumentDataSource = DocumentDataSource;
+
+
 /***/ }),
+
 /***/ 9463:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Diagnostics = void 0;
 var LoggerDisplayMode;
@@ -9918,9 +10537,14 @@ var Diagnostics = (function () {
     return Diagnostics;
 }());
 exports.Diagnostics = Diagnostics;
+
+
 /***/ }),
+
 /***/ 2106:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.DiagramControl = void 0;
 var point_1 = __webpack_require__(8900);
@@ -10517,9 +11141,14 @@ var DiagramControl = (function () {
     return DiagramControl;
 }());
 exports.DiagramControl = DiagramControl;
+
+
 /***/ }),
+
 /***/ 5383:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.PageOrientation = exports.DiagramUnit = void 0;
 var DiagramUnit;
@@ -10533,9 +11162,14 @@ var PageOrientation;
     PageOrientation[PageOrientation["Portrait"] = 0] = "Portrait";
     PageOrientation[PageOrientation["Landscape"] = 1] = "Landscape";
 })(PageOrientation = exports.PageOrientation || (exports.PageOrientation = {}));
+
+
 /***/ }),
+
 /***/ 9946:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -10626,9 +11260,14 @@ var ContextMenuHandler = (function (_super) {
     return ContextMenuHandler;
 }(batch_updatable_1.BatchUpdatableObject));
 exports.ContextMenuHandler = ContextMenuHandler;
+
+
 /***/ }),
+
 /***/ 151:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -10738,9 +11377,14 @@ var ContextMenuTouchHandler = (function (_super) {
     return ContextMenuTouchHandler;
 }(ContextMenuHandler_1.ContextMenuHandler));
 exports.ContextMenuTouchHandler = ContextMenuTouchHandler;
+
+
 /***/ }),
+
 /***/ 4426:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ContextToolboxHandler = void 0;
 var Event_1 = __webpack_require__(6031);
@@ -10788,9 +11432,14 @@ var ContextToolboxHandler = (function () {
     return ContextToolboxHandler;
 }());
 exports.ContextToolboxHandler = ContextToolboxHandler;
+
+
 /***/ }),
+
 /***/ 6031:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -10950,9 +11599,14 @@ var DiagramClipboardEvent = (function (_super) {
     return DiagramClipboardEvent;
 }(DiagramEvent));
 exports.DiagramClipboardEvent = DiagramClipboardEvent;
+
+
 /***/ }),
+
 /***/ 82:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.EventManager = void 0;
 var MouseHandler_1 = __webpack_require__(5689);
@@ -11174,9 +11828,14 @@ var EventManager = (function () {
     return EventManager;
 }());
 exports.EventManager = EventManager;
+
+
 /***/ }),
+
 /***/ 5689:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.MouseHandler = void 0;
 var MouseHandlerDefaultState_1 = __webpack_require__(3250);
@@ -11542,9 +12201,14 @@ var MouseHandler = (function () {
     return MouseHandler;
 }());
 exports.MouseHandler = MouseHandler;
+
+
 /***/ }),
+
 /***/ 5627:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -11732,9 +12396,14 @@ var MouseHandlerCreateConnectorState = (function (_super) {
     return MouseHandlerCreateConnectorState;
 }(MouseHandlerMoveConnectorPointStateBase_1.MouseHandlerMoveConnectorPointStateBase));
 exports.MouseHandlerCreateConnectorState = MouseHandlerCreateConnectorState;
+
+
 /***/ }),
+
 /***/ 7286:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -11776,9 +12445,14 @@ var MouseHandlerDefaultReadOnlyState = (function (_super) {
     return MouseHandlerDefaultReadOnlyState;
 }(MouseHandlerDefaultStateBase_1.MouseHandlerDefaultStateBase));
 exports.MouseHandlerDefaultReadOnlyState = MouseHandlerDefaultReadOnlyState;
+
+
 /***/ }),
+
 /***/ 8032:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -11818,9 +12492,14 @@ var MouseHandlerDefaultReadOnlyTouchState = (function (_super) {
     return MouseHandlerDefaultReadOnlyTouchState;
 }(MouseHandlerDefaultReadOnlyState_1.MouseHandlerDefaultReadOnlyState));
 exports.MouseHandlerDefaultReadOnlyTouchState = MouseHandlerDefaultReadOnlyTouchState;
+
+
 /***/ }),
+
 /***/ 3250:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -11932,9 +12611,14 @@ var MouseHandlerDefaultState = (function (_super) {
     return MouseHandlerDefaultState;
 }(MouseHandlerDefaultStateBase_1.MouseHandlerDefaultStateBase));
 exports.MouseHandlerDefaultState = MouseHandlerDefaultState;
+
+
 /***/ }),
+
 /***/ 8213:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -12097,9 +12781,14 @@ var MouseHandlerDefaultStateBase = (function (_super) {
     return MouseHandlerDefaultStateBase;
 }(MouseHandlerStateBase_1.MouseHandlerStateBase));
 exports.MouseHandlerDefaultStateBase = MouseHandlerDefaultStateBase;
+
+
 /***/ }),
+
 /***/ 8502:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -12141,9 +12830,14 @@ var MouseHandlerDefaultTouchState = (function (_super) {
     return MouseHandlerDefaultTouchState;
 }(MouseHandlerDefaultState_1.MouseHandlerDefaultState));
 exports.MouseHandlerDefaultTouchState = MouseHandlerDefaultTouchState;
+
+
 /***/ }),
+
 /***/ 1717:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -12303,9 +12997,14 @@ var MouseHandlerDragDiagramItemStateBase = (function (_super) {
     return MouseHandlerDragDiagramItemStateBase;
 }(MouseHandlerDraggingState_1.MouseHandlerDraggingState));
 exports.MouseHandlerDragDiagramItemStateBase = MouseHandlerDragDiagramItemStateBase;
+
+
 /***/ }),
+
 /***/ 4908:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -12351,9 +13050,14 @@ var MouseHandlerDragParameterPointState = (function (_super) {
     return MouseHandlerDragParameterPointState;
 }(MouseHandlerDraggingState_1.MouseHandlerDraggingState));
 exports.MouseHandlerDragParameterPointState = MouseHandlerDragParameterPointState;
+
+
 /***/ }),
+
 /***/ 8816:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -12460,9 +13164,14 @@ var MouseHandlerDraggingState = (function (_super) {
     return MouseHandlerDraggingState;
 }(MouseHandlerStateBase_1.MouseHandlerCancellableState));
 exports.MouseHandlerDraggingState = MouseHandlerDraggingState;
+
+
 /***/ }),
+
 /***/ 5209:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -12621,9 +13330,14 @@ var MouseHandlerMoveConnectorOrthogonalSideState = (function (_super) {
     return MouseHandlerMoveConnectorOrthogonalSideState;
 }(MouseHandlerDraggingState_1.MouseHandlerDraggingState));
 exports.MouseHandlerMoveConnectorOrthogonalSideState = MouseHandlerMoveConnectorOrthogonalSideState;
+
+
 /***/ }),
+
 /***/ 4402:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -12683,9 +13397,14 @@ var MouseHandlerMoveConnectorPointState = (function (_super) {
     return MouseHandlerMoveConnectorPointState;
 }(MouseHandlerMoveConnectorPointStateBase_1.MouseHandlerMoveConnectorPointStateBase));
 exports.MouseHandlerMoveConnectorPointState = MouseHandlerMoveConnectorPointState;
+
+
 /***/ }),
+
 /***/ 7060:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -12829,9 +13548,14 @@ var MouseHandlerMoveConnectorPointStateBase = (function (_super) {
     return MouseHandlerMoveConnectorPointStateBase;
 }(MouseHandlerDraggingState_1.MouseHandlerDraggingState));
 exports.MouseHandlerMoveConnectorPointStateBase = MouseHandlerMoveConnectorPointStateBase;
+
+
 /***/ }),
+
 /***/ 481:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -12886,9 +13610,14 @@ var MouseHandlerMoveConnectorSideState = (function (_super) {
     return MouseHandlerMoveConnectorSideState;
 }(MouseHandlerDraggingState_1.MouseHandlerDraggingState));
 exports.MouseHandlerMoveConnectorSideState = MouseHandlerMoveConnectorSideState;
+
+
 /***/ }),
+
 /***/ 5168:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -12939,9 +13668,14 @@ var MouseHandlerMoveConnectorState = (function (_super) {
     return MouseHandlerMoveConnectorState;
 }(MouseHandlerDragDiagramItemStateBase_1.MouseHandlerDragDiagramItemStateBase));
 exports.MouseHandlerMoveConnectorState = MouseHandlerMoveConnectorState;
+
+
 /***/ }),
+
 /***/ 5391:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -12996,9 +13730,14 @@ var MouseHandlerMoveConnectorTextState = (function (_super) {
     return MouseHandlerMoveConnectorTextState;
 }(MouseHandlerDraggingState_1.MouseHandlerDraggingState));
 exports.MouseHandlerMoveConnectorTextState = MouseHandlerMoveConnectorTextState;
+
+
 /***/ }),
+
 /***/ 9979:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -13041,9 +13780,14 @@ var MouseHandlerMoveShapeState = (function (_super) {
     return MouseHandlerMoveShapeState;
 }(MouseHandlerDragDiagramItemStateBase_1.MouseHandlerDragDiagramItemStateBase));
 exports.MouseHandlerMoveShapeState = MouseHandlerMoveShapeState;
+
+
 /***/ }),
+
 /***/ 5609:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -13235,9 +13979,14 @@ var MouseHandlerResizeShapeState = (function (_super) {
     return MouseHandlerResizeShapeState;
 }(MouseHandlerDraggingState_1.MouseHandlerDraggingState));
 exports.MouseHandlerResizeShapeState = MouseHandlerResizeShapeState;
+
+
 /***/ }),
+
 /***/ 9582:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -13304,9 +14053,14 @@ var MouseHandlerScrollingState = (function (_super) {
     return MouseHandlerScrollingState;
 }(MouseHandlerStateBase_1.MouseHandlerCancellableState));
 exports.MouseHandlerScrollingState = MouseHandlerScrollingState;
+
+
 /***/ }),
+
 /***/ 4869:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -13363,9 +14117,14 @@ var MouseHandlerSelectionState = (function (_super) {
     return MouseHandlerSelectionState;
 }(MouseHandlerStateBase_1.MouseHandlerCancellableState));
 exports.MouseHandlerSelectionState = MouseHandlerSelectionState;
+
+
 /***/ }),
+
 /***/ 5434:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -13422,9 +14181,14 @@ var MouseHandlerCancellableState = (function (_super) {
     return MouseHandlerCancellableState;
 }(MouseHandlerStateBase));
 exports.MouseHandlerCancellableState = MouseHandlerCancellableState;
+
+
 /***/ }),
+
 /***/ 5752:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -13469,9 +14233,14 @@ var MouseHandlerToggleShapeExpandedState = (function (_super) {
     return MouseHandlerToggleShapeExpandedState;
 }(MouseHandlerStateBase_1.MouseHandlerStateBase));
 exports.MouseHandlerToggleShapeExpandedState = MouseHandlerToggleShapeExpandedState;
+
+
 /***/ }),
+
 /***/ 6918:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -13692,9 +14461,14 @@ var MouseHandlerToolboxDraggingState = (function (_super) {
     return MouseHandlerToolboxDraggingState;
 }(MouseHandlerDraggingState_1.MouseHandlerDraggingState));
 exports.MouseHandlerToolboxDraggingState = MouseHandlerToolboxDraggingState;
+
+
 /***/ }),
+
 /***/ 8461:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -13780,9 +14554,14 @@ var MouseHandlerZoomOnPinchState = (function (_super) {
     return MouseHandlerZoomOnPinchState;
 }(MouseHandlerScrollingState_1.MouseHandlerScrollingState));
 exports.MouseHandlerZoomOnPinchState = MouseHandlerZoomOnPinchState;
+
+
 /***/ }),
+
 /***/ 7189:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -13850,9 +14629,14 @@ var MouseHandlerZoomOnWheelState = (function (_super) {
     return MouseHandlerZoomOnWheelState;
 }(MouseHandlerStateBase_1.MouseHandlerStateBase));
 exports.MouseHandlerZoomOnWheelState = MouseHandlerZoomOnWheelState;
+
+
 /***/ }),
+
 /***/ 8376:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TextInputHandler = void 0;
 var ChangeShapeTextHistoryItem_1 = __webpack_require__(6516);
@@ -13980,9 +14764,14 @@ var TextInputHandler = (function () {
     return TextInputHandler;
 }());
 exports.TextInputHandler = TextInputHandler;
+
+
 /***/ }),
+
 /***/ 3541:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ConnectionPointsVisualizer = exports.ConnectionPointInfo = void 0;
 var ConnectionPointInfo = (function () {
@@ -14038,9 +14827,14 @@ var ConnectionPointsVisualizer = (function () {
     return ConnectionPointsVisualizer;
 }());
 exports.ConnectionPointsVisualizer = ConnectionPointsVisualizer;
+
+
 /***/ }),
+
 /***/ 3702:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -14082,9 +14876,14 @@ var ConnectionTargetVisualizer = (function (_super) {
     return ConnectionTargetVisualizer;
 }(TargetVisualizerBase_1.TargetVisualizerBase));
 exports.ConnectionTargetVisualizer = ConnectionTargetVisualizer;
+
+
 /***/ }),
+
 /***/ 9198:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -14125,9 +14924,14 @@ var ContainerTargetVisualizer = (function (_super) {
     return ContainerTargetVisualizer;
 }(TargetVisualizerBase_1.TargetVisualizerBase));
 exports.ContainerTargetVisualizer = ContainerTargetVisualizer;
+
+
 /***/ }),
+
 /***/ 371:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ExtensionLinesVisualizer = exports.ExtensionLine = exports.ExtensionLineType = void 0;
 var ExtensionLineType;
@@ -14208,9 +15012,14 @@ var ExtensionLinesVisualizer = (function () {
     return ExtensionLinesVisualizer;
 }());
 exports.ExtensionLinesVisualizer = ExtensionLinesVisualizer;
+
+
 /***/ }),
+
 /***/ 6569:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ResizeInfoVisualizer = void 0;
 var ResizeInfoVisualizer = (function () {
@@ -14239,9 +15048,14 @@ var ResizeInfoVisualizer = (function () {
     return ResizeInfoVisualizer;
 }());
 exports.ResizeInfoVisualizer = ResizeInfoVisualizer;
+
+
 /***/ }),
+
 /***/ 4753:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.SelectionRectVisualizer = void 0;
 var SelectionRectVisualizer = (function () {
@@ -14266,9 +15080,14 @@ var SelectionRectVisualizer = (function () {
     return SelectionRectVisualizer;
 }());
 exports.SelectionRectVisualizer = SelectionRectVisualizer;
+
+
 /***/ }),
+
 /***/ 3785:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TargetVisualizerBase = void 0;
 var TargetVisualizerBase = (function () {
@@ -14297,9 +15116,14 @@ var TargetVisualizerBase = (function () {
     return TargetVisualizerBase;
 }());
 exports.TargetVisualizerBase = TargetVisualizerBase;
+
+
 /***/ }),
+
 /***/ 7733:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -14594,9 +15418,14 @@ var VisualizerManager = (function (_super) {
     return VisualizerManager;
 }(batch_updatable_1.BatchUpdatableObject));
 exports.VisualizerManager = VisualizerManager;
+
+
 /***/ }),
+
 /***/ 7459:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -14675,9 +15504,14 @@ var VisualizerTouchManager = (function (_super) {
     return VisualizerTouchManager;
 }(VisualizersManager_1.VisualizerManager));
 exports.VisualizerTouchManager = VisualizerTouchManager;
+
+
 /***/ }),
+
 /***/ 3477:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -14738,9 +15572,14 @@ var SetConnectionPointIndexHistoryItem = (function (_super) {
     return SetConnectionPointIndexHistoryItem;
 }(HistoryItem_1.HistoryItem));
 exports.SetConnectionPointIndexHistoryItem = SetConnectionPointIndexHistoryItem;
+
+
 /***/ }),
+
 /***/ 9603:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -14783,9 +15622,14 @@ var AddConnectorHistoryItem = (function (_super) {
     return AddConnectorHistoryItem;
 }(HistoryItem_1.HistoryItem));
 exports.AddConnectorHistoryItem = AddConnectorHistoryItem;
+
+
 /***/ }),
+
 /***/ 4430:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -14831,9 +15675,14 @@ var AddConnectorPointHistoryItem = (function (_super) {
     return AddConnectorPointHistoryItem;
 }(HistoryItem_1.HistoryItem));
 exports.AddConnectorPointHistoryItem = AddConnectorPointHistoryItem;
+
+
 /***/ }),
+
 /***/ 4145:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -14876,9 +15725,14 @@ var AddShapeHistoryItem = (function (_super) {
     return AddShapeHistoryItem;
 }(HistoryItem_1.HistoryItem));
 exports.AddShapeHistoryItem = AddShapeHistoryItem;
+
+
 /***/ }),
+
 /***/ 58:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -14953,9 +15807,14 @@ var ReplaceConnectorPointsHistoryItem = (function (_super) {
     return ReplaceConnectorPointsHistoryItem;
 }(UpdateConnectorPointsHistoryItem));
 exports.ReplaceConnectorPointsHistoryItem = ReplaceConnectorPointsHistoryItem;
+
+
 /***/ }),
+
 /***/ 329:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -14992,9 +15851,14 @@ var ChangeShapeParametersHistoryItem = (function (_super) {
     return ChangeShapeParametersHistoryItem;
 }(HistoryItem_1.HistoryItem));
 exports.ChangeShapeParametersHistoryItem = ChangeShapeParametersHistoryItem;
+
+
 /***/ }),
+
 /***/ 56:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -15033,9 +15897,14 @@ var ChangeShapeTypeHistoryItem = (function (_super) {
     return ChangeShapeTypeHistoryItem;
 }(HistoryItem_1.HistoryItem));
 exports.ChangeShapeTypeHistoryItem = ChangeShapeTypeHistoryItem;
+
+
 /***/ }),
+
 /***/ 8930:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -15075,9 +15944,14 @@ var DeleteConnectionHistoryItem = (function (_super) {
     return DeleteConnectionHistoryItem;
 }(HistoryItem_1.HistoryItem));
 exports.DeleteConnectionHistoryItem = DeleteConnectionHistoryItem;
+
+
 /***/ }),
+
 /***/ 9143:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -15112,9 +15986,14 @@ var DeleteConnectorHistoryItem = (function (_super) {
     return DeleteConnectorHistoryItem;
 }(HistoryItem_1.HistoryItem));
 exports.DeleteConnectorHistoryItem = DeleteConnectorHistoryItem;
+
+
 /***/ }),
+
 /***/ 1704:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -15151,9 +16030,14 @@ var DeleteShapeHistoryItem = (function (_super) {
     return DeleteShapeHistoryItem;
 }(HistoryItem_1.HistoryItem));
 exports.DeleteShapeHistoryItem = DeleteShapeHistoryItem;
+
+
 /***/ }),
+
 /***/ 3849:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -15188,9 +16072,14 @@ var ImportConnectorHistoryItem = (function (_super) {
     return ImportConnectorHistoryItem;
 }(HistoryItem_1.HistoryItem));
 exports.ImportConnectorHistoryItem = ImportConnectorHistoryItem;
+
+
 /***/ }),
+
 /***/ 4383:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -15224,9 +16113,14 @@ var ImportShapeHistoryItem = (function (_super) {
     return ImportShapeHistoryItem;
 }(HistoryItem_1.HistoryItem));
 exports.ImportShapeHistoryItem = ImportShapeHistoryItem;
+
+
 /***/ }),
+
 /***/ 9310:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -15263,9 +16157,14 @@ var InsertToContainerHistoryItem = (function (_super) {
     return InsertToContainerHistoryItem;
 }(HistoryItem_1.HistoryItem));
 exports.InsertToContainerHistoryItem = InsertToContainerHistoryItem;
+
+
 /***/ }),
+
 /***/ 8338:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -15352,9 +16251,14 @@ var MoveConnectorRightAnglePointsHistoryItem = (function (_super) {
     return MoveConnectorRightAnglePointsHistoryItem;
 }(HistoryItem_1.HistoryItem));
 exports.MoveConnectorRightAnglePointsHistoryItem = MoveConnectorRightAnglePointsHistoryItem;
+
+
 /***/ }),
+
 /***/ 4160:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -15391,9 +16295,14 @@ var MoveShapeHistoryItem = (function (_super) {
     return MoveShapeHistoryItem;
 }(HistoryItem_1.HistoryItem));
 exports.MoveShapeHistoryItem = MoveShapeHistoryItem;
+
+
 /***/ }),
+
 /***/ 9753:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -15430,9 +16339,14 @@ var RemoveFromContainerHistoryItem = (function (_super) {
     return RemoveFromContainerHistoryItem;
 }(HistoryItem_1.HistoryItem));
 exports.RemoveFromContainerHistoryItem = RemoveFromContainerHistoryItem;
+
+
 /***/ }),
+
 /***/ 4629:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -15471,9 +16385,14 @@ var ResizeShapeHistoryItem = (function (_super) {
     return ResizeShapeHistoryItem;
 }(HistoryItem_1.HistoryItem));
 exports.ResizeShapeHistoryItem = ResizeShapeHistoryItem;
+
+
 /***/ }),
+
 /***/ 7626:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -15524,9 +16443,14 @@ var ScrollIntoViewOnUndoHistoryItem = (function (_super) {
     return ScrollIntoViewOnUndoHistoryItem;
 }(HistoryItem_1.HistoryItem));
 exports.ScrollIntoViewOnUndoHistoryItem = ScrollIntoViewOnUndoHistoryItem;
+
+
 /***/ }),
+
 /***/ 4297:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -15562,9 +16486,14 @@ var SetSelectionHistoryItem = (function (_super) {
     return SetSelectionHistoryItem;
 }(HistoryItem_1.HistoryItem));
 exports.SetSelectionHistoryItem = SetSelectionHistoryItem;
+
+
 /***/ }),
+
 /***/ 1864:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.History = void 0;
 var HistoryItem_1 = __webpack_require__(4412);
@@ -15730,9 +16659,14 @@ var History = (function () {
     return History;
 }());
 exports.History = History;
+
+
 /***/ }),
+
 /***/ 4412:
 /***/ (function(__unused_webpack_module, exports) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -15797,9 +16731,14 @@ var CompositionHistoryItem = (function (_super) {
     return CompositionHistoryItem;
 }(HistoryItem));
 exports.CompositionHistoryItem = CompositionHistoryItem;
+
+
 /***/ }),
+
 /***/ 7195:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -15833,9 +16772,14 @@ var ChangePageColorHistoryItem = (function (_super) {
     return ChangePageColorHistoryItem;
 }(HistoryItem_1.HistoryItem));
 exports.ChangePageColorHistoryItem = ChangePageColorHistoryItem;
+
+
 /***/ }),
+
 /***/ 1380:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -15869,9 +16813,14 @@ var ChangePageLandscapeHistoryItem = (function (_super) {
     return ChangePageLandscapeHistoryItem;
 }(HistoryItem_1.HistoryItem));
 exports.ChangePageLandscapeHistoryItem = ChangePageLandscapeHistoryItem;
+
+
 /***/ }),
+
 /***/ 1044:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -15905,9 +16854,14 @@ var ChangePageSizeHistoryItem = (function (_super) {
     return ChangePageSizeHistoryItem;
 }(HistoryItem_1.HistoryItem));
 exports.ChangePageSizeHistoryItem = ChangePageSizeHistoryItem;
+
+
 /***/ }),
+
 /***/ 7479:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -15941,9 +16895,14 @@ var ChangeUnitsHistoryItem = (function (_super) {
     return ChangeUnitsHistoryItem;
 }(HistoryItem_1.HistoryItem));
 exports.ChangeUnitsHistoryItem = ChangeUnitsHistoryItem;
+
+
 /***/ }),
+
 /***/ 1729:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -15982,9 +16941,14 @@ var ModelResizeHistoryItem = (function (_super) {
     return ModelResizeHistoryItem;
 }(HistoryItem_1.HistoryItem));
 exports.ModelResizeHistoryItem = ModelResizeHistoryItem;
+
+
 /***/ }),
+
 /***/ 4518:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -16034,9 +16998,14 @@ var UpdatePositionsOnPageResizeHistoryItem = (function (_super) {
     return UpdatePositionsOnPageResizeHistoryItem;
 }(HistoryItem_1.HistoryItem));
 exports.UpdatePositionsOnPageResizeHistoryItem = UpdatePositionsOnPageResizeHistoryItem;
+
+
 /***/ }),
+
 /***/ 8236:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -16074,9 +17043,14 @@ var ChangeConnectorPropertyHistoryItem = (function (_super) {
     return ChangeConnectorPropertyHistoryItem;
 }(HistoryItem_1.HistoryItem));
 exports.ChangeConnectorPropertyHistoryItem = ChangeConnectorPropertyHistoryItem;
+
+
 /***/ }),
+
 /***/ 5144:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -16114,9 +17088,14 @@ var ChangeConnectorTextHistoryItem = (function (_super) {
     return ChangeConnectorTextHistoryItem;
 }(HistoryItem_1.HistoryItem));
 exports.ChangeConnectorTextHistoryItem = ChangeConnectorTextHistoryItem;
+
+
 /***/ }),
+
 /***/ 45:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -16153,9 +17132,14 @@ var ChangeConnectorTextPositionHistoryItem = (function (_super) {
     return ChangeConnectorTextPositionHistoryItem;
 }(HistoryItem_1.HistoryItem));
 exports.ChangeConnectorTextPositionHistoryItem = ChangeConnectorTextPositionHistoryItem;
+
+
 /***/ }),
+
 /***/ 9559:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -16193,9 +17177,14 @@ var ChangeCustomDataHistoryItem = (function (_super) {
     return ChangeCustomDataHistoryItem;
 }(HistoryItem_1.HistoryItem));
 exports.ChangeCustomDataHistoryItem = ChangeCustomDataHistoryItem;
+
+
 /***/ }),
+
 /***/ 7443:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -16232,9 +17221,14 @@ var ChangeLockedHistoryItem = (function (_super) {
     return ChangeLockedHistoryItem;
 }(HistoryItem_1.HistoryItem));
 exports.ChangeLockedHistoryItem = ChangeLockedHistoryItem;
+
+
 /***/ }),
+
 /***/ 8210:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -16272,9 +17266,14 @@ var ChangeShapeImageHistoryItem = (function (_super) {
     return ChangeShapeImageHistoryItem;
 }(HistoryItem_1.HistoryItem));
 exports.ChangeShapeImageHistoryItem = ChangeShapeImageHistoryItem;
+
+
 /***/ }),
+
 /***/ 6516:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -16311,9 +17310,14 @@ var ChangeShapeTextHistoryItem = (function (_super) {
     return ChangeShapeTextHistoryItem;
 }(HistoryItem_1.HistoryItem));
 exports.ChangeShapeTextHistoryItem = ChangeShapeTextHistoryItem;
+
+
 /***/ }),
+
 /***/ 5982:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -16350,9 +17354,14 @@ var ChangeZindexHistoryItem = (function (_super) {
     return ChangeZindexHistoryItem;
 }(HistoryItem_1.HistoryItem));
 exports.ChangeZindexHistoryItem = ChangeZindexHistoryItem;
+
+
 /***/ }),
+
 /***/ 442:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -16388,9 +17397,14 @@ var ToggleShapeExpandedHistoryItem = (function (_super) {
     return ToggleShapeExpandedHistoryItem;
 }(HistoryItem_1.HistoryItem));
 exports.ToggleShapeExpandedHistoryItem = ToggleShapeExpandedHistoryItem;
+
+
 /***/ }),
+
 /***/ 4634:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -16424,9 +17438,14 @@ var ChangeStyleHistoryItem = (function (_super) {
     return ChangeStyleHistoryItem;
 }(ChangeStyleHistoryItemBase_1.ChangeStyleHistoryItemBase));
 exports.ChangeStyleHistoryItem = ChangeStyleHistoryItem;
+
+
 /***/ }),
+
 /***/ 3259:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -16464,9 +17483,14 @@ var ChangeStyleHistoryItemBase = (function (_super) {
     return ChangeStyleHistoryItemBase;
 }(HistoryItem_1.HistoryItem));
 exports.ChangeStyleHistoryItemBase = ChangeStyleHistoryItemBase;
+
+
 /***/ }),
+
 /***/ 926:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -16500,9 +17524,14 @@ var ChangeStyleTextHistoryItem = (function (_super) {
     return ChangeStyleTextHistoryItem;
 }(ChangeStyleHistoryItemBase_1.ChangeStyleHistoryItemBase));
 exports.ChangeStyleTextHistoryItem = ChangeStyleTextHistoryItem;
+
+
 /***/ }),
+
 /***/ 7176:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ImageCache = exports.CacheImageInfo = void 0;
 var base64_1 = __webpack_require__(6477);
@@ -16667,9 +17696,14 @@ var ImageCache = (function () {
     return ImageCache;
 }());
 exports.ImageCache = ImageCache;
+
+
 /***/ }),
+
 /***/ 6617:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ImageInfo = void 0;
 var base64_1 = __webpack_require__(6477);
@@ -16730,9 +17764,14 @@ var ImageInfo = (function () {
     return ImageInfo;
 }());
 exports.ImageInfo = ImageInfo;
+
+
 /***/ }),
+
 /***/ 590:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ImageLoader = void 0;
 var ImageCache_1 = __webpack_require__(7176);
@@ -16795,9 +17834,14 @@ var ImageLoader = (function () {
     return ImageLoader;
 }());
 exports.ImageLoader = ImageLoader;
+
+
 /***/ }),
+
 /***/ 5941:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -16946,9 +17990,14 @@ var BPMNEdge = (function (_super) {
     }
     return BPMNEdge;
 }(Structures_1.Edge));
+
+
 /***/ }),
+
 /***/ 5885:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Exporter = void 0;
 var Shape_1 = __webpack_require__(5503);
@@ -17071,9 +18120,14 @@ var Exporter = (function () {
     return Exporter;
 }());
 exports.Exporter = Exporter;
+
+
 /***/ }),
+
 /***/ 6572:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ImportUtils = void 0;
 var ImportUtils = (function () {
@@ -17096,9 +18150,14 @@ var ImportUtils = (function () {
     return ImportUtils;
 }());
 exports.ImportUtils = ImportUtils;
+
+
 /***/ }),
+
 /***/ 2406:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -17252,9 +18311,14 @@ var Importer = (function (_super) {
     return Importer;
 }(ImporterBase_1.ImporterBase));
 exports.Importer = Importer;
+
+
 /***/ }),
+
 /***/ 8577:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ImporterBase = void 0;
 var Model_1 = __webpack_require__(6613);
@@ -17445,9 +18509,14 @@ var ImporterBase = (function () {
     return ImporterBase;
 }());
 exports.ImporterBase = ImporterBase;
+
+
 /***/ }),
+
 /***/ 780:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -17691,9 +18760,14 @@ var XmlImporter = (function (_super) {
     return XmlImporter;
 }(ImporterBase_1.ImporterBase));
 exports.XmlImporter = XmlImporter;
+
+
 /***/ }),
+
 /***/ 5227:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.LayoutBuilder = void 0;
 var LayoutSettings_1 = __webpack_require__(8710);
@@ -17732,9 +18806,14 @@ var LayoutBuilder = (function () {
     return LayoutBuilder;
 }());
 exports.LayoutBuilder = LayoutBuilder;
+
+
 /***/ }),
+
 /***/ 1256:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -18351,9 +19430,14 @@ function trunc(val) {
         return val;
     return (val - val % 1) || (val < 0 ? -0 : val === 0 ? val : 0);
 }
+
+
 /***/ }),
+
 /***/ 9533:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -18525,9 +19609,14 @@ var TreeLayoutBuilder = (function (_super) {
     return TreeLayoutBuilder;
 }(BaseBuilder_1.LayoutBuilder));
 exports.TreeLayoutBuilder = TreeLayoutBuilder;
+
+
 /***/ }),
+
 /***/ 213:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -18758,9 +19847,14 @@ var GraphIterator = (function () {
     return GraphIterator;
 }());
 exports.GraphIterator = GraphIterator;
+
+
 /***/ }),
+
 /***/ 7819:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.GraphInfo = void 0;
 var LayoutUtils_1 = __webpack_require__(1755);
@@ -18802,9 +19896,14 @@ var GraphInfo = (function () {
     return GraphInfo;
 }());
 exports.GraphInfo = GraphInfo;
+
+
 /***/ }),
+
 /***/ 8119:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.GraphLayout = void 0;
 var Utils_1 = __webpack_require__(8675);
@@ -18869,9 +19968,14 @@ var GraphLayout = (function () {
     return GraphLayout;
 }());
 exports.GraphLayout = GraphLayout;
+
+
 /***/ }),
+
 /***/ 8710:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -18927,9 +20031,14 @@ var Alignment;
     Alignment[Alignment["Left"] = 0] = "Left";
     Alignment[Alignment["Center"] = 1] = "Center";
 })(Alignment = exports.Alignment || (exports.Alignment = {}));
+
+
 /***/ }),
+
 /***/ 1755:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.LayoutUtils = void 0;
 var NodeLayout_1 = __webpack_require__(617);
@@ -18953,9 +20062,14 @@ var LayoutUtils = (function () {
     return LayoutUtils;
 }());
 exports.LayoutUtils = LayoutUtils;
+
+
 /***/ }),
+
 /***/ 617:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Margin = exports.EdgeLayout = exports.NodeLayout = exports.NodeInfo = void 0;
 var rectangle_1 = __webpack_require__(8011);
@@ -19015,9 +20129,14 @@ var Margin = (function () {
     return Margin;
 }());
 exports.Margin = Margin;
+
+
 /***/ }),
+
 /***/ 8217:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ConnectionMode = exports.PositionInfo = exports.Edge = void 0;
 var Edge = (function () {
@@ -19051,9 +20170,14 @@ var ConnectionMode;
     ConnectionMode[ConnectionMode["Incoming"] = 2] = "Incoming";
     ConnectionMode[ConnectionMode["OutgoingAndIncoming"] = 3] = "OutgoingAndIncoming";
 })(ConnectionMode = exports.ConnectionMode || (exports.ConnectionMode = {}));
+
+
 /***/ }),
+
 /***/ 5148:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Tree = void 0;
 var Structures_1 = __webpack_require__(8217);
@@ -19115,9 +20239,14 @@ var Tree = (function () {
     return Tree;
 }());
 exports.Tree = Tree;
+
+
 /***/ }),
+
 /***/ 7309:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.CycleRemover = void 0;
 var Graph_1 = __webpack_require__(213);
@@ -19274,9 +20403,14 @@ var CycleRemover = (function () {
     return CycleRemover;
 }());
 exports.CycleRemover = CycleRemover;
+
+
 /***/ }),
+
 /***/ 701:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.HashSet = void 0;
 var HashSet = (function () {
@@ -19335,9 +20469,14 @@ var HashSet = (function () {
     return HashSet;
 }());
 exports.HashSet = HashSet;
+
+
 /***/ }),
+
 /***/ 6224:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.DiagramLocalizationService = void 0;
 var ShapeTypes_1 = __webpack_require__(2259);
@@ -19399,9 +20538,14 @@ DiagramLocalizationService.shapeTexts[ShapeTypes_1.ShapeTypes.Card] = "Person's 
 DiagramLocalizationService.shapeTexts[ShapeTypes_1.ShapeTypes.CardWithImageOnLeft] = "Card with Image on the Left";
 DiagramLocalizationService.shapeTexts[ShapeTypes_1.ShapeTypes.CardWithImageOnTop] = "Card with Image on the Top";
 DiagramLocalizationService.shapeTexts[ShapeTypes_1.ShapeTypes.CardWithImageOnRight] = "Card with Image on the Right";
+
+
 /***/ }),
+
 /***/ 6879:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.DiagramModelOperation = exports.ModelOperationSettings = void 0;
 var ModelOperationSettings = (function () {
@@ -19549,9 +20693,14 @@ var DiagramModelOperation;
     DiagramModelOperation[DiagramModelOperation["ResizeShape"] = 10] = "ResizeShape";
     DiagramModelOperation[DiagramModelOperation["MoveShape"] = 11] = "MoveShape";
 })(DiagramModelOperation = exports.DiagramModelOperation || (exports.DiagramModelOperation = {}));
+
+
 /***/ }),
+
 /***/ 7228:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -19592,9 +20741,14 @@ var ConnectionPoint = (function (_super) {
     return ConnectionPoint;
 }(point_1.Point));
 exports.ConnectionPoint = ConnectionPoint;
+
+
 /***/ }),
+
 /***/ 5800:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -19623,9 +20777,14 @@ var ConnectorPointsCalculator = (function (_super) {
     return ConnectorPointsCalculator;
 }(ConnectorPointsCalculatorBase_1.ConnectorPointsCalculatorBase));
 exports.ConnectorPointsCalculator = ConnectorPointsCalculator;
+
+
 /***/ }),
+
 /***/ 7595:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ConnectorPointsCalculatorBase = void 0;
 var ConnectorPointsCalculatorBase = (function () {
@@ -19635,9 +20794,14 @@ var ConnectorPointsCalculatorBase = (function () {
     return ConnectorPointsCalculatorBase;
 }());
 exports.ConnectorPointsCalculatorBase = ConnectorPointsCalculatorBase;
+
+
 /***/ }),
+
 /***/ 2342:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -19818,9 +20982,14 @@ var ConnectorPointsOrthogonalCalculator = (function (_super) {
     return ConnectorPointsOrthogonalCalculator;
 }(ConnectorPointsCalculatorBase_1.ConnectorPointsCalculatorBase));
 exports.ConnectorPointsOrthogonalCalculator = ConnectorPointsOrthogonalCalculator;
+
+
 /***/ }),
+
 /***/ 2290:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -20008,9 +21177,14 @@ var ConnectorPointsOrthogonalEastSideCalculator = (function (_super) {
     return ConnectorPointsOrthogonalEastSideCalculator;
 }(ConnectorPointsOrthogonalSideCalculatorBase_1.ConnectorPointsOrthogonalSideCalculatorBase));
 exports.ConnectorPointsOrthogonalEastSideCalculator = ConnectorPointsOrthogonalEastSideCalculator;
+
+
 /***/ }),
+
 /***/ 993:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -20198,9 +21372,14 @@ var ConnectorPointsOrthogonalNorthSideCalculator = (function (_super) {
     return ConnectorPointsOrthogonalNorthSideCalculator;
 }(ConnectorPointsOrthogonalSideCalculatorBase_1.ConnectorPointsOrthogonalSideCalculatorBase));
 exports.ConnectorPointsOrthogonalNorthSideCalculator = ConnectorPointsOrthogonalNorthSideCalculator;
+
+
 /***/ }),
+
 /***/ 1816:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ConnectorPointsOrthogonalSideCalculatorBase = void 0;
 var rectangle_1 = __webpack_require__(8011);
@@ -20297,9 +21476,14 @@ var ConnectorPointsOrthogonalSideCalculatorBase = (function () {
     return ConnectorPointsOrthogonalSideCalculatorBase;
 }());
 exports.ConnectorPointsOrthogonalSideCalculatorBase = ConnectorPointsOrthogonalSideCalculatorBase;
+
+
 /***/ }),
+
 /***/ 1774:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -20487,9 +21671,14 @@ var ConnectorPointsOrthogonalSouthSideCalculator = (function (_super) {
     return ConnectorPointsOrthogonalSouthSideCalculator;
 }(ConnectorPointsOrthogonalSideCalculatorBase_1.ConnectorPointsOrthogonalSideCalculatorBase));
 exports.ConnectorPointsOrthogonalSouthSideCalculator = ConnectorPointsOrthogonalSouthSideCalculator;
+
+
 /***/ }),
+
 /***/ 1686:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -20571,9 +21760,14 @@ var ConnectorPointsOrthogonalUndefinedSideCalculator = (function (_super) {
     return ConnectorPointsOrthogonalUndefinedSideCalculator;
 }(ConnectorPointsOrthogonalSideCalculatorBase_1.ConnectorPointsOrthogonalSideCalculatorBase));
 exports.ConnectorPointsOrthogonalUndefinedSideCalculator = ConnectorPointsOrthogonalUndefinedSideCalculator;
+
+
 /***/ }),
+
 /***/ 7369:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -20761,9 +21955,14 @@ var ConnectorPointsOrthogonalWestSideCalculator = (function (_super) {
     return ConnectorPointsOrthogonalWestSideCalculator;
 }(ConnectorPointsOrthogonalSideCalculatorBase_1.ConnectorPointsOrthogonalSideCalculatorBase));
 exports.ConnectorPointsOrthogonalWestSideCalculator = ConnectorPointsOrthogonalWestSideCalculator;
+
+
 /***/ }),
+
 /***/ 7959:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -21162,9 +22361,14 @@ var Connector = (function (_super) {
     return Connector;
 }(DiagramItem_1.DiagramItem));
 exports.Connector = Connector;
+
+
 /***/ }),
+
 /***/ 5454:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -21308,9 +22512,14 @@ var ConnectorLineEndingFilledTriangleStrategy = (function (_super) {
     return ConnectorLineEndingFilledTriangleStrategy;
 }(ConnectorLineEndingOutlinedTriangleStrategy));
 exports.ConnectorLineEndingFilledTriangleStrategy = ConnectorLineEndingFilledTriangleStrategy;
+
+
 /***/ }),
+
 /***/ 4612:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ConnectorProperties = exports.DEFAULT_CONNECTOR_ENDLINEENDING = exports.DEFAULT_CONNECTOR_STARTLINEENDING = exports.DEFAULT_CONNECTOR_LINEOPTION = exports.ConnectorLineEnding = exports.ConnectorLineOption = void 0;
 var ConnectorLineOption;
@@ -21374,9 +22583,14 @@ var ConnectorProperties = (function () {
     return ConnectorProperties;
 }());
 exports.ConnectorProperties = ConnectorProperties;
+
+
 /***/ }),
+
 /***/ 4717:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -21433,9 +22647,14 @@ var ConnectorRenderPoint = (function (_super) {
     return ConnectorRenderPoint;
 }(point_1.Point));
 exports.ConnectorRenderPoint = ConnectorRenderPoint;
+
+
 /***/ }),
+
 /***/ 4351:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ConnectorTexts = exports.ConnectorText = void 0;
 var ConnectorText = (function () {
@@ -21497,9 +22716,14 @@ var ConnectorTexts = (function () {
     return ConnectorTexts;
 }());
 exports.ConnectorTexts = ConnectorTexts;
+
+
 /***/ }),
+
 /***/ 3975:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.AStarCalculator = void 0;
 var AStarCalculator = (function () {
@@ -21533,9 +22757,14 @@ var AStarCalculator = (function () {
     return AStarCalculator;
 }());
 exports.AStarCalculator = AStarCalculator;
+
+
 /***/ }),
+
 /***/ 2180:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -21692,9 +22921,14 @@ var AStarContext = (function (_super) {
     return AStarContext;
 }(AStarContextBase));
 exports.AStarContext = AStarContext;
+
+
 /***/ }),
+
 /***/ 9927:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.IntersectedShapeZone = exports.AStarMetrics = exports.IntersectedShapesMetrics = exports.TurnDirectionMetrics = exports.IntersectedShapeMetrics = exports.RightAngleTurnDirection = void 0;
 var point_1 = __webpack_require__(8900);
@@ -21841,9 +23075,14 @@ var IntersectedShapeZone;
     IntersectedShapeZone[IntersectedShapeZone["Shape"] = 1] = "Shape";
     IntersectedShapeZone[IntersectedShapeZone["Margin"] = 2] = "Margin";
 })(IntersectedShapeZone = exports.IntersectedShapeZone || (exports.IntersectedShapeZone = {}));
+
+
 /***/ }),
+
 /***/ 684:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.AStarNode = void 0;
 var AStarNode = (function () {
@@ -21869,9 +23108,14 @@ var AStarNode = (function () {
     return AStarNode;
 }());
 exports.AStarNode = AStarNode;
+
+
 /***/ }),
+
 /***/ 3225:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.SortedQueues = void 0;
 var search_1 = __webpack_require__(2400);
@@ -21939,9 +23183,14 @@ var SortedQueues = (function () {
     return SortedQueues;
 }());
 exports.SortedQueues = SortedQueues;
+
+
 /***/ }),
+
 /***/ 1039:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.UniqueAStarNodePositions = void 0;
 var UniqueAStarNodePositions = (function () {
@@ -21972,9 +23221,14 @@ var UniqueAStarNodePositions = (function () {
     return UniqueAStarNodePositions;
 }());
 exports.UniqueAStarNodePositions = UniqueAStarNodePositions;
+
+
 /***/ }),
+
 /***/ 1768:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ConnectorProhibitedSegments = void 0;
 var ConnectorProhibitedSegments = (function () {
@@ -21998,9 +23252,14 @@ var ConnectorProhibitedSegments = (function () {
     return ConnectorProhibitedSegments;
 }());
 exports.ConnectorProhibitedSegments = ConnectorProhibitedSegments;
+
+
 /***/ }),
+
 /***/ 1510:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ConnectorRenderPointsContext = void 0;
 var ConnectorRenderPoint_1 = __webpack_require__(4717);
@@ -22023,9 +23282,14 @@ var ConnectorRenderPointsContext = (function () {
     return ConnectorRenderPointsContext;
 }());
 exports.ConnectorRenderPointsContext = ConnectorRenderPointsContext;
+
+
 /***/ }),
+
 /***/ 2868:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ConnectorRenderSegment = void 0;
 var segment_1 = __webpack_require__(1335);
@@ -22103,9 +23367,14 @@ var ConnectorRenderSegment = (function () {
     return ConnectorRenderSegment;
 }());
 exports.ConnectorRenderSegment = ConnectorRenderSegment;
+
+
 /***/ }),
+
 /***/ 5714:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ConnectorRoutingModel = exports.ConnectorRoutingPenaltyDescription = void 0;
 var Settings_1 = __webpack_require__(240);
@@ -22164,9 +23433,14 @@ var ConnectorRoutingModel = (function () {
     return ConnectorRoutingModel;
 }());
 exports.ConnectorRoutingModel = ConnectorRoutingModel;
+
+
 /***/ }),
+
 /***/ 1254:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.RoutingGrid = void 0;
 var search_1 = __webpack_require__(2400);
@@ -22235,9 +23509,14 @@ var RoutingGrid = (function () {
     return RoutingGrid;
 }());
 exports.RoutingGrid = RoutingGrid;
+
+
 /***/ }),
+
 /***/ 1794:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.RightAngleConnectorRoutingContext = exports.IntersectingItemsByPointsContext = exports.CuttingItemsContext = void 0;
 var point_1 = __webpack_require__(8900);
@@ -22643,9 +23922,14 @@ var RightAngleConnectorRoutingContext = (function () {
     return RightAngleConnectorRoutingContext;
 }());
 exports.RightAngleConnectorRoutingContext = RightAngleConnectorRoutingContext;
+
+
 /***/ }),
+
 /***/ 5074:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.RightAngleConnectorRoutingMathOperations = void 0;
 var segment_1 = __webpack_require__(1335);
@@ -22736,9 +24020,14 @@ var RightAngleConnectorRoutingMathOperations = (function () {
     return RightAngleConnectorRoutingMathOperations;
 }());
 exports.RightAngleConnectorRoutingMathOperations = RightAngleConnectorRoutingMathOperations;
+
+
 /***/ }),
+
 /***/ 3597:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.RightAngleConnectorRoutingStrategy = void 0;
 var segment_1 = __webpack_require__(1335);
@@ -22905,9 +24194,14 @@ var RightAngleConnectorRoutingStrategy = (function () {
     return RightAngleConnectorRoutingStrategy;
 }());
 exports.RightAngleConnectorRoutingStrategy = RightAngleConnectorRoutingStrategy;
+
+
 /***/ }),
+
 /***/ 3742:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.DiagramItem = exports.DEFAULT_ZINDEX = exports.ConnectionPointSide = void 0;
 var rectangle_1 = __webpack_require__(8011);
@@ -23034,9 +24328,14 @@ var DiagramItem = (function () {
     return DiagramItem;
 }());
 exports.DiagramItem = DiagramItem;
+
+
 /***/ }),
+
 /***/ 4742:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.DraggingConnector = exports.SelectionDragHelper = void 0;
 var vector_1 = __webpack_require__(9716);
@@ -23201,9 +24500,14 @@ var DraggingShape = (function () {
     }
     return DraggingShape;
 }());
+
+
 /***/ }),
+
 /***/ 6613:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.DiagramModel = void 0;
 var Shape_1 = __webpack_require__(5503);
@@ -23475,9 +24779,14 @@ var DiagramModel = (function () {
     return DiagramModel;
 }());
 exports.DiagramModel = DiagramModel;
+
+
 /***/ }),
+
 /***/ 2004:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ItemChange = exports.ItemChangeType = void 0;
 var ItemChangeType;
@@ -23504,9 +24813,14 @@ var ItemChange = (function () {
     return ItemChange;
 }());
 exports.ItemChange = ItemChange;
+
+
 /***/ }),
+
 /***/ 1118:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ModelManipulator = void 0;
 var offsets_1 = __webpack_require__(4125);
@@ -23936,9 +25250,14 @@ var ModelManipulator = (function () {
     return ModelManipulator;
 }());
 exports.ModelManipulator = ModelManipulator;
+
+
 /***/ }),
+
 /***/ 4867:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ModelUtils = void 0;
 var unit_converter_1 = __webpack_require__(9291);
@@ -24912,9 +26231,14 @@ var ModelUtils = (function () {
     return ModelUtils;
 }());
 exports.ModelUtils = ModelUtils;
+
+
 /***/ }),
+
 /***/ 6469:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -24982,9 +26306,14 @@ var AddShapeEventArgs = (function (_super) {
     return AddShapeEventArgs;
 }(RequestedEntity_1.PermissionRequestEventArgs));
 exports.AddShapeEventArgs = AddShapeEventArgs;
+
+
 /***/ }),
+
 /***/ 1110:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -25051,9 +26380,14 @@ var AddShapeFromToolboxEventArgs = (function (_super) {
     return AddShapeFromToolboxEventArgs;
 }(RequestedEntity_1.PermissionRequestEventArgs));
 exports.AddShapeFromToolboxEventArgs = AddShapeFromToolboxEventArgs;
+
+
 /***/ }),
+
 /***/ 4829:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -25123,9 +26457,14 @@ var BeforeChangeConnectorTextEventArgs = (function (_super) {
     return BeforeChangeConnectorTextEventArgs;
 }(RequestedEntity_1.PermissionRequestEventArgs));
 exports.BeforeChangeConnectorTextEventArgs = BeforeChangeConnectorTextEventArgs;
+
+
 /***/ }),
+
 /***/ 2345:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -25192,9 +26531,14 @@ var BeforeChangeShapeTextEventArgs = (function (_super) {
     return BeforeChangeShapeTextEventArgs;
 }(RequestedEntity_1.PermissionRequestEventArgs));
 exports.BeforeChangeShapeTextEventArgs = BeforeChangeShapeTextEventArgs;
+
+
 /***/ }),
+
 /***/ 6466:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -25273,9 +26617,14 @@ var ChangeConnectionEventArgs = (function (_super) {
     return ChangeConnectionEventArgs;
 }(RequestedEntity_1.PermissionRequestEventArgs));
 exports.ChangeConnectionEventArgs = ChangeConnectionEventArgs;
+
+
 /***/ }),
+
 /***/ 6354:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -25350,9 +26699,14 @@ var ChangeConnectorPointsEventArgs = (function (_super) {
     return ChangeConnectorPointsEventArgs;
 }(RequestedEntity_1.PermissionRequestEventArgs));
 exports.ChangeConnectorPointsEventArgs = ChangeConnectorPointsEventArgs;
+
+
 /***/ }),
+
 /***/ 2249:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -25424,9 +26778,14 @@ var ChangeConnectorTextEventArgs = (function (_super) {
     return ChangeConnectorTextEventArgs;
 }(RequestedEntity_1.PermissionRequestEventArgs));
 exports.ChangeConnectorTextEventArgs = ChangeConnectorTextEventArgs;
+
+
 /***/ }),
+
 /***/ 5560:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -25495,9 +26854,14 @@ var ChangeShapeTextEventArgs = (function (_super) {
     return ChangeShapeTextEventArgs;
 }(RequestedEntity_1.PermissionRequestEventArgs));
 exports.ChangeShapeTextEventArgs = ChangeShapeTextEventArgs;
+
+
 /***/ }),
+
 /***/ 6580:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -25564,9 +26928,14 @@ var DeleteConnectorEventArgs = (function (_super) {
     return DeleteConnectorEventArgs;
 }(RequestedEntity_1.PermissionRequestEventArgs));
 exports.DeleteConnectorEventArgs = DeleteConnectorEventArgs;
+
+
 /***/ }),
+
 /***/ 8825:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -25633,9 +27002,14 @@ var DeleteShapeEventArgs = (function (_super) {
     return DeleteShapeEventArgs;
 }(RequestedEntity_1.PermissionRequestEventArgs));
 exports.DeleteShapeEventArgs = DeleteShapeEventArgs;
+
+
 /***/ }),
+
 /***/ 4864:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -25706,9 +27080,14 @@ var MoveShapeEventArgs = (function (_super) {
     return MoveShapeEventArgs;
 }(RequestedEntity_1.PermissionRequestEventArgs));
 exports.MoveShapeEventArgs = MoveShapeEventArgs;
+
+
 /***/ }),
+
 /***/ 8532:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.PermissionRequestEventArgs = exports.RequestedEntity = void 0;
 var RequestedEntity = (function () {
@@ -25749,9 +27128,14 @@ var PermissionRequestEventArgs = (function () {
     return PermissionRequestEventArgs;
 }());
 exports.PermissionRequestEventArgs = PermissionRequestEventArgs;
+
+
 /***/ }),
+
 /***/ 3214:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -25822,9 +27206,14 @@ var ResizeShapeEventArgs = (function (_super) {
     return ResizeShapeEventArgs;
 }(RequestedEntity_1.PermissionRequestEventArgs));
 exports.ResizeShapeEventArgs = ResizeShapeEventArgs;
+
+
 /***/ }),
+
 /***/ 2883:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.PermissionsProvider = void 0;
 var Shape_1 = __webpack_require__(5503);
@@ -26013,9 +27402,14 @@ var PermissionsProvider = (function () {
     return PermissionsProvider;
 }());
 exports.PermissionsProvider = PermissionsProvider;
+
+
 /***/ }),
+
 /***/ 9187:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.PermissionsProviderStorage = void 0;
 var Shape_1 = __webpack_require__(5503);
@@ -26066,9 +27460,14 @@ var PermissionsProviderStorage = (function () {
     return PermissionsProviderStorage;
 }());
 exports.PermissionsProviderStorage = PermissionsProviderStorage;
+
+
 /***/ }),
+
 /***/ 7255:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -26175,9 +27574,14 @@ var ContainerDescription = (function (_super) {
     return ContainerDescription;
 }(ShapeDescription_1.ShapeDescription));
 exports.ContainerDescription = ContainerDescription;
+
+
 /***/ }),
+
 /***/ 944:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -26261,9 +27665,14 @@ var HorizontalContainerDescription = (function (_super) {
     return HorizontalContainerDescription;
 }(ContainerDescription_1.ContainerDescription));
 exports.HorizontalContainerDescription = HorizontalContainerDescription;
+
+
 /***/ }),
+
 /***/ 5759:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -26338,9 +27747,14 @@ var VerticalContainerDescription = (function (_super) {
     return VerticalContainerDescription;
 }(ContainerDescription_1.ContainerDescription));
 exports.VerticalContainerDescription = VerticalContainerDescription;
+
+
 /***/ }),
+
 /***/ 6688:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -26633,9 +28047,14 @@ var CustomShapeDescription = (function (_super) {
     return CustomShapeDescription;
 }(ShapeWithImageDescription_1.ShapeWithImageDescription));
 exports.CustomShapeDescription = CustomShapeDescription;
+
+
 /***/ }),
+
 /***/ 7552:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -26675,9 +28094,14 @@ var ConnectorShapeDescription = (function (_super) {
     return ConnectorShapeDescription;
 }(EllipseShapeDescription_1.EllipseShapeDescription));
 exports.ConnectorShapeDescription = ConnectorShapeDescription;
+
+
 /***/ }),
+
 /***/ 4941:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -26744,9 +28168,14 @@ var DataShapeDescription = (function (_super) {
     return DataShapeDescription;
 }(RectangleShapeDescription_1.RectangleShapeDescription));
 exports.DataShapeDescription = DataShapeDescription;
+
+
 /***/ }),
+
 /***/ 1034:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -26807,9 +28236,14 @@ var DatabaseShapeDescription = (function (_super) {
     return DatabaseShapeDescription;
 }(RectangleShapeDescription_1.RectangleShapeDescription));
 exports.DatabaseShapeDescription = DatabaseShapeDescription;
+
+
 /***/ }),
+
 /***/ 6825:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -26842,9 +28276,14 @@ var DecisionShapeDescription = (function (_super) {
     return DecisionShapeDescription;
 }(DiamondShapeDescription_1.DiamondShapeDescription));
 exports.DecisionShapeDescription = DecisionShapeDescription;
+
+
 /***/ }),
+
 /***/ 9229:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -26913,9 +28352,14 @@ var DelayShapeDescription = (function (_super) {
     return DelayShapeDescription;
 }(RectangleShapeDescription_1.RectangleShapeDescription));
 exports.DelayShapeDescription = DelayShapeDescription;
+
+
 /***/ }),
+
 /***/ 2650:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -26978,9 +28422,14 @@ var DisplayShapeDescription = (function (_super) {
     return DisplayShapeDescription;
 }(RectangleShapeDescription_1.RectangleShapeDescription));
 exports.DisplayShapeDescription = DisplayShapeDescription;
+
+
 /***/ }),
+
 /***/ 3525:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -27047,9 +28496,14 @@ var DocumentShapeDescription = (function (_super) {
     return DocumentShapeDescription;
 }(RectangleShapeDescription_1.RectangleShapeDescription));
 exports.DocumentShapeDescription = DocumentShapeDescription;
+
+
 /***/ }),
+
 /***/ 1314:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -27116,9 +28570,14 @@ var HardDiskShapeDescription = (function (_super) {
     return HardDiskShapeDescription;
 }(RectangleShapeDescription_1.RectangleShapeDescription));
 exports.HardDiskShapeDescription = HardDiskShapeDescription;
+
+
 /***/ }),
+
 /***/ 2751:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -27201,9 +28660,14 @@ var InternalStorageShapeDescription = (function (_super) {
     return InternalStorageShapeDescription;
 }(RectangleShapeDescription_1.RectangleShapeDescription));
 exports.InternalStorageShapeDescription = InternalStorageShapeDescription;
+
+
 /***/ }),
+
 /***/ 9144:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -27268,9 +28732,14 @@ var ManualInputShapeDescription = (function (_super) {
     return ManualInputShapeDescription;
 }(RectangleShapeDescription_1.RectangleShapeDescription));
 exports.ManualInputShapeDescription = ManualInputShapeDescription;
+
+
 /***/ }),
+
 /***/ 1643:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -27342,9 +28811,14 @@ var ManualOperationShapeDescription = (function (_super) {
     return ManualOperationShapeDescription;
 }(RectangleShapeDescription_1.RectangleShapeDescription));
 exports.ManualOperationShapeDescription = ManualOperationShapeDescription;
+
+
 /***/ }),
+
 /***/ 3046:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -27400,9 +28874,14 @@ var MergeShapeDescription = (function (_super) {
     return MergeShapeDescription;
 }(TriangleShapeDescription_1.TriangleShapeDescription));
 exports.MergeShapeDescription = MergeShapeDescription;
+
+
 /***/ }),
+
 /***/ 2850:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -27504,9 +28983,14 @@ var MultipleDocumentsShapeDescription = (function (_super) {
     return MultipleDocumentsShapeDescription;
 }(DocumentShapeDescription_1.DocumentShapeDescription));
 exports.MultipleDocumentsShapeDescription = MultipleDocumentsShapeDescription;
+
+
 /***/ }),
+
 /***/ 2019:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -27568,9 +29052,14 @@ var OrShapeDescription = (function (_super) {
     return OrShapeDescription;
 }(EllipseShapeDescription_1.EllipseShapeDescription));
 exports.OrShapeDescription = OrShapeDescription;
+
+
 /***/ }),
+
 /***/ 8110:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -27645,9 +29134,14 @@ var PaperTapeShapeDescription = (function (_super) {
     return PaperTapeShapeDescription;
 }(RectangleShapeDescription_1.RectangleShapeDescription));
 exports.PaperTapeShapeDescription = PaperTapeShapeDescription;
+
+
 /***/ }),
+
 /***/ 6508:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -27724,9 +29218,14 @@ var PredefinedProcessShapeDescription = (function (_super) {
     return PredefinedProcessShapeDescription;
 }(RectangleShapeDescription_1.RectangleShapeDescription));
 exports.PredefinedProcessShapeDescription = PredefinedProcessShapeDescription;
+
+
 /***/ }),
+
 /***/ 4112:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -27761,9 +29260,14 @@ var PreparationShapeDescription = (function (_super) {
     return PreparationShapeDescription;
 }(HexagonShapeDescription_1.HexagonShapeDescription));
 exports.PreparationShapeDescription = PreparationShapeDescription;
+
+
 /***/ }),
+
 /***/ 5331:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -27799,9 +29303,14 @@ var ProcessShapeDescription = (function (_super) {
     return ProcessShapeDescription;
 }(RectangleShapeDescription_1.RectangleShapeDescription));
 exports.ProcessShapeDescription = ProcessShapeDescription;
+
+
 /***/ }),
+
 /***/ 4810:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -27866,9 +29375,14 @@ var StoredDataShapeDescription = (function (_super) {
     return StoredDataShapeDescription;
 }(RectangleShapeDescription_1.RectangleShapeDescription));
 exports.StoredDataShapeDescription = StoredDataShapeDescription;
+
+
 /***/ }),
+
 /***/ 6182:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -27935,9 +29449,14 @@ var SummingJunctionShapeDescription = (function (_super) {
     return SummingJunctionShapeDescription;
 }(EllipseShapeDescription_1.EllipseShapeDescription));
 exports.SummingJunctionShapeDescription = SummingJunctionShapeDescription;
+
+
 /***/ }),
+
 /***/ 6242:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -28005,9 +29524,14 @@ var TerminatorShapeDescription = (function (_super) {
     return TerminatorShapeDescription;
 }(RectangleShapeDescription_1.RectangleShapeDescription));
 exports.TerminatorShapeDescription = TerminatorShapeDescription;
+
+
 /***/ }),
+
 /***/ 4958:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -28088,9 +29612,14 @@ var ArrowDownShapeDescription = (function (_super) {
     return ArrowDownShapeDescription;
 }(ArrowVerticalShapeDescription_1.ArrowVerticalShapeDescription));
 exports.ArrowDownShapeDescription = ArrowDownShapeDescription;
+
+
 /***/ }),
+
 /***/ 4493:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -28149,9 +29678,14 @@ var ArrowHorizontalShapeDescription = (function (_super) {
     return ArrowHorizontalShapeDescription;
 }(ShapeDescription_1.ShapeDescription));
 exports.ArrowHorizontalShapeDescription = ArrowHorizontalShapeDescription;
+
+
 /***/ }),
+
 /***/ 8800:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -28225,9 +29759,14 @@ var ArrowLeftRightShapeDescription = (function (_super) {
     return ArrowLeftRightShapeDescription;
 }(ArrowHorizontalShapeDescription_1.ArrowHorizontalShapeDescription));
 exports.ArrowLeftRightShapeDescription = ArrowLeftRightShapeDescription;
+
+
 /***/ }),
+
 /***/ 6023:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -28308,9 +29847,14 @@ var ArrowLeftShapeDescription = (function (_super) {
     return ArrowLeftShapeDescription;
 }(ArrowHorizontalShapeDescription_1.ArrowHorizontalShapeDescription));
 exports.ArrowLeftShapeDescription = ArrowLeftShapeDescription;
+
+
 /***/ }),
+
 /***/ 6599:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -28391,9 +29935,14 @@ var ArrowRightShapeDescription = (function (_super) {
     return ArrowRightShapeDescription;
 }(ArrowHorizontalShapeDescription_1.ArrowHorizontalShapeDescription));
 exports.ArrowRightShapeDescription = ArrowRightShapeDescription;
+
+
 /***/ }),
+
 /***/ 9089:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -28467,9 +30016,14 @@ var ArrowUpDownShapeDescription = (function (_super) {
     return ArrowUpDownShapeDescription;
 }(ArrowVerticalShapeDescription_1.ArrowVerticalShapeDescription));
 exports.ArrowUpDownShapeDescription = ArrowUpDownShapeDescription;
+
+
 /***/ }),
+
 /***/ 8327:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -28550,9 +30104,14 @@ var ArrowUpShapeDescription = (function (_super) {
     return ArrowUpShapeDescription;
 }(ArrowVerticalShapeDescription_1.ArrowVerticalShapeDescription));
 exports.ArrowUpShapeDescription = ArrowUpShapeDescription;
+
+
 /***/ }),
+
 /***/ 731:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -28611,9 +30170,14 @@ var ArrowVerticalShapeDescription = (function (_super) {
     return ArrowVerticalShapeDescription;
 }(ShapeDescription_1.ShapeDescription));
 exports.ArrowVerticalShapeDescription = ArrowVerticalShapeDescription;
+
+
 /***/ }),
+
 /***/ 2281:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -28708,9 +30272,14 @@ var CrossShapeDescription = (function (_super) {
     return CrossShapeDescription;
 }(ShapeDescription_1.ShapeDescription));
 exports.CrossShapeDescription = CrossShapeDescription;
+
+
 /***/ }),
+
 /***/ 5303:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -28768,9 +30337,14 @@ var DiamondShapeDescription = (function (_super) {
     return DiamondShapeDescription;
 }(ShapeDescription_1.ShapeDescription));
 exports.DiamondShapeDescription = DiamondShapeDescription;
+
+
 /***/ }),
+
 /***/ 7768:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -28825,9 +30399,14 @@ var EllipseShapeDescription = (function (_super) {
     return EllipseShapeDescription;
 }(ShapeDescription_1.ShapeDescription));
 exports.EllipseShapeDescription = EllipseShapeDescription;
+
+
 /***/ }),
+
 /***/ 8628:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -28898,9 +30477,14 @@ var HeartShapeDescription = (function (_super) {
     return HeartShapeDescription;
 }(ShapeDescription_1.ShapeDescription));
 exports.HeartShapeDescription = HeartShapeDescription;
+
+
 /***/ }),
+
 /***/ 2953:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -28971,9 +30555,14 @@ var HexagonShapeDescription = (function (_super) {
     return HexagonShapeDescription;
 }(PolygonShapeDescription_1.PolygonShapeDescription));
 exports.HexagonShapeDescription = HexagonShapeDescription;
+
+
 /***/ }),
+
 /***/ 1412:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -29046,9 +30635,14 @@ var OctagonShapeDescription = (function (_super) {
     return OctagonShapeDescription;
 }(PolygonShapeDescription_1.PolygonShapeDescription));
 exports.OctagonShapeDescription = OctagonShapeDescription;
+
+
 /***/ }),
+
 /***/ 8761:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -29141,9 +30735,14 @@ var PentagonShapeDescription = (function (_super) {
     return PentagonShapeDescription;
 }(PolygonShapeDescription_1.PolygonShapeDescription));
 exports.PentagonShapeDescription = PentagonShapeDescription;
+
+
 /***/ }),
+
 /***/ 7314:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -29182,9 +30781,14 @@ var PolygonShapeDescription = (function (_super) {
     return PolygonShapeDescription;
 }(ShapeDescription_1.ShapeDescription));
 exports.PolygonShapeDescription = PolygonShapeDescription;
+
+
 /***/ }),
+
 /***/ 1561:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -29235,9 +30839,14 @@ var RectangleShapeDescription = (function (_super) {
     return RectangleShapeDescription;
 }(ShapeDescription_1.ShapeDescription));
 exports.RectangleShapeDescription = RectangleShapeDescription;
+
+
 /***/ }),
+
 /***/ 8772:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -29386,9 +30995,14 @@ var StarShapeDescription = (function (_super) {
     return StarShapeDescription;
 }(PentagonShapeDescription_1.PentagonShapeDescription));
 exports.StarShapeDescription = StarShapeDescription;
+
+
 /***/ }),
+
 /***/ 1669:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -29453,9 +31067,14 @@ var TextShapeDescription = (function (_super) {
     return TextShapeDescription;
 }(ShapeDescription_1.ShapeDescription));
 exports.TextShapeDescription = TextShapeDescription;
+
+
 /***/ }),
+
 /***/ 2117:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -29528,9 +31147,14 @@ var TriangleShapeDescription = (function (_super) {
     return TriangleShapeDescription;
 }(ShapeDescription_1.ShapeDescription));
 exports.TriangleShapeDescription = TriangleShapeDescription;
+
+
 /***/ }),
+
 /***/ 3233:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -29670,9 +31294,14 @@ var CardBaseDescription = (function (_super) {
     return CardBaseDescription;
 }(ShapeWithImageDescription_1.ShapeWithImageDescription));
 exports.CardBaseDescription = CardBaseDescription;
+
+
 /***/ }),
+
 /***/ 3107:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -29743,9 +31372,14 @@ var CardWithImageOnRightDescription = (function (_super) {
     return CardWithImageOnRightDescription;
 }(CardWithHorizontalImageDescription));
 exports.CardWithImageOnRightDescription = CardWithImageOnRightDescription;
+
+
 /***/ }),
+
 /***/ 2816:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -29793,9 +31427,14 @@ var CardWithImageOnTopDescription = (function (_super) {
     return CardWithImageOnTopDescription;
 }(CardBaseDescription_1.CardBaseDescription));
 exports.CardWithImageOnTopDescription = CardWithImageOnTopDescription;
+
+
 /***/ }),
+
 /***/ 6794:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ShapeDescription = exports.ShapeTextPadding = exports.ShapeDefaultSize = exports.ShapeMinDimension = exports.ShapeDefaultDimension = void 0;
 var unit_converter_1 = __webpack_require__(9291);
@@ -29987,9 +31626,14 @@ var ShapeDescription = (function () {
     return ShapeDescription;
 }());
 exports.ShapeDescription = ShapeDescription;
+
+
 /***/ }),
+
 /***/ 8397:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ShapeDescriptionManager = void 0;
 var ProcessShapeDescription_1 = __webpack_require__(5331);
@@ -30163,9 +31807,14 @@ var ShapeDescriptionManager = (function () {
     return ShapeDescriptionManager;
 }());
 exports.ShapeDescriptionManager = ShapeDescriptionManager;
+
+
 /***/ }),
+
 /***/ 4083:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -30281,9 +31930,14 @@ var ShapeWithImageDescription = (function (_super) {
     return ShapeWithImageDescription;
 }(ShapeDescription_1.ShapeDescription));
 exports.ShapeWithImageDescription = ShapeWithImageDescription;
+
+
 /***/ }),
+
 /***/ 5503:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -30507,9 +32161,14 @@ var Shape = (function (_super) {
     return Shape;
 }(DiagramItem_1.DiagramItem));
 exports.Shape = Shape;
+
+
 /***/ }),
+
 /***/ 1852:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ShapeParameterPoint = void 0;
 var ShapeParameterPoint = (function () {
@@ -30520,9 +32179,14 @@ var ShapeParameterPoint = (function () {
     return ShapeParameterPoint;
 }());
 exports.ShapeParameterPoint = ShapeParameterPoint;
+
+
 /***/ }),
+
 /***/ 6629:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ShapeParameters = exports.ShapeParameter = void 0;
 var ShapeParameter = (function () {
@@ -30581,9 +32245,14 @@ var ShapeParameters = (function () {
     return ShapeParameters;
 }());
 exports.ShapeParameters = ShapeParameters;
+
+
 /***/ }),
+
 /***/ 2259:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ShapeType = exports.ShapeTypes = exports.ShapeCategories = void 0;
 var ShapeCategories = (function () {
@@ -30694,9 +32363,14 @@ var ShapeType;
     ShapeType[ShapeType["cardWithImageOnTop"] = 41] = "cardWithImageOnTop";
     ShapeType[ShapeType["cardWithImageOnRight"] = 42] = "cardWithImageOnRight";
 })(ShapeType = exports.ShapeType || (exports.ShapeType = {}));
+
+
 /***/ }),
+
 /***/ 1552:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -30910,9 +32584,14 @@ var EmptyStyle = (function (_super) {
     return EmptyStyle;
 }(Style));
 exports.EmptyStyle = EmptyStyle;
+
+
 /***/ }),
+
 /***/ 6214:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ReloadContentParameters = void 0;
 var ReloadContentParameters = (function () {
@@ -30961,9 +32640,14 @@ var ReloadContentParameters = (function () {
     return ReloadContentParameters;
 }());
 exports.ReloadContentParameters = ReloadContentParameters;
+
+
 /***/ }),
+
 /***/ 6557:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.AutoScrollController = void 0;
 var RenderHelper_1 = __webpack_require__(1114);
@@ -31090,9 +32774,14 @@ var AutoScrollController = (function () {
     return AutoScrollController;
 }());
 exports.AutoScrollController = AutoScrollController;
+
+
 /***/ }),
+
 /***/ 3872:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -31327,9 +33016,14 @@ var CanvasExportManager = (function (_super) {
     return CanvasExportManager;
 }(CanvasManagerBase_1.CanvasManagerBase));
 exports.CanvasExportManager = CanvasExportManager;
+
+
 /***/ }),
+
 /***/ 8693:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -31689,9 +33383,14 @@ var CanvasItemsManager = (function (_super) {
     return CanvasItemsManager;
 }(CanvasManager_1.CanvasManager));
 exports.CanvasItemsManager = CanvasItemsManager;
+
+
 /***/ }),
+
 /***/ 916:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -31797,9 +33496,14 @@ var CanvasManager = (function (_super) {
     return CanvasManager;
 }(CanvasManagerBase_1.CanvasManagerBase));
 exports.CanvasManager = CanvasManager;
+
+
 /***/ }),
+
 /***/ 7716:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.CanvasManagerBase = exports.PAGE_BG_TEXTFLOOR_FILTER_IDPREFIX = void 0;
 var TextFilterPrimitive_1 = __webpack_require__(3360);
@@ -31845,9 +33549,14 @@ var CanvasManagerBase = (function () {
     return CanvasManagerBase;
 }());
 exports.CanvasManagerBase = CanvasManagerBase;
+
+
 /***/ }),
+
 /***/ 6043:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -32041,9 +33750,14 @@ var CanvasPageManager = (function (_super) {
     return CanvasPageManager;
 }(CanvasManagerBase_1.CanvasManagerBase));
 exports.CanvasPageManager = CanvasPageManager;
+
+
 /***/ }),
+
 /***/ 4000:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -32967,9 +34681,14 @@ var ConnectorSelectionElement = (function (_super) {
     };
     return ConnectorSelectionElement;
 }(ItemSelectionElement));
+
+
 /***/ }),
+
 /***/ 9757:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -33506,9 +35225,14 @@ var CanvasViewManager = (function (_super) {
     return CanvasViewManager;
 }(CanvasManagerBase_1.CanvasManagerBase));
 exports.CanvasViewManager = CanvasViewManager;
+
+
 /***/ }),
+
 /***/ 6078:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -33603,9 +35327,14 @@ var ExportDOMManipulator = (function (_super) {
     return ExportDOMManipulator;
 }(DOMManipulator));
 exports.ExportDOMManipulator = ExportDOMManipulator;
+
+
 /***/ }),
+
 /***/ 741:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.InputManager = void 0;
 var key_1 = __webpack_require__(2153);
@@ -33926,9 +35655,14 @@ var InputManager = (function () {
     return InputManager;
 }());
 exports.InputManager = InputManager;
+
+
 /***/ }),
+
 /***/ 4246:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TextOwner = void 0;
 var TextOwner;
@@ -33938,9 +35672,14 @@ var TextOwner;
     TextOwner[TextOwner["ExtensionLine"] = 2] = "ExtensionLine";
     TextOwner[TextOwner["Resize"] = 3] = "Resize";
 })(TextOwner = exports.TextOwner || (exports.TextOwner = {}));
+
+
 /***/ }),
+
 /***/ 1733:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TextMeasurer = void 0;
 var size_1 = __webpack_require__(6353);
@@ -34138,9 +35877,14 @@ var TextMeasurer = (function () {
     return TextMeasurer;
 }());
 exports.TextMeasurer = TextMeasurer;
+
+
 /***/ }),
+
 /***/ 4593:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -34179,9 +35923,14 @@ var ClipPathPrimitive = (function (_super) {
     return ClipPathPrimitive;
 }(Primitive_1.SvgPrimitive));
 exports.ClipPathPrimitive = ClipPathPrimitive;
+
+
 /***/ }),
+
 /***/ 418:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -34223,9 +35972,14 @@ var EllipsePrimitive = (function (_super) {
     return EllipsePrimitive;
 }(Primitive_1.SvgPrimitive));
 exports.EllipsePrimitive = EllipsePrimitive;
+
+
 /***/ }),
+
 /***/ 4628:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -34272,9 +36026,14 @@ var FilterPrimitive = (function (_super) {
     return FilterPrimitive;
 }(Primitive_1.SvgPrimitive));
 exports.FilterPrimitive = FilterPrimitive;
+
+
 /***/ }),
+
 /***/ 5329:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -34317,9 +36076,14 @@ var GroupPrimitive = (function (_super) {
     return GroupPrimitive;
 }(Primitive_1.SvgPrimitive));
 exports.GroupPrimitive = GroupPrimitive;
+
+
 /***/ }),
+
 /***/ 1995:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -34366,9 +36130,14 @@ var ImagePrimitive = (function (_super) {
     return ImagePrimitive;
 }(Primitive_1.SvgPrimitive));
 exports.ImagePrimitive = ImagePrimitive;
+
+
 /***/ }),
+
 /***/ 7724:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -34520,9 +36289,14 @@ var PathPrimitiveClosePathCommand = (function (_super) {
     return PathPrimitiveClosePathCommand;
 }(PathPrimitiveCommand));
 exports.PathPrimitiveClosePathCommand = PathPrimitiveClosePathCommand;
+
+
 /***/ }),
+
 /***/ 1932:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -34569,9 +36343,14 @@ var PatternPrimitive = (function (_super) {
     return PatternPrimitive;
 }(Primitive_1.SvgPrimitive));
 exports.PatternPrimitive = PatternPrimitive;
+
+
 /***/ }),
+
 /***/ 4178:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -34646,9 +36425,14 @@ var SvgPrimitive = (function (_super) {
     return SvgPrimitive;
 }(PrimitiveObject_1.PrimitiveObject));
 exports.SvgPrimitive = SvgPrimitive;
+
+
 /***/ }),
+
 /***/ 9886:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.PrimitiveObject = void 0;
 var unit_converter_1 = __webpack_require__(9291);
@@ -34685,9 +36469,14 @@ var PrimitiveObject = (function () {
     return PrimitiveObject;
 }());
 exports.PrimitiveObject = PrimitiveObject;
+
+
 /***/ }),
+
 /***/ 4716:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -34729,9 +36518,14 @@ var RectanglePrimitive = (function (_super) {
     return RectanglePrimitive;
 }(Primitive_1.SvgPrimitive));
 exports.RectanglePrimitive = RectanglePrimitive;
+
+
 /***/ }),
+
 /***/ 4538:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -34774,9 +36568,14 @@ var RoundedRectanglePrimitive = (function (_super) {
     return RoundedRectanglePrimitive;
 }(RectaglePrimitive_1.RectanglePrimitive));
 exports.RoundedRectanglePrimitive = RoundedRectanglePrimitive;
+
+
 /***/ }),
+
 /***/ 3281:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -34819,9 +36618,14 @@ var ShadowFilterPrimitive = (function (_super) {
     return ShadowFilterPrimitive;
 }(FilterPrimitive_1.FilterPrimitive));
 exports.ShadowFilterPrimitive = ShadowFilterPrimitive;
+
+
 /***/ }),
+
 /***/ 1248:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -34874,9 +36678,14 @@ var SvgElementPrimitive = (function (_super) {
     return SvgElementPrimitive;
 }(Primitive_1.SvgPrimitive));
 exports.SvgElementPrimitive = SvgElementPrimitive;
+
+
 /***/ }),
+
 /***/ 3360:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -34957,9 +36766,14 @@ var TextFloodFilterPrimitive = (function (_super) {
     return TextFloodFilterPrimitive;
 }(TextFilterPrimitive));
 exports.TextFloodFilterPrimitive = TextFloodFilterPrimitive;
+
+
 /***/ }),
+
 /***/ 9416:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -35255,9 +37069,14 @@ var TextPrimitive270degRenderHelper = (function (_super) {
     return TextPrimitive270degRenderHelper;
 }(TextPrimitive90degRenderHelper));
 exports.TextPrimitive270degRenderHelper = TextPrimitive270degRenderHelper;
+
+
 /***/ }),
+
 /***/ 1114:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.RenderHelper = exports.svgNS = void 0;
 var Diagnostics_1 = __webpack_require__(9463);
@@ -35290,9 +37109,14 @@ var RenderHelper = (function () {
     return RenderHelper;
 }());
 exports.RenderHelper = RenderHelper;
+
+
 /***/ }),
+
 /***/ 8098:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.RenderManager = exports.DBL_CLICK_TIMEOUT = exports.LONG_TOUCH_TIMEOUT = void 0;
 var Event_1 = __webpack_require__(6031);
@@ -35800,9 +37624,14 @@ exports.RenderManager = RenderManager;
 function isLeftButtonPressed(evt) {
     return !browser_1.Browser.MSTouchUI ? Utils_2.EventUtils.isLeftButtonPressed(evt) : evt.button !== 2;
 }
+
+
 /***/ }),
+
 /***/ 7376:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.NativeScrollView = void 0;
 var Utils_1 = __webpack_require__(8675);
@@ -35857,9 +37686,14 @@ var NativeScrollView = (function () {
     return NativeScrollView;
 }());
 exports.NativeScrollView = NativeScrollView;
+
+
 /***/ }),
+
 /***/ 6411:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ShapeImageIndicator = void 0;
 var EllipsePrimitive_1 = __webpack_require__(418);
@@ -35962,9 +37796,14 @@ var ShapeImageIndicator = (function () {
     return ShapeImageIndicator;
 }());
 exports.ShapeImageIndicator = ShapeImageIndicator;
+
+
 /***/ }),
+
 /***/ 4724:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -36129,9 +37968,14 @@ var IconToolbox = (function (_super) {
     return IconToolbox;
 }(Toolbox_1.Toolbox));
 exports.IconToolbox = IconToolbox;
+
+
 /***/ }),
+
 /***/ 5947:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -36175,9 +38019,14 @@ var TextToolbox = (function (_super) {
     return TextToolbox;
 }(Toolbox_1.Toolbox));
 exports.TextToolbox = TextToolbox;
+
+
 /***/ }),
+
 /***/ 4602:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.DiagramDraggingEvent = exports.ToolboxDraggingObject = exports.Toolbox = void 0;
 var Utils_1 = __webpack_require__(8675);
@@ -36466,9 +38315,14 @@ var DiagramDraggingEvent = (function () {
     return DiagramDraggingEvent;
 }());
 exports.DiagramDraggingEvent = DiagramDraggingEvent;
+
+
 /***/ }),
+
 /***/ 3298:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ToolboxManager = void 0;
 var TextToolbox_1 = __webpack_require__(5947);
@@ -36541,9 +38395,14 @@ var ToolboxManager = (function () {
     return ToolboxManager;
 }());
 exports.ToolboxManager = ToolboxManager;
+
+
 /***/ }),
+
 /***/ 3500:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.raiseEvent = exports.RenderUtils = void 0;
 var Event_1 = __webpack_require__(6031);
@@ -36647,9 +38506,14 @@ function raiseEvent(evt, _evt, raiseFunc) {
         evt.preventDefault();
 }
 exports.raiseEvent = raiseEvent;
+
+
 /***/ }),
+
 /***/ 5401:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.InputPosition = void 0;
 var InputPositionProperties_1 = __webpack_require__(6823);
@@ -36739,9 +38603,14 @@ var InputPosition = (function () {
     return InputPosition;
 }());
 exports.InputPosition = InputPosition;
+
+
 /***/ }),
+
 /***/ 6823:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.InputPositionProperties = void 0;
 var ConnectorProperties_1 = __webpack_require__(4612);
@@ -36834,9 +38703,14 @@ var InputPositionProperties = (function () {
     return InputPositionProperties;
 }());
 exports.InputPositionProperties = InputPositionProperties;
+
+
 /***/ }),
+
 /***/ 9021:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Selection = void 0;
 var Utils_1 = __webpack_require__(8675);
@@ -36954,9 +38828,14 @@ var Selection = (function () {
     return Selection;
 }());
 exports.Selection = Selection;
+
+
 /***/ }),
+
 /***/ 240:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ConnectorRoutingMode = exports.AutoZoomMode = exports.DiagramSettings = void 0;
 var Utils_1 = __webpack_require__(8675);
@@ -37215,9 +39094,14 @@ var ConnectorRoutingMode;
     ConnectorRoutingMode[ConnectorRoutingMode["ConnectorShapesOnly"] = 1] = "ConnectorShapesOnly";
     ConnectorRoutingMode[ConnectorRoutingMode["AllShapesOnly"] = 2] = "AllShapesOnly";
 })(ConnectorRoutingMode = exports.ConnectorRoutingMode || (exports.ConnectorRoutingMode = {}));
+
+
 /***/ }),
+
 /***/ 2230:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -37320,9 +39204,14 @@ var BarManager = (function (_super) {
     return BarManager;
 }(batch_updatable_1.BatchUpdatableObject));
 exports.BarManager = BarManager;
+
+
 /***/ }),
+
 /***/ 8675:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.EventUtils = exports.HtmlFocusUtils = exports.ObjectUtils = exports.GeometryUtils = exports.Utils = exports.EventDispatcher = exports.Range = exports.LineEquation = void 0;
 __webpack_require__(7097);
@@ -38101,9 +39990,14 @@ var EventUtils = (function () {
     return EventUtils;
 }());
 exports.EventUtils = EventUtils;
+
+
 /***/ }),
+
 /***/ 4914:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Data = exports.SetAbsoluteY = exports.SetAbsoluteX = void 0;
 var dom_1 = __webpack_require__(6907);
@@ -38397,9 +40291,14 @@ var Data = (function () {
     return Data;
 }());
 exports.Data = Data;
+
+
 /***/ }),
+
 /***/ 8396:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.isColorProperty = void 0;
 var COLOR_PROPERTIES = { "stroke": true, "fill": true };
@@ -38407,9 +40306,14 @@ function isColorProperty(propName) {
     return COLOR_PROPERTIES[propName];
 }
 exports.isColorProperty = isColorProperty;
+
+
 /***/ }),
+
 /***/ 3490:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getLineHeight = exports.getTextHeight = exports.getTextLineSize = exports.getOptimalTextRectangle = exports.TEXTRECT_RATIO_EPS = exports.textToParagraphs = exports.textToWords = exports.wordsByLines = exports.LINE_HEIGHT = void 0;
 var Utils_1 = __webpack_require__(8675);
@@ -38559,9 +40463,14 @@ function getLineHeight(measureResult) {
     return measureResult.fontSize * exports.LINE_HEIGHT;
 }
 exports.getLineHeight = getLineHeight;
+
+
 /***/ }),
+
 /***/ 6734:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ViewController = void 0;
 var CommandManager_1 = __webpack_require__(7156);
@@ -38634,9 +40543,14 @@ function getStepByZoom(zoom) {
     var logZoom = Math.log(zoom);
     return Math.round((logZoom - LOG_MIN_ZOOM) * (ZOOM_STEPS - 1) / (LOG_MAX_ZOOM - LOG_MIN_ZOOM));
 }
+
+
 /***/ }),
+
 /***/ 3607:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.DiagramModelOperation = exports.Diagnostics = exports.RenderHelper = exports.DiagramLocalizationService = exports.NativeConnector = exports.NativeShape = exports.ShapeType = exports.ColorUtils = exports.PageOrientation = exports.ConnectorPosition = exports.ConnectorLineOption = exports.ConnectorLineEnding = exports.AutoZoomMode = exports.Browser = exports.UnitConverter = exports.EventDispatcher = exports.DataLayoutOrientation = exports.DataLayoutType = exports.ShapeCategories = exports.ShapeTypes = exports.DiagramUnit = exports["default"] = exports.DiagramControl = exports.DiagramCommand = exports.Point = exports.Size = void 0;
 var CommandManager_1 = __webpack_require__(7156);
@@ -38686,9 +40600,13 @@ var ModelOperationSettings_1 = __webpack_require__(6879);
 Object.defineProperty(exports, "DiagramModelOperation", ({ enumerable: true, get: function () { return ModelOperationSettings_1.DiagramModelOperation; } }));
 var Connector_1 = __webpack_require__(7959);
 Object.defineProperty(exports, "ConnectorPosition", ({ enumerable: true, get: function () { return Connector_1.ConnectorPosition; } }));
+
+
 /***/ }),
+
 /***/ 655:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   __assign: () => (/* binding */ __assign),
@@ -38717,8 +40635,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation.
+
 Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted.
+
 THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
 REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
 AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
@@ -38728,17 +40648,20 @@ OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 PERFORMANCE OF THIS SOFTWARE.
 ***************************************************************************** */
 /* global Reflect, Promise */
+
 var extendStatics = function(d, b) {
     extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
         function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
     return extendStatics(d, b);
 };
+
 function __extends(d, b) {
     extendStatics(d, b);
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 }
+
 var __assign = function() {
     __assign = Object.assign || function __assign(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -38749,6 +40672,7 @@ var __assign = function() {
     }
     return __assign.apply(this, arguments);
 }
+
 function __rest(s, e) {
     var t = {};
     for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
@@ -38760,18 +40684,22 @@ function __rest(s, e) {
         }
     return t;
 }
+
 function __decorate(decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 }
+
 function __param(paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 }
+
 function __metadata(metadataKey, metadataValue) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
 }
+
 function __awaiter(thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -38781,6 +40709,7 @@ function __awaiter(thisArg, _arguments, P, generator) {
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 }
+
 function __generator(thisArg, body) {
     var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
     return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
@@ -38808,6 +40737,7 @@ function __generator(thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 }
+
 var __createBinding = Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
@@ -38815,9 +40745,11 @@ var __createBinding = Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
 });
+
 function __exportStar(m, o) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(o, p)) __createBinding(o, m, p);
 }
+
 function __values(o) {
     var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
     if (m) return m.call(o);
@@ -38829,6 +40761,7 @@ function __values(o) {
     };
     throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
 }
+
 function __read(o, n) {
     var m = typeof Symbol === "function" && o[Symbol.iterator];
     if (!m) return o;
@@ -38845,11 +40778,13 @@ function __read(o, n) {
     }
     return ar;
 }
+
 function __spread() {
     for (var ar = [], i = 0; i < arguments.length; i++)
         ar = ar.concat(__read(arguments[i]));
     return ar;
 }
+
 function __spreadArrays() {
     for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
     for (var r = Array(s), k = 0, i = 0; i < il; i++)
@@ -38857,9 +40792,11 @@ function __spreadArrays() {
             r[k] = a[j];
     return r;
 };
+
 function __await(v) {
     return this instanceof __await ? (this.v = v, this) : new __await(v);
 }
+
 function __asyncGenerator(thisArg, _arguments, generator) {
     if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
     var g = generator.apply(thisArg, _arguments || []), i, q = [];
@@ -38871,11 +40808,13 @@ function __asyncGenerator(thisArg, _arguments, generator) {
     function reject(value) { resume("throw", value); }
     function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
 }
+
 function __asyncDelegator(o) {
     var i, p;
     return i = {}, verb("next"), verb("throw", function (e) { throw e; }), verb("return"), i[Symbol.iterator] = function () { return this; }, i;
     function verb(n, f) { i[n] = o[n] ? function (v) { return (p = !p) ? { value: __await(o[n](v)), done: n === "return" } : f ? f(v) : v; } : f; }
 }
+
 function __asyncValues(o) {
     if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
     var m = o[Symbol.asyncIterator], i;
@@ -38883,15 +40822,18 @@ function __asyncValues(o) {
     function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
     function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
 }
+
 function __makeTemplateObject(cooked, raw) {
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+
 var __setModuleDefault = Object.create ? (function(o, v) {
     Object.defineProperty(o, "default", { enumerable: true, value: v });
 }) : function(o, v) {
     o["default"] = v;
 };
+
 function __importStar(mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
@@ -38899,15 +40841,18 @@ function __importStar(mod) {
     __setModuleDefault(result, mod);
     return result;
 }
+
 function __importDefault(mod) {
     return (mod && mod.__esModule) ? mod : { default: mod };
 }
+
 function __classPrivateFieldGet(receiver, privateMap) {
     if (!privateMap.has(receiver)) {
         throw new TypeError("attempted to get private field on non-instance");
     }
     return privateMap.get(receiver);
 }
+
 function __classPrivateFieldSet(receiver, privateMap, value) {
     if (!privateMap.has(receiver)) {
         throw new TypeError("attempted to set private field on non-instance");
@@ -38915,7 +40860,10 @@ function __classPrivateFieldSet(receiver, privateMap, value) {
     privateMap.set(receiver, value);
     return value;
 }
+
+
 /***/ })
+
 /******/ 	});
 /************************************************************************/
 /******/ 	// The module cache

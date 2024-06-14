@@ -13,7 +13,7 @@ namespace ProgramGuard.Controllers
     [Route("[controller]")]
     [Authorize]
     [ApiController]
-    public class FilesController : ControllerBase
+    public class FileListController : ControllerBase
     {
         private readonly IFileDetectionService _fileDetectionService;
         private readonly ApplicationDBContext _context;
@@ -21,7 +21,7 @@ namespace ProgramGuard.Controllers
         private readonly IFileListRepository _fileListRepository;
         private readonly UserManager<AppUser> _userManager;
         private readonly IActionLogRepository _actionLog;
-        public FilesController(IFileDetectionService fileDetectionService, ApplicationDBContext context, IChangeLogRepository changeLogRepository, IFileListRepository fileListRepository, UserManager<AppUser> userManager, IActionLogRepository actionLog)
+        public FileListController(IFileDetectionService fileDetectionService, ApplicationDBContext context, IChangeLogRepository changeLogRepository, IFileListRepository fileListRepository, UserManager<AppUser> userManager, IActionLogRepository actionLog)
         {
             _fileDetectionService = fileDetectionService;
             _context = context;

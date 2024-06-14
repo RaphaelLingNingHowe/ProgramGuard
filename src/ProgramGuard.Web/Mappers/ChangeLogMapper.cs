@@ -1,6 +1,7 @@
 ﻿//using ProgramGuard.Dtos.FileDetection;
 //using ProgramGuard.Models;
 //using System.ComponentModel.DataAnnotations.Schema;
+
 //namespace ProgramGuard.Mappers
 //{
 //    public static class ChangeLogMapper

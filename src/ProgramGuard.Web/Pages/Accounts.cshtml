@@ -1,43 +1,37 @@
 ﻿@page
-@using ProgramGuard.Dtos.LogQuery
-@model ProgramGuard.Web.Pages.ChangeLogModel
+@using ProgramGuard.Dtos.Account
+@model ProgramGuard.Web.Pages.AccountsModel
 @{
-    ViewData["Title"] = "Change Log";
+    ViewData["Title"] = "Account";
 }
 
 <!--- Razor 預設開啟 AntiForgeryToken 這個會影響 Post, Put, Patch, Delete 等行為 !--->
 @Html.AntiForgeryToken()
+
+
 <div id="gridContainer">
     @(
-        Html.DevExtreme().DataGrid<GetChangeLogDto>()
-                .DataSource(o => o.RemoteController()
-                .LoadUrl("ChangeLog?Handler=Data")
-                .UpdateUrl("ChangeLog")
-                .Key("Id"))
-                .Editing(e =>
+        Html.DevExtreme().DataGrid<GetUserDto>()
+        .DataSource(o => o.RemoteController()
+        .LoadUrl("Accounts?Handler=Data")
+        .InsertUrl("Accounst")
+        .UpdateUrl("Accounts")
+        .Key("UserName"))
+        .Editing(e =>
                 {
                     e.AllowUpdating(true);
                     e.Mode(GridEditMode.Batch);
                     e.UseIcons(true);
                 })
-        .Selection(s => s
-        .Mode(SelectionMode.Multiple)
-        .Deferred(true))
-        .FilterRow(f => f.Visible(true))
-        .HeaderFilter(headerFilter => headerFilter.Visible(true))
         .Columns(columns =>
         {
-            columns.AddFor(m => m.Id).AllowEditing(false);
-
-            columns.AddFor(m => m.FileName).AllowEditing(false);
-
-            columns.AddFor(m => m.ChangeTime).Format("yyyy-MM-dd HH:mm:ss").AllowEditing(false);
-
-            columns.AddFor(m => m.ConfirmBy).AllowEditing(false);
-
-            columns.AddFor(m => m.ConfirmTime).Format("yyyy-MM-dd HH:mm:ss").AllowEditing(false);
-
-            columns.AddFor(m => m.ConfirmStatus);
+            columns.AddFor(m => m.UserName).Caption("使用者").AllowEditing(false);
+            @* columns.AddFor(m => m.RoleName).Caption(""); *@
+            columns.AddFor(m => m.LoginStatus).Caption("登錄狀態").AllowEditing(false);
+            columns.AddFor(m => m.LoginTime).Caption("登錄時間").Format("yyyy-MM-dd HH:mm:ss").AllowEditing(false);
+            columns.AddFor(m => m.LogoutTime).Caption("登出時間").Format("yyyy-MM-dd HH:mm:ss").AllowEditing(false);
+            columns.AddFor(m => m.LockoutEnd).Caption("解鎖時間").Format("yyyy-MM-dd HH:mm:ss").AllowEditing(false);
+            columns.AddFor(m => m.IsFrozen).Caption("凍結賬號");
         })
         .ShowBorders(true)
         .ColumnAutoWidth(true)

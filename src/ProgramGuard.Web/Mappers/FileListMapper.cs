@@ -1,5 +1,6 @@
 ﻿using ProgramGuard.Dtos.FileDetection;
 using ProgramGuard.Models;
+
 namespace ProgramGuard.Mappers
 {
     public static class FileListMapper

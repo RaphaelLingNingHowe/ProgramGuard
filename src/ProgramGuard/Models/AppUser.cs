@@ -4,8 +4,8 @@ namespace ProgramGuard.Models
     public class AppUser : IdentityUser
     {
         public bool IsFrozen { get; set; }
-        public DateTime LastPasswordChangedDate { get; set; }
+        public DateTime LastPasswordChangedDate { get; set; } = DateTime.UtcNow.ToLocalTime();
         public virtual ICollection<LoginHistory> LoginHistories { get; set; }
-        //public virtual ICollection<IdentityUserRole<string>> Roles { get; } = new List<IdentityUserRole<string>>();
+        //public int Permissions {  get; set; }
     }
 }

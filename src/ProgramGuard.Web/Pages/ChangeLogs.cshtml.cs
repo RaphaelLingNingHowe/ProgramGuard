@@ -1,19 +1,20 @@
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using ProgramGuard.Dtos.FileDetection;
 using ProgramGuard.Dtos.LogQuery;
 using ProgramGuard.Web.Model;
 using System.Text;
 
 namespace ProgramGuard.Web.Pages
 {
-    public class ChangeLogModel : AuthPageModel
+    [Authorize]
+    public class ChangeLogsModel : BasePageModel
     {
-        public ChangeLogModel(IHttpClientFactory httpClientFactory, ILogger<AuthPageModel> logger, IHttpContextAccessor contextAccessor)
-            : base(httpClientFactory, logger, contextAccessor)
+        public ChangeLogsModel(IHttpClientFactory httpClientFactory, ILogger<BasePageModel> logger, IHttpContextAccessor contextAccessor, IConfiguration configuration)
+            : base(httpClientFactory, logger, contextAccessor, configuration)
         {
 
         }
+
 
         public async Task<IActionResult> OnGetData()
         {
@@ -21,12 +22,7 @@ namespace ProgramGuard.Web.Pages
             {
                 HttpClient client = GetClient();
 
-                if (client == null)
-                {
-                    return RedirectToPage("/Login");
-                }
-
-                HttpResponseMessage response = await client.GetAsync("https://localhost:7053/api/ChangeLog");
+                HttpResponseMessage response = await client.GetAsync("/ChangeLog");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -57,7 +53,7 @@ namespace ProgramGuard.Web.Pages
 
                 StringContent jsonContent = new StringContent(values, Encoding.UTF8, "application/json");
 
-                HttpResponseMessage response = await client.PutAsync($"https://localhost:7053/api/ChangeLog/confirm/{key}", jsonContent);
+                HttpResponseMessage response = await client.PutAsync($"/ChangeLog/confirm/{key}", jsonContent);
 
 
 

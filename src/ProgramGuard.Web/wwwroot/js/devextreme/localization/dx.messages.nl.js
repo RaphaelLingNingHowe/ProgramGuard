@@ -7,6 +7,7 @@
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
 "use strict";
+
 ! function(root, factory) {
     if ("function" === typeof define && define.amd) {
         define((function(require) {

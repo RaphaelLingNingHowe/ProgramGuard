@@ -30,7 +30,7 @@ namespace ProgramGuard.Controllers
         {
             try
             {
-                
+
                 var user = await _userManager.FindByNameAsync(loginDto.UserName);
                 if (user == null)
                 {
@@ -44,7 +44,7 @@ namespace ProgramGuard.Controllers
                 if (result.Succeeded)
                 {
                     var daysSinceLastPasswordChange = (DateTime.UtcNow - user.LastPasswordChangedDate).TotalDays;
-                    if (daysSinceLastPasswordChange > 1)
+                    if (daysSinceLastPasswordChange > 80)
                     {
                         return Ok(new { Message = "密碼已超過80天未更換，請更換密碼" });
                     }
@@ -67,7 +67,7 @@ namespace ProgramGuard.Controllers
                     }
                     await _context.SaveChangesAsync();
                     var token = await _tokenService.CreateTokenAsync(user);
-                    return Ok( token );
+                    return Ok(token);
                 }
                 else if (result.IsLockedOut)
                 {

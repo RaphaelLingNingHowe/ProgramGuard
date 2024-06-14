@@ -20,16 +20,8 @@ namespace ProgramGuard.Data
             base.OnModelCreating(builder);
             List<IdentityRole> roles = new List<IdentityRole>
             {
-                new IdentityRole
-                {
-                    Name = "Admin",
-                    NormalizedName = "ADMIN"
-                },
-                new IdentityRole
-                {
-                    Name = "User",
-                    NormalizedName = "USER"
-                },
+                new IdentityRole { Id = "1", Name = "Admin", NormalizedName = "ADMIN" },
+                new IdentityRole { Id = "2", Name = "User", NormalizedName = "USER" }
             };
             builder.Entity<IdentityRole>().HasData(roles);
         }

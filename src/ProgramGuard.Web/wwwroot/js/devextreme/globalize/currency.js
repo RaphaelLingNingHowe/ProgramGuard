@@ -10,8 +10,10 @@
  * Date: 2021-08-02T11:53Z
  */
 (function( root, factory ) {
+
 	// UMD returnExports
 	if ( typeof define === "function" && define.amd ) {
+
 		// AMD
 		define([
 			"cldr",
@@ -21,13 +23,16 @@
 			"cldr/supplemental"
 		], factory );
 	} else if ( typeof exports === "object" ) {
+
 		// Node, CommonJS
 		module.exports = factory( require( "cldrjs" ), require( "../globalize" ) );
 	} else {
+
 		// Global
 		factory( root.Cldr, root.Globalize );
 	}
 }(this, function( Cldr, Globalize ) {
+
 var alwaysArray = Globalize._alwaysArray,
 	createError = Globalize._createError,
 	formatMessageToParts = Globalize._formatMessageToParts,
@@ -43,9 +48,15 @@ var alwaysArray = Globalize._alwaysArray,
 	validateParameterType = Globalize._validateParameterType,
 	validateParameterTypeNumber = Globalize._validateParameterTypeNumber,
 	validateParameterTypePlainObject = Globalize._validateParameterTypePlainObject;
+
+
 var createErrorPluralModulePresence = function() {
 	return createError( "E_MISSING_PLURAL_MODULE", "Plural module not loaded." );
 };
+
+
+
+
 var validateParameterTypeCurrency = function( value, name ) {
 	validateParameterType(
 		value,
@@ -54,11 +65,19 @@ var validateParameterTypeCurrency = function( value, name ) {
 		"3-letter currency code string as defined by ISO 4217"
 	);
 };
+
+
+
+
 var currencyFormatterFn = function( currencyToPartsFormatter ) {
 	return function currencyFormatter( value ) {
 		return partsJoin( currencyToPartsFormatter( value ));
 	};
 };
+
+
+
+
 /**
  * supplementalOverride( currency, pattern, cldr )
  *
@@ -69,28 +88,45 @@ var currencySupplementalOverride = function( currency, pattern, cldr ) {
 		fraction = "",
 		fractionData = cldr.supplemental([ "currencyData/fractions", currency ]) ||
 			cldr.supplemental( "currencyData/fractions/DEFAULT" );
+
 	digits = +fractionData._digits;
+
 	if ( digits ) {
 		fraction = "." + stringPad( "0", digits ).slice( 0, -1 ) + fractionData._rounding;
 	}
+
 	return pattern.replace( /\.(#+|0*[0-9]|0+[0-9]?)/g, fraction );
 };
+
+
+
+
 var objectFilter = function( object, testRe ) {
 	var key,
 		copy = {};
+
 	for ( key in object ) {
 		if ( testRe.test( key ) ) {
 			copy[ key ] = object[ key ];
 		}
 	}
+
 	return copy;
 };
+
+
+
+
 var currencyUnitPatterns = function( cldr ) {
 	return objectFilter( cldr.main([
 		"numbers",
 		"currencyFormats-numberSystem-" + numberNumberingSystem( cldr )
 	]), /^unitPattern/ );
 };
+
+
+
+
 /**
  * nameProperties( currency, cldr )
  *
@@ -98,9 +134,11 @@ var currencyUnitPatterns = function( cldr ) {
  */
 var currencyNameProperties = function( currency, cldr ) {
 	var pattern = numberPattern( "decimal", cldr );
+
 	// The number of decimal places and the rounding for each currency is not locale-specific. Those
 	// values overridden by Supplemental Currency Data.
 	pattern = currencySupplementalOverride( currency, pattern, cldr );
+
 	return {
 		displayNames: objectFilter( cldr.main([
 			"numbers/currencies",
@@ -110,6 +148,10 @@ var currencyNameProperties = function( currency, cldr ) {
 		unitPatterns: currencyUnitPatterns( cldr )
 	};
 };
+
+
+
+
 /**
  * Unicode regular expression for: everything except symbols from the category S
  *
@@ -127,6 +169,10 @@ var currencyNameProperties = function( currency, cldr ) {
  * http://www.unicode.org/reports/tr44/#General_Category_Values
  */
 var regexpNotS = /[\0-#%-\*,-;\?-\]_a-\{\}\x7F-\xA1\xA7\xAA\xAB\xAD\xB2\xB3\xB5-\xB7\xB9-\xD6\xD8-\xF6\xF8-\u02C1\u02C6-\u02D1\u02E0-\u02E4\u02EC\u02EE\u0300-\u0374\u0376-\u0383\u0386-\u03F5\u03F7-\u0481\u0483-\u058C\u0590-\u0605\u0609\u060A\u060C\u060D\u0610-\u06DD\u06DF-\u06E8\u06EA-\u06FC\u06FF-\u07F5\u07F7-\u07FD\u0800-\u09F1\u09F4-\u09F9\u09FC-\u0AF0\u0AF2-\u0B6F\u0B71-\u0BF2\u0BFB-\u0C7E\u0C80-\u0D4E\u0D50-\u0D78\u0D7A-\u0E3E\u0E40-\u0F00\u0F04-\u0F12\u0F14\u0F18\u0F19\u0F20-\u0F33\u0F35\u0F37\u0F39-\u0FBD\u0FC6\u0FCD\u0FD0-\u0FD4\u0FD9-\u109D\u10A0-\u138F\u139A-\u166C\u166E-\u17DA\u17DC-\u193F\u1941-\u19DD\u1A00-\u1B60\u1B6B-\u1B73\u1B7D-\u1FBC\u1FBE\u1FC2-\u1FCC\u1FD0-\u1FDC\u1FE0-\u1FEC\u1FF0-\u1FFC\u1FFF-\u2043\u2045-\u2051\u2053-\u2079\u207D-\u2089\u208D-\u209F\u20C0-\u20FF\u2102\u2107\u210A-\u2113\u2115\u2119-\u211D\u2124\u2126\u2128\u212A-\u212D\u212F-\u2139\u213C-\u213F\u2145-\u2149\u214E\u2150-\u2189\u218C-\u218F\u2308-\u230B\u2329\u232A\u2427-\u243F\u244B-\u249B\u24EA-\u24FF\u2768-\u2793\u27C5\u27C6\u27E6-\u27EF\u2983-\u2998\u29D8-\u29DB\u29FC\u29FD\u2B74\u2B75\u2B96\u2C00-\u2CE4\u2CEB-\u2E4F\u2E52-\u2E7F\u2E9A\u2EF4-\u2EFF\u2FD6-\u2FEF\u2FFC-\u3003\u3005-\u3011\u3014-\u301F\u3021-\u3035\u3038-\u303D\u3040-\u309A\u309D-\u318F\u3192-\u3195\u31A0-\u31BF\u31E4-\u31FF\u321F-\u3229\u3248-\u324F\u3251-\u325F\u3280-\u3289\u32B1-\u32BF\u3400-\u4DBF\u4E00-\uA48F\uA4C7-\uA6FF\uA717-\uA71F\uA722-\uA788\uA78B-\uA827\uA82C-\uA835\uA83A-\uAA76\uAA7A-\uAB5A\uAB5C-\uAB69\uAB6C-\uD7FF\uE000-\uFB28\uFB2A-\uFBB1\uFBC2-\uFDFB\uFDFE-\uFE61\uFE63\uFE67\uFE68\uFE6A-\uFF03\uFF05-\uFF0A\uFF0C-\uFF1B\uFF1F-\uFF3D\uFF3F\uFF41-\uFF5B\uFF5D\uFF5F-\uFFDF\uFFE7\uFFEF-\uFFFB\uFFFE\uFFFF]|\uD800[\uDC00-\uDD36\uDD40-\uDD78\uDD8A\uDD8B\uDD8F\uDD9D-\uDD9F\uDDA1-\uDDCF\uDDFD-\uDFFF]|[\uD801\uD803\uD804\uD806\uD808-\uD819\uD81B-\uD82E\uD830-\uD833\uD837\uD839\uD83A\uD83F-\uDBFF][\uDC00-\uDFFF]|\uD802[\uDC00-\uDC76\uDC79-\uDEC7\uDEC9-\uDFFF]|\uD805[\uDC00-\uDF3E\uDF40-\uDFFF]|\uD807[\uDC00-\uDFD4\uDFF2-\uDFFF]|\uD81A[\uDC00-\uDF3B\uDF40-\uDF44\uDF46-\uDFFF]|\uD82F[\uDC00-\uDC9B\uDC9D-\uDFFF]|\uD834[\uDCF6-\uDCFF\uDD27\uDD28\uDD65-\uDD69\uDD6D-\uDD82\uDD85-\uDD8B\uDDAA-\uDDAD\uDDE9-\uDDFF\uDE42-\uDE44\uDE46-\uDEFF\uDF57-\uDFFF]|\uD835[\uDC00-\uDEC0\uDEC2-\uDEDA\uDEDC-\uDEFA\uDEFC-\uDF14\uDF16-\uDF34\uDF36-\uDF4E\uDF50-\uDF6E\uDF70-\uDF88\uDF8A-\uDFA8\uDFAA-\uDFC2\uDFC4-\uDFFF]|\uD836[\uDE00-\uDE36\uDE3B-\uDE6C\uDE75\uDE84\uDE87-\uDFFF]|\uD838[\uDC00-\uDD4E\uDD50-\uDEFE\uDF00-\uDFFF]|\uD83B[\uDC00-\uDCAB\uDCAD-\uDCAF\uDCB1-\uDD2D\uDD2F-\uDEEF\uDEF2-\uDFFF]|\uD83C[\uDC2C-\uDC2F\uDC94-\uDC9F\uDCAF\uDCB0\uDCC0\uDCD0\uDCF6-\uDD0C\uDDAE-\uDDE5\uDE03-\uDE0F\uDE3C-\uDE3F\uDE49-\uDE4F\uDE52-\uDE5F\uDE66-\uDEFF]|\uD83D[\uDED8-\uDEDF\uDEED-\uDEEF\uDEFD-\uDEFF\uDF74-\uDF7F\uDFD9-\uDFDF\uDFEC-\uDFFF]|\uD83E[\uDC0C-\uDC0F\uDC48-\uDC4F\uDC5A-\uDC5F\uDC88-\uDC8F\uDCAE\uDCAF\uDCB2-\uDCFF\uDD79\uDDCC\uDE54-\uDE5F\uDE6E\uDE6F\uDE75-\uDE77\uDE7B-\uDE7F\uDE87-\uDE8F\uDEA9-\uDEAF\uDEB7-\uDEBF\uDEC3-\uDECF\uDED7-\uDEFF\uDF93\uDFCB-\uDFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF]/;
+
+
+
+
 /**
  * Unicode regular expression for: everything except symbols from categories S and Z
  *
@@ -147,6 +193,10 @@ var regexpNotS = /[\0-#%-\*,-;\?-\]_a-\{\}\x7F-\xA1\xA7\xAA\xAB\xAD\xB2\xB3\xB5-
  * http://www.unicode.org/reports/tr44/#General_Category_Values
  */
 var regexpNotSAndZ = /[\0-\x1F!-#%-\*,-;\?-\]_a-\{\}\x7F-\x9F\xA1\xA7\xAA\xAB\xAD\xB2\xB3\xB5-\xB7\xB9-\xD6\xD8-\xF6\xF8-\u02C1\u02C6-\u02D1\u02E0-\u02E4\u02EC\u02EE\u0300-\u0374\u0376-\u0383\u0386-\u03F5\u03F7-\u0481\u0483-\u058C\u0590-\u0605\u0609\u060A\u060C\u060D\u0610-\u06DD\u06DF-\u06E8\u06EA-\u06FC\u06FF-\u07F5\u07F7-\u07FD\u0800-\u09F1\u09F4-\u09F9\u09FC-\u0AF0\u0AF2-\u0B6F\u0B71-\u0BF2\u0BFB-\u0C7E\u0C80-\u0D4E\u0D50-\u0D78\u0D7A-\u0E3E\u0E40-\u0F00\u0F04-\u0F12\u0F14\u0F18\u0F19\u0F20-\u0F33\u0F35\u0F37\u0F39-\u0FBD\u0FC6\u0FCD\u0FD0-\u0FD4\u0FD9-\u109D\u10A0-\u138F\u139A-\u166C\u166E-\u167F\u1681-\u17DA\u17DC-\u193F\u1941-\u19DD\u1A00-\u1B60\u1B6B-\u1B73\u1B7D-\u1FBC\u1FBE\u1FC2-\u1FCC\u1FD0-\u1FDC\u1FE0-\u1FEC\u1FF0-\u1FFC\u1FFF\u200B-\u2027\u202A-\u202E\u2030-\u2043\u2045-\u2051\u2053-\u205E\u2060-\u2079\u207D-\u2089\u208D-\u209F\u20C0-\u20FF\u2102\u2107\u210A-\u2113\u2115\u2119-\u211D\u2124\u2126\u2128\u212A-\u212D\u212F-\u2139\u213C-\u213F\u2145-\u2149\u214E\u2150-\u2189\u218C-\u218F\u2308-\u230B\u2329\u232A\u2427-\u243F\u244B-\u249B\u24EA-\u24FF\u2768-\u2793\u27C5\u27C6\u27E6-\u27EF\u2983-\u2998\u29D8-\u29DB\u29FC\u29FD\u2B74\u2B75\u2B96\u2C00-\u2CE4\u2CEB-\u2E4F\u2E52-\u2E7F\u2E9A\u2EF4-\u2EFF\u2FD6-\u2FEF\u2FFC-\u2FFF\u3001-\u3003\u3005-\u3011\u3014-\u301F\u3021-\u3035\u3038-\u303D\u3040-\u309A\u309D-\u318F\u3192-\u3195\u31A0-\u31BF\u31E4-\u31FF\u321F-\u3229\u3248-\u324F\u3251-\u325F\u3280-\u3289\u32B1-\u32BF\u3400-\u4DBF\u4E00-\uA48F\uA4C7-\uA6FF\uA717-\uA71F\uA722-\uA788\uA78B-\uA827\uA82C-\uA835\uA83A-\uAA76\uAA7A-\uAB5A\uAB5C-\uAB69\uAB6C-\uD7FF\uE000-\uFB28\uFB2A-\uFBB1\uFBC2-\uFDFB\uFDFE-\uFE61\uFE63\uFE67\uFE68\uFE6A-\uFF03\uFF05-\uFF0A\uFF0C-\uFF1B\uFF1F-\uFF3D\uFF3F\uFF41-\uFF5B\uFF5D\uFF5F-\uFFDF\uFFE7\uFFEF-\uFFFB\uFFFE\uFFFF]|\uD800[\uDC00-\uDD36\uDD40-\uDD78\uDD8A\uDD8B\uDD8F\uDD9D-\uDD9F\uDDA1-\uDDCF\uDDFD-\uDFFF]|[\uD801\uD803\uD804\uD806\uD808-\uD819\uD81B-\uD82E\uD830-\uD833\uD837\uD839\uD83A\uD83F-\uDBFF][\uDC00-\uDFFF]|\uD802[\uDC00-\uDC76\uDC79-\uDEC7\uDEC9-\uDFFF]|\uD805[\uDC00-\uDF3E\uDF40-\uDFFF]|\uD807[\uDC00-\uDFD4\uDFF2-\uDFFF]|\uD81A[\uDC00-\uDF3B\uDF40-\uDF44\uDF46-\uDFFF]|\uD82F[\uDC00-\uDC9B\uDC9D-\uDFFF]|\uD834[\uDCF6-\uDCFF\uDD27\uDD28\uDD65-\uDD69\uDD6D-\uDD82\uDD85-\uDD8B\uDDAA-\uDDAD\uDDE9-\uDDFF\uDE42-\uDE44\uDE46-\uDEFF\uDF57-\uDFFF]|\uD835[\uDC00-\uDEC0\uDEC2-\uDEDA\uDEDC-\uDEFA\uDEFC-\uDF14\uDF16-\uDF34\uDF36-\uDF4E\uDF50-\uDF6E\uDF70-\uDF88\uDF8A-\uDFA8\uDFAA-\uDFC2\uDFC4-\uDFFF]|\uD836[\uDE00-\uDE36\uDE3B-\uDE6C\uDE75\uDE84\uDE87-\uDFFF]|\uD838[\uDC00-\uDD4E\uDD50-\uDEFE\uDF00-\uDFFF]|\uD83B[\uDC00-\uDCAB\uDCAD-\uDCAF\uDCB1-\uDD2D\uDD2F-\uDEEF\uDEF2-\uDFFF]|\uD83C[\uDC2C-\uDC2F\uDC94-\uDC9F\uDCAF\uDCB0\uDCC0\uDCD0\uDCF6-\uDD0C\uDDAE-\uDDE5\uDE03-\uDE0F\uDE3C-\uDE3F\uDE49-\uDE4F\uDE52-\uDE5F\uDE66-\uDEFF]|\uD83D[\uDED8-\uDEDF\uDEED-\uDEEF\uDEFD-\uDEFF\uDF74-\uDF7F\uDFD9-\uDFDF\uDFEC-\uDFFF]|\uD83E[\uDC0C-\uDC0F\uDC48-\uDC4F\uDC5A-\uDC5F\uDC88-\uDC8F\uDCAE\uDCAF\uDCB2-\uDCFF\uDD79\uDDCC\uDE54-\uDE5F\uDE6E\uDE6F\uDE75-\uDE77\uDE7B-\uDE7F\uDE87-\uDE8F\uDEA9-\uDEAF\uDEB7-\uDEBF\uDEC3-\uDECF\uDED7-\uDEFF\uDF93\uDFCB-\uDFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF]/;
+
+
+
+
 /**
  * symbolProperties( currency, cldr )
  *
@@ -159,14 +209,17 @@ var currencySymbolProperties = function( currency, cldr, options ) {
 			"[:^S:]": regexpNotS,
 			"[[:^S:]&[:^Z:]]": regexpNotSAndZ
 		};
+
 	if ( options.style === "code" ) {
 		symbol = currency;
 	} else {
 		symbolEntries = [ "symbol" ];
+
 		// If options.symbolForm === "narrow" was passed, prepend it.
 		if ( options.symbolForm === "narrow" ) {
 			symbolEntries.unshift( "symbol-alt-narrow" );
 		}
+
 		symbolEntries.some(function( symbolEntry ) {
 			return symbol = cldr.main([
 				"numbers/currencies",
@@ -175,6 +228,7 @@ var currencySymbolProperties = function( currency, cldr, options ) {
 			]);
 		});
 	}
+
 	currencySpacing = [ "beforeCurrency", "afterCurrency" ].map(function( position ) {
 		return cldr.main([
 			"numbers",
@@ -183,21 +237,27 @@ var currencySymbolProperties = function( currency, cldr, options ) {
 			position
 		]);
 	});
+
 	pattern = cldr.main([
 		"numbers",
 		"currencyFormats-numberSystem-" + numberNumberingSystem( cldr ),
 		options.style === "accounting" ? "accounting" : "standard"
 	]);
+
 	pattern =
+
 		// The number of decimal places and the rounding for each currency is not locale-specific.
 		// Those values are overridden by Supplemental Currency Data.
 		currencySupplementalOverride( currency, pattern, cldr )
+
 		// Replace "¤" (\u00A4) with the appropriate symbol literal.
 		.split( ";" ).map(function( pattern ) {
+
 			return pattern.split( "\u00A4" ).map(function( part, i ) {
 				var currencyMatch = regexp[ currencySpacing[ i ].currencyMatch ],
 					surroundingMatch = regexp[ currencySpacing[ i ].surroundingMatch ],
 					insertBetween = "";
+
 				// For currencyMatch and surroundingMatch definitions, read [1].
 				// When i === 0, beforeCurrency is being handled. Otherwise, afterCurrency.
 				// 1: http://www.unicode.org/reports/tr35/tr35-numbers.html#Currencies
@@ -205,17 +265,24 @@ var currencySymbolProperties = function( currency, cldr, options ) {
 				surroundingMatch = surroundingMatch.test(
 					part.charAt( i ? 0 : part.length - 1 ).replace( /[#@,.]/g, "0" )
 				);
+
 				if ( currencyMatch && part && surroundingMatch ) {
 					insertBetween = currencySpacing[ i ].insertBetween;
 				}
+
 				return ( i ? insertBetween : "" ) + part + ( i ? "" : insertBetween );
 			}).join( "\u00A4" );
 		}).join( ";" );
+
 	return {
 		pattern: pattern,
 		symbol: symbol
 	};
 };
+
+
+
+
 /**
  * nameFormat( formattedNumber, pluralForm, properties )
  *
@@ -226,12 +293,14 @@ var currencyNameFormat = function( formattedNumber, pluralForm, properties ) {
 		parts = [],
 		displayNames = properties.displayNames || {},
 		unitPatterns = properties.unitPatterns;
+
 	displayName = displayNames[ "displayName-count-" + pluralForm ] ||
 		displayNames[ "displayName-count-other" ] ||
 		displayNames.displayName ||
 		properties.currency;
 	unitPattern = unitPatterns[ "unitPattern-count-" + pluralForm ] ||
 		unitPatterns[ "unitPattern-count-other" ];
+
 	formatMessageToParts( unitPattern, [ formattedNumber, displayName ]).forEach(function( part ) {
 		if ( part.type === "variable" && part.name === "0" ) {
 			part.value.forEach(function( part ) {
@@ -243,8 +312,13 @@ var currencyNameFormat = function( formattedNumber, pluralForm, properties ) {
 			partsPush( parts, "literal", part.value );
 		}
 	});
+
 	return parts;
 };
+
+
+
+
 /**
  * symbolFormat( parts, symbol )
  *
@@ -258,8 +332,13 @@ var currencySymbolFormat = function( parts, symbol ) {
 	});
 	return parts;
 };
+
+
+
+
 var currencyToPartsFormatterFn = function( numberToPartsFormatter, pluralGenerator, properties ) {
 	var fn;
+
 	// Return formatter when style is "name".
 	if ( pluralGenerator && properties ) {
 		fn = function currencyToPartsFormatter( value ) {
@@ -271,15 +350,22 @@ var currencyToPartsFormatterFn = function( numberToPartsFormatter, pluralGenerat
 				properties
 			);
 		};
+
 	// Return formatter when style is "symbol", "accounting", or "code".
 	} else {
 		fn = function currencyToPartsFormatter( value ) {
+
 			// 1: Reusing pluralGenerator argument, but in this case it is actually `symbol`
 			return currencySymbolFormat( numberToPartsFormatter( value ), pluralGenerator /* 1 */ );
 		};
 	}
+
 	return fn;
 };
+
+
+
+
 /**
  * objectOmit( object, keys )
  *
@@ -288,14 +374,21 @@ var currencyToPartsFormatterFn = function( numberToPartsFormatter, pluralGenerat
 var objectOmit = function( object, keys ) {
 	var key,
 		copy = {};
+
 	keys = alwaysArray( keys );
+
 	for ( key in object ) {
 		if ( keys.indexOf( key ) === -1 ) {
 			copy[ key ] = object[ key ];
 		}
 	}
+
 	return copy;
 };
+
+
+
+
 function validateRequiredCldr( path, value ) {
 	validateCldr( path, value, {
 		skip: [
@@ -304,6 +397,7 @@ function validateRequiredCldr( path, value ) {
 		]
 	});
 }
+
 /**
  * .currencyFormatter( currency [, options] )
  *
@@ -319,16 +413,22 @@ function validateRequiredCldr( path, value ) {
 Globalize.currencyFormatter =
 Globalize.prototype.currencyFormatter = function( currency, options ) {
 	var args, currencyToPartsFormatter, returnFn;
+
 	validateParameterPresence( currency, "currency" );
 	validateParameterTypeCurrency( currency, "currency" );
+
 	validateParameterTypePlainObject( options, "options" );
+
 	options = options || {};
 	args = [ currency, options ];
+
 	currencyToPartsFormatter = this.currencyToPartsFormatter( currency, options );
 	returnFn = currencyFormatterFn( currencyToPartsFormatter );
 	runtimeBind( args, this.cldr, returnFn, [ currencyToPartsFormatter ] );
+
 	return returnFn;
 };
+
 /**
  * .currencyToPartsFormatter( currency [, options] )
  *
@@ -351,14 +451,20 @@ Globalize.prototype.currencyFormatter = function( currency, options ) {
 Globalize.currencyToPartsFormatter =
 Globalize.prototype.currencyToPartsFormatter = function( currency, options ) {
 	var args, cldr, numberToPartsFormatter, pluralGenerator, properties, returnFn, style;
+
 	validateParameterPresence( currency, "currency" );
 	validateParameterTypeCurrency( currency, "currency" );
+
 	validateParameterTypePlainObject( options, "options" );
+
 	cldr = this.cldr;
 	options = options || {};
+
 	args = [ currency, options ];
 	style = options.style || "symbol";
+
 	validateDefaultLocale( cldr );
+
 	// Get properties given style ("symbol" default, "code" or "name").
 	cldr.on( "get", validateRequiredCldr );
 	try {
@@ -371,34 +477,44 @@ Globalize.prototype.currencyToPartsFormatter = function( currency, options ) {
 	} finally {
 		cldr.off( "get", validateRequiredCldr );
 	}
+
 	// options = options minus style, plus raw pattern.
 	options = objectOmit( options, "style" );
 	options.raw = properties.pattern;
+
 	// Return formatter when style is "symbol", "accounting", or "code".
 	if ( style === "symbol" || style === "accounting" || style === "code" ) {
 		numberToPartsFormatter = this.numberToPartsFormatter( options );
+
 		returnFn = currencyToPartsFormatterFn( numberToPartsFormatter, properties.symbol );
+
 		runtimeBind( args, cldr, returnFn, [ numberToPartsFormatter, properties.symbol ] );
+
 	// Return formatter when style is "name".
 	} else {
 		numberToPartsFormatter = this.numberToPartsFormatter( options );
+
 		// Is plural module present? Yes, use its generator. Nope, use an error generator.
 		pluralGenerator = this.plural !== undefined ?
 			this.pluralGenerator() :
 			createErrorPluralModulePresence;
+
 		returnFn = currencyToPartsFormatterFn(
 			numberToPartsFormatter,
 			pluralGenerator,
 			properties
 		);
+
 		runtimeBind( args, cldr, returnFn, [
 			numberToPartsFormatter,
 			pluralGenerator,
 			properties
 		]);
 	}
+
 	return returnFn;
 };
+
 /**
  * .currencyParser( currency [, options] )
  *
@@ -410,8 +526,11 @@ Globalize.prototype.currencyToPartsFormatter = function( currency, options ) {
  */
 Globalize.currencyParser =
 Globalize.prototype.currencyParser = function( /* currency, options */ ) {
+
 	// TODO implement parser.
+
 };
+
 /**
  * .formatCurrency( value, currency [, options] )
  *
@@ -429,6 +548,7 @@ Globalize.prototype.formatCurrency = function( value, currency, options ) {
 	validateParameterTypeNumber( value, "value" );
 	return this.currencyFormatter( currency, options )( value );
 };
+
 /**
  * .formatCurrencyToParts( value, currency [, options] )
  *
@@ -446,6 +566,7 @@ Globalize.prototype.formatCurrencyToParts = function( value, currency, options )
 	validateParameterTypeNumber( value, "value" );
 	return this.currencyToPartsFormatter( currency, options )( value );
 };
+
 /**
  * .parseCurrency( value, currency [, options] )
  *
@@ -460,5 +581,10 @@ Globalize.prototype.formatCurrencyToParts = function( value, currency, options )
 Globalize.parseCurrency =
 Globalize.prototype.parseCurrency = function( /* value, currency, options */ ) {
 };
+
 return Globalize;
+
+
+
+
 }));

@@ -3,29 +3,27 @@
 @using DevExtreme.AspNet.Mvc
 @using ProgramGuard.Dtos.FileDetection
 @{
-    ViewData["Title"] = "File Lists";
+    ViewData["Title"] = "檔案清單";
 }
 
 <!--- Razor 預設開啟 AntiForgeryToken 這個會影響 Post, Put, Patch, Delete 等行為 !--->
 @Html.AntiForgeryToken()
 
-<h1>Create File Lists</h1>
-
 @using (Html.BeginForm(FormMethod.Post))
 {
     <div class="dx-field">
-        <div class="dx-field-label">File Path:</div>
+        <div class="dx-field-label">檔案路徑</div>
         <div class="dx-field-value">
             @(Html.DevExtreme().TextBox()
                 .Name("FilePath")
-                .Placeholder("Enter file path")
+                .Placeholder("輸入檔案路徑")
                 )
         </div>
     </div>
     <div class="dx-field">
         <div class="dx-field-value">
             @(Html.DevExtreme().Button()
-                .Text("Create")
+                .Text("確認")
                 .Type(ButtonType.Success)
                 .UseSubmitBehavior(true)
                 )
@@ -40,8 +38,6 @@
     </div>
 }
 
-<h1>File Lists</h1>
-
 <div id="gridContainer">
     @(
         Html.DevExtreme().DataGrid<FileListDto>()
@@ -53,9 +49,9 @@
         .Key("Id"))
         .Columns(columns =>
         {
-            columns.AddFor(m => m.FileName);
+            columns.AddFor(m => m.FileName).Caption("檔案名稱");
 
-            columns.AddFor(m => m.FilePath);
+            columns.AddFor(m => m.FilePath).Caption("檔案路徑");
         })
         .Editing(editing =>
         {

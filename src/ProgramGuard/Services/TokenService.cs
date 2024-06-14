@@ -25,7 +25,7 @@ namespace ProgramGuard.Services
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id),
                 new Claim(JwtRegisteredClaimNames.GivenName, user.UserName)
             };
-            // 检查用户是否为管理员，如果是管理员，则添加管理员角色声明
+
             if (await _userManager.IsInRoleAsync(user, "Admin"))
             {
                 claims.Add(new Claim(ClaimTypes.Role, "Admin"));

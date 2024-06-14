@@ -1,49 +1,35 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using ProgramGuard.Dtos.FileDetection;
-using ProgramGuard.Models;
-
 using ProgramGuard.Web.Model;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Net.Http;
-
-
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ProgramGuard.Web.Pages
 {
-    public class FileListsModel : AuthPageModel
+    [Authorize]
+    public class FileListsModel : BasePageModel
     {
-        public FileListsModel(IHttpClientFactory httpClientFactory, ILogger<AuthPageModel> logger, IHttpContextAccessor contextAccessor)
-            : base(httpClientFactory, logger, contextAccessor)
+        public FileListsModel(IHttpClientFactory httpClientFactory, ILogger<BasePageModel> logger, IHttpContextAccessor contextAccessor, IConfiguration configuration)
+            : base(httpClientFactory, logger, contextAccessor, configuration)
         {
 
         }
 
         [BindProperty]
-        [RegularExpression(@"^(?:[a-zA-Z]:|\\)\\(?:[\w\-. \u4E00-\u9FFF]+\\)*[\w\-. \u4E00-\u9FFF]+([\w.])*$", ErrorMessage = "Invalid file path.")]
+        [RegularExpression(@"^(?:[a-zA-Z]:|\\)\\(?:[\w\-. \u4E00-\u9FFF]+\\)*[\w\-. \u4E00-\u9FFF]+([\w.])*$", ErrorMessage = "無效的文件路徑")]
         public string FilePath { get; set; }
-
-
 
         public async Task<IActionResult> OnGetData()
         {
-            
+
             try
             {
 
                 HttpClient client = GetClient();
 
-                if (client == null)
-                {
-                    return RedirectToPage("/Login");
-                }
-
-                HttpResponseMessage response = await client.GetAsync("https://localhost:7053/api/Files");
+                HttpResponseMessage response = await client.GetAsync("/FileList");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -62,16 +48,11 @@ namespace ProgramGuard.Web.Pages
                 return new ObjectResult($"Failed to fetch data from API, reason:{ex.Message}.") { StatusCode = 500 };
             }
         }
-
-
-
-
-
         public async Task<IActionResult> OnPostAsync(string values)
         {
             if (string.IsNullOrWhiteSpace(FilePath))
             {
-                ModelState.AddModelError("FilePath", "File path is required.");
+                ModelState.AddModelError("FilePath", "檔案路徑不可為空");
                 return Page();
             }
             // 检查文件是否存在
@@ -85,7 +66,7 @@ namespace ProgramGuard.Web.Pages
                 HttpClient client = GetClient();
                 var jsonContent = new StringContent(JsonConvert.SerializeObject(FilePath), Encoding.UTF8, "application/json");
 
-                HttpResponseMessage response = await client.PostAsync("https://localhost:7053/api/Files", jsonContent);
+                HttpResponseMessage response = await client.PostAsync("/FileList", jsonContent);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -110,9 +91,6 @@ namespace ProgramGuard.Web.Pages
             return System.IO.File.Exists(filePath);
         }
 
-
-
-
         public async Task<IActionResult> OnPutAsync(string key, string values)
         {
             try
@@ -122,8 +100,8 @@ namespace ProgramGuard.Web.Pages
 
                 StringContent jsonContent = new StringContent(values, Encoding.UTF8, "application/json");
 
-                HttpResponseMessage response = await client.PutAsync($"https://localhost:7053/api/Files/{key}", jsonContent);
-                
+                HttpResponseMessage response = await client.PutAsync($"FileList/{key}", jsonContent);
+
 
 
                 if (response.IsSuccessStatusCode)
@@ -141,18 +119,14 @@ namespace ProgramGuard.Web.Pages
             }
         }
 
-
-
-
-
         public async Task<IActionResult> OnDeleteAsync(string key)
         {
             try
             {
 
                 HttpClient client = GetClient();
-                HttpResponseMessage response = await client.DeleteAsync($"https://localhost:7053/api/Files/{key}");
-              
+                HttpResponseMessage response = await client.DeleteAsync($"/FileList/{key}");
+
 
 
                 if (response.IsSuccessStatusCode)

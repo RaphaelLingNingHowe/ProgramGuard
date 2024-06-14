@@ -8,7 +8,7 @@ using ProgramGuard.Models;
 namespace ProgramGuard.Controllers
 {
     [Route("[controller]")]
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     [ApiController]
     public class AccountController : ControllerBase
     {
@@ -28,29 +28,16 @@ namespace ProgramGuard.Controllers
         {
             try
             {
-                var usersInfo = await (
-                    from user in _context.Users
-                        .Include(u => u.LoginHistories)
-                    join userRole in _context.UserRoles on user.Id equals userRole.UserId
-                    join role in _context.Roles on userRole.RoleId equals role.Id
-                    select new
-                    {
-                        User = user,
-                        Role = role
-                    }
-                ).ToListAsync();
-                var userDtos = usersInfo.Select(u => new GetUserDto
+                var userInfos = await _context.Users.Include(u => u.LoginHistories).ToListAsync();
+
+                var userDtos = userInfos.Select(u => new GetUserDto
                 {
-                    //Id = u.User.Id,
-                    UserName = u.User.UserName,
-                    RoleName = u.Role.Name,
-                    LoginStatus = u.User.LoginHistories?.Any(lh => !lh.LogoutTime.HasValue) ?? false,
-                    LoginTime = u.User.LoginHistories?.OrderByDescending(lh => lh.LoginTime).FirstOrDefault()?.LoginTime,
-                    LogoutTime = u.User.LoginHistories?.OrderByDescending(lh => lh.LoginTime).FirstOrDefault()?.LogoutTime,
-                    LockoutEnabled = u.User.LockoutEnabled,
-                    LockoutEnd = u.User.LockoutEnd,
-                    AccessFailedCount = u.User.AccessFailedCount,
-                    IsFrozen = u.User.IsFrozen
+                    UserName = u.UserName,
+                    LoginStatus = u.LoginHistories?.Any(lh => !lh.LogoutTime.HasValue) ?? false,
+                    LoginTime = u.LoginHistories?.OrderByDescending(lh => lh.LoginTime).FirstOrDefault()?.LoginTime,
+                    LogoutTime = u.LoginHistories?.OrderByDescending(lh => lh.LoginTime).FirstOrDefault()?.LogoutTime,
+                    LockoutEnd = u.LockoutEnd,
+                    IsFrozen = u.IsFrozen
                 }).ToList();
                 return Ok(userDtos);
             }
@@ -59,7 +46,7 @@ namespace ProgramGuard.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred: {ex.Message}");
             }
         }
-        [HttpPost("admin-add-user")]
+        [HttpPost("addUser")]
         public async Task<IActionResult> AdminAddUser([FromBody] CreateUserDto createUserDto)
         {
             try
@@ -77,6 +64,7 @@ namespace ProgramGuard.Controllers
                 var createdUser = await _userManager.CreateAsync(user, createUserDto.Password);
                 if (createdUser.Succeeded)
                 {
+                    
                     var roleResult = await _userManager.AddToRoleAsync(user, "User");
                     if (roleResult.Succeeded)
                     {

@@ -1,0 +1,73 @@
+﻿@page
+@using ProgramGuard.Dtos.LogQuery
+@model ProgramGuard.Web.Pages.ChangeLogsModel
+@{
+    ViewData["Title"] = "Change Log";
+}
+
+<!--- Razor 預設開啟 AntiForgeryToken 這個會影響 Post, Put, Patch, Delete 等行為 !--->
+@Html.AntiForgeryToken()
+<div id="gridContainer">
+    @(
+        Html.DevExtreme().DataGrid<GetChangeLogDto>()
+                .DataSource(o => o.RemoteController()
+                .LoadUrl("ChangeLogs?Handler=Data")
+                .UpdateUrl("ChangeLogs")
+                .Key("Id"))
+                .Editing(e =>
+                {
+                    e.AllowUpdating(new JS("updateConfirm"));
+                    e.Mode(GridEditMode.Batch);
+                    e.UseIcons(true);
+                })
+        .Selection(s => s
+        .Mode(SelectionMode.Multiple)
+        .Deferred(true))
+        .FilterRow(f => f.Visible(true))
+        .HeaderFilter(headerFilter => headerFilter.Visible(true))
+        .Columns(columns =>
+        {
+            columns.AddFor(m => m.Id).AllowEditing(false).Visible(false);
+
+            columns.AddFor(m => m.FileName).Caption("檔案名稱").AllowEditing(false);
+
+            columns.AddFor(m => m.ChangeTime).Caption("異動時間").Format("yyyy-MM-dd HH:mm:ss").AllowEditing(false);
+
+            columns.AddFor(m => m.ConfirmBy).Caption("審核人員").AllowEditing(false);
+
+            columns.AddFor(m => m.ConfirmTime).Caption("審核時間").Format("yyyy-MM-dd HH:mm:ss").AllowEditing(false);
+
+            columns.AddFor(m => m.ConfirmStatus).Caption("審核狀態");
+        })
+        .ShowBorders(true)
+        .ColumnAutoWidth(true)
+        .Selection(o => o.Mode(SelectionMode.Single))
+        .NoDataText("沒有資料")
+        .HoverStateEnabled(true)
+        .FocusedRowEnabled(true)
+        .Paging(paging => paging.PageSize(15))
+        .Pager(pager =>
+        {
+            pager.Visible(true);
+            pager.DisplayMode(GridPagerDisplayMode.Full);
+            pager.ShowPageSizeSelector(true);
+            pager.AllowedPageSizes(new JS("[15, 30, 50, 100, 200]"));
+            pager.ShowInfo(true);
+            pager.ShowNavigationButtons(true);
+        })
+        )
+</div>
+
+<script>
+    /* 配合 AntiForgeryToken 使用 */
+    $.ajaxSetup({
+        data: {
+            __RequestVerificationToken: document.getElementsByName("__RequestVerificationToken")[0].value
+        }
+    });
+
+    function updateConfirm(e) {
+        return e.row.data.ConfirmStatus !== true;
+    }
+</script>
+

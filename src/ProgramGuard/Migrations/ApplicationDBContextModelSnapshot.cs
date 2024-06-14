@@ -5,7 +5,9 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProgramGuard.Data;
+
 #nullable disable
+
 namespace ProgramGuard.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
@@ -17,262 +19,503 @@ namespace ProgramGuard.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "8.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
+
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("varchar(255)");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("longtext");
+
                     b.Property<string>("Name")
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)");
+
                     b.Property<string>("NormalizedName")
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)");
+
                     b.HasKey("Id");
+
                     b.HasIndex("NormalizedName")
                         .IsUnique()
                         .HasDatabaseName("RoleNameIndex");
+
                     b.ToTable("AspNetRoles", (string)null);
+
                     b.HasData(
                         new
                         {
-                            Id = "57dac402-3fd8-4568-9033-10f00dbfe2cd",
+                            Id = "1",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "6c607313-3b6a-4eca-ac97-e4a7a6decf57",
+                            Id = "2",
                             Name = "User",
                             NormalizedName = "USER"
                         });
                 });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<string>("ClaimType")
                         .HasColumnType("longtext");
+
                     b.Property<string>("ClaimValue")
                         .HasColumnType("longtext");
+
                     b.Property<string>("RoleId")
                         .IsRequired()
                         .HasColumnType("varchar(255)");
+
                     b.HasKey("Id");
+
                     b.HasIndex("RoleId");
+
                     b.ToTable("AspNetRoleClaims", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ClaimType = "Permission",
+                            ClaimValue = "CanViewFileList",
+                            RoleId = "1"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ClaimType = "Permission",
+                            ClaimValue = "CanCreateFile",
+                            RoleId = "1"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ClaimType = "Permission",
+                            ClaimValue = "CanEditFile",
+                            RoleId = "1"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            ClaimType = "Permission",
+                            ClaimValue = "CanDeleteFile",
+                            RoleId = "1"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            ClaimType = "Permission",
+                            ClaimValue = "CanViewChangeLog",
+                            RoleId = "1"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            ClaimType = "Permission",
+                            ClaimValue = "CanCreateChangeLog",
+                            RoleId = "1"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            ClaimType = "Permission",
+                            ClaimValue = "CanEditChangeLog",
+                            RoleId = "1"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            ClaimType = "Permission",
+                            ClaimValue = "CanDeleteChangeLog",
+                            RoleId = "1"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            ClaimType = "Permission",
+                            ClaimValue = "CanViewActionLog",
+                            RoleId = "1"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            ClaimType = "Permission",
+                            ClaimValue = "CanCreateActionLog",
+                            RoleId = "1"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            ClaimType = "Permission",
+                            ClaimValue = "CanEditActionLog",
+                            RoleId = "1"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            ClaimType = "Permission",
+                            ClaimValue = "CanDeleteActionLog",
+                            RoleId = "1"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            ClaimType = "Permission",
+                            ClaimValue = "CanViewAccount",
+                            RoleId = "1"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            ClaimType = "Permission",
+                            ClaimValue = "CanCreateAccount",
+                            RoleId = "1"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            ClaimType = "Permission",
+                            ClaimValue = "CanEditAccount",
+                            RoleId = "1"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            ClaimType = "Permission",
+                            ClaimValue = "CanDeleteAccount",
+                            RoleId = "1"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            ClaimType = "Permission",
+                            ClaimValue = "CanViewFileList",
+                            RoleId = "2"
+                        },
+                        new
+                        {
+                            Id = 18,
+                            ClaimType = "Permission",
+                            ClaimValue = "CanViewChangeLog",
+                            RoleId = "2"
+                        },
+                        new
+                        {
+                            Id = 19,
+                            ClaimType = "Permission",
+                            ClaimValue = "CanViewAccount",
+                            RoleId = "2"
+                        });
                 });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<string>("ClaimType")
                         .HasColumnType("longtext");
+
                     b.Property<string>("ClaimValue")
                         .HasColumnType("longtext");
+
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("varchar(255)");
+
                     b.HasKey("Id");
+
                     b.HasIndex("UserId");
+
                     b.ToTable("AspNetUserClaims", (string)null);
                 });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
                         .HasColumnType("varchar(255)");
+
                     b.Property<string>("ProviderKey")
                         .HasColumnType("varchar(255)");
+
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("longtext");
+
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("varchar(255)");
+
                     b.HasKey("LoginProvider", "ProviderKey");
+
                     b.HasIndex("UserId");
+
                     b.ToTable("AspNetUserLogins", (string)null);
                 });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
                     b.Property<string>("UserId")
                         .HasColumnType("varchar(255)");
+
                     b.Property<string>("RoleId")
                         .HasColumnType("varchar(255)");
+
                     b.HasKey("UserId", "RoleId");
+
                     b.HasIndex("RoleId");
+
                     b.ToTable("AspNetUserRoles", (string)null);
                 });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
                     b.Property<string>("UserId")
                         .HasColumnType("varchar(255)");
+
                     b.Property<string>("LoginProvider")
                         .HasColumnType("varchar(255)");
+
                     b.Property<string>("Name")
                         .HasColumnType("varchar(255)");
+
                     b.Property<string>("Value")
                         .HasColumnType("longtext");
+
                     b.HasKey("UserId", "LoginProvider", "Name");
+
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
+
             modelBuilder.Entity("ProgramGuard.Models.ActionLog", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<string>("Action")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
+
                     b.Property<DateTime>("ActionTime")
                         .HasColumnType("datetime(6)");
+
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
+
                     b.HasKey("Id");
+
                     b.ToTable("ActionLogs");
                 });
+
             modelBuilder.Entity("ProgramGuard.Models.AppUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("varchar(255)");
+
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("longtext");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)");
+
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("tinyint(1)");
+
                     b.Property<bool>("IsFrozen")
                         .HasColumnType("tinyint(1)");
+
                     b.Property<DateTime>("LastPasswordChangedDate")
                         .HasColumnType("datetime(6)");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("tinyint(1)");
+
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetime(6)");
+
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)");
+
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)");
+
                     b.Property<string>("PasswordHash")
                         .HasColumnType("longtext");
+
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("longtext");
+
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("tinyint(1)");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("longtext");
+
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("tinyint(1)");
+
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)");
+
                     b.HasKey("Id");
+
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
+
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
+
                     b.ToTable("AspNetUsers", (string)null);
                 });
+
             modelBuilder.Entity("ProgramGuard.Models.ChangeLog", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<DateTime>("ChangeTime")
                         .HasColumnType("datetime(6)");
+
                     b.Property<string>("ConfirmBy")
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
+
                     b.Property<bool>("ConfirmStatus")
                         .HasColumnType("tinyint(1)");
+
                     b.Property<DateTime?>("ConfirmTime")
                         .HasColumnType("datetime(6)");
+
                     b.Property<string>("DigitalSignature")
                         .HasColumnType("longtext");
+
                     b.Property<int>("FileListId")
                         .HasColumnType("int");
+
                     b.Property<string>("FileName")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
+
                     b.Property<string>("MD5")
                         .IsRequired()
                         .HasMaxLength(32)
                         .HasColumnType("varchar(32)");
+
                     b.Property<string>("SHA512")
                         .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("varchar(128)");
+
                     b.HasKey("Id");
+
                     b.HasIndex("FileListId");
+
                     b.ToTable("ChangeLogs");
                 });
+
             modelBuilder.Entity("ProgramGuard.Models.FileList", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<string>("FileName")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
+
                     b.Property<string>("FilePath")
                         .IsRequired()
                         .HasMaxLength(4096)
                         .HasColumnType("varchar(4096)");
+
                     b.HasKey("Id");
+
                     b.ToTable("FileLists");
                 });
+
             modelBuilder.Entity("ProgramGuard.Models.LoginHistory", b =>
                 {
                     b.Property<string>("UserId")
                         .HasColumnType("varchar(255)");
+
                     b.Property<bool>("LoginStatus")
                         .HasColumnType("tinyint(1)");
+
                     b.Property<DateTime?>("LoginTime")
                         .HasColumnType("datetime(6)");
+
                     b.Property<DateTime?>("LogoutTime")
                         .HasColumnType("datetime(6)");
+
                     b.HasKey("UserId");
+
                     b.ToTable("LoginHistories");
                 });
+
             modelBuilder.Entity("ProgramGuard.Models.PasswordHistory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime(6)");
+
                     b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("longtext");
+
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("varchar(255)");
+
                     b.HasKey("Id");
+
                     b.HasIndex("UserId");
+
                     b.ToTable("PasswordHistories");
                 });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -281,6 +524,7 @@ namespace ProgramGuard.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
                     b.HasOne("ProgramGuard.Models.AppUser", null)
@@ -289,6 +533,7 @@ namespace ProgramGuard.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.HasOne("ProgramGuard.Models.AppUser", null)
@@ -297,6 +542,7 @@ namespace ProgramGuard.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -304,12 +550,14 @@ namespace ProgramGuard.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
                     b.HasOne("ProgramGuard.Models.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
                     b.HasOne("ProgramGuard.Models.AppUser", null)
@@ -318,6 +566,7 @@ namespace ProgramGuard.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
+
             modelBuilder.Entity("ProgramGuard.Models.ChangeLog", b =>
                 {
                     b.HasOne("ProgramGuard.Models.FileList", "FileList")
@@ -325,8 +574,10 @@ namespace ProgramGuard.Migrations
                         .HasForeignKey("FileListId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
                     b.Navigation("FileList");
                 });
+
             modelBuilder.Entity("ProgramGuard.Models.LoginHistory", b =>
                 {
                     b.HasOne("ProgramGuard.Models.AppUser", "User")
@@ -334,8 +585,10 @@ namespace ProgramGuard.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
                     b.Navigation("User");
                 });
+
             modelBuilder.Entity("ProgramGuard.Models.PasswordHistory", b =>
                 {
                     b.HasOne("ProgramGuard.Models.AppUser", "User")
@@ -343,8 +596,10 @@ namespace ProgramGuard.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
                     b.Navigation("User");
                 });
+
             modelBuilder.Entity("ProgramGuard.Models.AppUser", b =>
                 {
                     b.Navigation("LoginHistories");

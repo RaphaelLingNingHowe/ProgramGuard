@@ -4,7 +4,7 @@
     {
         //public string Id { get; set; }
         public string UserName { get; set; }
-        public string RoleName { get; set; }
+        //public string RoleName { get; set; }
         public bool LoginStatus { get; set; }
         public DateTime? LoginTime { get; set; } // 登录时间
         public DateTime? LogoutTime { get; set; }

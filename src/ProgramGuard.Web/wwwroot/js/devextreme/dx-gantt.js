@@ -19,8 +19,11 @@
 return /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
+
 /***/ 9279:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Browser = void 0;
 var Browser = (function () {
@@ -237,9 +240,14 @@ var Browser = (function () {
     return Browser;
 }());
 exports.Browser = Browser;
+
+
 /***/ }),
+
 /***/ 6799:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ExtendedMinMax = exports.ExtendedMax = exports.ExtendedMin = exports.MinMaxNumber = exports.MinMax = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -293,9 +301,14 @@ var ExtendedMinMax = (function (_super) {
     return ExtendedMinMax;
 }(MinMax));
 exports.ExtendedMinMax = ExtendedMinMax;
+
+
 /***/ }),
+
 /***/ 3604:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Margins = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -314,9 +327,14 @@ var Margins = (function (_super) {
     return Margins;
 }(offsets_1.Offsets));
 exports.Margins = Margins;
+
+
 /***/ }),
+
 /***/ 5596:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Metrics = void 0;
 var Metrics = (function () {
@@ -333,9 +351,14 @@ var Metrics = (function () {
     return Metrics;
 }());
 exports.Metrics = Metrics;
+
+
 /***/ }),
+
 /***/ 4125:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Offsets = void 0;
 var Offsets = (function () {
@@ -442,9 +465,14 @@ var Offsets = (function () {
     return Offsets;
 }());
 exports.Offsets = Offsets;
+
+
 /***/ }),
+
 /***/ 8900:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Point = void 0;
 var Point = (function () {
@@ -517,9 +545,14 @@ var Point = (function () {
     return Point;
 }());
 exports.Point = Point;
+
+
 /***/ }),
+
 /***/ 6353:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Size = void 0;
 var Size = (function () {
@@ -582,9 +615,14 @@ var Size = (function () {
     return Size;
 }());
 exports.Size = Size;
+
+
 /***/ }),
+
 /***/ 2217:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.AttrUtils = void 0;
 var browser_1 = __webpack_require__(9279);
@@ -664,9 +702,14 @@ var AttrUtils = (function () {
     return AttrUtils;
 }());
 exports.AttrUtils = AttrUtils;
+
+
 /***/ }),
+
 /***/ 2491:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.numberToStringHex = exports.numberToStringBin = exports.isOdd = exports.isEven = exports.isNonNullString = exports.isString = exports.isNumber = exports.boolToString = exports.boolToInt = exports.isDefined = void 0;
 var string_1 = __webpack_require__(49);
@@ -712,9 +755,14 @@ function numberToStringHex(num, minLength) {
     return string_1.StringUtils.padLeft(num.toString(16), minLength, '0');
 }
 exports.numberToStringHex = numberToStringHex;
+
+
 /***/ }),
+
 /***/ 4170:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Equals = exports.Comparers = void 0;
 var Comparers = (function () {
@@ -746,9 +794,14 @@ var Equals = (function () {
     return Equals;
 }());
 exports.Equals = Equals;
+
+
 /***/ }),
+
 /***/ 6907:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.DomUtils = void 0;
 var browser_1 = __webpack_require__(9279);
@@ -1218,9 +1271,14 @@ function getAbsoluteScrollOffset_OperaFF(curEl, isX) {
     }
     return pos;
 }
+
+
 /***/ }),
+
 /***/ 9712:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.EncodeUtils = void 0;
 var EncodeUtils = (function () {
@@ -1262,9 +1320,14 @@ var EncodeUtils = (function () {
     return EncodeUtils;
 }());
 exports.EncodeUtils = EncodeUtils;
+
+
 /***/ }),
+
 /***/ 3714:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.EvtUtils = void 0;
 var browser_1 = __webpack_require__(9279);
@@ -1365,9 +1428,14 @@ var EvtUtils = (function () {
     return EvtUtils;
 }());
 exports.EvtUtils = EvtUtils;
+
+
 /***/ }),
+
 /***/ 9937:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.JsonUtils = void 0;
 var JsonUtils = (function () {
@@ -1379,9 +1447,14 @@ var JsonUtils = (function () {
     return JsonUtils;
 }());
 exports.JsonUtils = JsonUtils;
+
+
 /***/ }),
+
 /***/ 2153:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.KeyCode = exports.ModifierKey = exports.KeyUtils = void 0;
 var browser_1 = __webpack_require__(9279);
@@ -1655,9 +1728,14 @@ var KeyCode;
     KeyCode[KeyCode["CloseBracket"] = 221] = "CloseBracket";
     KeyCode[KeyCode["SingleQuote"] = 222] = "SingleQuote";
 })(KeyCode = exports.KeyCode || (exports.KeyCode = {}));
+
+
 /***/ }),
+
 /***/ 2940:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ListUtils = void 0;
 var min_max_1 = __webpack_require__(6799);
@@ -2105,9 +2183,14 @@ var ListUtils = (function () {
     return ListUtils;
 }());
 exports.ListUtils = ListUtils;
+
+
 /***/ }),
+
 /***/ 8679:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.MathUtils = void 0;
 var list_1 = __webpack_require__(2940);
@@ -2161,9 +2244,14 @@ var MathUtils = (function () {
     return MathUtils;
 }());
 exports.MathUtils = MathUtils;
+
+
 /***/ }),
+
 /***/ 49:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.StringUtils = void 0;
 var StringUtils = (function () {
@@ -2281,9 +2369,14 @@ var StringUtils = (function () {
     return StringUtils;
 }());
 exports.StringUtils = StringUtils;
+
+
 /***/ }),
+
 /***/ 1632:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TouchUtils = void 0;
 var browser_1 = __webpack_require__(9279);
@@ -2321,14 +2414,23 @@ var TouchUtils = (function () {
     return TouchUtils;
 }());
 exports.TouchUtils = TouchUtils;
+
+
 /***/ }),
+
 /***/ 8721:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
 __webpack_require__.r(__webpack_exports__);
 // extracted by mini-css-extract-plugin
+
+
 /***/ }),
+
 /***/ 639:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.BarManager = void 0;
 var BarManager = (function () {
@@ -2380,9 +2482,14 @@ var BarManager = (function () {
     return BarManager;
 }());
 exports.BarManager = BarManager;
+
+
 /***/ }),
+
 /***/ 3290:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.GanttClientCommand = void 0;
 var GanttClientCommand;
@@ -2404,9 +2511,14 @@ var GanttClientCommand;
     GanttClientCommand[GanttClientCommand["ToggleResources"] = 14] = "ToggleResources";
     GanttClientCommand[GanttClientCommand["ToggleDependencies"] = 15] = "ToggleDependencies";
 })(GanttClientCommand = exports.GanttClientCommand || (exports.GanttClientCommand = {}));
+
+
 /***/ }),
+
 /***/ 3756:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.CollapseAllCommand = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -2433,9 +2545,14 @@ var CollapseAllCommand = (function (_super) {
     return CollapseAllCommand;
 }(CommandBase_1.CommandBase));
 exports.CollapseAllCommand = CollapseAllCommand;
+
+
 /***/ }),
+
 /***/ 6585:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ExpandAllCommand = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -2462,9 +2579,14 @@ var ExpandAllCommand = (function (_super) {
     return ExpandAllCommand;
 }(CommandBase_1.CommandBase));
 exports.ExpandAllCommand = ExpandAllCommand;
+
+
 /***/ }),
+
 /***/ 9687:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.CommandBase = void 0;
 var CommandBase = (function () {
@@ -2520,9 +2642,14 @@ var CommandBase = (function () {
     return CommandBase;
 }());
 exports.CommandBase = CommandBase;
+
+
 /***/ }),
+
 /***/ 7156:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.CommandManager = void 0;
 var ConfirmationDialog_1 = __webpack_require__(5237);
@@ -2666,9 +2793,14 @@ var CommandManager = (function () {
     return CommandManager;
 }());
 exports.CommandManager = CommandManager;
+
+
 /***/ }),
+
 /***/ 4118:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.CreateDependencyCommand = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -2713,9 +2845,14 @@ var CreateDependencyCommand = (function (_super) {
     return CreateDependencyCommand;
 }(DependencyCommandBase_1.DependencyCommandBase));
 exports.CreateDependencyCommand = CreateDependencyCommand;
+
+
 /***/ }),
+
 /***/ 2291:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.DependencyCommandBase = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -2732,9 +2869,14 @@ var DependencyCommandBase = (function (_super) {
     return DependencyCommandBase;
 }(CommandBase_1.CommandBase));
 exports.DependencyCommandBase = DependencyCommandBase;
+
+
 /***/ }),
+
 /***/ 3044:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.RemoveDependencyCommand = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -2786,9 +2928,14 @@ var RemoveDependencyCommand = (function (_super) {
     return RemoveDependencyCommand;
 }(DependencyCommandBase_1.DependencyCommandBase));
 exports.RemoveDependencyCommand = RemoveDependencyCommand;
+
+
 /***/ }),
+
 /***/ 9762:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ToggleDependenciesCommand = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -2812,9 +2959,14 @@ var ToggleDependenciesCommand = (function (_super) {
     return ToggleDependenciesCommand;
 }(CommandBase_1.CommandBase));
 exports.ToggleDependenciesCommand = ToggleDependenciesCommand;
+
+
 /***/ }),
+
 /***/ 7823:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ToggleFullScreenCommand = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -2843,9 +2995,14 @@ var ToggleFullScreenCommand = (function (_super) {
     return ToggleFullScreenCommand;
 }(CommandBase_1.CommandBase));
 exports.ToggleFullScreenCommand = ToggleFullScreenCommand;
+
+
 /***/ }),
+
 /***/ 3250:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.RedoCommand = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -2874,9 +3031,14 @@ var RedoCommand = (function (_super) {
     return RedoCommand;
 }(CommandBase_1.CommandBase));
 exports.RedoCommand = RedoCommand;
+
+
 /***/ }),
+
 /***/ 9072:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.UndoCommand = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -2905,9 +3067,14 @@ var UndoCommand = (function (_super) {
     return UndoCommand;
 }(CommandBase_1.CommandBase));
 exports.UndoCommand = UndoCommand;
+
+
 /***/ }),
+
 /***/ 1955:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.AssignResourceCommand = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -2941,9 +3108,14 @@ var AssignResourceCommand = (function (_super) {
     return AssignResourceCommand;
 }(ResourceCommandBase_1.ResourceCommandBase));
 exports.AssignResourceCommand = AssignResourceCommand;
+
+
 /***/ }),
+
 /***/ 1757:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.CreateResourceCommand = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -2973,9 +3145,14 @@ var CreateResourceCommand = (function (_super) {
     return CreateResourceCommand;
 }(ResourceCommandBase_1.ResourceCommandBase));
 exports.CreateResourceCommand = CreateResourceCommand;
+
+
 /***/ }),
+
 /***/ 7977:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.DeassignResourceCommand = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -3003,9 +3180,14 @@ var DeassignResourceCommand = (function (_super) {
     return DeassignResourceCommand;
 }(ResourceCommandBase_1.ResourceCommandBase));
 exports.DeassignResourceCommand = DeassignResourceCommand;
+
+
 /***/ }),
+
 /***/ 9793:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ResourceColorCommand = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -3029,9 +3211,14 @@ var ResourceColorCommand = (function (_super) {
     return ResourceColorCommand;
 }(ResourcePropertyCommandBase_1.ResourcePropertyCommandBase));
 exports.ResourceColorCommand = ResourceColorCommand;
+
+
 /***/ }),
+
 /***/ 9876:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ResourcePropertyCommandBase = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -3051,9 +3238,14 @@ var ResourcePropertyCommandBase = (function (_super) {
     return ResourcePropertyCommandBase;
 }(CommandBase_1.CommandBase));
 exports.ResourcePropertyCommandBase = ResourcePropertyCommandBase;
+
+
 /***/ }),
+
 /***/ 358:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.RemoveResourceCommand = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -3094,9 +3286,14 @@ var RemoveResourceCommand = (function (_super) {
     return RemoveResourceCommand;
 }(ResourceCommandBase_1.ResourceCommandBase));
 exports.RemoveResourceCommand = RemoveResourceCommand;
+
+
 /***/ }),
+
 /***/ 200:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ResourceCommandBase = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -3113,9 +3310,14 @@ var ResourceCommandBase = (function (_super) {
     return ResourceCommandBase;
 }(CommandBase_1.CommandBase));
 exports.ResourceCommandBase = ResourceCommandBase;
+
+
 /***/ }),
+
 /***/ 9791:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ToggleResourceCommand = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -3139,9 +3341,14 @@ var ToggleResourceCommand = (function (_super) {
     return ToggleResourceCommand;
 }(CommandBase_1.CommandBase));
 exports.ToggleResourceCommand = ToggleResourceCommand;
+
+
 /***/ }),
+
 /***/ 4409:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.SimpleCommandState = void 0;
 var SimpleCommandState = (function () {
@@ -3153,9 +3360,14 @@ var SimpleCommandState = (function () {
     return SimpleCommandState;
 }());
 exports.SimpleCommandState = SimpleCommandState;
+
+
 /***/ }),
+
 /***/ 3936:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.CreateSubTaskCommand = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -3206,9 +3418,14 @@ var CreateSubTaskCommand = (function (_super) {
     return CreateSubTaskCommand;
 }(TaskCommandBase_1.TaskCommandBase));
 exports.CreateSubTaskCommand = CreateSubTaskCommand;
+
+
 /***/ }),
+
 /***/ 5258:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.CreateTaskCommand = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -3257,9 +3474,14 @@ var CreateTaskCommand = (function (_super) {
     return CreateTaskCommand;
 }(TaskCommandBase_1.TaskCommandBase));
 exports.CreateTaskCommand = CreateTaskCommand;
+
+
 /***/ }),
+
 /***/ 4195:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.RemoveTaskCommand = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -3350,9 +3572,14 @@ var RemoveTaskCommand = (function (_super) {
     return RemoveTaskCommand;
 }(TaskCommandBase_1.TaskCommandBase));
 exports.RemoveTaskCommand = RemoveTaskCommand;
+
+
 /***/ }),
+
 /***/ 2714:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TaskAddContextItemCommand = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -3373,9 +3600,14 @@ var TaskAddContextItemCommand = (function (_super) {
     return TaskAddContextItemCommand;
 }(TaskCommandBase_1.TaskCommandBase));
 exports.TaskAddContextItemCommand = TaskAddContextItemCommand;
+
+
 /***/ }),
+
 /***/ 9254:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TaskCommandBase = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -3401,9 +3633,14 @@ var TaskCommandBase = (function (_super) {
     return TaskCommandBase;
 }(CommandBase_1.CommandBase));
 exports.TaskCommandBase = TaskCommandBase;
+
+
 /***/ }),
+
 /***/ 2018:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.UpdateTaskCommand = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -3528,9 +3765,14 @@ var UpdateTaskCommand = (function (_super) {
     return UpdateTaskCommand;
 }(TaskCommandBase_1.TaskCommandBase));
 exports.UpdateTaskCommand = UpdateTaskCommand;
+
+
 /***/ }),
+
 /***/ 299:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ZoomInCommand = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -3554,9 +3796,14 @@ var ZoomInCommand = (function (_super) {
     return ZoomInCommand;
 }(CommandBase_1.CommandBase));
 exports.ZoomInCommand = ZoomInCommand;
+
+
 /***/ }),
+
 /***/ 2231:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ZoomOutCommand = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -3580,9 +3827,14 @@ var ZoomOutCommand = (function (_super) {
     return ZoomOutCommand;
 }(CommandBase_1.CommandBase));
 exports.ZoomOutCommand = ZoomOutCommand;
+
+
 /***/ }),
+
 /***/ 5237:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ConfirmationDialog = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -3608,9 +3860,14 @@ var ConfirmationDialog = (function (_super) {
     return ConfirmationDialog;
 }(DialogBase_1.DialogBase));
 exports.ConfirmationDialog = ConfirmationDialog;
+
+
 /***/ }),
+
 /***/ 126:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ConstraintViolationDialogCommand = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -3633,9 +3890,14 @@ var ConstraintViolationDialogCommand = (function (_super) {
     return ConstraintViolationDialogCommand;
 }(DialogBase_1.DialogBase));
 exports.ConstraintViolationDialogCommand = ConstraintViolationDialogCommand;
+
+
 /***/ }),
+
 /***/ 4730:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.DialogBase = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -3700,9 +3962,14 @@ var DialogBase = (function (_super) {
     return DialogBase;
 }(CommandBase_1.CommandBase));
 exports.DialogBase = DialogBase;
+
+
 /***/ }),
+
 /***/ 9544:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ConstraintViolationOption = exports.ConfirmationType = void 0;
 var ConfirmationType;
@@ -3717,9 +3984,14 @@ var ConstraintViolationOption;
     ConstraintViolationOption[ConstraintViolationOption["RemoveDependency"] = 1] = "RemoveDependency";
     ConstraintViolationOption[ConstraintViolationOption["KeepDependency"] = 2] = "KeepDependency";
 })(ConstraintViolationOption = exports.ConstraintViolationOption || (exports.ConstraintViolationOption = {}));
+
+
 /***/ }),
+
 /***/ 5139:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ConfirmationDialogParameters = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -3740,9 +4012,14 @@ var ConfirmationDialogParameters = (function (_super) {
     return ConfirmationDialogParameters;
 }(DialogParametersBase_1.DialogParametersBase));
 exports.ConfirmationDialogParameters = ConfirmationDialogParameters;
+
+
 /***/ }),
+
 /***/ 3433:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ConstraintViolationDialogParameters = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -3779,9 +4056,14 @@ var ConstraintViolationDialogParameters = (function (_super) {
     return ConstraintViolationDialogParameters;
 }(DialogParametersBase_1.DialogParametersBase));
 exports.ConstraintViolationDialogParameters = ConstraintViolationDialogParameters;
+
+
 /***/ }),
+
 /***/ 9705:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.DialogParametersBase = void 0;
 var DialogParametersBase = (function () {
@@ -3790,9 +4072,14 @@ var DialogParametersBase = (function () {
     return DialogParametersBase;
 }());
 exports.DialogParametersBase = DialogParametersBase;
+
+
 /***/ }),
+
 /***/ 6711:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ResourcesDialogParameters = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -3812,9 +4099,14 @@ var ResourcesDialogParameters = (function (_super) {
     return ResourcesDialogParameters;
 }(DialogParametersBase_1.DialogParametersBase));
 exports.ResourcesDialogParameters = ResourcesDialogParameters;
+
+
 /***/ }),
+
 /***/ 1563:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TaskEditParameters = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -3855,9 +4147,14 @@ var TaskEditParameters = (function (_super) {
     return TaskEditParameters;
 }(DialogParametersBase_1.DialogParametersBase));
 exports.TaskEditParameters = TaskEditParameters;
+
+
 /***/ }),
+
 /***/ 5477:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ResourcesDialogCommand = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -3927,9 +4224,14 @@ var ResourcesDialogCommand = (function (_super) {
     return ResourcesDialogCommand;
 }(DialogBase_1.DialogBase));
 exports.ResourcesDialogCommand = ResourcesDialogCommand;
+
+
 /***/ }),
+
 /***/ 6152:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TaskEditDialogCommand = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -4044,9 +4346,14 @@ var TaskEditDialogCommand = (function (_super) {
     return TaskEditDialogCommand;
 }(DialogBase_1.DialogBase));
 exports.TaskEditDialogCommand = TaskEditDialogCommand;
+
+
 /***/ }),
+
 /***/ 6893:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.GanttExportCalculator = void 0;
 var point_1 = __webpack_require__(8900);
@@ -4824,9 +5131,14 @@ var GanttExportCalculator = (function () {
     return GanttExportCalculator;
 }());
 exports.GanttExportCalculator = GanttExportCalculator;
+
+
 /***/ }),
+
 /***/ 4991:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.PdfDependencyLineInfo = void 0;
 var point_1 = __webpack_require__(8900);
@@ -4849,9 +5161,14 @@ var PdfDependencyLineInfo = (function () {
     return PdfDependencyLineInfo;
 }());
 exports.PdfDependencyLineInfo = PdfDependencyLineInfo;
+
+
 /***/ }),
+
 /***/ 266:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.PdfObjectDrawer = void 0;
 var Enums_1 = __webpack_require__(2449);
@@ -5041,9 +5358,14 @@ var PdfObjectDrawer = (function () {
     return PdfObjectDrawer;
 }());
 exports.PdfObjectDrawer = PdfObjectDrawer;
+
+
 /***/ }),
+
 /***/ 3917:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.PdfTaskInfo = void 0;
 var point_1 = __webpack_require__(8900);
@@ -5124,9 +5446,14 @@ var PdfTaskInfo = (function () {
     return PdfTaskInfo;
 }());
 exports.PdfTaskInfo = PdfTaskInfo;
+
+
 /***/ }),
+
 /***/ 2485:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.PdfTaskResourcesInfo = void 0;
 var common_1 = __webpack_require__(2491);
@@ -5151,9 +5478,14 @@ var PdfTaskResourcesInfo = (function () {
     return PdfTaskResourcesInfo;
 }());
 exports.PdfTaskResourcesInfo = PdfTaskResourcesInfo;
+
+
 /***/ }),
+
 /***/ 7802:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.PdfTimeMarkerInfo = void 0;
 var point_1 = __webpack_require__(8900);
@@ -5188,9 +5520,14 @@ var PdfTimeMarkerInfo = (function () {
     return PdfTimeMarkerInfo;
 }());
 exports.PdfTimeMarkerInfo = PdfTimeMarkerInfo;
+
+
 /***/ }),
+
 /***/ 2978:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.PdfGanttExporter = void 0;
 var PageDrawer_1 = __webpack_require__(4970);
@@ -5263,9 +5600,14 @@ var PdfGanttExporter = (function () {
     return PdfGanttExporter;
 }());
 exports.PdfGanttExporter = PdfGanttExporter;
+
+
 /***/ }),
+
 /***/ 8935:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.PdfPageTableNames = void 0;
 var PdfPageTableNames = (function () {
@@ -5279,9 +5621,14 @@ var PdfPageTableNames = (function () {
     return PdfPageTableNames;
 }());
 exports.PdfPageTableNames = PdfPageTableNames;
+
+
 /***/ }),
+
 /***/ 4970:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.PdfGanttPageDrawer = void 0;
 var point_1 = __webpack_require__(8900);
@@ -5342,9 +5689,14 @@ var PdfGanttPageDrawer = (function () {
     return PdfGanttPageDrawer;
 }());
 exports.PdfGanttPageDrawer = PdfGanttPageDrawer;
+
+
 /***/ }),
+
 /***/ 4429:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.PageNavigation = void 0;
 var PageNavigation = (function () {
@@ -5459,9 +5811,14 @@ var PageNavigation = (function () {
     return PageNavigation;
 }());
 exports.PageNavigation = PageNavigation;
+
+
 /***/ }),
+
 /***/ 3424:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.PdfGanttPaginator = void 0;
 var point_1 = __webpack_require__(8900);
@@ -6029,9 +6386,14 @@ var PdfGanttPaginator = (function () {
     return PdfGanttPaginator;
 }());
 exports.PdfGanttPaginator = PdfGanttPaginator;
+
+
 /***/ }),
+
 /***/ 5763:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ScalingHelper = void 0;
 var Interfaces_1 = __webpack_require__(8935);
@@ -6184,9 +6546,14 @@ var ScalingHelper = (function () {
     return ScalingHelper;
 }());
 exports.ScalingHelper = ScalingHelper;
+
+
 /***/ }),
+
 /***/ 7223:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.PdfCustomFontSettings = void 0;
 var common_1 = __webpack_require__(2491);
@@ -6220,9 +6587,14 @@ var PdfCustomFontSettings = (function () {
     return PdfCustomFontSettings;
 }());
 exports.PdfCustomFontSettings = PdfCustomFontSettings;
+
+
 /***/ }),
+
 /***/ 6431:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.PdfDataRange = void 0;
 var common_1 = __webpack_require__(2491);
@@ -6245,9 +6617,14 @@ var PdfDataRange = (function () {
     return PdfDataRange;
 }());
 exports.PdfDataRange = PdfDataRange;
+
+
 /***/ }),
+
 /***/ 9895:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.DataExportMode = exports.ExportMode = void 0;
 var ExportMode;
@@ -6261,9 +6638,14 @@ var DataExportMode;
     DataExportMode[DataExportMode["all"] = 0] = "all";
     DataExportMode[DataExportMode["visible"] = 1] = "visible";
 })(DataExportMode = exports.DataExportMode || (exports.DataExportMode = {}));
+
+
 /***/ }),
+
 /***/ 6997:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.GanttPdfExportProps = void 0;
 var size_1 = __webpack_require__(6353);
@@ -6333,9 +6715,14 @@ var GanttPdfExportProps = (function () {
     return GanttPdfExportProps;
 }());
 exports.GanttPdfExportProps = GanttPdfExportProps;
+
+
 /***/ }),
+
 /***/ 6032:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.CellDef = void 0;
 var common_1 = __webpack_require__(2491);
@@ -6386,9 +6773,14 @@ var CellDef = (function () {
     return CellDef;
 }());
 exports.CellDef = CellDef;
+
+
 /***/ }),
+
 /***/ 405:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Color = void 0;
 var common_1 = __webpack_require__(2491);
@@ -6499,9 +6891,14 @@ var Color = (function () {
     return Color;
 }());
 exports.Color = Color;
+
+
 /***/ }),
+
 /***/ 5510:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.PdfGanttTableDrawer = void 0;
 var common_1 = __webpack_require__(2491);
@@ -6606,9 +7003,14 @@ var PdfGanttTableDrawer = (function () {
     return PdfGanttTableDrawer;
 }());
 exports.PdfGanttTableDrawer = PdfGanttTableDrawer;
+
+
 /***/ }),
+
 /***/ 817:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.EllipsisHelper = void 0;
 var EllipsisHelper = (function () {
@@ -6633,9 +7035,14 @@ var EllipsisHelper = (function () {
     return EllipsisHelper;
 }());
 exports.EllipsisHelper = EllipsisHelper;
+
+
 /***/ }),
+
 /***/ 5063:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Margin = void 0;
 var common_1 = __webpack_require__(2491);
@@ -6724,9 +7131,14 @@ var Margin = (function () {
     return Margin;
 }());
 exports.Margin = Margin;
+
+
 /***/ }),
+
 /***/ 2642:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.PredefinedStyles = void 0;
 var PredefinedStyles = (function () {
@@ -6748,9 +7160,14 @@ var PredefinedStyles = (function () {
     return PredefinedStyles;
 }());
 exports.PredefinedStyles = PredefinedStyles;
+
+
 /***/ }),
+
 /***/ 6995:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.StyleDef = void 0;
 var common_1 = __webpack_require__(2491);
@@ -6999,9 +7416,14 @@ var StyleDef = (function () {
     return StyleDef;
 }());
 exports.StyleDef = StyleDef;
+
+
 /***/ }),
+
 /***/ 7624:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TableOptions = void 0;
 var common_1 = __webpack_require__(2491);
@@ -7187,9 +7609,14 @@ var TableOptions = (function () {
     return TableOptions;
 }());
 exports.TableOptions = TableOptions;
+
+
 /***/ }),
+
 /***/ 7343:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Width = void 0;
 var PredefinedStyles_1 = __webpack_require__(2642);
@@ -7227,9 +7654,14 @@ var Width = (function () {
     return Width;
 }());
 exports.Width = Width;
+
+
 /***/ }),
+
 /***/ 8603:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TaskAreaExportHelper = void 0;
 var dom_1 = __webpack_require__(6907);
@@ -7856,9 +8288,14 @@ var TaskAreaExportHelper = (function () {
     return TaskAreaExportHelper;
 }());
 exports.TaskAreaExportHelper = TaskAreaExportHelper;
+
+
 /***/ }),
+
 /***/ 6057:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.CollectionBase = void 0;
 var common_1 = __webpack_require__(2491);
@@ -7977,9 +8414,14 @@ var CollectionBase = (function () {
     return CollectionBase;
 }());
 exports.CollectionBase = CollectionBase;
+
+
 /***/ }),
+
 /***/ 7380:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.DependencyCollection = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -7994,9 +8436,14 @@ var DependencyCollection = (function (_super) {
     return DependencyCollection;
 }(CollectionBase_1.CollectionBase));
 exports.DependencyCollection = DependencyCollection;
+
+
 /***/ }),
+
 /***/ 4432:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.WorkingDayRuleCollection = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -8011,9 +8458,14 @@ var WorkingDayRuleCollection = (function (_super) {
     return WorkingDayRuleCollection;
 }(CollectionBase_1.CollectionBase));
 exports.WorkingDayRuleCollection = WorkingDayRuleCollection;
+
+
 /***/ }),
+
 /***/ 9883:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ResourceAssignmentCollection = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -8028,9 +8480,14 @@ var ResourceAssignmentCollection = (function (_super) {
     return ResourceAssignmentCollection;
 }(CollectionBase_1.CollectionBase));
 exports.ResourceAssignmentCollection = ResourceAssignmentCollection;
+
+
 /***/ }),
+
 /***/ 8828:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ResourceCollection = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -8045,9 +8502,14 @@ var ResourceCollection = (function (_super) {
     return ResourceCollection;
 }(CollectionBase_1.CollectionBase));
 exports.ResourceCollection = ResourceCollection;
+
+
 /***/ }),
+
 /***/ 9504:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TaskCollection = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -8062,9 +8524,14 @@ var TaskCollection = (function (_super) {
     return TaskCollection;
 }(CollectionBase_1.CollectionBase));
 exports.TaskCollection = TaskCollection;
+
+
 /***/ }),
+
 /***/ 5594:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.EventDispatcher = void 0;
 var EventDispatcher = (function () {
@@ -8103,9 +8570,14 @@ var EventDispatcher = (function () {
     return EventDispatcher;
 }());
 exports.EventDispatcher = EventDispatcher;
+
+
 /***/ }),
+
 /***/ 3452:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ModelChangesDispatcher = void 0;
 var ResourceManagerDialogShowingArguments_1 = __webpack_require__(255);
@@ -8265,9 +8737,14 @@ var ModelChangesDispatcher = (function () {
     return ModelChangesDispatcher;
 }());
 exports.ModelChangesDispatcher = ModelChangesDispatcher;
+
+
 /***/ }),
+
 /***/ 6124:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.GanttDataObjectNames = exports.DataObject = void 0;
 var common_1 = __webpack_require__(2491);
@@ -8295,9 +8772,14 @@ exports.GanttDataObjectNames = {
     resource: "resource",
     resourceAssignment: "assignment"
 };
+
+
 /***/ }),
+
 /***/ 7352:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Dependency = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -8350,9 +8832,14 @@ var Dependency = (function (_super) {
     return Dependency;
 }(DataObject_1.DataObject));
 exports.Dependency = Dependency;
+
+
 /***/ }),
+
 /***/ 5950:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.DependencyType = exports.TaskType = void 0;
 var TaskType;
@@ -8368,9 +8855,14 @@ var DependencyType;
     DependencyType[DependencyType["FF"] = 2] = "FF";
     DependencyType[DependencyType["SF"] = 3] = "SF";
 })(DependencyType = exports.DependencyType || (exports.DependencyType = {}));
+
+
 /***/ }),
+
 /***/ 2301:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Resource = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -8395,9 +8887,14 @@ var Resource = (function (_super) {
     return Resource;
 }(DataObject_1.DataObject));
 exports.Resource = Resource;
+
+
 /***/ }),
+
 /***/ 7437:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ResourceAssignment = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -8421,9 +8918,14 @@ var ResourceAssignment = (function (_super) {
     return ResourceAssignment;
 }(DataObject_1.DataObject));
 exports.ResourceAssignment = ResourceAssignment;
+
+
 /***/ }),
+
 /***/ 8492:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Task = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -8502,9 +9004,14 @@ var Task = (function (_super) {
     return Task;
 }(DataObject_1.DataObject));
 exports.Task = Task;
+
+
 /***/ }),
+
 /***/ 8774:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.BaseArguments = void 0;
 var BaseArguments = (function () {
@@ -8516,9 +9023,14 @@ var BaseArguments = (function () {
     return BaseArguments;
 }());
 exports.BaseArguments = BaseArguments;
+
+
 /***/ }),
+
 /***/ 3279:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.DependencyInsertingArguments = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -8552,9 +9064,14 @@ var DependencyInsertingArguments = (function (_super) {
     return DependencyInsertingArguments;
 }(BaseArguments_1.BaseArguments));
 exports.DependencyInsertingArguments = DependencyInsertingArguments;
+
+
 /***/ }),
+
 /***/ 4797:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.DependencyRemovingArguments = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -8569,9 +9086,14 @@ var DependencyRemovingArguments = (function (_super) {
     return DependencyRemovingArguments;
 }(BaseArguments_1.BaseArguments));
 exports.DependencyRemovingArguments = DependencyRemovingArguments;
+
+
 /***/ }),
+
 /***/ 255:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ResourceManagerDialogShowingArguments = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -8586,9 +9108,14 @@ var ResourceManagerDialogShowingArguments = (function (_super) {
     return ResourceManagerDialogShowingArguments;
 }(BaseArguments_1.BaseArguments));
 exports.ResourceManagerDialogShowingArguments = ResourceManagerDialogShowingArguments;
+
+
 /***/ }),
+
 /***/ 8403:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TaskEditDialogShowingArguments = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -8610,9 +9137,14 @@ var TaskEditDialogShowingArguments = (function (_super) {
     return TaskEditDialogShowingArguments;
 }(BaseArguments_1.BaseArguments));
 exports.TaskEditDialogShowingArguments = TaskEditDialogShowingArguments;
+
+
 /***/ }),
+
 /***/ 1389:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ResourceAssigningArguments = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -8640,9 +9172,14 @@ var ResourceAssigningArguments = (function (_super) {
     return ResourceAssigningArguments;
 }(BaseArguments_1.BaseArguments));
 exports.ResourceAssigningArguments = ResourceAssigningArguments;
+
+
 /***/ }),
+
 /***/ 8738:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ResourceUnassigningArguments = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -8657,9 +9194,14 @@ var ResourceUnassigningArguments = (function (_super) {
     return ResourceUnassigningArguments;
 }(BaseArguments_1.BaseArguments));
 exports.ResourceUnassigningArguments = ResourceUnassigningArguments;
+
+
 /***/ }),
+
 /***/ 990:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ResourceInsertingArguments = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -8688,9 +9230,14 @@ var ResourceInsertingArguments = (function (_super) {
     return ResourceInsertingArguments;
 }(BaseArguments_1.BaseArguments));
 exports.ResourceInsertingArguments = ResourceInsertingArguments;
+
+
 /***/ }),
+
 /***/ 9748:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ResourceRemovingArguments = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -8705,9 +9252,14 @@ var ResourceRemovingArguments = (function (_super) {
     return ResourceRemovingArguments;
 }(BaseArguments_1.BaseArguments));
 exports.ResourceRemovingArguments = ResourceRemovingArguments;
+
+
 /***/ }),
+
 /***/ 4605:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TaskInsertingArguments = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -8752,9 +9304,14 @@ var TaskInsertingArguments = (function (_super) {
     return TaskInsertingArguments;
 }(BaseArguments_1.BaseArguments));
 exports.TaskInsertingArguments = TaskInsertingArguments;
+
+
 /***/ }),
+
 /***/ 4642:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TaskRemovingArguments = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -8769,9 +9326,14 @@ var TaskRemovingArguments = (function (_super) {
     return TaskRemovingArguments;
 }(BaseArguments_1.BaseArguments));
 exports.TaskRemovingArguments = TaskRemovingArguments;
+
+
 /***/ }),
+
 /***/ 9669:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TaskUpdatingArguments = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -8803,9 +9365,14 @@ var TaskUpdatingArguments = (function (_super) {
     return TaskUpdatingArguments;
 }(BaseArguments_1.BaseArguments));
 exports.TaskUpdatingArguments = TaskUpdatingArguments;
+
+
 /***/ }),
+
 /***/ 8725:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.History = void 0;
 var HistoryItemInfo_1 = __webpack_require__(5221);
@@ -8940,9 +9507,14 @@ var History = (function () {
     return History;
 }());
 exports.History = History;
+
+
 /***/ }),
+
 /***/ 9751:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.CompositionHistoryItem = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -8981,9 +9553,14 @@ var CompositionHistoryItem = (function (_super) {
     return CompositionHistoryItem;
 }(HistoryItem_1.HistoryItem));
 exports.CompositionHistoryItem = CompositionHistoryItem;
+
+
 /***/ }),
+
 /***/ 1211:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.InsertDependencyHistoryItem = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -9034,9 +9611,14 @@ var InsertDependencyHistoryItem = (function (_super) {
     return InsertDependencyHistoryItem;
 }(HistoryItem_1.HistoryItem));
 exports.InsertDependencyHistoryItem = InsertDependencyHistoryItem;
+
+
 /***/ }),
+
 /***/ 5865:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.RemoveDependencyHistoryItem = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -9082,9 +9664,14 @@ var RemoveDependencyHistoryItem = (function (_super) {
     return RemoveDependencyHistoryItem;
 }(HistoryItem_1.HistoryItem));
 exports.RemoveDependencyHistoryItem = RemoveDependencyHistoryItem;
+
+
 /***/ }),
+
 /***/ 7917:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.HistoryItem = void 0;
 var HistoryItem = (function () {
@@ -9102,9 +9689,14 @@ var HistoryItem = (function () {
     return HistoryItem;
 }());
 exports.HistoryItem = HistoryItem;
+
+
 /***/ }),
+
 /***/ 5221:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.HistoryItemInfo = void 0;
 var HistoryItemInfo = (function () {
@@ -9116,9 +9708,14 @@ var HistoryItemInfo = (function () {
     return HistoryItemInfo;
 }());
 exports.HistoryItemInfo = HistoryItemInfo;
+
+
 /***/ }),
+
 /***/ 3064:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.HistoryItemState = void 0;
 var HistoryItemState = (function () {
@@ -9129,9 +9726,14 @@ var HistoryItemState = (function () {
     return HistoryItemState;
 }());
 exports.HistoryItemState = HistoryItemState;
+
+
 /***/ }),
+
 /***/ 3683:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.AssignResourceHistoryItem = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -9181,9 +9783,14 @@ var AssignResourceHistoryItem = (function (_super) {
     return AssignResourceHistoryItem;
 }(HistoryItem_1.HistoryItem));
 exports.AssignResourceHistoryItem = AssignResourceHistoryItem;
+
+
 /***/ }),
+
 /***/ 1493:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.DeassignResourceHistoryItem = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -9229,9 +9836,14 @@ var DeassignResourceHistoryItem = (function (_super) {
     return DeassignResourceHistoryItem;
 }(HistoryItem_1.HistoryItem));
 exports.DeassignResourceHistoryItem = DeassignResourceHistoryItem;
+
+
 /***/ }),
+
 /***/ 2961:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.CreateResourceHistoryItem = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -9273,9 +9885,14 @@ var CreateResourceHistoryItem = (function (_super) {
     return CreateResourceHistoryItem;
 }(HistoryItem_1.HistoryItem));
 exports.CreateResourceHistoryItem = CreateResourceHistoryItem;
+
+
 /***/ }),
+
 /***/ 4641:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ResourceColorHistoryItem = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -9291,9 +9908,14 @@ var ResourceColorHistoryItem = (function (_super) {
     return ResourceColorHistoryItem;
 }(ResourcePropertiesHistoryItemBase_1.ResourcePropertiesHistoryItemBase));
 exports.ResourceColorHistoryItem = ResourceColorHistoryItem;
+
+
 /***/ }),
+
 /***/ 7049:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ResourcePropertiesHistoryItemBase = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -9333,9 +9955,14 @@ var ResourcePropertiesHistoryItemBase = (function (_super) {
     return ResourcePropertiesHistoryItemBase;
 }(HistoryItem_1.HistoryItem));
 exports.ResourcePropertiesHistoryItemBase = ResourcePropertiesHistoryItemBase;
+
+
 /***/ }),
+
 /***/ 7466:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.RemoveResourceHistoryItem = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -9384,9 +10011,14 @@ var RemoveResourceHistoryItem = (function (_super) {
     return RemoveResourceHistoryItem;
 }(CompositionHistoryItem_1.CompositionHistoryItem));
 exports.RemoveResourceHistoryItem = RemoveResourceHistoryItem;
+
+
 /***/ }),
+
 /***/ 1284:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.CreateTaskHistoryItem = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -9433,9 +10065,14 @@ var CreateTaskHistoryItem = (function (_super) {
     return CreateTaskHistoryItem;
 }(HistoryItem_1.HistoryItem));
 exports.CreateTaskHistoryItem = CreateTaskHistoryItem;
+
+
 /***/ }),
+
 /***/ 9599:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.RemoveTaskHistoryItem = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -9490,9 +10127,14 @@ var RemoveTaskHistoryItem = (function (_super) {
     return RemoveTaskHistoryItem;
 }(CompositionHistoryItem_1.CompositionHistoryItem));
 exports.RemoveTaskHistoryItem = RemoveTaskHistoryItem;
+
+
 /***/ }),
+
 /***/ 9496:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.UpdateTaskHistoryItem = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -9531,9 +10173,14 @@ var UpdateTaskHistoryItem = (function (_super) {
     return UpdateTaskHistoryItem;
 }(HistoryItem_1.HistoryItem));
 exports.UpdateTaskHistoryItem = UpdateTaskHistoryItem;
+
+
 /***/ }),
+
 /***/ 6382:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.BaseManipulator = void 0;
 var BaseManipulator = (function () {
@@ -9554,9 +10201,14 @@ var BaseManipulator = (function () {
     return BaseManipulator;
 }());
 exports.BaseManipulator = BaseManipulator;
+
+
 /***/ }),
+
 /***/ 1178:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TaskDependencyManipulator = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -9611,9 +10263,14 @@ var TaskDependencyManipulator = (function (_super) {
     return TaskDependencyManipulator;
 }(BaseManipulator_1.BaseManipulator));
 exports.TaskDependencyManipulator = TaskDependencyManipulator;
+
+
 /***/ }),
+
 /***/ 9650:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ModelManipulator = void 0;
 var DependencyManipulator_1 = __webpack_require__(1178);
@@ -9629,9 +10286,14 @@ var ModelManipulator = (function () {
     return ModelManipulator;
 }());
 exports.ModelManipulator = ModelManipulator;
+
+
 /***/ }),
+
 /***/ 4596:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ResourceColorManipulator = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -9651,9 +10313,14 @@ var ResourceColorManipulator = (function (_super) {
     return ResourceColorManipulator;
 }(ResourcePropertyManipulator_1.ResourcePropertyManipulator));
 exports.ResourceColorManipulator = ResourceColorManipulator;
+
+
 /***/ }),
+
 /***/ 79:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ResourcePropertiesManipulator = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -9669,9 +10336,14 @@ var ResourcePropertiesManipulator = (function (_super) {
     return ResourcePropertiesManipulator;
 }(BaseManipulator_1.BaseManipulator));
 exports.ResourcePropertiesManipulator = ResourcePropertiesManipulator;
+
+
 /***/ }),
+
 /***/ 7470:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ResourcePropertyManipulator = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -9712,9 +10384,14 @@ var ResourcePropertyManipulator = (function (_super) {
     return ResourcePropertyManipulator;
 }(BaseManipulator_1.BaseManipulator));
 exports.ResourcePropertyManipulator = ResourcePropertyManipulator;
+
+
 /***/ }),
+
 /***/ 7518:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ResourcesManipulator = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -9804,9 +10481,14 @@ var ResourcesManipulator = (function (_super) {
     return ResourcesManipulator;
 }(BaseManipulator_1.BaseManipulator));
 exports.ResourcesManipulator = ResourcesManipulator;
+
+
 /***/ }),
+
 /***/ 728:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TaskManipulator = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -9894,9 +10576,14 @@ var TaskManipulator = (function (_super) {
     return TaskManipulator;
 }(BaseManipulator_1.BaseManipulator));
 exports.TaskManipulator = TaskManipulator;
+
+
 /***/ }),
+
 /***/ 2601:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.GanttJsonUtils = void 0;
 var json_1 = __webpack_require__(9937);
@@ -9909,9 +10596,14 @@ var GanttJsonUtils = (function () {
     return GanttJsonUtils;
 }());
 exports.GanttJsonUtils = GanttJsonUtils;
+
+
 /***/ }),
+
 /***/ 8478:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ValidationController = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -10248,9 +10940,14 @@ var ValidationController = (function () {
     return ValidationController;
 }());
 exports.ValidationController = ValidationController;
+
+
 /***/ }),
+
 /***/ 4927:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ValidationError = void 0;
 var ValidationError = (function () {
@@ -10262,9 +10959,14 @@ var ValidationError = (function () {
     return ValidationError;
 }());
 exports.ValidationError = ValidationError;
+
+
 /***/ }),
+
 /***/ 6350:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ViewVisualModelDependencyInfo = void 0;
 var ViewVisualModelDependencyInfo = (function () {
@@ -10276,9 +10978,14 @@ var ViewVisualModelDependencyInfo = (function () {
     return ViewVisualModelDependencyInfo;
 }());
 exports.ViewVisualModelDependencyInfo = ViewVisualModelDependencyInfo;
+
+
 /***/ }),
+
 /***/ 3562:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ViewVisualModelItem = void 0;
 var common_1 = __webpack_require__(2491);
@@ -10341,9 +11048,14 @@ var ViewVisualModelItem = (function () {
     return ViewVisualModelItem;
 }());
 exports.ViewVisualModelItem = ViewVisualModelItem;
+
+
 /***/ }),
+
 /***/ 1408:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ViewVisualModel = void 0;
 var ResourceCollection_1 = __webpack_require__(8828);
@@ -10921,9 +11633,14 @@ var ViewVisualModel = (function () {
     return ViewVisualModel;
 }());
 exports.ViewVisualModel = ViewVisualModel;
+
+
 /***/ }),
+
 /***/ 858:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.DateRange = void 0;
 var DateRange = (function () {
@@ -10940,9 +11657,14 @@ var DateRange = (function () {
     return DateRange;
 }());
 exports.DateRange = DateRange;
+
+
 /***/ }),
+
 /***/ 7880:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.DateTimeUtils = void 0;
 var Time_1 = __webpack_require__(2753);
@@ -11176,9 +11898,14 @@ var DateTimeUtils = (function () {
     return DateTimeUtils;
 }());
 exports.DateTimeUtils = DateTimeUtils;
+
+
 /***/ }),
+
 /***/ 8719:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.DayOfWeek = void 0;
 var DayOfWeek;
@@ -11191,9 +11918,14 @@ var DayOfWeek;
     DayOfWeek[DayOfWeek["Friday"] = 5] = "Friday";
     DayOfWeek[DayOfWeek["Saturday"] = 6] = "Saturday";
 })(DayOfWeek = exports.DayOfWeek || (exports.DayOfWeek = {}));
+
+
 /***/ }),
+
 /***/ 7812:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.DayOfWeekMonthlyOccurrence = void 0;
 var DayOfWeekMonthlyOccurrence;
@@ -11204,9 +11936,14 @@ var DayOfWeekMonthlyOccurrence;
     DayOfWeekMonthlyOccurrence[DayOfWeekMonthlyOccurrence["Forth"] = 3] = "Forth";
     DayOfWeekMonthlyOccurrence[DayOfWeekMonthlyOccurrence["Last"] = 4] = "Last";
 })(DayOfWeekMonthlyOccurrence = exports.DayOfWeekMonthlyOccurrence || (exports.DayOfWeekMonthlyOccurrence = {}));
+
+
 /***/ }),
+
 /***/ 1805:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.DayWorkingTimeInfo = void 0;
 var TimeRange_1 = __webpack_require__(9331);
@@ -11293,9 +12030,14 @@ var DayWorkingTimeInfo = (function () {
     return DayWorkingTimeInfo;
 }());
 exports.DayWorkingTimeInfo = DayWorkingTimeInfo;
+
+
 /***/ }),
+
 /***/ 3110:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Month = void 0;
 var Month;
@@ -11313,9 +12055,14 @@ var Month;
     Month[Month["November"] = 10] = "November";
     Month[Month["December"] = 11] = "December";
 })(Month = exports.Month || (exports.Month = {}));
+
+
 /***/ }),
+
 /***/ 7872:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.MonthInfo = void 0;
 var DateTimeUtils_1 = __webpack_require__(7880);
@@ -11335,9 +12082,14 @@ var MonthInfo = (function () {
     return MonthInfo;
 }());
 exports.MonthInfo = MonthInfo;
+
+
 /***/ }),
+
 /***/ 4902:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Daily = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -11364,9 +12116,14 @@ var Daily = (function (_super) {
     return Daily;
 }(RecurrenceBase_1.RecurrenceBase));
 exports.Daily = Daily;
+
+
 /***/ }),
+
 /***/ 4390:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Monthly = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -11437,9 +12194,14 @@ var Monthly = (function (_super) {
     return Monthly;
 }(RecurrenceBase_1.RecurrenceBase));
 exports.Monthly = Monthly;
+
+
 /***/ }),
+
 /***/ 1789:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.RecurrenceBase = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -11642,9 +12404,14 @@ var RecurrenceBase = (function (_super) {
     return RecurrenceBase;
 }(DataObject_1.DataObject));
 exports.RecurrenceBase = RecurrenceBase;
+
+
 /***/ }),
+
 /***/ 9612:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.RecurrenceFactory = void 0;
 var common_1 = __webpack_require__(2491);
@@ -11690,9 +12457,14 @@ var RecurrenceFactory = (function () {
     return RecurrenceFactory;
 }());
 exports.RecurrenceFactory = RecurrenceFactory;
+
+
 /***/ }),
+
 /***/ 5475:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Weekly = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -11739,9 +12511,14 @@ var Weekly = (function (_super) {
     return Weekly;
 }(RecurrenceBase_1.RecurrenceBase));
 exports.Weekly = Weekly;
+
+
 /***/ }),
+
 /***/ 7515:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Yearly = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -11813,9 +12590,14 @@ var Yearly = (function (_super) {
     return Yearly;
 }(RecurrenceBase_1.RecurrenceBase));
 exports.Yearly = Yearly;
+
+
 /***/ }),
+
 /***/ 2753:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Time = void 0;
 var Time = (function () {
@@ -11889,9 +12671,14 @@ var Time = (function () {
     return Time;
 }());
 exports.Time = Time;
+
+
 /***/ }),
+
 /***/ 9331:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TimeRange = void 0;
 var DateTimeUtils_1 = __webpack_require__(7880);
@@ -11941,9 +12728,14 @@ var TimeRange = (function () {
     return TimeRange;
 }());
 exports.TimeRange = TimeRange;
+
+
 /***/ }),
+
 /***/ 21:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.WorkingTimeCalculator = void 0;
 var GanttWorkingDayRuleCollection_1 = __webpack_require__(4432);
@@ -12032,9 +12824,14 @@ var WorkingTimeCalculator = (function () {
     return WorkingTimeCalculator;
 }());
 exports.WorkingTimeCalculator = WorkingTimeCalculator;
+
+
 /***/ }),
+
 /***/ 8401:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.WorkingTimeRule = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -12074,9 +12871,14 @@ var WorkingTimeRule = (function (_super) {
     return WorkingTimeRule;
 }(DataObject_1.DataObject));
 exports.WorkingTimeRule = WorkingTimeRule;
+
+
 /***/ }),
+
 /***/ 6626:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.GanttViewApi = void 0;
 var GanttViewApi = (function () {
@@ -12200,9 +13002,14 @@ var GanttViewApi = (function () {
     return GanttViewApi;
 }());
 exports.GanttViewApi = GanttViewApi;
+
+
 /***/ }),
+
 /***/ 5098:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TaskEditController = void 0;
 var Enums_1 = __webpack_require__(2449);
@@ -12694,9 +13501,14 @@ var TaskEditController = (function () {
     return TaskEditController;
 }());
 exports.TaskEditController = TaskEditController;
+
+
 /***/ }),
+
 /***/ 1886:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TaskEditTooltip = void 0;
 var dom_1 = __webpack_require__(6907);
@@ -12930,9 +13742,14 @@ var TaskEditTooltip = (function () {
     return TaskEditTooltip;
 }());
 exports.TaskEditTooltip = TaskEditTooltip;
+
+
 /***/ }),
+
 /***/ 3336:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.GanttMovingHelper = void 0;
 var browser_1 = __webpack_require__(9279);
@@ -13000,9 +13817,14 @@ var GanttMovingHelper = (function () {
     return GanttMovingHelper;
 }());
 exports.GanttMovingHelper = GanttMovingHelper;
+
+
 /***/ }),
+
 /***/ 6958:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TaskAreaStateController = void 0;
 var point_1 = __webpack_require__(8900);
@@ -13242,9 +14064,14 @@ var TaskAreaStateController = (function () {
     return TaskAreaStateController;
 }());
 exports.TaskAreaStateController = TaskAreaStateController;
+
+
 /***/ }),
+
 /***/ 5376:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TaskAreaDefaultState = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -13336,9 +14163,14 @@ var TaskAreaDefaultState = (function (_super) {
     return TaskAreaDefaultState;
 }(TaskAreaStateBase_1.TaskAreaStateBase));
 exports.TaskAreaDefaultState = TaskAreaDefaultState;
+
+
 /***/ }),
+
 /***/ 4264:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TaskAreaDependencyState = exports.dependencyMap = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -13414,9 +14246,14 @@ var TaskAreaDependencyState = (function (_super) {
     return TaskAreaDependencyState;
 }(TaskAreaStateBase_1.TaskAreaStateBase));
 exports.TaskAreaDependencyState = TaskAreaDependencyState;
+
+
 /***/ }),
+
 /***/ 9155:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 var _a;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TaskAreaDomHelper = void 0;
@@ -13466,9 +14303,14 @@ var TaskAreaDomHelper = (function () {
     return TaskAreaDomHelper;
 }());
 exports.TaskAreaDomHelper = TaskAreaDomHelper;
+
+
 /***/ }),
+
 /***/ 125:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TaskAreaScrollState = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -13515,9 +14357,14 @@ var TaskAreaScrollState = (function (_super) {
     return TaskAreaScrollState;
 }(TaskAreaStateBase_1.TaskAreaStateBase));
 exports.TaskAreaScrollState = TaskAreaScrollState;
+
+
 /***/ }),
+
 /***/ 5867:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TaskAreaStateBase = void 0;
 var browser_1 = __webpack_require__(9279);
@@ -13699,9 +14546,14 @@ var TaskAreaStateBase = (function () {
     return TaskAreaStateBase;
 }());
 exports.TaskAreaStateBase = TaskAreaStateBase;
+
+
 /***/ }),
+
 /***/ 1404:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TaskAreaStateEventNames = void 0;
 var TaskAreaStateEventNames = (function () {
@@ -13741,9 +14593,14 @@ var TaskAreaStateEventNames = (function () {
     return TaskAreaStateEventNames;
 }());
 exports.TaskAreaStateEventNames = TaskAreaStateEventNames;
+
+
 /***/ }),
+
 /***/ 6591:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TaskAreaZoomState = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -13844,9 +14701,14 @@ var TaskAreaZoomState = (function (_super) {
     return TaskAreaZoomState;
 }(TaskAreaStateBase_1.TaskAreaStateBase));
 exports.TaskAreaZoomState = TaskAreaZoomState;
+
+
 /***/ }),
+
 /***/ 6262:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TaskDragBaseState = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -13894,9 +14756,14 @@ var TaskDragBaseState = (function (_super) {
     return TaskDragBaseState;
 }(TaskAreaStateBase_1.TaskAreaStateBase));
 exports.TaskDragBaseState = TaskDragBaseState;
+
+
 /***/ }),
+
 /***/ 2395:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TaskEditState = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -13948,9 +14815,14 @@ var TaskEditState = (function (_super) {
     return TaskEditState;
 }(TaskDragBaseState_1.TaskDragBaseState));
 exports.TaskEditState = TaskEditState;
+
+
 /***/ }),
+
 /***/ 7295:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TaskMoveState = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -13971,9 +14843,14 @@ var TaskMoveState = (function (_super) {
     return TaskMoveState;
 }(TaskDragBaseState_1.TaskDragBaseState));
 exports.TaskMoveState = TaskMoveState;
+
+
 /***/ }),
+
 /***/ 3461:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TaskAreaEventArgs = void 0;
 var common_1 = __webpack_require__(2491);
@@ -13991,9 +14868,14 @@ var TaskAreaEventArgs = (function () {
     return TaskAreaEventArgs;
 }());
 exports.TaskAreaEventArgs = TaskAreaEventArgs;
+
+
 /***/ }),
+
 /***/ 8269:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TaskAreaEventsListener = void 0;
 var point_1 = __webpack_require__(8900);
@@ -14193,9 +15075,14 @@ var TaskAreaEventsListener = (function () {
     return TaskAreaEventsListener;
 }());
 exports.TaskAreaEventsListener = TaskAreaEventsListener;
+
+
 /***/ }),
+
 /***/ 3682:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TaskAreaManager = exports.TOUCH_ACTION_NONE = void 0;
 var browser_1 = __webpack_require__(9279);
@@ -14551,9 +15438,14 @@ var TaskAreaManager = (function () {
     return TaskAreaManager;
 }());
 exports.TaskAreaManager = TaskAreaManager;
+
+
 /***/ }),
+
 /***/ 2366:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.GanttView = void 0;
 var BarManager_1 = __webpack_require__(639);
@@ -15402,9 +16294,14 @@ var GanttView = (function () {
     return GanttView;
 }());
 exports.GanttView = GanttView;
+
+
 /***/ }),
+
 /***/ 2449:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TaskAreaEventSource = exports.TaskTitlePosition = exports.Position = exports.ViewType = void 0;
 var ViewType;
@@ -15445,9 +16342,14 @@ var TaskAreaEventSource;
     TaskAreaEventSource[TaskAreaEventSource["Successor_DependencyStart"] = 8] = "Successor_DependencyStart";
     TaskAreaEventSource[TaskAreaEventSource["Successor_DependencyFinish"] = 9] = "Successor_DependencyFinish";
 })(TaskAreaEventSource = exports.TaskAreaEventSource || (exports.TaskAreaEventSource = {}));
+
+
 /***/ }),
+
 /***/ 8877:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.EtalonSizeValues = void 0;
 var EtalonSizeValues = (function () {
@@ -15457,9 +16359,14 @@ var EtalonSizeValues = (function () {
     return EtalonSizeValues;
 }());
 exports.EtalonSizeValues = EtalonSizeValues;
+
+
 /***/ }),
+
 /***/ 8695:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.FullScreenModeHelper = void 0;
 var browser_1 = __webpack_require__(9279);
@@ -15583,9 +16490,14 @@ var FullScreenModeHelper = (function () {
     return FullScreenModeHelper;
 }());
 exports.FullScreenModeHelper = FullScreenModeHelper;
+
+
 /***/ }),
+
 /***/ 1391:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.GridElementInfo = void 0;
 var point_1 = __webpack_require__(8900);
@@ -15651,9 +16563,14 @@ var GridElementInfo = (function () {
     return GridElementInfo;
 }());
 exports.GridElementInfo = GridElementInfo;
+
+
 /***/ }),
+
 /***/ 1855:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.GridLayoutCalculator = void 0;
 var size_1 = __webpack_require__(6353);
@@ -16528,9 +17445,14 @@ var GridLayoutCalculator = (function () {
     return GridLayoutCalculator;
 }());
 exports.GridLayoutCalculator = GridLayoutCalculator;
+
+
 /***/ }),
+
 /***/ 7072:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ScaleCalculator = exports.ScaleItemInfo = void 0;
 var point_1 = __webpack_require__(8900);
@@ -16837,9 +17759,14 @@ var ScaleCalculator = (function () {
     return ScaleCalculator;
 }());
 exports.ScaleCalculator = ScaleCalculator;
+
+
 /***/ }),
+
 /***/ 9377:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TaskAreaContainer = void 0;
 var TaskAreaContainer = (function () {
@@ -16904,9 +17831,14 @@ var TaskAreaContainer = (function () {
     return TaskAreaContainer;
 }());
 exports.TaskAreaContainer = TaskAreaContainer;
+
+
 /***/ }),
+
 /***/ 6923:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ConnectorLinesRender = void 0;
 var RenderElementUtils_1 = __webpack_require__(658);
@@ -17035,9 +17967,14 @@ var ConnectorLinesRender = (function () {
     return ConnectorLinesRender;
 }());
 exports.ConnectorLinesRender = ConnectorLinesRender;
+
+
 /***/ }),
+
 /***/ 1419:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.CustomTaskRender = void 0;
 var Enums_1 = __webpack_require__(2449);
@@ -17203,9 +18140,14 @@ var CustomTaskRender = (function () {
     return CustomTaskRender;
 }());
 exports.CustomTaskRender = CustomTaskRender;
+
+
 /***/ }),
+
 /***/ 9385:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.EtalonsHelper = void 0;
 var dom_1 = __webpack_require__(6907);
@@ -17300,9 +18242,14 @@ var EtalonsHelper = (function () {
     return EtalonsHelper;
 }());
 exports.EtalonsHelper = EtalonsHelper;
+
+
 /***/ }),
+
 /***/ 4289:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ScaleCellPreparedArguments = void 0;
 var ScaleCellPreparedArguments = (function () {
@@ -17342,9 +18289,14 @@ var ScaleCellPreparedArguments = (function () {
     return ScaleCellPreparedArguments;
 }());
 exports.ScaleCellPreparedArguments = ScaleCellPreparedArguments;
+
+
 /***/ }),
+
 /***/ 2121:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.MainElementsRender = void 0;
 var MainElementsRender = (function () {
@@ -17364,9 +18316,14 @@ var MainElementsRender = (function () {
     return MainElementsRender;
 }());
 exports.MainElementsRender = MainElementsRender;
+
+
 /***/ }),
+
 /***/ 1027:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.NoWorkingIntervalRender = void 0;
 var RenderElementUtils_1 = __webpack_require__(658);
@@ -17433,9 +18390,14 @@ var NoWorkingIntervalRender = (function () {
     return NoWorkingIntervalRender;
 }());
 exports.NoWorkingIntervalRender = NoWorkingIntervalRender;
+
+
 /***/ }),
+
 /***/ 658:
 /***/ ((__unused_webpack_module, exports) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.RenderElementUtils = void 0;
 var RenderElementUtils = (function () {
@@ -17482,9 +18444,14 @@ var RenderElementUtils = (function () {
     return RenderElementUtils;
 }());
 exports.RenderElementUtils = RenderElementUtils;
+
+
 /***/ }),
+
 /***/ 1074:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.RenderHelper = void 0;
 var ConnectorLinesRender_1 = __webpack_require__(6923);
@@ -18001,9 +18968,14 @@ var RenderHelper = (function () {
     return RenderHelper;
 }());
 exports.RenderHelper = RenderHelper;
+
+
 /***/ }),
+
 /***/ 4966:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ResourseRender = void 0;
 var RenderElementUtils_1 = __webpack_require__(658);
@@ -18061,9 +19033,14 @@ var ResourseRender = (function () {
     return ResourseRender;
 }());
 exports.ResourseRender = ResourseRender;
+
+
 /***/ }),
+
 /***/ 6700:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ScaleRender = void 0;
 var dom_1 = __webpack_require__(6907);
@@ -18252,9 +19229,14 @@ var ScaleRender = (function () {
     return ScaleRender;
 }());
 exports.ScaleRender = ScaleRender;
+
+
 /***/ }),
+
 /***/ 8148:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.StripLinesRender = void 0;
 var RenderElementUtils_1 = __webpack_require__(658);
@@ -18314,9 +19296,14 @@ var StripLinesRender = (function () {
     return StripLinesRender;
 }());
 exports.StripLinesRender = StripLinesRender;
+
+
 /***/ }),
+
 /***/ 2349:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TaskAreaRender = void 0;
 var dom_1 = __webpack_require__(6907);
@@ -18537,9 +19524,14 @@ var TaskAreaRender = (function () {
     return TaskAreaRender;
 }());
 exports.TaskAreaRender = TaskAreaRender;
+
+
 /***/ }),
+
 /***/ 2290:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TaskRender = void 0;
 var dom_1 = __webpack_require__(6907);
@@ -18876,9 +19868,14 @@ var TaskRender = (function () {
     return TaskRender;
 }());
 exports.TaskRender = TaskRender;
+
+
 /***/ }),
+
 /***/ 2990:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.EditingSettings = void 0;
 var common_1 = __webpack_require__(2491);
@@ -18941,9 +19938,14 @@ var EditingSettings = (function () {
     return EditingSettings;
 }());
 exports.EditingSettings = EditingSettings;
+
+
 /***/ }),
+
 /***/ 9954:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.FullScreenHelperSettings = void 0;
 var common_1 = __webpack_require__(2491);
@@ -18963,9 +19965,14 @@ var FullScreenHelperSettings = (function () {
     return FullScreenHelperSettings;
 }());
 exports.FullScreenHelperSettings = FullScreenHelperSettings;
+
+
 /***/ }),
+
 /***/ 9640:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TaskEditSettings = void 0;
 var tslib_1 = __webpack_require__(655);
@@ -19001,9 +20008,14 @@ var TaskEditSettings = (function (_super) {
     return TaskEditSettings;
 }(TooltipSettings_1.TooltipSettings));
 exports.TaskEditSettings = TaskEditSettings;
+
+
 /***/ }),
+
 /***/ 9080:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TooltipSettings = void 0;
 var common_1 = __webpack_require__(2491);
@@ -19033,9 +20045,14 @@ var TooltipSettings = (function () {
     return TooltipSettings;
 }());
 exports.TooltipSettings = TooltipSettings;
+
+
 /***/ }),
+
 /***/ 5846:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ValidationControllerSettings = void 0;
 var common_1 = __webpack_require__(2491);
@@ -19065,9 +20082,14 @@ var ValidationControllerSettings = (function () {
     return ValidationControllerSettings;
 }());
 exports.ValidationControllerSettings = ValidationControllerSettings;
+
+
 /***/ }),
+
 /***/ 5351:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Settings = void 0;
 var common_1 = __webpack_require__(2491);
@@ -19158,9 +20180,14 @@ var Settings = (function () {
     return Settings;
 }());
 exports.Settings = Settings;
+
+
 /***/ }),
+
 /***/ 1442:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.StripLine = void 0;
 var common_1 = __webpack_require__(2491);
@@ -19201,9 +20228,14 @@ var StripLine = (function () {
     return StripLine;
 }());
 exports.StripLine = StripLine;
+
+
 /***/ }),
+
 /***/ 9057:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.StripLineSettings = void 0;
 var common_1 = __webpack_require__(2491);
@@ -19246,9 +20278,14 @@ var StripLineSettings = (function () {
     return StripLineSettings;
 }());
 exports.StripLineSettings = StripLineSettings;
+
+
 /***/ }),
+
 /***/ 2762:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ValidationSettings = void 0;
 var common_1 = __webpack_require__(2491);
@@ -19280,9 +20317,14 @@ var ValidationSettings = (function () {
     return ValidationSettings;
 }());
 exports.ValidationSettings = ValidationSettings;
+
+
 /***/ }),
+
 /***/ 9820:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ViewTypeRangeSettings = void 0;
 var common_1 = __webpack_require__(2491);
@@ -19311,9 +20353,14 @@ var ViewTypeRangeSettings = (function () {
     return ViewTypeRangeSettings;
 }());
 exports.ViewTypeRangeSettings = ViewTypeRangeSettings;
+
+
 /***/ }),
+
 /***/ 9201:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.DateUtils = void 0;
 var Enums_1 = __webpack_require__(2449);
@@ -19550,9 +20597,14 @@ function createViewTypeToScaleMap() {
     result[Enums_1.ViewType.Years] = Enums_1.ViewType.FiveYears;
     return result;
 }
+
+
 /***/ }),
+
 /***/ 8380:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ElementTextHelper = void 0;
 var dom_1 = __webpack_require__(6907);
@@ -19762,9 +20814,13 @@ var ElementTextHelper = (function () {
     return ElementTextHelper;
 }());
 exports.ElementTextHelper = ElementTextHelper;
+
+
 /***/ }),
+
 /***/ 655:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   __assign: () => (/* binding */ __assign),
@@ -19794,8 +20850,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation.
+
 Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted.
+
 THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
 REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
 AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
@@ -19805,12 +20863,14 @@ OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 PERFORMANCE OF THIS SOFTWARE.
 ***************************************************************************** */
 /* global Reflect, Promise */
+
 var extendStatics = function(d, b) {
     extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
         function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
     return extendStatics(d, b);
 };
+
 function __extends(d, b) {
     if (typeof b !== "function" && b !== null)
         throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
@@ -19818,6 +20878,7 @@ function __extends(d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 }
+
 var __assign = function() {
     __assign = Object.assign || function __assign(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -19828,6 +20889,7 @@ var __assign = function() {
     }
     return __assign.apply(this, arguments);
 }
+
 function __rest(s, e) {
     var t = {};
     for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
@@ -19839,18 +20901,22 @@ function __rest(s, e) {
         }
     return t;
 }
+
 function __decorate(decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 }
+
 function __param(paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 }
+
 function __metadata(metadataKey, metadataValue) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
 }
+
 function __awaiter(thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -19860,6 +20926,7 @@ function __awaiter(thisArg, _arguments, P, generator) {
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 }
+
 function __generator(thisArg, body) {
     var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
     return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
@@ -19887,6 +20954,7 @@ function __generator(thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 }
+
 var __createBinding = Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
@@ -19894,9 +20962,11 @@ var __createBinding = Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
 });
+
 function __exportStar(m, o) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(o, p)) __createBinding(o, m, p);
 }
+
 function __values(o) {
     var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
     if (m) return m.call(o);
@@ -19908,6 +20978,7 @@ function __values(o) {
     };
     throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
 }
+
 function __read(o, n) {
     var m = typeof Symbol === "function" && o[Symbol.iterator];
     if (!m) return o;
@@ -19924,12 +20995,14 @@ function __read(o, n) {
     }
     return ar;
 }
+
 /** @deprecated */
 function __spread() {
     for (var ar = [], i = 0; i < arguments.length; i++)
         ar = ar.concat(__read(arguments[i]));
     return ar;
 }
+
 /** @deprecated */
 function __spreadArrays() {
     for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
@@ -19938,6 +21011,7 @@ function __spreadArrays() {
             r[k] = a[j];
     return r;
 }
+
 function __spreadArray(to, from, pack) {
     if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
         if (ar || !(i in from)) {
@@ -19947,9 +21021,11 @@ function __spreadArray(to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 }
+
 function __await(v) {
     return this instanceof __await ? (this.v = v, this) : new __await(v);
 }
+
 function __asyncGenerator(thisArg, _arguments, generator) {
     if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
     var g = generator.apply(thisArg, _arguments || []), i, q = [];
@@ -19961,11 +21037,13 @@ function __asyncGenerator(thisArg, _arguments, generator) {
     function reject(value) { resume("throw", value); }
     function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
 }
+
 function __asyncDelegator(o) {
     var i, p;
     return i = {}, verb("next"), verb("throw", function (e) { throw e; }), verb("return"), i[Symbol.iterator] = function () { return this; }, i;
     function verb(n, f) { i[n] = o[n] ? function (v) { return (p = !p) ? { value: __await(o[n](v)), done: n === "return" } : f ? f(v) : v; } : f; }
 }
+
 function __asyncValues(o) {
     if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
     var m = o[Symbol.asyncIterator], i;
@@ -19973,15 +21051,18 @@ function __asyncValues(o) {
     function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
     function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
 }
+
 function __makeTemplateObject(cooked, raw) {
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+
 var __setModuleDefault = Object.create ? (function(o, v) {
     Object.defineProperty(o, "default", { enumerable: true, value: v });
 }) : function(o, v) {
     o["default"] = v;
 };
+
 function __importStar(mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
@@ -19989,21 +21070,27 @@ function __importStar(mod) {
     __setModuleDefault(result, mod);
     return result;
 }
+
 function __importDefault(mod) {
     return (mod && mod.__esModule) ? mod : { default: mod };
 }
+
 function __classPrivateFieldGet(receiver, state, kind, f) {
     if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 }
+
 function __classPrivateFieldSet(receiver, state, value, kind, f) {
     if (kind === "m") throw new TypeError("Private method is not writable");
     if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
     return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 }
+
+
 /***/ })
+
 /******/ 	});
 /************************************************************************/
 /******/ 	// The module cache
@@ -20064,13 +21151,16 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
 var exports = __webpack_exports__;
+
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.GanttView = exports["default"] = void 0;
 __webpack_require__(8721);
 var GanttView_1 = __webpack_require__(2366);
 Object.defineProperty(exports, "default", ({ enumerable: true, get: function () { return GanttView_1.GanttView; } }));
 Object.defineProperty(exports, "GanttView", ({ enumerable: true, get: function () { return GanttView_1.GanttView; } }));
+
 })();
+
 /******/ 	return __webpack_exports__;
 /******/ })()
 ;
