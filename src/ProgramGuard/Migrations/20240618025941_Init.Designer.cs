@@ -12,7 +12,7 @@ using ProgramGuard.Data;
 namespace ProgramGuard.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20240614055902_Init")]
+    [Migration("20240618025941_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -49,6 +49,20 @@ namespace ProgramGuard.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "1",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "2",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -211,7 +225,7 @@ namespace ProgramGuard.Migrations
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<DateTimeOffset?>("LockoutEnd")
+                    b.Property<DateTime>("LockoutEnd")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("NormalizedEmail")
@@ -356,11 +370,9 @@ namespace ProgramGuard.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("PasswordHash")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
@@ -447,9 +459,7 @@ namespace ProgramGuard.Migrations
                 {
                     b.HasOne("ProgramGuard.Models.AppUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });

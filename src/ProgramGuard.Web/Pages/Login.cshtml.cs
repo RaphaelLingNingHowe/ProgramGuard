@@ -40,8 +40,24 @@ namespace ProgramGuard.Web.Pages
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var token = await response.Content.ReadAsStringAsync();
-                    Response.Cookies.Append("auth_token", token, new CookieOptions
+                    var jsonResponse = await response.Content.ReadAsStringAsync();
+
+                    UserDto loginResponse = null;
+                    try
+                    {
+                        loginResponse = JsonConvert.DeserializeObject<UserDto>(jsonResponse);
+                    }
+                    catch (JsonException)
+                    {
+                    }
+
+                    if (loginResponse != null && loginResponse.RequirePasswordChange)
+                    {
+                        return RedirectToPage("/ChangePassword");
+                    }
+
+                    // 如果解析失败或无需更改密码，将响应内容作为字符串 token 处理
+                    Response.Cookies.Append("auth_token", jsonResponse, new CookieOptions
                     {
                         HttpOnly = true,
                         Secure = true,

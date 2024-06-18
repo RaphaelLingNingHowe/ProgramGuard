@@ -12,7 +12,7 @@ using ProgramGuard.Data;
 namespace ProgramGuard.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20240614060610_Init1")]
+    [Migration("20240618032236_Init1")]
     partial class Init1
     {
         /// <inheritdoc />
@@ -228,6 +228,9 @@ namespace ProgramGuard.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<DateTime?>("LoginTime")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)");
@@ -339,25 +342,6 @@ namespace ProgramGuard.Migrations
                     b.ToTable("FileLists");
                 });
 
-            modelBuilder.Entity("ProgramGuard.Models.LoginHistory", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<bool>("LoginStatus")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<DateTime?>("LoginTime")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime?>("LogoutTime")
-                        .HasColumnType("datetime(6)");
-
-                    b.HasKey("UserId");
-
-                    b.ToTable("LoginHistories");
-                });
-
             modelBuilder.Entity("ProgramGuard.Models.PasswordHistory", b =>
                 {
                     b.Property<int>("Id")
@@ -370,11 +354,9 @@ namespace ProgramGuard.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("PasswordHash")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
@@ -446,31 +428,13 @@ namespace ProgramGuard.Migrations
                     b.Navigation("FileList");
                 });
 
-            modelBuilder.Entity("ProgramGuard.Models.LoginHistory", b =>
-                {
-                    b.HasOne("ProgramGuard.Models.AppUser", "User")
-                        .WithMany("LoginHistories")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("ProgramGuard.Models.PasswordHistory", b =>
                 {
                     b.HasOne("ProgramGuard.Models.AppUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("ProgramGuard.Models.AppUser", b =>
-                {
-                    b.Navigation("LoginHistories");
                 });
 #pragma warning restore 612, 618
         }

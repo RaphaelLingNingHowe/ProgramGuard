@@ -8,7 +8,7 @@ using ProgramGuard.Models;
 namespace ProgramGuard.Controllers
 {
     [Route("[controller]")]
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     [ApiController]
     public class AccountController : ControllerBase
     {
@@ -28,15 +28,13 @@ namespace ProgramGuard.Controllers
         {
             try
             {
-                var userInfos = await _context.Users.Include(u => u.LoginHistories).ToListAsync();
+                var userInfos = await _context.Users.ToListAsync();
 
                 var userDtos = userInfos.Select(u => new GetUserDto
                 {
                     UserName = u.UserName,
-                    LoginStatus = u.LoginHistories?.Any(lh => !lh.LogoutTime.HasValue) ?? false,
-                    LoginTime = u.LoginHistories?.OrderByDescending(lh => lh.LoginTime).FirstOrDefault()?.LoginTime,
-                    LogoutTime = u.LoginHistories?.OrderByDescending(lh => lh.LoginTime).FirstOrDefault()?.LogoutTime,
-                    LockoutEnd = u.LockoutEnd,
+                    LastLoginTime = u.LastLoginTime,
+                    LockoutEnd = u.LockoutEnd?.LocalDateTime.ToString("yyyy-MM-dd HH:mm:ss"),
                     IsFrozen = u.IsFrozen
                 }).ToList();
                 return Ok(userDtos);
@@ -51,20 +49,20 @@ namespace ProgramGuard.Controllers
         {
             try
             {
-                var existingUser = await _userManager.FindByNameAsync(createUserDto.Username);
+                var existingUser = await _userManager.FindByNameAsync(createUserDto.UserName);
                 if (existingUser != null)
                 {
                     return BadRequest("用戶名已經存在，請選擇另一個用戶名");
                 }
                 var user = new AppUser
                 {
-                    UserName = createUserDto.Username,
+                    UserName = createUserDto.UserName,
                     Email = createUserDto.Email
                 };
                 var createdUser = await _userManager.CreateAsync(user, createUserDto.Password);
                 if (createdUser.Succeeded)
                 {
-                    
+
                     var roleResult = await _userManager.AddToRoleAsync(user, "User");
                     if (roleResult.Succeeded)
                     {

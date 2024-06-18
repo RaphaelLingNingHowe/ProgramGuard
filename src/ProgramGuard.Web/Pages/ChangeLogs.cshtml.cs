@@ -1,12 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using ProgramGuard.Dtos.LogQuery;
 using ProgramGuard.Web.Model;
 using System.Text;
 
 namespace ProgramGuard.Web.Pages
 {
-    [Authorize]
     public class ChangeLogsModel : BasePageModel
     {
         public ChangeLogsModel(IHttpClientFactory httpClientFactory, ILogger<BasePageModel> logger, IHttpContextAccessor contextAccessor, IConfiguration configuration)
@@ -14,7 +12,14 @@ namespace ProgramGuard.Web.Pages
         {
 
         }
-
+        public IActionResult OnGet()
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToPage("/Login");
+            }
+            return Page();
+        }
 
         public async Task<IActionResult> OnGetData()
         {

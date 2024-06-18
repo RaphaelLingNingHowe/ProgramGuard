@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using ProgramGuard.Web.Pages;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,10 @@ builder.Services
 builder.Services.AddHttpClient();
 builder.Services.AddSession();
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<ChangePasswordModel>();
+builder.Services.AddAntiforgery();
+// 其他需要的服务配置
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -41,6 +46,7 @@ builder.Services.AddAuthentication(options =>
         )
     };
 });
+
 
 builder.Services.AddAuthorization(); // 添加授權服務
 

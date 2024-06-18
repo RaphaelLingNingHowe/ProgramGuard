@@ -8,13 +8,99 @@
 <!--- Razor 預設開啟 AntiForgeryToken 這個會影響 Post, Put, Patch, Delete 等行為 !--->
 @Html.AntiForgeryToken()
 
+<div id="container">
+    @(Html.DevExtreme().Button()
+        .Text("添加使用者")
+        .OnClick("showPopup")
+        .Type(ButtonType.Success)
+        .ElementAttr(new { id = "changePasswordButton" })
+        )
+
+    <div id="container">
+        @(Html.DevExtreme().Popup()
+            .ID("addUserPopup")
+            .Width(400)
+            .Height(300)
+            .ShowTitle(true)
+            .Title("添加使用者")
+            .DragEnabled(true)
+            .HideOnOutsideClick(true)
+            .ShowCloseButton(true)
+            .Position(positionConfig => positionConfig
+            .At(HorizontalAlignment.Center, VerticalAlignment.Center)
+            .My(HorizontalAlignment.Center, VerticalAlignment.Center)
+            )
+            .ContentTemplate(@<text>
+            @using (Html.BeginForm(FormMethod.Post))
+            {
+            <div class="dx-field">
+                <div class="dx-field-label">賬號</div>
+                <div class="dx-field-value">
+                    @(Html.DevExtreme().TextBox()
+                    .Name("UserName")
+                    .Placeholder("賬號")
+
+                    )
+                </div>
+            </div>
+            <div class="dx-field">
+                <div class="dx-field-label">密碼</div>
+                <div class="dx-field-value">
+                    @(
+                    Html.DevExtreme().TextBox()
+                    .Name("Password")
+                    .ID("Password")
+                    .Mode(TextBoxMode.Password)
+                    .InputAttr("aria-label", "Password")
+                    .Placeholder("密碼")
+                    .ShowClearButton(true)
+                    .Buttons(buttons =>
+                    {
+                    buttons.Add()
+                    .Name("password")
+                    .Location(TextEditorButtonLocation.After)
+                    .Widget(w => w.Button()
+                    .StylingMode(ButtonStylingMode.Text)
+                    .Icon("eyeopen")
+                    .OnClick("() => changePasswordMode('Password')"));
+                    }))
+                </div>
+            </div>
+            <div class="dx-field">
+                <div class="dx-field-label">電子郵件</div>
+                <div class="dx-field-value">
+                    @(
+                    Html.DevExtreme().TextBox()
+                    .Name("Email")
+                    .ID("Email")
+                    .Mode(TextBoxMode.Email)
+                    .InputAttr("aria-label", "Email")
+                    .Placeholder("電子郵件")
+                    .ShowClearButton(true)
+                    )
+                </div>
+            </div>
+            <div class="dx-field">
+                <div class="dx-field-value">
+                    @(Html.DevExtreme().Button()
+                    .Text("確定")
+                    .Type(ButtonType.Success)
+                    .UseSubmitBehavior(true)
+                    )
+                </div>
+            </div>
+            }
+        </text>)
+            )
+    </div>
+</div>
 
 <div id="gridContainer">
     @(
         Html.DevExtreme().DataGrid<GetUserDto>()
         .DataSource(o => o.RemoteController()
         .LoadUrl("Accounts?Handler=Data")
-        .InsertUrl("Accounst")
+        .InsertUrl("Accounts")
         .UpdateUrl("Accounts")
         .Key("UserName"))
         .Editing(e =>
@@ -26,10 +112,7 @@
         .Columns(columns =>
         {
             columns.AddFor(m => m.UserName).Caption("使用者").AllowEditing(false);
-            @* columns.AddFor(m => m.RoleName).Caption(""); *@
-            columns.AddFor(m => m.LoginStatus).Caption("登錄狀態").AllowEditing(false);
-            columns.AddFor(m => m.LoginTime).Caption("登錄時間").Format("yyyy-MM-dd HH:mm:ss").AllowEditing(false);
-            columns.AddFor(m => m.LogoutTime).Caption("登出時間").Format("yyyy-MM-dd HH:mm:ss").AllowEditing(false);
+            columns.AddFor(m => m.LastLoginTime).Caption("上次登錄時間").Format("yyyy-MM-dd HH:mm:ss").AllowEditing(false);
             columns.AddFor(m => m.LockoutEnd).Caption("解鎖時間").Format("yyyy-MM-dd HH:mm:ss").AllowEditing(false);
             columns.AddFor(m => m.IsFrozen).Caption("凍結賬號");
         })
@@ -52,12 +135,25 @@
         )
 </div>
 
-<script>
-    /* 配合 AntiForgeryToken 使用 */
-    $.ajaxSetup({
-        data: {
-            __RequestVerificationToken: document.getElementsByName("__RequestVerificationToken")[0].value
-        }
-    });
-</script>
 
+@section Scripts {
+    <script>
+        /* 配合 AntiForgeryToken 使用 */
+        $.ajaxSetup({
+            data: {
+                __RequestVerificationToken: document.getElementsByName("__RequestVerificationToken")[0].value
+            }
+        });
+    </script>
+    <script>
+        function showPopup() {
+            $("#addUserPopup").dxPopup("instance").show();
+        }
+    </script>
+    <script>
+        function changePasswordMode(name) {
+            let editor = $(`#${name}`).dxTextBox("instance");
+            editor.option('mode', editor.option('mode') === 'text' ? 'password' : 'text');
+        }
+    </script>
+}

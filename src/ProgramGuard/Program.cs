@@ -64,13 +64,6 @@ builder.Services.AddAuthentication(options =>
         )
     };
 });
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowSpecificOrigin",
-        builder => builder.WithOrigins("http://localhost:57919/")
-                          .AllowAnyHeader()
-                          .AllowAnyMethod());
-});
 builder.Services.AddAuthorization();
 var app = builder.Build();
 if (app.Environment.IsDevelopment())

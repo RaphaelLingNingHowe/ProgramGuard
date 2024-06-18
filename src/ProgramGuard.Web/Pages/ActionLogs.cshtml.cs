@@ -1,12 +1,9 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using ProgramGuard.Dtos.LogQuery;
 using ProgramGuard.Web.Model;
 
 namespace ProgramGuard.Web.Pages
 {
-    [Authorize]
     public class ActionLogsModel : BasePageModel
     {
         public ActionLogsModel(IHttpClientFactory httpClientFactory, ILogger<BasePageModel> logger, IHttpContextAccessor contextAccessor, IConfiguration configuration)
@@ -14,7 +11,14 @@ namespace ProgramGuard.Web.Pages
         {
 
         }
-
+        public IActionResult OnGet()
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToPage("/Login");
+            }
+            return Page();
+        }
         public async Task<IActionResult> OnGetDataAsync()
         {
             try

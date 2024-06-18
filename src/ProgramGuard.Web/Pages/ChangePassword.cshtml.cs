@@ -18,12 +18,10 @@ namespace ProgramGuard.Web.Pages
 
         [BindProperty]
         public ChangePasswordDto changePasswordDto { get; set; }
+
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
 
             HttpClient client = GetClient();
             var jsonContent = new StringContent(JsonConvert.SerializeObject(changePasswordDto), Encoding.UTF8, "application/json");
@@ -32,7 +30,6 @@ namespace ProgramGuard.Web.Pages
 
             if (response.IsSuccessStatusCode)
             {
-                TempData["SuccessMessage"] = "密碼更改成功！";
                 return RedirectToPage("/Login");
             }
             else

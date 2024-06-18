@@ -13,7 +13,6 @@ namespace ProgramGuard.Data
         public DbSet<FileList> FileLists { get; set; }
         public DbSet<ChangeLog> ChangeLogs { get; set; }
         public DbSet<ActionLog> ActionLogs { get; set; }
-        public DbSet<LoginHistory> LoginHistories { get; set; }
         public DbSet<PasswordHistory> PasswordHistories { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {

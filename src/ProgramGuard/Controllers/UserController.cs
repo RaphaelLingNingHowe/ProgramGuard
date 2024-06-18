@@ -5,7 +5,6 @@ using ProgramGuard.Data;
 using ProgramGuard.Dtos.User;
 using ProgramGuard.Interfaces;
 using ProgramGuard.Models;
-using System.Security.Claims;
 namespace ProgramGuard.Controllers
 {
     [Route("[controller]")]
@@ -46,25 +45,15 @@ namespace ProgramGuard.Controllers
                     var daysSinceLastPasswordChange = (DateTime.UtcNow - user.LastPasswordChangedDate).TotalDays;
                     if (daysSinceLastPasswordChange > 80)
                     {
-                        return Ok(new { Message = "密碼已超過80天未更換，請更換密碼" });
-                    }
-                    var existingHistory = await _context.LoginHistories.FirstOrDefaultAsync(h => h.UserId == user.Id);
-                    if (existingHistory != null)
-                    {
-                        existingHistory.LoginStatus = true;
-                        existingHistory.LoginTime = DateTime.UtcNow.ToLocalTime();
-                        _context.LoginHistories.Update(existingHistory);
-                    }
-                    else
-                    {
-                        var loginHistory = new LoginHistory
+                        var userDto = new UserDto
                         {
-                            UserId = user.Id,
-                            LoginStatus = true,
-                            LoginTime = DateTime.UtcNow.ToLocalTime()
+                            UserName = loginDto.UserName,
+                            RequirePasswordChange = true
                         };
-                        _context.LoginHistories.Add(loginHistory);
+                        return Ok(userDto);
                     }
+                    user.LastLoginTime = DateTime.UtcNow.ToLocalTime();
+                    _context.Users.Update(user);
                     await _context.SaveChangesAsync();
                     var token = await _tokenService.CreateTokenAsync(user);
                     return Ok(token);
@@ -120,24 +109,12 @@ namespace ProgramGuard.Controllers
                 return StatusCode(500, "註冊用戶時發現異常");
             }
         }
-        [HttpPost("logout")]
+        [HttpGet("logout")]
         public async Task<IActionResult> Logout()
         {
             try
             {
                 await _signInManager.SignOutAsync();
-                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-                if (!string.IsNullOrEmpty(userId))
-                {
-                    var loginHistory = await _context.LoginHistories.FindAsync(userId);
-                    if (loginHistory != null)
-                    {
-                        loginHistory.LoginStatus = false;
-                        loginHistory.LogoutTime = DateTime.UtcNow.ToLocalTime();
-                        _context.LoginHistories.Update(loginHistory);
-                        await _context.SaveChangesAsync();
-                    }
-                }
                 return Ok("用戶已註銷");
             }
             catch (Exception ex)

@@ -1,3 +1,6 @@
+﻿@inject ProgramGuard.Web.Pages.ChangePasswordModel ChangePasswordModel
+
+<!-- 其他 Razor 標記 -->
 
 <!DOCTYPE html>
 
@@ -9,7 +12,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>ProgramGuard_Web</title>
+    <title>ProgramGuard</title>
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 
     @* Uncomment to use the HtmlEditor control *@
@@ -60,6 +63,7 @@
 
     <script src="~/js/devextreme/aspnet/dx.aspnet.mvc.js"></script>
     <script src="~/js/devextreme/aspnet/dx.aspnet.data.js"></script>
+
 </head>
 
 
@@ -77,25 +81,41 @@
             
             <div id="navbar" class="collapse navbar-collapse">
                 <ul class="navbar-nav me-auto">
-                    <li class="nav-item"><a href="/FileLists" class="nav-link active">�ɮײM��</a></li>
-                    <li class="nav-item"><a href="/Login" class="nav-link">�n��</a></li>
-                    <li class="nav-item"><a href="/ActionLogs" class="nav-link">�ާ@�O��</a></li>
-                    <li class="nav-item"><a href="/ChangeLogs" class="nav-link">���ʰO��</a></li>
-                    <li class="nav-item"><a href="/Accounts" class="nav-link">�ϥΪ̺޲z</a></li>
-                    <li class="nav-item"><a href="/ChangePassword" class="nav-link">�󴫱K�X</a></li>
-                    <li class="nav-item"><a href="/Logout" class="nav-link">�n�X</a></li>
+                    <li class="nav-item"><a href="/FileLists" class="nav-link active">檔案清單</a></li>
+                    <li class="nav-item"><a href="/Login" class="nav-link">登錄</a></li>
+                    <li class="nav-item"><a href="/ActionLogs" class="nav-link">操作記錄</a></li>
+                    <li class="nav-item"><a href="/ChangeLogs" class="nav-link">異動記錄</a></li>
+                    <li class="nav-item"><a href="/Accounts" class="nav-link">使用者管理</a></li>
+                    <li class="nav-item"><a href="#" id="navChangePassword" class="nav-link">更換密碼</a></li>
                 </ul>
-            </div>
-            
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a href="/Logout" class="nav-link">登出</a></li>
+                </ul>
+            </div> 
         </div>
     </nav>
-
     <main class="container">
         @RenderBody()
     </main>
-
+    <div id="changePasswordPopup" style="display:none;">
+        <partial name="_ChangePasswordPartial" model="ChangePasswordModel" />
+    </div>
     @* Add this section *@
     @RenderSection("Scripts", required: false)
+    <script>
+        function changePasswordMode(name) {
+            let editor = $(`#${name}`).dxTextBox("instance");
+            editor.option('mode', editor.option('mode') === 'text' ? 'password' : 'text');
+        }
+        $(document).ready(function () {
+            $("#navChangePassword").on("click", function (event) {
+                event.preventDefault(); // 防止默認鏈接跳轉行為
+                $("#changePasswordPopup").dxPopup("instance").show();
+            });
+        });
+
+    </script>
+
 </body>
 
 </html>

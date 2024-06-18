@@ -4,46 +4,46 @@
     ViewData["Title"] = "Login";
 }
 
-<h1>Login</h1>
+<h1>登录</h1>
 
 @using (Html.BeginForm(FormMethod.Post))
 {
     <div class="dx-field">
-        <div class="dx-field-label">賬號</div>
+        <div class="dx-field-label">账号</div>
         <div class="dx-field-value">
             @(Html.DevExtreme().TextBox()
                 .Name("UserName")
-                .Placeholder("Enter Username")
+                .Placeholder("请输入用户名")
                 )
         </div>
     </div>
     <div class="dx-field">
-        <div class="dx-field-label">密碼</div>
+        <div class="dx-field-label">密码</div>
         <div class="dx-field-value">
             @(
-            Html.DevExtreme().TextBox()
-                    .ID("password")
-                    .Name("Password")
-                    .Mode(TextBoxMode.Password)
-                    .InputAttr("aria-label", "Password")
-                    .Placeholder("Enter password")
-                    .ShowClearButton(true)
-                    .Buttons(buttons =>
-                    {
-                        buttons.Add()
-                        .Name("password")
-                        .Location(TextEditorButtonLocation.After)
-                        .Widget(w => w.Button()
-                        .StylingMode(ButtonStylingMode.Text)
-                        .Icon("eyeopen")
-                        .OnClick("changePasswordMode"));
-                    }))
+                Html.DevExtreme().TextBox()
+                .ID("password")
+                .Name("Password")
+                .Mode(TextBoxMode.Password)
+                .InputAttr("aria-label", "Password")
+                .Placeholder("请输入密码")
+                .ShowClearButton(true)
+                .Buttons(buttons =>
+                {
+                    buttons.Add()
+                    .Name("password")
+                    .Location(TextEditorButtonLocation.After)
+                    .Widget(w => w.Button()
+                    .StylingMode(ButtonStylingMode.Text)
+                    .Icon("eyeopen")
+                    .OnClick("changePasswordMode"));
+                }))
         </div>
     </div>
     <div class="dx-field">
         <div class="dx-field-value">
             @(Html.DevExtreme().Button()
-                .Text("登錄")
+                .Text("登录")
                 .Type(ButtonType.Success)
                 .UseSubmitBehavior(true)
                 )
@@ -51,9 +51,23 @@
     </div>
 }
 
-<script>
-    function changePasswordMode() {
-        var passwordEditor = $("#password").dxTextBox("instance");
-        passwordEditor.option("mode", passwordEditor.option("mode") === "text" ? "password" : "text");
-    }
-</script>
+@section Scripts {
+    <script>
+        function changePasswordMode() {
+            var passwordEditor = $("#password").dxTextBox("instance");
+            passwordEditor.option("mode", passwordEditor.option("mode") === "text" ? "password" : "text");
+        }
+
+        // 确保页面加载完成后执行 JavaScript
+        $(document).ready(function () {
+            // 从 cookie 中获取 JWT
+            var jwt = document.cookie.replace(/(?:(?:^|.*;\s*)auth_token\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+
+            // 检查 JWT 中是否包含指定的消息
+            if (jwt.includes("密码已超过80天未更换，请更换密码")) {
+                // 使用 DevExtreme 的弹窗组件显示提示框
+                DevExpress.ui.notify("密码已超过80天未更换，请更换密码", "error", 3000);
+            }
+        });
+    </script>
+}

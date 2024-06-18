@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using ProgramGuard.Dtos.FileDetection;
 using ProgramGuard.Web.Model;
@@ -8,13 +7,20 @@ using System.Text;
 
 namespace ProgramGuard.Web.Pages
 {
-    [Authorize]
     public class FileListsModel : BasePageModel
     {
         public FileListsModel(IHttpClientFactory httpClientFactory, ILogger<BasePageModel> logger, IHttpContextAccessor contextAccessor, IConfiguration configuration)
             : base(httpClientFactory, logger, contextAccessor, configuration)
         {
 
+        }
+        public IActionResult OnGet()
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToPage("/Login");
+            }
+            return Page();
         }
 
         [BindProperty]
@@ -55,7 +61,6 @@ namespace ProgramGuard.Web.Pages
                 ModelState.AddModelError("FilePath", "檔案路徑不可為空");
                 return Page();
             }
-            // 检查文件是否存在
             if (!FileExists(FilePath))
             {
                 ModelState.AddModelError("FilePath", "檔案路徑不存在");
@@ -70,7 +75,6 @@ namespace ProgramGuard.Web.Pages
 
                 if (response.IsSuccessStatusCode)
                 {
-                    TempData["SuccessMessage"] = "文件创建成功！";
                     return Page();
                 }
                 else

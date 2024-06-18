@@ -1,11 +1,11 @@
+ï»¿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Newtonsoft.Json;
 using ProgramGuard.Web.Model;
-using System.Text;
 
 namespace ProgramGuard.Web.Pages
 {
+    [AllowAnonymous]
+    [IgnoreAntiforgeryToken]
     public class LogoutModel : BasePageModel
     {
         public LogoutModel(IHttpClientFactory httpClientFactory, ILogger<BasePageModel> logger, IHttpContextAccessor contextAccessor, IConfiguration configuration)
@@ -13,18 +13,17 @@ namespace ProgramGuard.Web.Pages
         {
 
         }
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnGetAsync()
         {
             try
             {
                 HttpClient client = GetClient();
-
-                HttpResponseMessage response = await client.PostAsync("/User/logout",null);
+                HttpResponseMessage response = await client.GetAsync("/User/logout");
 
                 if (response.IsSuccessStatusCode)
                 {
-                    TempData["SuccessMessage"] = "µn¥X¦¨¥\¡I";
-                    return RedirectToPage("/Login");
+                    Response.Cookies.Delete("auth_token");
+                    return Redirect("/Login");
                 }
                 else
                 {

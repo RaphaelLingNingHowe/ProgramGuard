@@ -12,7 +12,7 @@ using ProgramGuard.Data;
 namespace ProgramGuard.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20240614060756_Init2")]
+    [Migration("20240618032526_Init2")]
     partial class Init2
     {
         /// <inheritdoc />
@@ -88,141 +88,6 @@ namespace ProgramGuard.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetRoleClaims", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ClaimType = "Permission",
-                            ClaimValue = "CanViewFileList",
-                            RoleId = "1"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            ClaimType = "Permission",
-                            ClaimValue = "CanCreateFile",
-                            RoleId = "1"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            ClaimType = "Permission",
-                            ClaimValue = "CanEditFile",
-                            RoleId = "1"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            ClaimType = "Permission",
-                            ClaimValue = "CanDeleteFile",
-                            RoleId = "1"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            ClaimType = "Permission",
-                            ClaimValue = "CanViewChangeLog",
-                            RoleId = "1"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            ClaimType = "Permission",
-                            ClaimValue = "CanCreateChangeLog",
-                            RoleId = "1"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            ClaimType = "Permission",
-                            ClaimValue = "CanEditChangeLog",
-                            RoleId = "1"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            ClaimType = "Permission",
-                            ClaimValue = "CanDeleteChangeLog",
-                            RoleId = "1"
-                        },
-                        new
-                        {
-                            Id = 9,
-                            ClaimType = "Permission",
-                            ClaimValue = "CanViewActionLog",
-                            RoleId = "1"
-                        },
-                        new
-                        {
-                            Id = 10,
-                            ClaimType = "Permission",
-                            ClaimValue = "CanCreateActionLog",
-                            RoleId = "1"
-                        },
-                        new
-                        {
-                            Id = 11,
-                            ClaimType = "Permission",
-                            ClaimValue = "CanEditActionLog",
-                            RoleId = "1"
-                        },
-                        new
-                        {
-                            Id = 12,
-                            ClaimType = "Permission",
-                            ClaimValue = "CanDeleteActionLog",
-                            RoleId = "1"
-                        },
-                        new
-                        {
-                            Id = 13,
-                            ClaimType = "Permission",
-                            ClaimValue = "CanViewAccount",
-                            RoleId = "1"
-                        },
-                        new
-                        {
-                            Id = 14,
-                            ClaimType = "Permission",
-                            ClaimValue = "CanCreateAccount",
-                            RoleId = "1"
-                        },
-                        new
-                        {
-                            Id = 15,
-                            ClaimType = "Permission",
-                            ClaimValue = "CanEditAccount",
-                            RoleId = "1"
-                        },
-                        new
-                        {
-                            Id = 16,
-                            ClaimType = "Permission",
-                            ClaimValue = "CanDeleteAccount",
-                            RoleId = "1"
-                        },
-                        new
-                        {
-                            Id = 17,
-                            ClaimType = "Permission",
-                            ClaimValue = "CanViewFileList",
-                            RoleId = "2"
-                        },
-                        new
-                        {
-                            Id = 18,
-                            ClaimType = "Permission",
-                            ClaimValue = "CanViewChangeLog",
-                            RoleId = "2"
-                        },
-                        new
-                        {
-                            Id = 19,
-                            ClaimType = "Permission",
-                            ClaimValue = "CanViewAccount",
-                            RoleId = "2"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -354,6 +219,9 @@ namespace ProgramGuard.Migrations
                     b.Property<bool>("IsFrozen")
                         .HasColumnType("tinyint(1)");
 
+                    b.Property<DateTime?>("LastLoginTime")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<DateTime>("LastPasswordChangedDate")
                         .HasColumnType("datetime(6)");
 
@@ -474,25 +342,6 @@ namespace ProgramGuard.Migrations
                     b.ToTable("FileLists");
                 });
 
-            modelBuilder.Entity("ProgramGuard.Models.LoginHistory", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<bool>("LoginStatus")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<DateTime?>("LoginTime")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime?>("LogoutTime")
-                        .HasColumnType("datetime(6)");
-
-                    b.HasKey("UserId");
-
-                    b.ToTable("LoginHistories");
-                });
-
             modelBuilder.Entity("ProgramGuard.Models.PasswordHistory", b =>
                 {
                     b.Property<int>("Id")
@@ -505,11 +354,9 @@ namespace ProgramGuard.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("PasswordHash")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
@@ -581,31 +428,13 @@ namespace ProgramGuard.Migrations
                     b.Navigation("FileList");
                 });
 
-            modelBuilder.Entity("ProgramGuard.Models.LoginHistory", b =>
-                {
-                    b.HasOne("ProgramGuard.Models.AppUser", "User")
-                        .WithMany("LoginHistories")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("ProgramGuard.Models.PasswordHistory", b =>
                 {
                     b.HasOne("ProgramGuard.Models.AppUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("ProgramGuard.Models.AppUser", b =>
-                {
-                    b.Navigation("LoginHistories");
                 });
 #pragma warning restore 612, 618
         }
