@@ -3,12 +3,12 @@ namespace ProgramGuard.Dtos.Account
 {
     public class CreateUserDto
     {
-        [Required]
+        [Required(ErrorMessage = "請輸入賬號")]
         public string UserName { get; set; }
-        [Required]
+        [Required(ErrorMessage = "請輸入電子郵件")]
         [EmailAddress]
         public string Email { get; set; }
-        [Required]
+        [Required(ErrorMessage = "請輸入密碼")]
         public string Password { get; set; }
     }
 }

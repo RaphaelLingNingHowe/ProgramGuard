@@ -89,7 +89,7 @@ namespace ProgramGuard.Web.Pages
                 return Page();
             }
         }
-        // 添加一个自定义的方法来检查文件是否存在
+
         private bool FileExists(string filePath)
         {
             return System.IO.File.Exists(filePath);

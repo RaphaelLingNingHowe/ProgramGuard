@@ -5,7 +5,7 @@ using ProgramGuard.Interfaces;
 namespace ProgramGuard.Controllers
 {
     [Route("[controller]")]
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     [ApiController]
     public class ActionLogController : ControllerBase
     {
@@ -14,17 +14,27 @@ namespace ProgramGuard.Controllers
         {
             _actionLog = actionLog;
         }
+
         [HttpGet]
         public async Task<IActionResult> GetActionLogs()
         {
-            var actionLog = await _actionLog.GetAllAsync();
-            var actionLogDtos = actionLog.Select(a => new ActionLogDto
+            try
             {
-                UserName = a.UserName,
-                Action = a.Action,
-                ActionTime = a.ActionTime,
-            }).ToList();
-            return Ok(actionLogDtos);
+                var actionLog = await _actionLog.GetAllAsync();
+
+                var actionLogDtos = actionLog.Select(a => new ActionLogDto
+                {
+                    UserName = a.UserName,
+                    Action = a.Action,
+                    ActionTime = a.ActionTime,
+                }).ToList();
+
+                return Ok(actionLogDtos);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
         }
     }
 }

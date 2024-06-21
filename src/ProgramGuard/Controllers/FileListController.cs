@@ -30,6 +30,7 @@ namespace ProgramGuard.Controllers
             _userManager = userManager;
             _actionLog = actionLog;
         }
+
         [HttpGet]
         public async Task<IActionResult> GetFileLists()
         {
@@ -40,18 +41,32 @@ namespace ProgramGuard.Controllers
                 FileName = file.FileName,
                 FilePath = file.FilePath
             }).ToList();
+
             return Ok(fileDtos);
         }
+
         [HttpPost]
         public async Task<IActionResult> CreateFileListAsync([FromBody] string filePath)
         {
             if (string.IsNullOrWhiteSpace(filePath))
             {
-                return BadRequest("File path is required.");
+                return BadRequest("檔案路徑不可為空");
+            }
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser != null)
+            {
+                var actionLog = new ActionLogDto
+                {
+                    UserName = currentUser.UserName,
+                    Action = "添加檔案清單"
+                };
+                var actionLogModel = ActionLogMapper.ActionLogDtoToModel(actionLog);
+                await _actionLog.CreateAsync(actionLogModel);
             }
             var existingFile = await _context.FileLists.FirstOrDefaultAsync(f => f.FilePath == filePath);
             var fileName = Path.GetFileName(filePath);
             FileList fileListModel;
+
             if (existingFile == null)
             {
                 var fileListDto = new FileListDto
@@ -66,12 +81,15 @@ namespace ProgramGuard.Controllers
             {
                 fileListModel = existingFile;
             }
+
             var isFileIntact = _fileDetectionService.VerifyFileIntegrity(filePath);
+
             if (!isFileIntact)
             {
                 var currentMd5 = _fileDetectionService.CalculateMD5(filePath);
                 var currentSha512 = _fileDetectionService.CalculateSHA512(filePath);
                 var signature = _fileDetectionService.GetDigitalSignature(filePath);
+
                 var changelog = new ChangeLogDTO
                 {
                     FileName = fileName,
@@ -84,14 +102,19 @@ namespace ProgramGuard.Controllers
                     ConfirmTime = null,
                     FileListId = fileListModel.Id
                 };
+
                 var changelogModel = ChangeLogMapper.ChangeLogDtoToModel(changelog);
                 await _changeLogRepository.AddAsync(changelogModel);
+
                 return Ok();
             }
-            return Ok("No changes detected.");
+
+            return Ok("未檢測到變更");
         }
+
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateFileList(int id, [FromBody] FileListDto updateDto)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UpdateFileList(int id, [FromBody] FileListModifyDto updateDto)
         {
             var currentUser = await _userManager.GetUserAsync(User);
             if (currentUser != null)
@@ -99,7 +122,7 @@ namespace ProgramGuard.Controllers
                 var actionLog = new ActionLogDto
                 {
                     UserName = currentUser.UserName,
-                    Action = "Put File Lists"
+                    Action = "更新檔案清單"
                 };
                 var actionLogModel = ActionLogMapper.ActionLogDtoToModel(actionLog);
                 await _actionLog.CreateAsync(actionLogModel);
@@ -119,6 +142,7 @@ namespace ProgramGuard.Controllers
             }
         }
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteFileList([FromRoute] int id)
         {
             var currentUser = await _userManager.GetUserAsync(User);
@@ -127,7 +151,7 @@ namespace ProgramGuard.Controllers
                 var actionLog = new ActionLogDto
                 {
                     UserName = currentUser.UserName,
-                    Action = "Delete File Lists"
+                    Action = "刪除檔案清單"
                 };
                 var actionLogModel = ActionLogMapper.ActionLogDtoToModel(actionLog);
                 await _actionLog.CreateAsync(actionLogModel);

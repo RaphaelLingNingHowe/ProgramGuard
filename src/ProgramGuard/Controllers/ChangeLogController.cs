@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using ProgramGuard.Data;
 using ProgramGuard.Dtos.LogQuery;
 using ProgramGuard.Interfaces;
@@ -44,79 +43,45 @@ namespace ProgramGuard.Controllers
             }).ToList();
             return Ok(changeLogDtos);
         }
-        [HttpPost("search")]
-        public async Task<IActionResult> SearchFilesAsync([FromBody] SearchDto searchDto)
-        {
-            var queryTime = DateTime.UtcNow.ToLocalTime();
-            IQueryable<ChangeLog> query = _context.ChangeLogs.Include(cl => cl.FileList);
-            query = _query.HandleQueryConditions(query, searchDto);
-            if (!query.Any())
-            {
-                return NotFound("No files found matching the specified criteria.");
-            }
-            var searchResults = await query.Select(cl => new SearchResultDto
-            {
-                Id = cl.Id,
-                FileName = cl.FileName,
-                ChangeTime = cl.ChangeTime,
-                ConfirmStatus = cl.ConfirmStatus,
-                ConfirmBy = cl.ConfirmBy,
-                ConfirmTime = cl.ConfirmTime
-            }).ToListAsync();
-            if (searchResults.Count == 0)
-            {
-                return NotFound("No files found matching the specified criteria.");
-            }
-            var currentUser = await _userManager.GetUserAsync(User);
-            if (currentUser != null)
-            {
-                var actionLog = new ActionLogDto
-                {
-                    UserName = currentUser.UserName,
-                    Action = "查詢" + searchDto.FileName,
-                    ActionTime = queryTime
-                };
-                var actionLogModel = ActionLogMapper.ActionLogDtoToModel(actionLog);
-                await _actionLog.CreateAsync(actionLogModel);
-            }
-            return Ok(searchResults);
-        }
-        [HttpPost("unconfirmed")]
-        public async Task<IActionResult> GetUnconfirmedAsync()
-        {
-            var queryTime = DateTime.UtcNow.ToLocalTime();
-            IQueryable<ChangeLog> query = _context.ChangeLogs.Include(cl => cl.FileList);
-            var unconfirmed = await _confirm.GetUnConfirmAsync();
-            return Ok(unconfirmed);
-        }
+
         [HttpPut("confirm/{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateConfirmAsync(int id)
         {
-            if (!User.IsInRole("Admin"))
+            try
             {
-                return Forbid();
-            }
-            var currentUser = await _userManager.GetUserAsync(User);
-            var changeLog = await _context.ChangeLogs.FindAsync(id);
-            if (changeLog != null)
-            {
+                if (!User.IsInRole("Admin"))
+                {
+                    return Forbid();
+                }
+
+                var currentUser = await _userManager.GetUserAsync(User);
+                var changeLog = await _context.ChangeLogs.FindAsync(id);
+
                 changeLog.ConfirmStatus = true;
                 changeLog.ConfirmBy = currentUser.UserName;
                 changeLog.ConfirmTime = DateTime.UtcNow.ToLocalTime();
+
                 await _context.SaveChangesAsync();
+
                 if (currentUser != null)
                 {
                     var actionLog = new ActionLogDto
                     {
                         UserName = currentUser.UserName,
-                        Action = "審核"
+                        Action = "審核異動記錄"
                     };
                     var actionLogModel = ActionLogMapper.ActionLogDtoToModel(actionLog);
                     await _actionLog.CreateAsync(actionLogModel);
                 }
-                return Ok();
+
+                return Ok("審核成功");
             }
-            return NotFound();
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"審核失敗：{ex.Message}");
+            }
         }
+
     }
 }

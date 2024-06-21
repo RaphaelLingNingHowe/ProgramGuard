@@ -1,6 +1,6 @@
 ﻿@page
 @using ProgramGuard.Dtos.LogQuery
-@model ProgramGuard.Web.Pages.ActionLogsModel
+@model ProgramGuard.Web.Pages.Account.ActionLogsModel
 @{
 }
 @{
@@ -17,6 +17,11 @@
         .DataSource(o => o.RemoteController()
         .LoadUrl("ActionLogs?Handler=Data")
         .Key("UserName"))
+        .Selection(s => s
+        .Mode(SelectionMode.Multiple)
+        .Deferred(true))
+        .FilterRow(f => f.Visible(true))
+        .HeaderFilter(headerFilter => headerFilter.Visible(true))
         .Columns(columns =>
         {
             columns.AddFor(m => m.UserName).Caption("使用者");

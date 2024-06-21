@@ -18,7 +18,7 @@ namespace ProgramGuard.Web.Pages
             try
             {
                 HttpClient client = GetClient();
-                HttpResponseMessage response = await client.GetAsync("/User/logout");
+                HttpResponseMessage response = await client.GetAsync("/Auth/logout");
 
                 if (response.IsSuccessStatusCode)
                 {

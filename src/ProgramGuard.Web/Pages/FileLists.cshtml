@@ -26,17 +26,12 @@
                 .Text("確認")
                 .Type(ButtonType.Success)
                 .UseSubmitBehavior(true)
+                .OnClick("showSuccessMessage")
                 )
         </div>
     </div>
 }
 
-@if (TempData["SuccessMessage"] != null)
-{
-    <div class="alert alert-success" role="alert">
-        @TempData["SuccessMessage"]
-    </div>
-}
 
 <div id="gridContainer">
     @(
@@ -59,9 +54,6 @@
             editing.AllowUpdating(true);
             editing.AllowDeleting(true);
             editing.UseIcons(true);
-
-
-
         })
         .ShowBorders(true)
         .ColumnAutoWidth(true)
@@ -89,5 +81,11 @@
             __RequestVerificationToken: document.getElementsByName("__RequestVerificationToken")[0].value
         }
     });
+        function showSuccessMessage(e) {
+
+            var notify = DevExpress.ui.notify({
+                message: "檔案添加成功",
+            });
+        }
 </script>
 

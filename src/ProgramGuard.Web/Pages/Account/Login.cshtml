@@ -1,0 +1,62 @@
+﻿@page
+@model ProgramGuard.Web.Pages.LoginModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h1>登錄</h1>
+
+@using (Html.BeginForm(FormMethod.Post))
+{
+    <div class="dx-field">
+        <div class="dx-field-label">賬號</div>
+        <div class="dx-field-value">
+            @(Html.DevExtreme().TextBox()
+                .Name("LoginUserName")
+                .Placeholder("請輸入用戶名")
+            )
+        </div>
+    </div>
+    <div class="dx-field">
+        <div class="dx-field-label">密碼</div>
+        <div class="dx-field-value">
+            @(
+                Html.DevExtreme().TextBox()
+                .ID("loginPassword")
+                .Name("LoginPassword")
+                .Mode(TextBoxMode.Password)
+                .InputAttr("aria-label", "Password")
+                .Placeholder("請輸入密碼")
+                .ShowClearButton(true)
+                .Buttons(buttons =>
+                {
+                    buttons.Add()
+                    .Name("password")
+                    .Location(TextEditorButtonLocation.After)
+                    .Widget(w => w.Button()
+                        .StylingMode(ButtonStylingMode.Text)
+                        .Icon("eyeopen")
+                        .OnClick("changePasswordModeLogin"));
+                })
+            )
+        </div>
+    </div>
+    <div class="dx-field">
+        <div class="dx-field-value">
+            @(Html.DevExtreme().Button()
+                .Text("登錄")
+                .Type(ButtonType.Success)
+                .UseSubmitBehavior(true)
+            )
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <script>
+        function changePasswordModeLogin() {
+            var passwordEditor = $("#loginPassword").dxTextBox("instance");
+            passwordEditor.option("mode", passwordEditor.option("mode") === "text" ? "password" : "text");
+        }
+    </script>
+}

@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProgramGuard.Dtos.LogQuery;
 using ProgramGuard.Web.Model;
 
-namespace ProgramGuard.Web.Pages
+namespace ProgramGuard.Web.Pages.Account
 {
+    [Authorize(Roles = "Admin")]
     public class ActionLogsModel : BasePageModel
     {
         public ActionLogsModel(IHttpClientFactory httpClientFactory, ILogger<BasePageModel> logger, IHttpContextAccessor contextAccessor, IConfiguration configuration)

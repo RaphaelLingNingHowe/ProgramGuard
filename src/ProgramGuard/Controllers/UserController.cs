@@ -1,97 +1,95 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProgramGuard.Data;
+using ProgramGuard.Dtos.Account;
 using ProgramGuard.Dtos.User;
-using ProgramGuard.Interfaces;
 using ProgramGuard.Models;
+using System.Text.Json;
 namespace ProgramGuard.Controllers
 {
     [Route("[controller]")]
+    [Authorize(Roles = "Admin")]
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly UserManager<AppUser> _userManager;
-        private readonly SignInManager<AppUser> _signInManager;
-        private readonly ITokenService _tokenService;
         private readonly ApplicationDBContext _context;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ILogger<UserController> _logger;
-        public UserController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenService tokenService, ApplicationDBContext context, ILogger<UserController> logger)
+        public UserController(ApplicationDBContext context, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, ILogger<UserController> logger)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _tokenService = tokenService;
             _context = context;
+            _roleManager = roleManager;
+            _userManager = userManager;
             _logger = logger;
         }
-        [HttpPost("login")]
-        public async Task<IActionResult> Login(LoginDto loginDto)
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllUsers()
         {
             try
             {
+                var userInfos = await _context.Users.ToListAsync();
 
-                var user = await _userManager.FindByNameAsync(loginDto.UserName);
-                if (user == null)
+                var userDtos = new List<GetUserDto>();
+
+                foreach (var user in userInfos)
                 {
-                    return BadRequest("用戶未找到");
-                }
-                if (user.IsFrozen)
-                {
-                    return BadRequest("賬號已凍結");
-                }
-                var result = await _signInManager.PasswordSignInAsync(loginDto.UserName, loginDto.Password, isPersistent: false, lockoutOnFailure: true);
-                if (result.Succeeded)
-                {
-                    var daysSinceLastPasswordChange = (DateTime.UtcNow - user.LastPasswordChangedDate).TotalDays;
-                    if (daysSinceLastPasswordChange > 80)
+                    var isAdmin = await _userManager.IsInRoleAsync(user, "Admin");
+
+                    var userDto = new GetUserDto
                     {
-                        var userDto = new UserDto
-                        {
-                            UserName = loginDto.UserName,
-                            RequirePasswordChange = true
-                        };
-                        return Ok(userDto);
-                    }
-                    user.LastLoginTime = DateTime.UtcNow.ToLocalTime();
-                    _context.Users.Update(user);
-                    await _context.SaveChangesAsync();
-                    var token = await _tokenService.CreateTokenAsync(user);
-                    return Ok(token);
+                        UserId = user.Id,
+                        UserName = user.UserName,
+                        LastLoginTime = user.LastLoginTime,
+                        LockoutEnd = user.LockoutEnd?.LocalDateTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                        IsFrozen = user.IsFrozen,
+                        IsAdmin = isAdmin
+                    };
+
+                    userDtos.Add(userDto);
                 }
-                else if (result.IsLockedOut)
-                {
-                    return BadRequest("賬號已鎖定，請稍後再試");
-                }
-                else
-                {
-                    return BadRequest("登錄失敗，請檢查賬號和密碼");
-                }
+
+                return Ok(userDtos);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "登錄過程中發現異常");
-                return StatusCode(500, "登錄失敗，請聯繫管理員");
+                return StatusCode(500, $"An error occurred: {ex.Message}");
             }
         }
-        [HttpPost("register")]
-        public async Task<IActionResult> Register(RegisterDto registerDto)
+
+        [HttpPost("addUser")]
+        public async Task<IActionResult> AdminAddUser([FromBody] CreateUserDto createUserDto)
         {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+                return BadRequest(new { Message = "驗證失敗", Errors = errors });
+            }
+
             try
             {
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
+                var existingUser = await _userManager.FindByNameAsync(createUserDto.UserName);
+                if (existingUser != null)
+                {
+                    return BadRequest("用戶名已經存在，請選擇另一個用戶名");
+                }
+
                 var user = new AppUser
                 {
-                    UserName = registerDto.Username,
-                    Email = registerDto.Email
+                    UserName = createUserDto.UserName,
+                    Email = createUserDto.Email
                 };
-                var createdUser = await _userManager.CreateAsync(user, registerDto.Password);
+
+                var createdUser = await _userManager.CreateAsync(user, createUserDto.Password);
                 if (createdUser.Succeeded)
                 {
-                    var roleResult = await _userManager.AddToRoleAsync(user, "Admin");
+                    var roleResult = await _userManager.AddToRoleAsync(user, "User");
                     if (roleResult.Succeeded)
                     {
-                        return Ok(registerDto);
+                        return Ok(createUserDto);
                     }
                     else
                     {
@@ -105,25 +103,106 @@ namespace ProgramGuard.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "註冊用戶時發現異常");
-                return StatusCode(500, "註冊用戶時發現異常");
+                _logger.LogError(ex, "添加用戶時發生異常");
+                return StatusCode(500, "伺服器發生問題，請稍後再試");
             }
         }
-        [HttpGet("logout")]
-        public async Task<IActionResult> Logout()
+
+        [HttpPut("toggleFreeze/{userId}")]
+        public async Task<IActionResult> ToggleFreezeAccount(string userId, [FromBody] JsonElement json)
         {
             try
             {
-                await _signInManager.SignOutAsync();
-                return Ok("用戶已註銷");
+                bool IsFrozen = json.GetProperty("IsFrozen").GetBoolean();
+                var user = await _userManager.FindByIdAsync(userId);
+                if (user == null)
+                {
+                    return NotFound("用戶未找到");
+                }
+
+                if (user.IsFrozen == IsFrozen)
+                {
+                    return Ok($"用戶已經{(IsFrozen ? "凍結" : "解凍")}");
+                }
+
+                user.IsFrozen = IsFrozen; // 根據參數設置凍結狀態
+
+                var result = await _userManager.UpdateAsync(user);
+                if (result.Succeeded)
+                {
+                    if (user.IsFrozen)
+                    {
+                        return Ok("賬號已凍結");
+                    }
+                    else
+                    {
+                        return Ok("賬號已解凍");
+                    }
+                }
+
+                return BadRequest("操作失敗，請稍後再試");
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "用戶註銷時發送異常");
-                return StatusCode(500, "用戶註銷時發送異常");
+                _logger.LogError(ex, "切换账户冻结状态时发生异常");
+                return StatusCode(500, "伺服器發生問題，請稍後再試");
             }
         }
-        [HttpPost("change-password")]
+
+
+        [HttpPut("toggleAdmin/{userId}")]
+        public async Task<IActionResult> ToggleAdminRole(string userId, [FromBody] JsonElement json)
+        {
+            try
+            {
+                bool IsAdmin = json.GetProperty("IsAdmin").GetBoolean();
+                var user = await _userManager.FindByIdAsync(userId);
+                if (user == null)
+                {
+                    return NotFound("找不到指定的用戶");
+                }
+
+                if (IsAdmin)
+                {
+                    if (await _userManager.IsInRoleAsync(user, "Admin"))
+                    {
+                        return Ok(new { message = "用戶已經是管理員" });
+                    }
+
+                    var result = await _userManager.AddToRoleAsync(user, "Admin");
+                    if (result.Succeeded)
+                    {
+                        return Ok(new { message = "成功添加管理員" });
+                    }
+                    else
+                    {
+                        return StatusCode(500, $"管理員添加失敗: {result.Errors}");
+                    }
+                }
+                else
+                {
+                    if (!await _userManager.IsInRoleAsync(user, "Admin"))
+                    {
+                        return Ok(new { message = "用戶已經不是管理員" });
+                    }
+
+                    var result = await _userManager.RemoveFromRoleAsync(user, "Admin");
+                    if (result.Succeeded)
+                    {
+                        return Ok(new { message = "成功移除管理員" });
+                    }
+                    else
+                    {
+                        return StatusCode(500, $"移除管理員失敗: {result.Errors}");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
+        }
+        [HttpPost("changePassword")]
         public async Task<IActionResult> ChangePassword(ChangePasswordDto changePasswordDto)
         {
             try

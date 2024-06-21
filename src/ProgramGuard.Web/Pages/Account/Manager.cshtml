@@ -1,6 +1,6 @@
 ﻿@page
 @using ProgramGuard.Dtos.Account
-@model ProgramGuard.Web.Pages.AccountsModel
+@model ProgramGuard.Web.Pages.Account.AccountsModel
 @{
     ViewData["Title"] = "Account";
 }
@@ -99,10 +99,10 @@
     @(
         Html.DevExtreme().DataGrid<GetUserDto>()
         .DataSource(o => o.RemoteController()
-        .LoadUrl("Accounts?Handler=Data")
-        .InsertUrl("Accounts")
-        .UpdateUrl("Accounts")
-        .Key("UserName"))
+        .LoadUrl("Manager?Handler=Data")
+        .InsertUrl("Manager")
+        .UpdateUrl("Manager")
+        .Key("UserId"))
         .Editing(e =>
                 {
                     e.AllowUpdating(true);
@@ -115,6 +115,7 @@
             columns.AddFor(m => m.LastLoginTime).Caption("上次登錄時間").Format("yyyy-MM-dd HH:mm:ss").AllowEditing(false);
             columns.AddFor(m => m.LockoutEnd).Caption("解鎖時間").Format("yyyy-MM-dd HH:mm:ss").AllowEditing(false);
             columns.AddFor(m => m.IsFrozen).Caption("凍結賬號");
+            columns.AddFor(m => m.IsAdmin).Caption("管理員權限");
         })
         .ShowBorders(true)
         .ColumnAutoWidth(true)

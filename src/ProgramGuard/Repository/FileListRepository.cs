@@ -32,21 +32,28 @@ namespace ProgramGuard.Repository
         {
             return await _context.FileLists.ToListAsync();
         }
-        //public async Task<FileList> GetByIdAsync(int id)
-        //{
-        //    return await _context.FileLists.FindAsync(id);
-        //}
-        public async Task<FileList> UpdateAsync(int id, FileListDto updateDto)
+
+        public async Task<FileList> UpdateAsync(int id, FileListModifyDto updateDto)
         {
             var fileList = await _context.FileLists.FindAsync(id);
             if (fileList == null)
             {
                 throw new ArgumentException("File not found");
             }
-            fileList.FileName = updateDto.FileName;
-            fileList.FilePath = updateDto.FilePath;
+
+            if (!string.IsNullOrEmpty(updateDto.FileName))
+            {
+                fileList.FileName = updateDto.FileName;
+            }
+
+            if (!string.IsNullOrEmpty(updateDto.FilePath))
+            {
+                fileList.FilePath = updateDto.FilePath;
+            }
+
             await _context.SaveChangesAsync();
             return fileList;
         }
+
     }
 }

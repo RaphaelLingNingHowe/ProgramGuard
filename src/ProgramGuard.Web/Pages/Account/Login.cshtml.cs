@@ -23,9 +23,6 @@ namespace ProgramGuard.Web.Pages
 
         public async Task<IActionResult> OnPostAsync()
         {
-
-
-            // 使用基类方法获取 HttpClient 实例
             using (HttpClient client = GetClient())
             {
                 if (client == null)
@@ -36,7 +33,7 @@ namespace ProgramGuard.Web.Pages
 
                 var loginContent = new StringContent(JsonConvert.SerializeObject(LoginDto), Encoding.UTF8, "application/json");
 
-                var response = await client.PostAsync("/User/login", loginContent);
+                var response = await client.PostAsync("/Auth/login", loginContent);
 
                 if (response.IsSuccessStatusCode)
                 {
