@@ -89,7 +89,7 @@ namespace ProgramGuard.Controllers
                     var roleResult = await _userManager.AddToRoleAsync(user, "User");
                     if (roleResult.Succeeded)
                     {
-                        return Ok(createUserDto);
+                        return Ok("使用者創建成功");
                     }
                     else
                     {
@@ -108,7 +108,7 @@ namespace ProgramGuard.Controllers
             }
         }
 
-        [HttpPut("toggleFreeze/{userId}")]
+        [HttpPut("{userId}/toggleFreeze")]
         public async Task<IActionResult> ToggleFreezeAccount(string userId, [FromBody] JsonElement json)
         {
             try
@@ -150,7 +150,7 @@ namespace ProgramGuard.Controllers
         }
 
 
-        [HttpPut("toggleAdmin/{userId}")]
+        [HttpPut("{userId}/toggleAdmin")]
         public async Task<IActionResult> ToggleAdminRole(string userId, [FromBody] JsonElement json)
         {
             try
@@ -202,8 +202,8 @@ namespace ProgramGuard.Controllers
                 return StatusCode(500, $"An error occurred: {ex.Message}");
             }
         }
-        [HttpPost("changePassword")]
-        public async Task<IActionResult> ChangePassword(ChangePasswordDto changePasswordDto)
+        [HttpPut("{userId}/changePassword")]
+        public async Task<IActionResult> ChangePassword(string userId, [FromBody] ChangePasswordDto changePasswordDto)
         {
             try
             {
@@ -214,8 +214,7 @@ namespace ProgramGuard.Controllers
                 var user = await _userManager.GetUserAsync(User);
                 if (user == null)
                 {
-                    var userName = changePasswordDto.UserName;
-                    user = await _userManager.FindByNameAsync(userName);
+                    user = await _userManager.FindByIdAsync(userId);
                 }
                 if (user == null)
                 {

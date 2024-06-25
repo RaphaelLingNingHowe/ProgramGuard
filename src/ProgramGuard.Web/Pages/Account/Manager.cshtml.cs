@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ProgramGuard.Dtos.Account;
-using ProgramGuard.Dtos.User;
 using ProgramGuard.Web.Model;
 using System.Text;
 
@@ -53,12 +52,17 @@ namespace ProgramGuard.Web.Pages.Account
             }
 
         }
-        [BindProperty]
+
         public CreateUserDto createUserDto { get; set; }
-        public async Task<IActionResult> OnPostAsync(string values)
+        public async Task<IActionResult> OnPostAsync([FromBody] CreateUserDto createUserDto)
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
                 HttpClient client = GetClient();
                 var jsonContent = new StringContent(JsonConvert.SerializeObject(createUserDto), Encoding.UTF8, "application/json");
 
@@ -66,12 +70,13 @@ namespace ProgramGuard.Web.Pages.Account
 
                 if (response.IsSuccessStatusCode)
                 {
-                    return Page();
+                    var successContent = await response.Content.ReadAsStringAsync();
+                    return new JsonResult(new { message = successContent, success = true });
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Failed to send data to API.");
-                    return Page();
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    return new JsonResult(new { message = errorContent, success = false });
                 }
             }
             catch (Exception ex)
@@ -89,10 +94,8 @@ namespace ProgramGuard.Web.Pages.Account
                 bool isAdminUpdated = false;
                 bool isFrozenUpdated = false;
 
-                // 解析 JSON 字串為 JObject
                 JObject jsonObject = JObject.Parse(values);
 
-                // 檢查是否包含 IsAdmin
                 if (jsonObject.ContainsKey("IsAdmin"))
                 {
                     bool isAdmin = (bool)jsonObject["IsAdmin"];
@@ -109,7 +112,6 @@ namespace ProgramGuard.Web.Pages.Account
                     }
                 }
 
-                // 檢查是否包含 IsFrozen
                 if (jsonObject.ContainsKey("IsFrozen"))
                 {
                     bool isFrozen = (bool)jsonObject["IsFrozen"];
@@ -126,48 +128,22 @@ namespace ProgramGuard.Web.Pages.Account
                     }
                 }
 
-                // 檢查是否有任何操作成功
                 if (isAdminUpdated || isFrozenUpdated)
                 {
                     return new JsonResult(new { success = true });
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "No valid operations found."); // 找不到有效的操作
+                    ModelState.AddModelError(string.Empty, "No valid operations found.");
                     return Page();
                 }
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError(string.Empty, $"An error occurred: {ex.Message}"); // 處理異常
+                ModelState.AddModelError(string.Empty, $"An error occurred: {ex.Message}");
                 return Page();
             }
         }
-        [BindProperty]
-        public ChangePasswordDto changePasswordDto { get; set; }
-
-        public async Task<IActionResult> OnPostAsync()
-        {
-
-            HttpClient client = GetClient();
-            var jsonContent = new StringContent(JsonConvert.SerializeObject(changePasswordDto), Encoding.UTF8, "application/json");
-
-            var response = await client.PostAsync("/User/change-password", jsonContent);
-
-            if (response.IsSuccessStatusCode)
-            {
-                var successContent = await response.Content.ReadAsStringAsync();
-                TempData["SuccessMessage"] = successContent;
-                return Redirect("/Login");
-            }
-            else
-            {
-                var errorContent = await response.Content.ReadAsStringAsync();
-                TempData["ErrorMessage"] = errorContent;
-                return Page();
-            }
-        }
-
     }
 }
 

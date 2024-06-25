@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using ProgramGuard.Web.Pages.Account;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +12,7 @@ builder.Services.AddHttpClient();
 builder.Services.AddSession();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddAntiforgery();
+builder.Services.AddScoped<ChangePasswordModel>();
 // 其他需要的服务配置
 
 builder.Services.AddAuthentication(options =>

@@ -23,7 +23,7 @@ namespace ProgramGuard.Web.Pages
                 if (response.IsSuccessStatusCode)
                 {
                     Response.Cookies.Delete("auth_token");
-                    return Redirect("/Login");
+                    return Redirect("/Account/Login");
                 }
                 else
                 {

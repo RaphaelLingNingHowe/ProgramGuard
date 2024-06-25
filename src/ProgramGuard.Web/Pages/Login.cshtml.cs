@@ -53,7 +53,6 @@ namespace ProgramGuard.Web.Pages
                         return RedirectToPage("/ChangePassword");
                     }
 
-                    // 如果解析失败或无需更改密码，将响应内容作为字符串 token 处理
                     Response.Cookies.Append("auth_token", jsonResponse, new CookieOptions
                     {
                         HttpOnly = true,

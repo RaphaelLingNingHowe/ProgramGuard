@@ -3,8 +3,6 @@ namespace ProgramGuard.Dtos.User
 {
     public class ChangePasswordDto
     {
-        [Required(ErrorMessage = "請輸入賬號")]
-        public string UserName { get; set; }
         [Required(ErrorMessage = "請輸入密碼")]
         public string CurrentPassword { get; set; }
         [Required(ErrorMessage = "請輸入新密碼")]

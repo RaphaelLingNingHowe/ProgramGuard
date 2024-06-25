@@ -5,8 +5,7 @@
     ViewData["Title"] = "Account";
 }
 
-<!--- Razor 預設開啟 AntiForgeryToken 這個會影響 Post, Put, Patch, Delete 等行為 !--->
-@Html.AntiForgeryToken()
+<script src="~/js/pages/manager.js"></script>
 
 <div id="container">
     @(Html.DevExtreme().Button()
@@ -24,6 +23,7 @@
             .ShowTitle(true)
             .Title("添加使用者")
             .DragEnabled(true)
+            .OnHidden("addUserOnHidden")
             .HideOnOutsideClick(true)
             .ShowCloseButton(true)
             .Position(positionConfig => positionConfig
@@ -33,11 +33,12 @@
             .ContentTemplate(@<text>
             @using (Html.BeginForm(FormMethod.Post))
             {
+            @Html.AntiForgeryToken()
             <div class="dx-field">
                 <div class="dx-field-label">賬號</div>
                 <div class="dx-field-value">
-                    @(Html.DevExtreme().TextBox()
-                    .Name("UserName")
+                    @(Html.DevExtreme().TextBoxFor(m => m.createUserDto.UserName)
+                    .ID("UserName")
                     .Placeholder("賬號")
 
                     )
@@ -47,8 +48,7 @@
                 <div class="dx-field-label">密碼</div>
                 <div class="dx-field-value">
                     @(
-                    Html.DevExtreme().TextBox()
-                    .Name("Password")
+                    Html.DevExtreme().TextBoxFor(m => m.createUserDto.Password)
                     .ID("Password")
                     .Mode(TextBoxMode.Password)
                     .InputAttr("aria-label", "Password")
@@ -70,8 +70,7 @@
                 <div class="dx-field-label">電子郵件</div>
                 <div class="dx-field-value">
                     @(
-                    Html.DevExtreme().TextBox()
-                    .Name("Email")
+                    Html.DevExtreme().TextBoxFor(m => m.createUserDto.Email)
                     .ID("Email")
                     .Mode(TextBoxMode.Email)
                     .InputAttr("aria-label", "Email")
@@ -85,7 +84,7 @@
                     @(Html.DevExtreme().Button()
                     .Text("確定")
                     .Type(ButtonType.Success)
-                    .UseSubmitBehavior(true)
+                    .OnClick("addUser")
                     )
                 </div>
             </div>
@@ -136,25 +135,3 @@
         )
 </div>
 
-
-@section Scripts {
-    <script>
-        /* 配合 AntiForgeryToken 使用 */
-        $.ajaxSetup({
-            data: {
-                __RequestVerificationToken: document.getElementsByName("__RequestVerificationToken")[0].value
-            }
-        });
-    </script>
-    <script>
-        function showPopup() {
-            $("#addUserPopup").dxPopup("instance").show();
-        }
-    </script>
-    <script>
-        function changePasswordMode(name) {
-            let editor = $(`#${name}`).dxTextBox("instance");
-            editor.option('mode', editor.option('mode') === 'text' ? 'password' : 'text');
-        }
-    </script>
-}

@@ -49,6 +49,5 @@ namespace ProgramGuard.Web.Model
 
             return client;
         }
-
     }
 }
