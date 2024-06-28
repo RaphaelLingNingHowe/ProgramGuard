@@ -34,7 +34,7 @@ namespace ProgramGuard.Controllers
                 {
                     return BadRequest("帳號不存在");
                 }
-                if (user.IsEnabled)
+                if (user.IsDisabled)
                 {
                     return BadRequest("帳號已凍結");
                 }

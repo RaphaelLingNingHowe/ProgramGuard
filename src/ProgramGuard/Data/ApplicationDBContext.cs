@@ -14,10 +14,15 @@ namespace ProgramGuard.Data
         public DbSet<ChangeLog> ChangeLogs { get; set; }
         public DbSet<ActionLog> ActionLogs { get; set; }
         public DbSet<PasswordHistory> PasswordHistories { get; set; }
-        public DbSet<PrivilegeRule> PrivilegeRules { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+            List<IdentityRole> roles = new List<IdentityRole>
+            {
+                new IdentityRole {Name = "Admin", NormalizedName = "ADMIN" },
+                new IdentityRole {Name = "User", NormalizedName = "USER" }
+            };
+            builder.Entity<IdentityRole>().HasData(roles);
         }
     }
 }

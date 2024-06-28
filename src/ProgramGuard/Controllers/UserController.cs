@@ -44,7 +44,7 @@ namespace ProgramGuard.Controllers
                         UserId = user.Id,
                         UserName = user.UserName,
                         LockoutEnd = user.LockoutEnd?.LocalDateTime.ToString("yyyy-MM-dd HH:mm:ss"),
-                        IsEnabled = user.IsEnabled,
+                        IsDisabled = user.IsDisabled,
                         IsAdmin = isAdmin
                     };
 
@@ -116,84 +116,52 @@ namespace ProgramGuard.Controllers
             }
         }
 
-        [HttpPut("{userId}/toggleFreeze")]
-        public async Task<IActionResult> ToggleFreezeAccount(string userId, [FromBody] JsonElement json)
+        [HttpPut("{userId}/toggleDisabled")]
+        public async Task<IActionResult> ToggleDisabledAccount(string userId)
         {
             try
             {
-                bool IsEnabled = json.GetProperty("IsEnabled").GetBoolean();
                 var user = await _userManager.FindByIdAsync(userId);
                 if (user == null)
                 {
-                    return NotFound("用戶未找到");
+                    return NotFound("帳號未找到");
                 }
 
-                if (user.IsEnabled == IsEnabled)
-                {
-                    return Ok($"用戶已經{(IsEnabled ? "凍結" : "解凍")}");
-                }
-
-                user.IsEnabled = IsEnabled; // 根據參數設置凍結狀態
+                // 切换冻结状态
+                user.IsDisabled = !user.IsDisabled;
 
                 var result = await _userManager.UpdateAsync(user);
                 if (result.Succeeded)
                 {
-                    if (user.IsEnabled)
-                    {
-                        return Ok("賬號已凍結");
-                    }
-                    else
-                    {
-                        return Ok("賬號已解凍");
-                    }
+                    var message = user.IsDisabled ? "帳號已停用" : "帳號已啟用";
+                    return Ok(message);
                 }
 
                 return BadRequest("操作失敗，請稍後再試");
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "切换账户冻结状态时发生异常");
+                _logger.LogError(ex, "切換帳號停用狀態時發生異常");
                 return StatusCode(500, "伺服器發生問題，請稍後再試");
             }
         }
 
 
+
         [HttpPut("{userId}/toggleAdmin")]
-        public async Task<IActionResult> ToggleAdminRole(string userId, [FromBody] JsonElement json)
+        public async Task<IActionResult> ToggleAdminRole(string userId)
         {
             try
             {
-                bool IsAdmin = json.GetProperty("IsAdmin").GetBoolean();
                 var user = await _userManager.FindByIdAsync(userId);
                 if (user == null)
                 {
-                    return NotFound("找不到指定的用戶");
+                    return NotFound("帳號未找到");
                 }
 
-                if (IsAdmin)
+                if (await _userManager.IsInRoleAsync(user, "Admin"))
                 {
-                    if (await _userManager.IsInRoleAsync(user, "Admin"))
-                    {
-                        return Ok(new { message = "用戶已經是管理員" });
-                    }
-
-                    var result = await _userManager.AddToRoleAsync(user, "Admin");
-                    if (result.Succeeded)
-                    {
-                        return Ok(new { message = "成功添加管理員" });
-                    }
-                    else
-                    {
-                        return StatusCode(500, $"管理員添加失敗: {result.Errors}");
-                    }
-                }
-                else
-                {
-                    if (!await _userManager.IsInRoleAsync(user, "Admin"))
-                    {
-                        return Ok(new { message = "用戶已經不是管理員" });
-                    }
-
+                    // 用户已经是管理员，尝试移除管理员角色
                     var result = await _userManager.RemoveFromRoleAsync(user, "Admin");
                     if (result.Succeeded)
                     {
@@ -201,15 +169,52 @@ namespace ProgramGuard.Controllers
                     }
                     else
                     {
-                        return StatusCode(500, $"移除管理員失敗: {result.Errors}");
+                        return StatusCode(500, $"移除管理員失敗: {string.Join(", ", result.Errors)}");
+                    }
+                }
+                else
+                {
+                    // 用户不是管理员，尝试添加管理员角色
+                    var result = await _userManager.AddToRoleAsync(user, "Admin");
+                    if (result.Succeeded)
+                    {
+                        return Ok(new { message = "成功添加管理員" });
+                    }
+                    else
+                    {
+                        return StatusCode(500, $"管理員添加失敗: {string.Join(", ", result.Errors)}");
                     }
                 }
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"An error occurred: {ex.Message}");
+                _logger.LogError(ex, "切換管理員時發生異常");
+                return StatusCode(500, $"伺服器發生問題，請稍後再試: {ex.Message}");
             }
         }
-        
+
+
+        //[HttpPost]
+        //public async Task<IActionResult> ResetPassword(ResetPasswordModel model)
+        //{
+        //    // 根据需要进行身份验证和授权检查
+
+        //    // 查找用户
+        //    var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == model.Username);
+
+        //    if (user == null)
+        //    {
+        //        return NotFound("User not found");
+        //    }
+
+        //    // 设置新密码（示例中简单地设置为新密码，实际中可能需要加密或其他安全措施）
+        //    user.Password = model.NewPassword;
+
+        //    // 更新数据库中的用户信息
+        //    _context.Users.Update(user);
+        //    await _context.SaveChangesAsync();
+
+        //    return Ok("Password reset successfully");
+        //}
     }
 }
