@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using ProgramGuard.Dtos.Account;
 using ProgramGuard.Dtos.User;
 using ProgramGuard.Web.Model;
 using System.Text;
+using System.Text.Json;
 
 namespace ProgramGuard.Web.Pages
 {
@@ -13,61 +15,59 @@ namespace ProgramGuard.Web.Pages
         public LoginModel(IHttpClientFactory httpClientFactory, ILogger<BasePageModel> logger, IHttpContextAccessor contextAccessor, IConfiguration configuration)
             : base(httpClientFactory, logger, contextAccessor, configuration)
         {
-
         }
 
-
-
-        [BindProperty]
-        public LoginDto LoginDto { get; set; }
-
-        public async Task<IActionResult> OnPostAsync()
+        public LoginDto loginDto { get; set; }
+        public async Task<IActionResult> OnPostAsync([FromBody] LoginDto loginDto)
         {
-            using (HttpClient client = GetClient())
+            try
             {
-                if (client == null)
+                if (!ModelState.IsValid)
                 {
-                    ModelState.AddModelError(string.Empty, "Failed to create HttpClient.");
-                    return Page();
+                    return BadRequest(ModelState);
                 }
 
-                var loginContent = new StringContent(JsonConvert.SerializeObject(LoginDto), Encoding.UTF8, "application/json");
+                HttpClient client = GetClient();
+                var jsonContent = new StringContent(JsonConvert.SerializeObject(loginDto), Encoding.UTF8, "application/json");
 
-                var response = await client.PostAsync("/Auth/login", loginContent);
+                HttpResponseMessage response = await client.PostAsync("/Auth/login", jsonContent);
 
                 if (response.IsSuccessStatusCode)
                 {
                     var jsonResponse = await response.Content.ReadAsStringAsync();
 
-                    UserDto loginResponse = null;
-                    try
+                    if (jsonResponse.Trim().StartsWith("{") && jsonResponse.Trim().EndsWith("}"))
                     {
-                        loginResponse = JsonConvert.DeserializeObject<UserDto>(jsonResponse);
+                        var responseObject = JsonConvert.DeserializeObject<UserDto>(jsonResponse);
+                        if (responseObject.RequirePasswordChange)
+                        {
+                            return new JsonResult(new { requirePasswordChange = true, message = "超過80天未更換密碼，請更換密碼", success = true });
+                        }
                     }
-                    catch (JsonException)
+                    else
                     {
+                        Response.Cookies.Append("auth_token", jsonResponse, new CookieOptions
+                        {
+                            HttpOnly = true,
+                            Secure = true,
+                            SameSite = SameSiteMode.Strict
+                        });
+                        return new JsonResult(new { requirePasswordChange = false, message = "登錄成功", success = true });
                     }
-
-                    if (loginResponse != null && loginResponse.RequirePasswordChange)
-                    {
-                        return RedirectToPage("/ChangePassword");
-                    }
-
-                    Response.Cookies.Append("auth_token", jsonResponse, new CookieOptions
-                    {
-                        HttpOnly = true,
-                        Secure = true,
-                        SameSite = SameSiteMode.Strict
-                    });
-
-                    return RedirectToPage("/FileLists");
+                    return Page();
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return Page();
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    return new JsonResult(new { message = errorContent, success = false });
                 }
             }
+            catch (Exception ex)
+            {
+                return new JsonResult(new { message = $"An error occurred: {ex.Message}", success = false });
+            }
         }
+
     }
 }
+

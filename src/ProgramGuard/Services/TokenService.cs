@@ -35,12 +35,11 @@ namespace ProgramGuard.Services
 
             var creds = new SigningCredentials(_symmetricSecurityKey, SecurityAlgorithms.HmacSha512Signature);
 
-            // 创建 ClaimsIdentity 并将声明添加到其中
             var identity = new ClaimsIdentity(claims, "JWT");
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = identity, // 设置 Subject 为包含声明的 ClaimsIdentity
+                Subject = identity,
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = creds,
                 Issuer = _config["JWT:Issuer"],

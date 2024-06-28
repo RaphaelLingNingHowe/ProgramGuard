@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ProgramGuard.Data;
 using ProgramGuard.Dtos.LogQuery;
 using ProgramGuard.Interfaces;
@@ -82,6 +83,43 @@ namespace ProgramGuard.Controllers
                 return StatusCode(500, $"審核失敗：{ex.Message}");
             }
         }
+        [HttpPost("search")]
+        public async Task<IActionResult> SearchFilesAsync([FromBody] SearchDto searchDto)
+        {
+            var queryTime = DateTime.UtcNow.ToLocalTime();
+            IQueryable<ChangeLog> query = _context.ChangeLogs.Include(cl => cl.FileList);
+            query = _query.HandleQueryConditions(query, searchDto);
 
+            if (!query.Any())
+            {
+                return NotFound("未找到匹配的結果,請嘗試其他搜索條件");
+            }
+
+            var searchResults = await query.Select(cl => new SearchResultDto
+            {
+                Id = cl.Id,
+                FileName = cl.FileName,
+                ChangeTime = cl.ChangeTime,
+                ConfirmStatus = cl.ConfirmStatus,
+                ConfirmBy = cl.ConfirmBy,
+                ConfirmTime = cl.ConfirmTime
+            }).ToListAsync();
+
+            var currentUser = await _userManager.GetUserAsync(User);
+
+            if (currentUser != null)
+            {
+                var actionLog = new ActionLogDto
+                {
+                    UserName = currentUser.UserName,
+                    Action = "查詢" + searchDto.FileName,
+                    ActionTime = queryTime
+                };
+
+                var actionLogModel = ActionLogMapper.ActionLogDtoToModel(actionLog);
+                await _actionLog.CreateAsync(actionLogModel);
+            }
+            return Ok(searchResults);
+        }
     }
 }

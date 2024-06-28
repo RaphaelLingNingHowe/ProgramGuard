@@ -3,10 +3,88 @@
 @model ProgramGuard.Web.Pages.ChangeLogsModel
 @{
     ViewData["Title"] = "Change Log";
-}
 
-<!--- Razor 預設開啟 AntiForgeryToken 這個會影響 Post, Put, Patch, Delete 等行為 !--->
+    /* 讓查詢能顯示到最新的資訊 */
+    DateTime _timeNow = DateTime.Now.AddMinutes(1);
+}
 @Html.AntiForgeryToken()
+<script src="~/js/pages/changeLog.js"></script>
+
+@* <div class="functionPanel">
+    @(Html.DevExtreme()
+        .DateBox()
+        .ID("startTime")
+        .DisplayFormat("yyyy/MM/dd HH:mm")
+        .Type(DateBoxType.DateTime)
+        .Placeholder("起始時間")
+        .Value(_timeNow.AddDays(-1)))
+
+    @(Html.DevExtreme()
+        .DateBox()
+        .ID("endTime")
+        .DisplayFormat("yyyy/MM/dd HH:mm")
+        .Type(DateBoxType.DateTime)
+        .Placeholder("結束時間")
+        .Value(_timeNow))
+
+    @(Html.DevExtreme().Button()
+        .Text("查詢")
+        .Type(ButtonType.Success)
+        .OnClick("searchOnClick")
+        )
+</div> *@
+<div class="dx-fieldset">
+    <div class="dx-field">
+        <div class="dx-field-label">檔案名稱</div>
+        <div class="dx-field-value">
+            @(Html.DevExtreme().TextBox()
+                .ID("fileName")
+                .ShowClearButton(true)
+                )
+        </div>
+    </div>
+    <div class="dx-field">
+        <div class="dx-field-label">起始時間</div>
+        <div class="dx-field-value">
+            @(Html.DevExtreme().DateBox()
+                .ID("startTime")
+                .DisplayFormat("yyyy/MM/dd HH:mm")
+                .Type(DateBoxType.DateTime)
+                .Value(_timeNow)
+                )
+        </div>
+    </div>
+    <div class="dx-field">
+        <div class="dx-field-label">結束時間</div>
+        <div class="dx-field-value">
+            @(Html.DevExtreme().DateBox()
+                .ID("endTime")
+                .DisplayFormat("yyyy/MM/dd HH:mm")
+                .Type(DateBoxType.DateTime)
+                .Value(_timeNow)
+                )
+        </div>
+    </div>
+    <div class="dx-field">
+        <div class="dx-field-label">未審核</div>
+        <div class="dx-field-value">
+            @(Html.DevExtreme().CheckBox()
+                .ID("checkUnconfirm")
+                .Value(false)
+                )
+        </div>
+    </div>
+    <div class="dx-field">
+        <div class="dx-field-value">
+            @(Html.DevExtreme().Button()
+                .Text("查詢")
+                .Type(ButtonType.Success)
+                .OnClick("searchOnClick")
+                )
+        </div>
+    </div>
+</div>
+
 <div id="gridContainer">
     @(
         Html.DevExtreme().DataGrid<GetChangeLogDto>()
@@ -37,7 +115,7 @@
 
             columns.AddFor(m => m.ConfirmTime).Caption("審核時間").Format("yyyy-MM-dd HH:mm:ss").AllowEditing(false);
 
-            columns.AddFor(m => m.ConfirmStatus).Caption("審核狀態");
+            columns.AddFor(m => m.ConfirmStatus).Caption("審核狀態").AllowEditing(User.IsInRole("Admin"));
         })
         .ShowBorders(true)
         .ColumnAutoWidth(true)
@@ -58,16 +136,4 @@
         )
 </div>
 
-<script>
-    /* 配合 AntiForgeryToken 使用 */
-    $.ajaxSetup({
-        data: {
-            __RequestVerificationToken: document.getElementsByName("__RequestVerificationToken")[0].value
-        }
-    });
-
-    function updateConfirm(e) {
-        return e.row.data.ConfirmStatus !== true;
-    }
-</script>
 

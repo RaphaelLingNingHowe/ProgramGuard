@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using ProgramGuard.Dtos.FileDetection;
 using ProgramGuard.Web.Model;
@@ -7,6 +8,7 @@ using System.Text;
 
 namespace ProgramGuard.Web.Pages
 {
+    [Authorize]
     public class FileListsModel : BasePageModel
     {
         public FileListsModel(IHttpClientFactory httpClientFactory, ILogger<BasePageModel> logger, IHttpContextAccessor contextAccessor, IConfiguration configuration)
@@ -23,9 +25,7 @@ namespace ProgramGuard.Web.Pages
             return Page();
         }
 
-        [BindProperty]
-        [RegularExpression(@"^(?:[a-zA-Z]:|\\)\\(?:[\w\-. \u4E00-\u9FFF]+\\)*[\w\-. \u4E00-\u9FFF]+([\w.])*$", ErrorMessage = "無效的文件路徑")]
-        public string FilePath { get; set; }
+        
 
         public async Task<IActionResult> OnGetData()
         {
@@ -54,17 +54,23 @@ namespace ProgramGuard.Web.Pages
                 return new ObjectResult($"Failed to fetch data from API, reason:{ex.Message}.") { StatusCode = 500 };
             }
         }
-        public async Task<IActionResult> OnPostAsync(string values)
+
+        [RegularExpression(@"^(?:[a-zA-Z]:|\\)\\(?:[\w\-. \u4E00-\u9FFF]+\\)*[\w\-. \u4E00-\u9FFF]+([\w.])*$", ErrorMessage = "無效的文件路徑")]
+        public string FilePath { get; set; }
+        public async Task<IActionResult> OnPostFilePathAsync([FromBody] string FilePath)
         {
             if (string.IsNullOrWhiteSpace(FilePath))
             {
-                ModelState.AddModelError("FilePath", "檔案路徑不可為空");
-                return Page();
+                return BadRequest("請輸入檔案路徑");
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
             }
             if (!FileExists(FilePath))
             {
                 ModelState.AddModelError("FilePath", "檔案路徑不存在");
-                return Page();
+                return BadRequest("檔案路徑不存在");
             }
             try
             {
@@ -75,12 +81,13 @@ namespace ProgramGuard.Web.Pages
 
                 if (response.IsSuccessStatusCode)
                 {
-                    return Page();
+                    var successContent = await response.Content.ReadAsStringAsync();
+                    return new JsonResult(new { message = successContent, success = true });
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Failed to send data to API.");
-                    return Page();
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    return new JsonResult(new { message = errorContent, success = false });
                 }
             }
             catch (Exception ex)
@@ -106,8 +113,6 @@ namespace ProgramGuard.Web.Pages
 
                 HttpResponseMessage response = await client.PutAsync($"FileList/{key}", jsonContent);
 
-
-
                 if (response.IsSuccessStatusCode)
                 {
                     return new JsonResult(new { success = true });
@@ -130,8 +135,6 @@ namespace ProgramGuard.Web.Pages
 
                 HttpClient client = GetClient();
                 HttpResponseMessage response = await client.DeleteAsync($"/FileList/{key}");
-
-
 
                 if (response.IsSuccessStatusCode)
                 {

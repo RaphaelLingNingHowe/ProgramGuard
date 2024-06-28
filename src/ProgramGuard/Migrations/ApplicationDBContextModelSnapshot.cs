@@ -46,20 +46,6 @@ namespace ProgramGuard.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "1",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
-                        },
-                        new
-                        {
-                            Id = "2",
-                            Name = "User",
-                            NormalizedName = "USER"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -184,6 +170,9 @@ namespace ProgramGuard.Migrations
                     b.Property<DateTime>("ActionTime")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<string>("Comment")
+                        .HasColumnType("longtext");
+
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasMaxLength(255)
@@ -213,11 +202,8 @@ namespace ProgramGuard.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<bool>("IsFrozen")
+                    b.Property<bool>("IsEnabled")
                         .HasColumnType("tinyint(1)");
-
-                    b.Property<DateTime?>("LastLoginTime")
-                        .HasColumnType("datetime(6)");
 
                     b.Property<DateTime>("LastPasswordChangedDate")
                         .HasColumnType("datetime(6)");
@@ -244,6 +230,9 @@ namespace ProgramGuard.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<short>("PrivilegeRule")
+                        .HasColumnType("smallint");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("longtext");
@@ -363,6 +352,33 @@ namespace ProgramGuard.Migrations
                     b.ToTable("PasswordHistories");
                 });
 
+            modelBuilder.Entity("ProgramGuard.Models.PrivilegeRule", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("Operate")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Visible")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.ToTable("PrivilegeRules");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -432,6 +448,15 @@ namespace ProgramGuard.Migrations
                         .HasForeignKey("UserId");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ProgramGuard.Models.PrivilegeRule", b =>
+                {
+                    b.HasOne("ProgramGuard.Models.AppUser", "AppUser")
+                        .WithMany()
+                        .HasForeignKey("AppUserId");
+
+                    b.Navigation("AppUser");
                 });
 #pragma warning restore 612, 618
         }

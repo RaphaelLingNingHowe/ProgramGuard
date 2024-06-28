@@ -19,6 +19,10 @@ namespace ProgramGuard.Repository
             {
                 query = query.Where(cl => cl.ChangeTime <= queryDto.EndTime);
             }
+            if (queryDto.CheckUnconfirm == true)
+            {
+                query = query.Where(cl => cl.ConfirmStatus == false);
+            }
             return query;
         }
     }

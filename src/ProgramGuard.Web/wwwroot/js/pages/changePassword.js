@@ -2,7 +2,10 @@
     let editor = $(`#${name}`).dxTextBox("instance");
     editor.option('mode', editor.option('mode') === 'text' ? 'password' : 'text');
 }
-
+async function showChangePasswordPopup() {
+    console.log("showChangePasswordPopup0 called");
+    $("#changePasswordPopup").dxPopup("instance").show();
+}
 $(document).ready(function () {
     $("#navChangePassword").on("click", function (event) {
         event.preventDefault();
@@ -17,13 +20,6 @@ $(document).ready(function () {
         }
     });
 });
-//function closePopup() {
-//    $("#CurrentPassword").dxTextBox("instance").reset();
-//    $("#NewPassword").dxTextBox("instance").reset();
-//    $("#ConfirmPassword").dxTextBox("instance").reset();
-//    $("#changePasswordPopup").dxPopup("instance").hide();
-//}
-
 
 async function changePassword() {
     var currentPassword = $("#CurrentPassword").dxTextBox("instance").option("value");
@@ -35,9 +31,13 @@ async function changePassword() {
         NewPassword: newPassword,
         ConfirmPassword: confirmPassword
     };
+    var key = $('#hiddenAccount').text()
+    if (!key) {
+        key = getUsernameFromSession();
+    }
 
     $.ajax({
-        url: '/Account/ChangePassword?Handler=ChangePassword&key=' + $('#hiddenAccount').text(),
+        url: '/ChangePassword?Handler=ChangePassword&key=' + key,
         type: 'PUT',
         headers: {
             'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()

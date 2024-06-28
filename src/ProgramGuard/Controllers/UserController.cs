@@ -43,9 +43,8 @@ namespace ProgramGuard.Controllers
                     {
                         UserId = user.Id,
                         UserName = user.UserName,
-                        LastLoginTime = user.LastLoginTime,
                         LockoutEnd = user.LockoutEnd?.LocalDateTime.ToString("yyyy-MM-dd HH:mm:ss"),
-                        IsFrozen = user.IsFrozen,
+                        IsEnabled = user.IsEnabled,
                         IsAdmin = isAdmin
                     };
 
@@ -80,7 +79,6 @@ namespace ProgramGuard.Controllers
                 var user = new AppUser
                 {
                     UserName = createUserDto.UserName,
-                    Email = createUserDto.Email
                 };
 
                 var createdUser = await _userManager.CreateAsync(user, createUserDto.Password);
@@ -89,6 +87,16 @@ namespace ProgramGuard.Controllers
                     var roleResult = await _userManager.AddToRoleAsync(user, "User");
                     if (roleResult.Succeeded)
                     {
+                        user.LastPasswordChangedDate = DateTime.UtcNow.ToLocalTime();
+                        await _userManager.UpdateAsync(user);
+                        var passwordHistory = new PasswordHistory
+                        {
+                            UserId = user.Id,
+                            PasswordHash = _userManager.PasswordHasher.HashPassword(user, createUserDto.Password),
+                            CreatedDate = DateTime.UtcNow.ToLocalTime()
+                        };
+                        _context.PasswordHistories.Add(passwordHistory);
+                        await _context.SaveChangesAsync();
                         return Ok("使用者創建成功");
                     }
                     else
@@ -113,24 +121,24 @@ namespace ProgramGuard.Controllers
         {
             try
             {
-                bool IsFrozen = json.GetProperty("IsFrozen").GetBoolean();
+                bool IsEnabled = json.GetProperty("IsEnabled").GetBoolean();
                 var user = await _userManager.FindByIdAsync(userId);
                 if (user == null)
                 {
                     return NotFound("用戶未找到");
                 }
 
-                if (user.IsFrozen == IsFrozen)
+                if (user.IsEnabled == IsEnabled)
                 {
-                    return Ok($"用戶已經{(IsFrozen ? "凍結" : "解凍")}");
+                    return Ok($"用戶已經{(IsEnabled ? "凍結" : "解凍")}");
                 }
 
-                user.IsFrozen = IsFrozen; // 根據參數設置凍結狀態
+                user.IsEnabled = IsEnabled; // 根據參數設置凍結狀態
 
                 var result = await _userManager.UpdateAsync(user);
                 if (result.Succeeded)
                 {
-                    if (user.IsFrozen)
+                    if (user.IsEnabled)
                     {
                         return Ok("賬號已凍結");
                     }
@@ -202,66 +210,6 @@ namespace ProgramGuard.Controllers
                 return StatusCode(500, $"An error occurred: {ex.Message}");
             }
         }
-        [HttpPut("{userId}/changePassword")]
-        public async Task<IActionResult> ChangePassword(string userId, [FromBody] ChangePasswordDto changePasswordDto)
-        {
-            try
-            {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest("驗證失敗，請檢查輸入的格式");
-                }
-                var user = await _userManager.GetUserAsync(User);
-                if (user == null)
-                {
-                    user = await _userManager.FindByIdAsync(userId);
-                }
-                if (user == null)
-                {
-                    return BadRequest("未找到當前用戶");
-                }
-                var currentPasswordValid = await _userManager.CheckPasswordAsync(user, changePasswordDto.CurrentPassword);
-                if (!currentPasswordValid)
-                {
-                    return BadRequest("當前密碼不正確");
-                }
-                var passwordHistories = await _context.PasswordHistories
-                                        .Where(ph => ph.UserId == user.Id)
-                                        .OrderByDescending(ph => ph.CreatedDate)
-                                        .Take(3)
-                                        .ToListAsync();
-                foreach (var history in passwordHistories)
-                {
-                    if (_userManager.PasswordHasher.VerifyHashedPassword(user, history.PasswordHash, changePasswordDto.NewPassword) == PasswordVerificationResult.Success)
-                    {
-                        return BadRequest("新密碼不能與前三次使用的密碼相同");
-                    }
-                }
-                var result = await _userManager.ChangePasswordAsync(user, changePasswordDto.CurrentPassword, changePasswordDto.NewPassword);
-                if (result.Succeeded)
-                {
-                    user.LastPasswordChangedDate = DateTime.UtcNow.ToLocalTime();
-                    await _userManager.UpdateAsync(user);
-                    var passwordHistory = new PasswordHistory
-                    {
-                        UserId = user.Id,
-                        PasswordHash = _userManager.PasswordHasher.HashPassword(user, changePasswordDto.NewPassword),
-                        CreatedDate = DateTime.UtcNow.ToLocalTime()
-                    };
-                    _context.PasswordHistories.Add(passwordHistory);
-                    await _context.SaveChangesAsync();
-                    return Ok("密碼已更改");
-                }
-                else
-                {
-                    return BadRequest("更改密碼失敗");
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "在更改密碼時發送異常");
-                return StatusCode(500, "在更改密碼時發送異常，請稍後再試");
-            }
-        }
+        
     }
 }

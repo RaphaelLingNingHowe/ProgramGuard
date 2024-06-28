@@ -10,6 +10,7 @@ namespace ProgramGuard.Models
         [Required]
         [StringLength(255, ErrorMessage = "Action cannot be longer than 255 characters.")]
         public string Action { get; set; }
+        public string Comment { get; set; }
         [Required]
         public DateTime ActionTime { get; set; }
     }
