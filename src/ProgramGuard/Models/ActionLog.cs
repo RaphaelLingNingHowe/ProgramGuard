@@ -1,16 +1,23 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ProgramGuard.Enums;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 namespace ProgramGuard.Models
 {
     public class ActionLog
     {
         public int Id { get; set; }
+
         [Required]
-        [StringLength(255, ErrorMessage = "UserName cannot be longer than 255 characters.")]
-        public string UserName { get; set; }
+        public string UserId { get; set; } // This is the foreign key to AspNetUsers table
+
+        [ForeignKey("UserId")]
+        public AppUser User { get; set; }
+
         [Required]
-        [StringLength(255, ErrorMessage = "Action cannot be longer than 255 characters.")]
-        public string Action { get; set; }
+        public ACTION Action { get; set; }
+
         public string Comment { get; set; }
+
         [Required]
         public DateTime ActionTime { get; set; }
     }

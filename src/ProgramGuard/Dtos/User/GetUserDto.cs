@@ -7,7 +7,7 @@
         public DateTime? LastLoginTime { get; set; }
         public bool LockoutEnabled { get; set; }
         public string LockoutEnd { get; set; }
-        public bool IsDisabled { get; set; }
+        public bool IsEnabled { get; set; }
         public bool IsAdmin { get; set; }
     }
 }

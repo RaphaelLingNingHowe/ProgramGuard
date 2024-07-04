@@ -1,9 +1,11 @@
-﻿using ProgramGuard.Models;
+﻿using ProgramGuard.Dtos.ActionLog;
+using ProgramGuard.Models;
 namespace ProgramGuard.Interfaces
 {
     public interface IActionLogRepository
     {
-        Task<ActionLog> CreateAsync(ActionLog actionLog);
+        Task<ActionLog> AddAsync(ActionLogDto actionLogDto);
         Task<IEnumerable<ActionLog>> GetAllAsync();
+        Task<List<ActionLogDto>> GetAsync(DateTime begin, DateTime end);
     }
 }

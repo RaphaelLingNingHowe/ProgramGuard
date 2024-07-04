@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using ProgramGuard.Dtos.Account;
 using ProgramGuard.Dtos.User;
 using ProgramGuard.Web.Model;
 using System.Text;
-using System.Text.Json;
 
 namespace ProgramGuard.Web.Pages
 {
@@ -38,7 +36,7 @@ namespace ProgramGuard.Web.Pages
 
                     if (jsonResponse.Trim().StartsWith("{") && jsonResponse.Trim().EndsWith("}"))
                     {
-                        var responseObject = JsonConvert.DeserializeObject<UserDto>(jsonResponse);
+                        var responseObject = JsonConvert.DeserializeObject<RequirePasswordChangeDto>(jsonResponse);
                         if (responseObject.RequirePasswordChange)
                         {
                             return new JsonResult(new { requirePasswordChange = true, message = "超過80天未更換密碼，請更換密碼", success = true });

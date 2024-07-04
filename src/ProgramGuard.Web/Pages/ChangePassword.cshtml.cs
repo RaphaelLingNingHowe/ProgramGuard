@@ -13,7 +13,6 @@ namespace ProgramGuard.Web.Pages.Account
         public ChangePasswordModel(IHttpClientFactory httpClientFactory, ILogger<BasePageModel> logger, IHttpContextAccessor contextAccessor, IConfiguration configuration)
             : base(httpClientFactory, logger, contextAccessor, configuration)
         {
-
         }
 
         public ChangePasswordDto changePasswordDto { get; set; }

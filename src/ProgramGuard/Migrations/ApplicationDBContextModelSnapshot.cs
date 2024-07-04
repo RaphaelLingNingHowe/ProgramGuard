@@ -50,13 +50,13 @@ namespace ProgramGuard.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "f18db170-29da-4ca3-a6bd-27f828ba737f",
+                            Id = "2c060efa-b5b5-43d0-ab41-ca3156286f1a",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "54dbf027-9f92-4b90-b5e7-3b969df88ed2",
+                            Id = "beedb3f1-970e-4a6f-a6ba-cf62a8264701",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -176,10 +176,8 @@ namespace ProgramGuard.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Action")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                    b.Property<ushort>("Action")
+                        .HasColumnType("smallint unsigned");
 
                     b.Property<DateTime>("ActionTime")
                         .HasColumnType("datetime(6)");
@@ -187,12 +185,13 @@ namespace ProgramGuard.Migrations
                     b.Property<string>("Comment")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("UserName")
+                    b.Property<string>("UserId")
                         .IsRequired()
-                        .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("ActionLogs");
                 });
@@ -216,7 +215,10 @@ namespace ProgramGuard.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<bool>("IsDisabled")
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("IsEnabled")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<DateTime?>("LastLoginTime")
@@ -282,7 +284,6 @@ namespace ProgramGuard.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("ConfirmBy")
-                        .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
 
                     b.Property<bool>("ConfirmStatus")
@@ -304,15 +305,15 @@ namespace ProgramGuard.Migrations
 
                     b.Property<string>("MD5")
                         .IsRequired()
-                        .HasMaxLength(32)
-                        .HasColumnType("varchar(32)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("SHA512")
                         .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ConfirmBy");
 
                     b.HasIndex("FileListId");
 
@@ -417,13 +418,30 @@ namespace ProgramGuard.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("ProgramGuard.Models.ActionLog", b =>
+                {
+                    b.HasOne("ProgramGuard.Models.AppUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("ProgramGuard.Models.ChangeLog", b =>
                 {
+                    b.HasOne("ProgramGuard.Models.AppUser", "AppUser")
+                        .WithMany()
+                        .HasForeignKey("ConfirmBy");
+
                     b.HasOne("ProgramGuard.Models.FileList", "FileList")
                         .WithMany()
                         .HasForeignKey("FileListId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("AppUser");
 
                     b.Navigation("FileList");
                 });

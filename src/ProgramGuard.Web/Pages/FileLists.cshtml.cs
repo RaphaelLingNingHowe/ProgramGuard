@@ -25,7 +25,7 @@ namespace ProgramGuard.Web.Pages
             return Page();
         }
 
-        
+
 
         public async Task<IActionResult> OnGetData()
         {

@@ -1,5 +1,5 @@
 ﻿@page
-@using ProgramGuard.Dtos.LogQuery
+@using ProgramGuard.Dtos.ActionLog
 @model ProgramGuard.Web.Pages.Account.ActionLogsModel
 @{
 }
@@ -24,7 +24,7 @@
         .HeaderFilter(headerFilter => headerFilter.Visible(true))
         .Columns(columns =>
         {
-            columns.AddFor(m => m.UserName).Caption("使用者");
+            columns.AddFor(m => m.UserId).Caption("使用者");
 
             columns.AddFor(m => m.Action).Caption("操作");
 

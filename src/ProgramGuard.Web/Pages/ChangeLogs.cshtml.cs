@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using ProgramGuard.Dtos.Account;
 using ProgramGuard.Dtos.LogQuery;
 using ProgramGuard.Web.Model;
 using System.Text;
@@ -25,17 +24,17 @@ namespace ProgramGuard.Web.Pages
             return Page();
         }
 
-        public async Task<IActionResult> OnGetData()
+        public async Task<IActionResult> OnGetChangeLogAsync(string begin, string end)
         {
             try
             {
                 HttpClient client = GetClient();
 
-                HttpResponseMessage response = await client.GetAsync("/ChangeLog");
+                HttpResponseMessage response = await client.GetAsync($"ChangeLog?begin={begin}&end={end}");
 
                 if (response.IsSuccessStatusCode)
                 {
-                    List<GetChangeLogDto> changeLog = await response.Content.ReadFromJsonAsync<List<GetChangeLogDto>>();
+                    var changeLog = await response.Content.ReadFromJsonAsync<List<GetChangeLogDto>>();
                     return new OkObjectResult(changeLog);
                 }
 

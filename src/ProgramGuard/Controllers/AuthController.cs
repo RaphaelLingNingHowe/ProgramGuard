@@ -1,28 +1,24 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ProgramGuard.Base;
 using ProgramGuard.Data;
 using ProgramGuard.Dtos.User;
+using ProgramGuard.Enums;
 using ProgramGuard.Interfaces;
 using ProgramGuard.Models;
 namespace ProgramGuard.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class AuthController : ControllerBase
+    public class AuthController : BaseController
     {
-        private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly ITokenService _tokenService;
-        private readonly ApplicationDBContext _context;
-        private readonly ILogger<AuthController> _logger;
-        public AuthController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenService tokenService, ApplicationDBContext context, ILogger<AuthController> logger)
+        public AuthController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenService tokenService, ApplicationDBContext context) : base(context, userManager)
         {
-            _userManager = userManager;
             _signInManager = signInManager;
             _tokenService = tokenService;
-            _context = context;
-            _logger = logger;
         }
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto loginDto)
@@ -34,9 +30,9 @@ namespace ProgramGuard.Controllers
                 {
                     return BadRequest("帳號不存在");
                 }
-                if (user.IsDisabled)
+                if (!user.IsEnabled)
                 {
-                    return BadRequest("帳號已凍結");
+                    return BadRequest("帳號已停用");
                 }
                 var result = await _signInManager.PasswordSignInAsync(loginDto.LoginUserName, loginDto.LoginPassword, isPersistent: false, lockoutOnFailure: true);
                 if (result.Succeeded)
@@ -44,16 +40,19 @@ namespace ProgramGuard.Controllers
                     var daysSinceLastPasswordChange = (DateTime.UtcNow - user.LastPasswordChangedDate).TotalDays;
                     if (daysSinceLastPasswordChange > 80)
                     {
-                        var userDto = new UserDto
+                        var userDto = new RequirePasswordChangeDto
                         {
                             UserName = loginDto.LoginUserName,
                             RequirePasswordChange = true
                         };
+                        await LogActionAsync(ACTION.LOGIN,"需要更換密碼");
                         return Ok(userDto);
                     }
+                    user.LastLoginTime = DateTime.UtcNow.ToLocalTime();
                     _context.Users.Update(user);
                     await _context.SaveChangesAsync();
                     var token = await _tokenService.CreateTokenAsync(user);
+                    await LogActionAsync(ACTION.LOGIN);
                     return Ok(token);
                 }
                 else if (result.IsLockedOut)
@@ -67,8 +66,7 @@ namespace ProgramGuard.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "登錄過程中發現異常");
-                return StatusCode(500, "登錄失敗，請聯繫管理員");
+                return StatusCode(500, $"An error occurred: {ex.Message}");
             }
         }
 
@@ -78,12 +76,12 @@ namespace ProgramGuard.Controllers
             try
             {
                 await _signInManager.SignOutAsync();
+                await LogActionAsync(ACTION.LOGOUT);
                 return Ok("用戶已註銷");
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "用戶註銷時發送異常");
-                return StatusCode(500, "用戶註銷時發送異常");
+                return StatusCode(500, $"An error occurred: {ex.Message}");
             }
         }
 
@@ -131,6 +129,7 @@ namespace ProgramGuard.Controllers
                     };
                     _context.PasswordHistories.Add(passwordHistory);
                     await _context.SaveChangesAsync();
+                    await LogActionAsync(ACTION.CHANGE_PASSWORD);
                     return Ok("密碼已更改");
                 }
                 else
@@ -140,8 +139,7 @@ namespace ProgramGuard.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "在更改密碼時發送異常");
-                return StatusCode(500, "在更改密碼時發送異常，請稍後再試");
+                return StatusCode(500, $"An error occurred: {ex.Message}");
             }
         }
     }

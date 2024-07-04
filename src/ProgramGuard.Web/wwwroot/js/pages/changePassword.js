@@ -3,7 +3,6 @@
     editor.option('mode', editor.option('mode') === 'text' ? 'password' : 'text');
 }
 async function showChangePasswordPopup() {
-    console.log("showChangePasswordPopup0 called");
     $("#changePasswordPopup").dxPopup("instance").show();
 }
 $(document).ready(function () {

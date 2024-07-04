@@ -1,40 +1,34 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using ProgramGuard.Dtos.LogQuery;
+using ProgramGuard.Base;
+using ProgramGuard.Data;
+using ProgramGuard.Dtos.ActionLog;
+using ProgramGuard.Enums;
 using ProgramGuard.Interfaces;
+using ProgramGuard.Models;
 namespace ProgramGuard.Controllers
 {
     [Route("[controller]")]
-    [Authorize(Roles = "Admin")]
     [ApiController]
-    public class ActionLogController : ControllerBase
+    public class ActionLogController : BaseController
     {
         private readonly IActionLogRepository _actionLog;
-        public ActionLogController(IActionLogRepository actionLog)
+        public ActionLogController(IActionLogRepository actionLog, UserManager<AppUser> userManager, ApplicationDBContext context) :base(context, userManager)
         {
             _actionLog = actionLog;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetActionLogs()
+        public async Task<IActionResult> GetActionLogs([FromQuery] DateTime begin, [FromQuery] DateTime end)
         {
-            try
+            if (begin > end)
             {
-                var actionLog = await _actionLog.GetAllAsync();
-
-                var actionLogDtos = actionLog.Select(a => new ActionLogDto
-                {
-                    UserName = a.UserName,
-                    Action = a.Action,
-                    ActionTime = a.ActionTime,
-                }).ToList();
-
-                return Ok(actionLogDtos);
+                return BadRequest("起始時間不能超過結束時間");
             }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"An error occurred: {ex.Message}");
-            }
+
+            var actionLogs = await _actionLog.GetAsync(begin, end);
+            await LogActionAsync(ACTION.VIEW_ACTION_LOG);
+            return Ok(actionLogs);
         }
     }
 }

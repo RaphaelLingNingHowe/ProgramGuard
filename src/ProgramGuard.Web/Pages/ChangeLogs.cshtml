@@ -10,29 +10,6 @@
 @Html.AntiForgeryToken()
 <script src="~/js/pages/changeLog.js"></script>
 
-@* <div class="functionPanel">
-    @(Html.DevExtreme()
-        .DateBox()
-        .ID("startTime")
-        .DisplayFormat("yyyy/MM/dd HH:mm")
-        .Type(DateBoxType.DateTime)
-        .Placeholder("起始時間")
-        .Value(_timeNow.AddDays(-1)))
-
-    @(Html.DevExtreme()
-        .DateBox()
-        .ID("endTime")
-        .DisplayFormat("yyyy/MM/dd HH:mm")
-        .Type(DateBoxType.DateTime)
-        .Placeholder("結束時間")
-        .Value(_timeNow))
-
-    @(Html.DevExtreme().Button()
-        .Text("查詢")
-        .Type(ButtonType.Success)
-        .OnClick("searchOnClick")
-        )
-</div> *@
 <div class="dx-fieldset">
     <div class="dx-field">
         <div class="dx-field-label">檔案名稱</div>
@@ -50,7 +27,7 @@
                 .ID("startTime")
                 .DisplayFormat("yyyy/MM/dd HH:mm")
                 .Type(DateBoxType.DateTime)
-                .Value(_timeNow)
+                .Value(_timeNow.AddDays(-1))
                 )
         </div>
     </div>
@@ -92,6 +69,7 @@
                 .LoadUrl("ChangeLogs?Handler=Data")
                 .UpdateUrl("ChangeLogs")
                 .Key("Id"))
+
                 .Editing(e =>
                 {
                     e.AllowUpdating(new JS("updateConfirm"));

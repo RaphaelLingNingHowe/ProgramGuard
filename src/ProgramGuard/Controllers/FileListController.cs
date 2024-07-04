@@ -2,9 +2,10 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ProgramGuard.Base;
 using ProgramGuard.Data;
 using ProgramGuard.Dtos.FileDetection;
-using ProgramGuard.Dtos.LogQuery;
+using ProgramGuard.Enums;
 using ProgramGuard.Interfaces;
 using ProgramGuard.Mappers;
 using ProgramGuard.Models;
@@ -13,22 +14,18 @@ namespace ProgramGuard.Controllers
     [Route("[controller]")]
     [Authorize]
     [ApiController]
-    public class FileListController : ControllerBase
+    public class FileListController : BaseController
     {
         private readonly IFileDetectionService _fileDetectionService;
-        private readonly ApplicationDBContext _context;
         private readonly IChangeLogRepository _changeLogRepository;
         private readonly IFileListRepository _fileListRepository;
-        private readonly UserManager<AppUser> _userManager;
-        private readonly IActionLogRepository _actionLog;
-        public FileListController(IFileDetectionService fileDetectionService, ApplicationDBContext context, IChangeLogRepository changeLogRepository, IFileListRepository fileListRepository, UserManager<AppUser> userManager, IActionLogRepository actionLog)
+
+        public FileListController(IFileDetectionService fileDetectionService, ApplicationDBContext context, IChangeLogRepository changeLogRepository, IFileListRepository fileListRepository, UserManager<AppUser> userManager)
+            : base(context, userManager)
         {
             _fileDetectionService = fileDetectionService;
-            _context = context;
             _changeLogRepository = changeLogRepository;
             _fileListRepository = fileListRepository;
-            _userManager = userManager;
-            _actionLog = actionLog;
         }
 
         [HttpGet]
@@ -52,35 +49,21 @@ namespace ProgramGuard.Controllers
             {
                 return BadRequest("檔案路徑不可為空");
             }
-            var currentUser = await _userManager.GetUserAsync(User);
-            if (currentUser != null)
-            {
-                var actionLog = new ActionLogDto
-                {
-                    UserName = currentUser.UserName,
-                    Action = "添加檔案清單"
-                };
-                var actionLogModel = ActionLogMapper.ActionLogDtoToModel(actionLog);
-                await _actionLog.CreateAsync(actionLogModel);
-            }
-            var existingFile = await _context.FileLists.FirstOrDefaultAsync(f => f.FilePath == filePath);
-            var fileName = Path.GetFileName(filePath);
-            FileList fileListModel;
 
-            if (existingFile == null)
+            var existingFile = await _context.FileLists.FirstOrDefaultAsync(f => f.FilePath == filePath);
+            if (existingFile != null)
             {
-                var fileListDto = new FileListDto
-                {
-                    FilePath = filePath,
-                    FileName = fileName
-                };
-                fileListModel = FileListMapper.FileListDtoToModel(fileListDto);
-                await _fileListRepository.AddAsync(fileListModel);
+                return Conflict("檔案已經存在");
             }
-            else
+
+            var fileName = Path.GetFileName(filePath);
+            var fileListDto = new FileListDto
             {
-                fileListModel = existingFile;
-            }
+                FilePath = filePath,
+                FileName = fileName
+            };
+            var fileListModel = FileListMapper.FileListDtoToModel(fileListDto);
+            await _fileListRepository.AddAsync(fileListModel);
 
             var isFileIntact = _fileDetectionService.VerifyFileIntegrity(filePath);
 
@@ -105,31 +88,24 @@ namespace ProgramGuard.Controllers
 
                 var changelogModel = ChangeLogMapper.ChangeLogDtoToModel(changelog);
                 await _changeLogRepository.AddAsync(changelogModel);
-
-                return Ok();
+                await LogActionAsync(ACTION.ADD_FILELIST);
+                return Ok("檔案新增成功，已檢測到變更");
             }
 
-            return Ok("未檢測到變更");
+            await LogActionAsync(ACTION.ADD_FILELIST);
+            return Ok("檔案新增成功，未檢測到變更");
         }
+
 
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateFileList(int id, [FromBody] FileListModifyDto updateDto)
         {
-            var currentUser = await _userManager.GetUserAsync(User);
-            if (currentUser != null)
-            {
-                var actionLog = new ActionLogDto
-                {
-                    UserName = currentUser.UserName,
-                    Action = "更新檔案清單"
-                };
-                var actionLogModel = ActionLogMapper.ActionLogDtoToModel(actionLog);
-                await _actionLog.CreateAsync(actionLogModel);
-            }
+
             try
             {
                 var fileList = await _fileListRepository.UpdateAsync(id, updateDto);
+                await LogActionAsync(ACTION.MODIFY_FILELIST);
                 return Ok(fileList);
             }
             catch (ArgumentException)
@@ -141,22 +117,15 @@ namespace ProgramGuard.Controllers
                 return StatusCode(500, $"An error occurred: {ex.Message}");
             }
         }
+
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteFileList([FromRoute] int id)
         {
             var currentUser = await _userManager.GetUserAsync(User);
-            if (currentUser != null)
-            {
-                var actionLog = new ActionLogDto
-                {
-                    UserName = currentUser.UserName,
-                    Action = "刪除檔案清單"
-                };
-                var actionLogModel = ActionLogMapper.ActionLogDtoToModel(actionLog);
-                await _actionLog.CreateAsync(actionLogModel);
-            }
+
             await _fileListRepository.DeleteAsync(id);
+            await LogActionAsync(ACTION.DELETE_FILELIST);
             return NoContent();
         }
     }

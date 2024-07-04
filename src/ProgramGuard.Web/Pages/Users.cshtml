@@ -6,8 +6,11 @@
 }
 
 @Html.AntiForgeryToken()
-<script src="~/js/pages/users.js"></script>
+<script src="~/js/pages/Users/addUser.js"></script>
+<script src="~/js/pages/Users/user.js"></script>
+<script src="~/js/pages/Users/resetPassword.js"></script>
 
+@* 添加使用者popup *@
 <div id="container">
     @(Html.DevExtreme().Button()
         .Text("添加使用者")
@@ -82,17 +85,18 @@
     </div>
 </div>
 
+@* 主要datagrid *@
 <div id="gridContainer">
     @(
         Html.DevExtreme().DataGrid<GetUserDto>()
+        .ID("dataGrid")
         .DataSource(o => o.RemoteController()
         .LoadUrl("Users?Handler=Data")
-        .UpdateUrl("Users?Handler=Users")
+        .DeleteUrl("Users")
         .Key("UserId"))
         .Editing(e =>
                 {
-                    e.AllowUpdating(true);
-                    e.Mode(GridEditMode.Batch);
+                    e.AllowDeleting(true);
                     e.UseIcons(true);
                 })
         .Columns(columns =>
@@ -100,8 +104,19 @@
             columns.AddFor(m => m.UserName).Caption("使用者").AllowEditing(false);
             columns.AddFor(m => m.LastLoginTime).Caption("上次登錄時間").Format("yyyy-MM-dd HH:mm:ss").AllowEditing(false);
             columns.AddFor(m => m.LockoutEnd).Caption("解鎖時間").Format("yyyy-MM-dd HH:mm:ss").AllowEditing(false);
-            columns.AddFor(m => m.IsDisabled).Caption("停用帳號");
-            columns.AddFor(m => m.IsAdmin).Caption("管理員權限");
+            columns.AddFor(m => m.IsEnabled)
+            .Caption("帳號啟用")
+            .DataField("IsEnabled")
+            .EditCellTemplate(new JS("switchEditorTemplate"))
+            .CellTemplate(new JS("switchTemplate"));
+            columns.AddFor(m => m.IsAdmin)
+            .Caption("管理員權限")
+            .DataField("IsAdmin")
+            .EditCellTemplate(new JS("switchEditorTemplate"))
+            .CellTemplate(new JS("switchTemplate"));
+            columns.Add()
+            .Caption("操作")
+            .CellTemplate(new JS("resetPasswordTemplate"));
         })
         .ShowBorders(true)
         .ColumnAutoWidth(true)
@@ -122,3 +137,84 @@
         )
 </div>
 
+@* 分配角色popup *@
+@* <div id="container">
+    @(Html.DevExtreme().Popup()
+        .ID("assignRolePopup")
+        .Width(400)
+        .Height(220)
+        .ShowTitle(true)
+        .Title("分配角色")
+        .DragEnabled(true)
+        .HideOnOutsideClick(true)
+        .ShowCloseButton(true)
+        .Position(positionConfig => positionConfig
+        .At(HorizontalAlignment.Center, VerticalAlignment.Center)
+        .My(HorizontalAlignment.Center, VerticalAlignment.Center)
+        )
+        .ContentTemplate(@<text>
+        <div class="dx-field">
+            <div class="dx-field-label">選擇角色</div>
+            <div class="dx-field-value">
+                @(Html.DevExtreme().TagBox()
+                .ID("roleTagBox")
+                .SearchEnabled(true)
+                .ShowSelectionControls(true)
+                .ApplyValueMode(EditorApplyValueMode.UseButtons)
+                )
+            </div>
+        </div>
+        <div class="dx-field">
+            <div class="dx-field-value">
+                @(Html.DevExtreme().Button()
+                .Text("保存")
+                .Type(ButtonType.Success)
+                .OnClick("saveUserRoles")
+                )
+            </div>
+        </div>
+    </text>)
+        )
+</div>
+ *@
+<div id="container">
+    @(Html.DevExtreme().Popup()
+        .ID("resetPasswordPopup")
+        .Width(400)
+        .Height(220)
+        .ShowTitle(true)
+        .Title("重置密碼")
+        .DragEnabled(true)
+        .OnHidden("resetPasswordOnHidden")
+        .HideOnOutsideClick(true)
+        .ShowCloseButton(true)
+        .Position(positionConfig => positionConfig
+        .At(HorizontalAlignment.Center, VerticalAlignment.Center)
+        .My(HorizontalAlignment.Center, VerticalAlignment.Center)
+        )
+        .ContentTemplate(@<text>
+        <div class="dx-field">
+            <div class="dx-field-label">重置新密碼</div>
+            <div class="dx-field-value">
+                @(
+                Html.DevExtreme().TextBoxFor(m => m.resetPasswordDto.ResetPassword)
+                .ID("resetPassword")
+                .Mode(TextBoxMode.Password)
+                .InputAttr("aria-label", "Password")
+                .Placeholder("重置新密碼")
+                .ShowClearButton(true)
+                )
+            </div>
+        </div>
+        <div class="dx-field">
+            <div class="dx-field-value">
+                @(Html.DevExtreme().Button()
+                .Text("確定")
+                .Type(ButtonType.Success)
+                .OnClick("resetPassword")
+                )
+            </div>
+        </div>
+    </text>)
+        )
+</div>

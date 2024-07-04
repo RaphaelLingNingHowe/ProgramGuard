@@ -37,3 +37,9 @@
 function updateConfirm(e) {
     return e.row.data.ConfirmStatus !== true;
 }
+
+$.ajaxSetup({
+    data: {
+        __RequestVerificationToken: document.getElementsByName("__RequestVerificationToken")[0].value
+    }
+});

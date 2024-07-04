@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ProgramGuard.Dtos.LogQuery;
+using ProgramGuard.Dtos.ActionLog;
 using ProgramGuard.Web.Model;
 
 namespace ProgramGuard.Web.Pages.Account

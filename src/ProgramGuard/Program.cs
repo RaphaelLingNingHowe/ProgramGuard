@@ -22,10 +22,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IFileDetectionService, FileDetectionService>();
 builder.Services.AddScoped<IChangeLogRepository, ChangeLogRepository>();
 builder.Services.AddScoped<IFileListRepository, FileListRepository>();
-builder.Services.AddScoped<IQueryConditionHandler, QueryConditionHandler>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IActionLogRepository, ActionLogRepository>();
-builder.Services.AddScoped<IConfirmService, ConfirmService>();
 builder.Services.AddHostedService<Worker>();
 
 builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
@@ -72,6 +70,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();

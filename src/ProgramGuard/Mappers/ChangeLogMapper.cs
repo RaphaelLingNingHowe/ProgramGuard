@@ -14,7 +14,7 @@ namespace ProgramGuard.Mappers
                 DigitalSignature = changeLog.DigitalSignature,
                 ChangeTime = changeLog.ChangeTime,
                 ConfirmStatus = changeLog.ConfirmStatus,
-                ConfirmBy = changeLog.ConfirmBy,
+                //ConfirmBy = changeLog.ConfirmBy,
                 ConfirmTime = changeLog.ConfirmTime,
                 FileListId = changeLog.FileListId
             };
