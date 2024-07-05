@@ -5,6 +5,7 @@
         string CalculateMD5(string filePath);
         string CalculateSHA512(string filePath);
         List<string> GetDigitalSignature(string filePath);
+        bool HasValidDigitalSignature(string filePath);
         bool VerifyFileIntegrity(string filePath);
     }
 }

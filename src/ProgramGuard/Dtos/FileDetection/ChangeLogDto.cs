@@ -5,7 +5,7 @@
         public string FileName { get; set; }
         public string MD5 { get; set; }
         public string Sha512 { get; set; }
-        public List<string>? DigitalSignature { get; set; }
+        public bool DigitalSignature { get; set; }
         public DateTime ChangeTime { get; set; }
         public bool ConfirmStatus { get; set; }
         public string? ConfirmBy { get; set; }

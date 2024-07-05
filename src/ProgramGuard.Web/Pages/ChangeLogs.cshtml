@@ -46,7 +46,7 @@
         <div class="dx-field-label">未審核</div>
         <div class="dx-field-value">
             @(Html.DevExtreme().CheckBox()
-                .ID("checkUnconfirm")
+                .ID("unConfirmed")
                 .Value(false)
                 )
         </div>
@@ -65,17 +65,10 @@
 <div id="gridContainer">
     @(
         Html.DevExtreme().DataGrid<GetChangeLogDto>()
+                .ID("dataGrid")
                 .DataSource(o => o.RemoteController()
-                .LoadUrl("ChangeLogs?Handler=Data")
-                .UpdateUrl("ChangeLogs")
+                .LoadUrl("ChangeLogs?Handler=ChangeLog")
                 .Key("Id"))
-
-                .Editing(e =>
-                {
-                    e.AllowUpdating(new JS("updateConfirm"));
-                    e.Mode(GridEditMode.Batch);
-                    e.UseIcons(true);
-                })
         .Selection(s => s
         .Mode(SelectionMode.Multiple)
         .Deferred(true))
@@ -85,15 +78,20 @@
         {
             columns.AddFor(m => m.Id).AllowEditing(false).Visible(false);
 
-            columns.AddFor(m => m.FileName).Caption("檔案名稱").AllowEditing(false);
+            columns.AddFor(m => m.FileName).Caption("檔案名稱");
 
-            columns.AddFor(m => m.ChangeTime).Caption("異動時間").Format("yyyy-MM-dd HH:mm:ss").AllowEditing(false);
+            columns.AddFor(m => m.ChangeTime).Caption("異動時間").Format("yyyy-MM-dd HH:mm:ss");
 
-            columns.AddFor(m => m.ConfirmBy).Caption("審核人員").AllowEditing(false);
+            columns.AddFor(m => m.DigitalSignature).Caption("公司電子簽章");
 
-            columns.AddFor(m => m.ConfirmTime).Caption("審核時間").Format("yyyy-MM-dd HH:mm:ss").AllowEditing(false);
+            columns.AddFor(m => m.ConfirmBy).Caption("審核人員");
 
-            columns.AddFor(m => m.ConfirmStatus).Caption("審核狀態").AllowEditing(User.IsInRole("Admin"));
+            columns.AddFor(m => m.ConfirmTime).Caption("審核時間").Format("yyyy-MM-dd HH:mm:ss");
+
+            columns.AddFor(m => m.ConfirmStatus)
+            .Caption("審核狀態")
+            .DataField("ConfirmStatus")
+            .CellTemplate(new JS("checkBoxTemplate"));
         })
         .ShowBorders(true)
         .ColumnAutoWidth(true)
@@ -113,5 +111,3 @@
         })
         )
 </div>
-
-

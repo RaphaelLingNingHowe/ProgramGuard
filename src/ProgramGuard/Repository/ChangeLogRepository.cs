@@ -1,11 +1,8 @@
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ProgramGuard.Data;
-using ProgramGuard.Dtos.ActionLog;
 using ProgramGuard.Dtos.LogQuery;
 using ProgramGuard.Interfaces;
 using ProgramGuard.Models;
-using System.Security.Claims;
 namespace ProgramGuard.Repository
 {
     public class ChangeLogRepository : IChangeLogRepository
@@ -51,7 +48,7 @@ namespace ProgramGuard.Repository
             if (changeLog != null)
             {
                 changeLog.ConfirmStatus = true;
-                changeLog.ConfirmBy = userId; 
+                changeLog.ConfirmBy = userId;
                 changeLog.ConfirmTime = DateTime.UtcNow.ToLocalTime();
                 await _context.SaveChangesAsync();
             }

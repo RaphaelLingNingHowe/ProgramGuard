@@ -45,7 +45,7 @@ namespace ProgramGuard.Controllers
                             UserName = loginDto.LoginUserName,
                             RequirePasswordChange = true
                         };
-                        await LogActionAsync(ACTION.LOGIN,"需要更換密碼");
+                        await LogActionAsync(ACTION.LOGIN, "超過80天未更換密碼，需要更換密碼");
                         return Ok(userDto);
                     }
                     user.LastLoginTime = DateTime.UtcNow.ToLocalTime();

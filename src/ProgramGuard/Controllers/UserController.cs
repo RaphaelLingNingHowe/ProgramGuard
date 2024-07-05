@@ -78,7 +78,7 @@ namespace ProgramGuard.Controllers
                 var createdUser = await _userManager.CreateAsync(user, createUserDto.Password);
                 if (createdUser.Succeeded)
                 {
-                    var roleResult = await _userManager.AddToRoleAsync(user, "User");
+                    var roleResult = await _userManager.AddToRoleAsync(user, "Admin");
                     if (roleResult.Succeeded)
                     {
                         user.LastPasswordChangedDate = DateTime.UtcNow.ToLocalTime();
@@ -91,7 +91,7 @@ namespace ProgramGuard.Controllers
                         };
                         _context.PasswordHistories.Add(passwordHistory);
                         await _context.SaveChangesAsync();
-                        await LogActionAsync(ACTION.ADD_ACCOUNT,$"帳號 : {user.Id}");
+                        await LogActionAsync(ACTION.ADD_ACCOUNT, $"帳號 : {user.Id}");
                         return Ok("使用者創建成功");
                     }
                     else
@@ -248,7 +248,7 @@ namespace ProgramGuard.Controllers
                     };
                     _context.PasswordHistories.Add(passwordHistory);
                     await _context.SaveChangesAsync();
-                    await LogActionAsync(ACTION.RESET_PASSWORD,$"帳號 : {userId}");
+                    await LogActionAsync(ACTION.RESET_PASSWORD, $"帳號 : {userId}");
                     return Ok("密碼已重置");
                 }
                 else
@@ -279,7 +279,7 @@ namespace ProgramGuard.Controllers
                 var result = await _userManager.UpdateAsync(user);
                 if (result.Succeeded)
                 {
-                    await LogActionAsync(ACTION.DELETE_ACCOUNT,$"帳號 : {userId}");
+                    await LogActionAsync(ACTION.DELETE_ACCOUNT, $"帳號 : {userId}");
                     return Ok("帳號已刪除");
                 }
 

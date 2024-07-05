@@ -5,7 +5,7 @@ using ProgramGuard.Dtos.User;
 using ProgramGuard.Web.Model;
 using System.Text;
 
-namespace ProgramGuard.Web.Pages.Account
+namespace ProgramGuard.Web.Pages
 {
     [AllowAnonymous]
     public class ChangePasswordModel : BasePageModel

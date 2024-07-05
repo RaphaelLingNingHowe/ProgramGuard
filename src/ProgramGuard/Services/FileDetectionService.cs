@@ -95,6 +95,39 @@ namespace ProgramGuard.Services
                 throw new Exception($"Error processing certificate: {ex.Message}");
             }
         }
+        public bool HasValidDigitalSignature(string filePath)
+        {
+            try
+            {
+                using (X509Certificate2 certificate = new X509Certificate2(filePath))
+                {
+                    // Define the expected issuer and subject for your company's valid signature
+                    string expectedIssuer = "CN=Sectigo RSA Code Signing CA, O=Sectigo Limited, L=Salford, S=Greater Manchester, C=GB";
+                    string expectedSubject = "CN=\"Systemcom Co., Ltd.\", O=\"Systemcom Co., Ltd.\", STREET=4F No72 Sec2 NanKing E Rd, L=Taipei City, PostalCode=10457, C=TW";
+
+                    // Compare the actual issuer and subject with the expected values
+                    bool isValid = certificate.Issuer.Equals(expectedIssuer) && certificate.Subject.Equals(expectedSubject);
+
+                    return isValid;
+                }
+            }
+            catch (CryptographicException)
+            {
+                // Certificate does not have a digital signature
+                return false;
+            }
+            catch (FileNotFoundException ex)
+            {
+                // File not found handling
+                throw new Exception($"Error processing certificate: File not found - {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                // Other exceptions handling
+                throw new Exception($"Error processing certificate: {ex.Message}");
+            }
+        }
+
         public bool VerifyFileIntegrity(string filePath)
         {
             var changeLog = _context.ChangeLogs

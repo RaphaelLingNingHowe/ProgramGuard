@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+using ProgramGuard.Dtos.ActionLog;
+using ProgramGuard.Enums;
+using System.Text.Json;
 
 namespace ProgramGuard.Web.Model
 {
@@ -48,6 +51,18 @@ namespace ProgramGuard.Web.Model
             }
 
             return client;
+        }
+        protected async Task LogActionAsync(ACTION action, string comment = "")
+        {
+            LogActionDto dto = new()
+            {
+                Action = action,
+                Comment = comment
+            };
+            StringContent stringContent = new(JsonSerializer.Serialize(dto), System.Text.Encoding.UTF8, "application/json");
+            HttpClient client = GetClient();
+
+            await client.PostAsync($"/ActionLog", stringContent);
         }
     }
 }

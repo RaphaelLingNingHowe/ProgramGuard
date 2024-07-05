@@ -39,7 +39,7 @@ namespace ProgramGuard.Services
                             var savedFileList = await dbContext.FileLists.OrderByDescending(f => f.FileName == fileName).FirstOrDefaultAsync();
                             var currentMd5 = fileDetectionService.CalculateMD5(filePath);
                             var currentSha512 = fileDetectionService.CalculateSHA512(filePath);
-                            var signature = fileDetectionService.GetDigitalSignature(filePath);
+                            var signature = fileDetectionService.HasValidDigitalSignature(filePath);
                             var changelog = new ChangeLogDTO
                             {
                                 FileName = fileName,

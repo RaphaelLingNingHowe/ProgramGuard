@@ -8,5 +8,6 @@
         public bool ConfirmStatus { get; set; }
         public string? ConfirmBy { get; set; }
         public DateTime? ConfirmTime { get; set; }
+        public bool DigitalSignature { get; set; }
     }
 }

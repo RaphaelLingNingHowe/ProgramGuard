@@ -30,11 +30,14 @@ namespace ProgramGuard.Enums
         DELETE_FILELIST = 1003,
 
         // 檔案異動
-        [Description("[進入] 檔案異常")]
-        ACCESS_CHANGELOG_PAGE = 2000,
+        [Description("[進入] 檔案異動")]
+        ACCESS_CHANGE_LOG_PAGE = 2000,
 
-        [Description("檔案異常確認")]
-        CONFIRM_CHANGELOG = 2002,
+        [Description("檔案異動確認")]
+        CONFIRM_CHANGE_LOG = 2002,
+
+        [Description("查閱異動紀錄")]
+        VIEW_CHANGE_LOG = 4001,
 
         // 帳號管理
         [Description("[進入] 帳號管理")]
@@ -59,7 +62,7 @@ namespace ProgramGuard.Enums
         MODIFY_ROLE = 3006,
 
         // 操作紀錄
-        [Description("[進入] 帳號管理 > 操作紀錄")]
+        [Description("[進入] 操作紀錄")]
         ACCESS_ACCOUNT_ACTION_LOG_PAGE = 4000,
 
         [Description("查閱操作紀錄")]

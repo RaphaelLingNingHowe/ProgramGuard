@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using ProgramGuard.Web.Pages.Account;
+using ProgramGuard.Web.Pages;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);

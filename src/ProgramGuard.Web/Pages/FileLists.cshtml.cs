@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using ProgramGuard.Dtos.FileDetection;
+using ProgramGuard.Enums;
 using ProgramGuard.Web.Model;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
@@ -39,6 +40,7 @@ namespace ProgramGuard.Web.Pages
 
                 if (response.IsSuccessStatusCode)
                 {
+                    await LogActionAsync(ACTION.ACCESS_FILELIST_PAGE);
                     List<FileListDto> fileList = await response.Content.ReadFromJsonAsync<List<FileListDto>>();
                     return new OkObjectResult(fileList);
                 }

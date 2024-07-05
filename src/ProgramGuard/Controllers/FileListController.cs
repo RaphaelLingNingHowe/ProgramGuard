@@ -71,7 +71,7 @@ namespace ProgramGuard.Controllers
             {
                 var currentMd5 = _fileDetectionService.CalculateMD5(filePath);
                 var currentSha512 = _fileDetectionService.CalculateSHA512(filePath);
-                var signature = _fileDetectionService.GetDigitalSignature(filePath);
+                var signature = _fileDetectionService.HasValidDigitalSignature(filePath);
 
                 var changelog = new ChangeLogDTO
                 {

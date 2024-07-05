@@ -16,14 +16,14 @@ namespace ProgramGuard.Models
         [Required]
         public bool ConfirmStatus { get; set; }
 
-        public string? ConfirmBy { get; set; } 
+        public string? ConfirmBy { get; set; }
 
         [ForeignKey("ConfirmBy")]
         public AppUser? AppUser { get; set; } // 導航屬性
 
         public DateTime? ConfirmTime { get; set; }
 
-        public List<string>? DigitalSignature { get; set; }
+        public bool DigitalSignature { get; set; }
 
         [Required]
         public string MD5 { get; set; }

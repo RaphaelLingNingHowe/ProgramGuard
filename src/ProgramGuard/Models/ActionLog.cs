@@ -8,7 +8,7 @@ namespace ProgramGuard.Models
         public int Id { get; set; }
 
         [Required]
-        public string UserId { get; set; } // This is the foreign key to AspNetUsers table
+        public string UserId { get; set; }
 
         [ForeignKey("UserId")]
         public AppUser User { get; set; }

@@ -1,8 +1,5 @@
-﻿using ProgramGuard.Dtos.ActionLog;
-using ProgramGuard.Dtos.FileDetection;
-using ProgramGuard.Dtos.LogQuery;
+﻿using ProgramGuard.Dtos.LogQuery;
 using ProgramGuard.Models;
-using System.Security.Claims;
 namespace ProgramGuard.Interfaces
 {
     public interface IChangeLogRepository
