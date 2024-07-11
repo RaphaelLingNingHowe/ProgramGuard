@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProgramGuard.Dtos.LogQuery;
+using ProgramGuard.Enums;
 using ProgramGuard.Web.Model;
 
 namespace ProgramGuard.Web.Pages
@@ -13,14 +14,16 @@ namespace ProgramGuard.Web.Pages
         {
 
         }
-        public IActionResult OnGet()
+        public async Task<IActionResult> OnGet()
         {
-            if (!User.Identity.IsAuthenticated)
+            if (VisiblePrivilege.HasFlag(VISIBLE_PRIVILEGE.SHOW_CHANGE_LOG) == false)
             {
+                await LogActionAsync(ACTION.ACCESS_CHANGE_LOG_PAGE, "嘗試進入無權限頁面");
                 return RedirectToPage("/Login");
             }
             return Page();
         }
+
 
         public async Task<IActionResult> OnGetChangeLogAsync(DateTime? startTime, DateTime? endTime, string fileName, bool? unConfirmed)
         {

@@ -4,6 +4,7 @@ namespace ProgramGuard.Dtos.Account
     public class CreateUserDto
     {
         [Required(ErrorMessage = "請輸入帳號")]
+        [MaxLength(16, ErrorMessage = "長度不能超過16")]
         public string UserName { get; set; }
 
         [Required(ErrorMessage = "請輸入密碼")]

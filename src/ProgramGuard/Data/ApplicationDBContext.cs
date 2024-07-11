@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using ProgramGuard.Enums;
 using ProgramGuard.Models;
 namespace ProgramGuard.Data
 {
@@ -14,6 +15,7 @@ namespace ProgramGuard.Data
         public DbSet<ChangeLog> ChangeLogs { get; set; }
         public DbSet<ActionLog> ActionLogs { get; set; }
         public DbSet<PasswordHistory> PasswordHistories { get; set; }
+        public DbSet<PrivilegeRule> PrivilegeRules { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -23,6 +25,14 @@ namespace ProgramGuard.Data
                 new IdentityRole {Name = "User", NormalizedName = "USER" }
             };
             builder.Entity<IdentityRole>().HasData(roles);
+
+            List<PrivilegeRule> privilegeRules = new List<PrivilegeRule>
+            {
+                new PrivilegeRule {Id = 1, Name = "管理員" , Visible = (VISIBLE_PRIVILEGE)31, Operate = (OPERATE_PRIVILEGE)2047 },
+                new PrivilegeRule {Id = 2, Name = "審核員" , Visible = (VISIBLE_PRIVILEGE)23, Operate = (OPERATE_PRIVILEGE)10 },
+                new PrivilegeRule {Id = 3, Name = "用戶" , Visible = (VISIBLE_PRIVILEGE)3, Operate = (OPERATE_PRIVILEGE)3 }
+            };
+            builder.Entity<PrivilegeRule>().HasData(privilegeRules);
         }
     }
 }

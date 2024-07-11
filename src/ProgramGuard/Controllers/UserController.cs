@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProgramGuard.Base;
@@ -10,6 +11,7 @@ using ProgramGuard.Models;
 namespace ProgramGuard.Controllers
 {
     [Route("[controller]")]
+    [Authorize]
     [ApiController]
     public class UserController : BaseController
     {
@@ -22,6 +24,10 @@ namespace ProgramGuard.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllUsers()
         {
+            if (VisiblePrivilege.HasFlag(VISIBLE_PRIVILEGE.SHOW_ACCOUNT_MANAGER) == false)
+            {
+                return Forbid("沒有權限");
+            }
             try
             {
                 var userInfos = await _context.Users.Where(u => u.IsDeleted == false).OrderByDescending(u => u.LastLoginTime).ToListAsync();
@@ -30,8 +36,6 @@ namespace ProgramGuard.Controllers
 
                 foreach (var user in userInfos)
                 {
-                    var isAdmin = await _userManager.IsInRoleAsync(user, "Admin");
-                    var roles = await _userManager.GetRolesAsync(user);
 
                     var userDto = new GetUserDto
                     {
@@ -40,7 +44,7 @@ namespace ProgramGuard.Controllers
                         LastLoginTime = user.LastLoginTime,
                         LockoutEnd = user.LockoutEnd?.LocalDateTime.ToString("yyyy-MM-dd HH:mm:ss"),
                         IsEnabled = user.IsEnabled,
-                        IsAdmin = isAdmin,
+                        Privilege = user.Privilege
                     };
                     userDtos.Add(userDto);
                 }
@@ -55,10 +59,13 @@ namespace ProgramGuard.Controllers
         [HttpPost("addUser")]
         public async Task<IActionResult> AdminAddUser([FromBody] CreateUserDto createUserDto)
         {
+            if (OperatePrivilege.HasFlag(OPERATE_PRIVILEGE.ADD_ACCOUNT) == false)
+            {
+                return Forbid("沒有權限");
+            }
             if (!ModelState.IsValid)
             {
-                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
-                return BadRequest(new { Message = "驗證失敗", Errors = errors });
+                return BadRequest("驗證失敗，請檢查輸入的格式");
             }
 
             try
@@ -72,32 +79,25 @@ namespace ProgramGuard.Controllers
                 var user = new AppUser
                 {
                     UserName = createUserDto.UserName,
-                    IsEnabled = true
+                    IsEnabled = true,
+                    Privilege = 3
                 };
 
                 var createdUser = await _userManager.CreateAsync(user, createUserDto.Password);
                 if (createdUser.Succeeded)
                 {
-                    var roleResult = await _userManager.AddToRoleAsync(user, "Admin");
-                    if (roleResult.Succeeded)
+                    user.LastPasswordChangedDate = DateTime.UtcNow.ToLocalTime();
+                    await _userManager.UpdateAsync(user);
+                    var passwordHistory = new PasswordHistory
                     {
-                        user.LastPasswordChangedDate = DateTime.UtcNow.ToLocalTime();
-                        await _userManager.UpdateAsync(user);
-                        var passwordHistory = new PasswordHistory
-                        {
-                            UserId = user.Id,
-                            PasswordHash = _userManager.PasswordHasher.HashPassword(user, createUserDto.Password),
-                            CreatedDate = DateTime.UtcNow.ToLocalTime()
-                        };
-                        _context.PasswordHistories.Add(passwordHistory);
-                        await _context.SaveChangesAsync();
-                        await LogActionAsync(ACTION.ADD_ACCOUNT, $"帳號 : {user.Id}");
-                        return Ok("使用者創建成功");
-                    }
-                    else
-                    {
-                        return StatusCode(500, roleResult.Errors);
-                    }
+                        UserId = user.Id,
+                        PasswordHash = _userManager.PasswordHasher.HashPassword(user, createUserDto.Password),
+                        CreatedDate = DateTime.UtcNow.ToLocalTime()
+                    };
+                    _context.PasswordHistories.Add(passwordHistory);
+                    await _context.SaveChangesAsync();
+                    await LogActionAsync(ACTION.ADD_ACCOUNT, $"帳號 : {user.Id}");
+                    return Ok("使用者創建成功");
                 }
                 else
                 {
@@ -106,13 +106,17 @@ namespace ProgramGuard.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, "伺服器發生問題，請稍後再試");
+                return StatusCode(500, $"伺服器發生問題，請稍後再試: {ex.Message}");
             }
         }
 
         [HttpPut("{userId}/Active")]
         public async Task<IActionResult> ActiveAccountAsync(string userId)
         {
+            if (OperatePrivilege.HasFlag(OPERATE_PRIVILEGE.ENABLE_ACCOUNT) == false)
+            {
+                return Forbid("沒有權限");
+            }
             try
             {
                 var user = await _userManager.FindByIdAsync(userId);
@@ -126,7 +130,7 @@ namespace ProgramGuard.Controllers
                 var result = await _userManager.UpdateAsync(user);
                 if (result.Succeeded)
                 {
-                    await LogActionAsync(ACTION.ENABLE_ACCOUNT, $"帳號 : {userId}");
+                    await LogActionAsync(ACTION.ENABLE_ACCOUNT, $"帳號 : {user.UserName}");
                     return Ok("帳號已啟用");
                 }
 
@@ -134,13 +138,17 @@ namespace ProgramGuard.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, "伺服器發生問題，請稍後再試");
+                return StatusCode(500, $"伺服器發生問題，請稍後再試: {ex.Message}");
             }
         }
 
         [HttpPut("{userId}/Disable")]
         public async Task<IActionResult> DisableAccountAsync(string userId)
         {
+            if (OperatePrivilege.HasFlag(OPERATE_PRIVILEGE.DISABLE_ACCOUNT) == false)
+            {
+                return Forbid("沒有權限");
+            }
             try
             {
                 var user = await _userManager.FindByIdAsync(userId);
@@ -154,7 +162,7 @@ namespace ProgramGuard.Controllers
                 var result = await _userManager.UpdateAsync(user);
                 if (result.Succeeded)
                 {
-                    await LogActionAsync(ACTION.DISABLE_ACCOUNT, $"帳號 : {userId}");
+                    await LogActionAsync(ACTION.DISABLE_ACCOUNT, $"帳號 : {user.UserName}");
                     return Ok("帳號已停用");
                 }
 
@@ -162,57 +170,40 @@ namespace ProgramGuard.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, "伺服器發生問題，請稍後再試");
-            }
-        }
-
-        [HttpPut("{userId}/SetAdmin")]
-        public async Task<IActionResult> SetAdmin(string userId)
-        {
-            try
-            {
-                var user = await _userManager.FindByIdAsync(userId);
-                if (user == null)
-                {
-                    return NotFound("帳號未找到");
-                }
-                var result = await _userManager.AddToRoleAsync(user, "Admin");
-                if (result.Succeeded)
-                {
-                    await LogActionAsync(ACTION.MODIFY_ROLE, $"帳號 : {userId}");
-                    return Ok("成功添加管理員");
-                }
-                else
-                {
-                    return StatusCode(500, $"管理員添加失敗: {string.Join(", ", result.Errors)}");
-                }
-            }
-            catch (Exception ex)
-            {
                 return StatusCode(500, $"伺服器發生問題，請稍後再試: {ex.Message}");
             }
         }
 
-        [HttpPut("{userId}/RemoveAdmin")]
-        public async Task<IActionResult> RemoveAdmin(string userId)
+        [HttpPut("{userId}/privileges/{privilegeId}")]
+        public async Task<IActionResult> UpdatePrivilegeAsync(string userId, int privilegeId)
         {
+            if (OperatePrivilege.HasFlag(OPERATE_PRIVILEGE.MODIFY_PRIVILEGE) == false)
+            {
+                return Forbid("沒有權限");
+            }
             try
             {
                 var user = await _userManager.FindByIdAsync(userId);
                 if (user == null)
                 {
-                    return NotFound("帳號未找到");
+                    return NotFound("找不到此帳號");
                 }
-                var result = await _userManager.RemoveFromRoleAsync(user, "Admin");
+                var privilege = await _context.PrivilegeRules.FindAsync(privilegeId);
+                if (privilege == null)
+                {
+                    return NotFound("找不到此權限");
+                }
+
+                user.Privilege = privilegeId;
+
+                var result = await _userManager.UpdateAsync(user);
                 if (result.Succeeded)
                 {
-                    await LogActionAsync(ACTION.MODIFY_ROLE, $"帳號 : {userId}");
-                    return Ok("成功移除管理員");
+                    await LogActionAsync(ACTION.MODIFY_PRIVILEGE, $"帳號 : {user.UserName} , 權限 : {privilege.Name}");
+                    return Ok("權限更換成功");
                 }
-                else
-                {
-                    return StatusCode(500, $"移除管理員失敗: {string.Join(", ", result.Errors)}");
-                }
+
+                return BadRequest("操作失敗，請稍後再試");
             }
             catch (Exception ex)
             {
@@ -223,6 +214,10 @@ namespace ProgramGuard.Controllers
         [HttpPost("{userId}/ResetPassword")]
         public async Task<IActionResult> ResetPassword(string userId, [FromBody] ResetPasswordDto resetPasswordDto)
         {
+            if (OperatePrivilege.HasFlag(OPERATE_PRIVILEGE.RESET_PASSWORD) == false)
+            {
+                return Forbid("沒有權限");
+            }
             try
             {
                 if (!ModelState.IsValid)
@@ -248,7 +243,7 @@ namespace ProgramGuard.Controllers
                     };
                     _context.PasswordHistories.Add(passwordHistory);
                     await _context.SaveChangesAsync();
-                    await LogActionAsync(ACTION.RESET_PASSWORD, $"帳號 : {userId}");
+                    await LogActionAsync(ACTION.RESET_PASSWORD, $"帳號 : {user.UserName}");
                     return Ok("密碼已重置");
                 }
                 else
@@ -258,13 +253,17 @@ namespace ProgramGuard.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, "在重置密碼時發送異常，請稍後再試");
+                return StatusCode(500, $"伺服器發生問題，請稍後再試: {ex.Message}");
             }
         }
 
         [HttpDelete("{userId}")]
         public async Task<IActionResult> DeleteAccountAsync(string userId)
         {
+            if (OperatePrivilege.HasFlag(OPERATE_PRIVILEGE.DELETE_ACCOUNT) == false)
+            {
+                return Forbid("沒有權限");
+            }
             try
             {
                 var user = await _userManager.FindByIdAsync(userId);
@@ -279,7 +278,7 @@ namespace ProgramGuard.Controllers
                 var result = await _userManager.UpdateAsync(user);
                 if (result.Succeeded)
                 {
-                    await LogActionAsync(ACTION.DELETE_ACCOUNT, $"帳號 : {userId}");
+                    await LogActionAsync(ACTION.DELETE_ACCOUNT, $"帳號 : {user.UserName}");
                     return Ok("帳號已刪除");
                 }
 
@@ -287,7 +286,7 @@ namespace ProgramGuard.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, "伺服器發生問題，請稍後再試");
+                return StatusCode(500, $"伺服器發生問題，請稍後再試: {ex.Message}");
             }
         }
     }

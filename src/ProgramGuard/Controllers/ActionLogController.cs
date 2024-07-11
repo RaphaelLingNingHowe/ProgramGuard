@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProgramGuard.Base;
@@ -9,6 +10,7 @@ using ProgramGuard.Models;
 namespace ProgramGuard.Controllers
 {
     [Route("[controller]")]
+    [Authorize]
     [ApiController]
     public class ActionLogController : BaseController
     {
@@ -18,6 +20,10 @@ namespace ProgramGuard.Controllers
         [HttpGet]
         public async Task<IActionResult> GetActionLogAsync([FromQuery] DateTime? startTime, DateTime? endTime)
         {
+            if (VisiblePrivilege.HasFlag(VISIBLE_PRIVILEGE.SHOW_ACTION_LOG) == false)
+            {
+                return Forbid("沒有權限");
+            }
             if (!startTime.HasValue && !endTime.HasValue)
             {
                 return Ok(new List<GetActionLogDto>());

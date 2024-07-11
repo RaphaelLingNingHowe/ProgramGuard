@@ -1,35 +1,34 @@
-﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
-using ProgramGuard.Dtos.FileDetection;
+using Newtonsoft.Json.Linq;
+using ProgramGuard.Dtos.Account;
+using ProgramGuard.Dtos.PrivilegeRule;
+using ProgramGuard.Dtos.User;
 using ProgramGuard.Enums;
 using ProgramGuard.Web.Model;
-using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace ProgramGuard.Web.Pages
 {
-    [Authorize]
-    public class FileListsModel : BasePageModel
+    public class PrivilegeRuleModel : BasePageModel
     {
-        public FileListsModel(IHttpClientFactory httpClientFactory, ILogger<BasePageModel> logger, IHttpContextAccessor contextAccessor, IConfiguration configuration)
+        public PrivilegeRuleModel(IHttpClientFactory httpClientFactory, ILogger<BasePageModel> logger, IHttpContextAccessor contextAccessor, IConfiguration configuration)
             : base(httpClientFactory, logger, contextAccessor, configuration)
         {
 
         }
         public async Task<IActionResult> OnGet()
         {
-            if (VisiblePrivilege.HasFlag(VISIBLE_PRIVILEGE.SHOW_FILELIST) == false)
+            if (VisiblePrivilege.HasFlag(VISIBLE_PRIVILEGE.SHOW_ACCOUNT_PRIVILEGE) == false)
             {
-                await LogActionAsync(ACTION.ACCESS_FILELIST_PAGE, "嘗試進入無權限頁面");
+                await LogActionAsync(ACTION.ACCESS_MANAGER_PAGE, "���նi�J�L�v������");
                 return RedirectToPage("/Login");
             }
             return Page();
         }
 
-
-
-        public async Task<IActionResult> OnGetData()
+        public async Task<IActionResult> OnGetDataAsync()
         {
 
             try
@@ -37,13 +36,13 @@ namespace ProgramGuard.Web.Pages
 
                 HttpClient client = GetClient();
 
-                HttpResponseMessage response = await client.GetAsync("/FileList");
+                HttpResponseMessage response = await client.GetAsync("/Privilege");
 
                 if (response.IsSuccessStatusCode)
                 {
-                    await LogActionAsync(ACTION.ACCESS_FILELIST_PAGE);
-                    List<FileListDto> fileList = await response.Content.ReadFromJsonAsync<List<FileListDto>>();
-                    return new OkObjectResult(fileList);
+                    await LogActionAsync(ACTION.ACCESS_MANAGER_PAGE);
+                    List<GetPrivilegeRuleDto> privilegeDto = await response.Content.ReadFromJsonAsync<List<GetPrivilegeRuleDto>>();
+                    return new OkObjectResult(privilegeDto);
                 }
 
 
@@ -58,29 +57,15 @@ namespace ProgramGuard.Web.Pages
             }
         }
 
-        [RegularExpression(@"^(?:[a-zA-Z]:|\\)\\(?:[\w\-. \u4E00-\u9FFF]+\\)*[\w\-. \u4E00-\u9FFF]+([\w.])*$", ErrorMessage = "無效的文件路徑")]
-        public string FilePath { get; set; }
-        public async Task<IActionResult> OnPostFilePathAsync([FromBody] string FilePath)
+        public async Task<IActionResult> OnPostAsync([FromBody] CreatePrivilegeDto createPrivilegeDto)
         {
-            if (string.IsNullOrWhiteSpace(FilePath))
-            {
-                return BadRequest("請輸入檔案路徑");
-            }
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            if (!FileExists(FilePath))
-            {
-                ModelState.AddModelError("FilePath", "檔案路徑不存在");
-                return BadRequest("檔案路徑不存在");
-            }
             try
             {
-                HttpClient client = GetClient();
-                var jsonContent = new StringContent(JsonConvert.SerializeObject(FilePath), Encoding.UTF8, "application/json");
 
-                HttpResponseMessage response = await client.PostAsync("/FileList", jsonContent);
+                HttpClient client = GetClient();
+                var jsonContent = new StringContent(JsonConvert.SerializeObject(createPrivilegeDto), Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response = await client.PostAsync("/Privilege", jsonContent);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -100,29 +85,25 @@ namespace ProgramGuard.Web.Pages
             }
         }
 
-        private bool FileExists(string filePath)
-        {
-            return System.IO.File.Exists(filePath);
-        }
-
-        public async Task<IActionResult> OnPutAsync(string key, string values)
+        public async Task<IActionResult> OnPutAsync(int id, UpdatePrivilegeDto updatePrivilegeDto)
         {
             try
             {
-
                 HttpClient client = GetClient();
 
-                StringContent jsonContent = new StringContent(values, Encoding.UTF8, "application/json");
+                var jsonContent = new StringContent(JsonConvert.SerializeObject(updatePrivilegeDto), Encoding.UTF8, "application/json");
 
-                HttpResponseMessage response = await client.PutAsync($"FileList/{key}", jsonContent);
+                HttpResponseMessage response = await client.PutAsync($"/Privilege/{id}", jsonContent);
 
                 if (response.IsSuccessStatusCode)
                 {
-                    return new JsonResult(new { success = true });
+                    var successContent = await response.Content.ReadAsStringAsync();
+                    return new JsonResult(new { message = successContent, success = true });
                 }
                 else
                 {
-                    return new JsonResult(new { success = false, error = "Failed to update resource." });
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    return new JsonResult(new { message = errorContent, success = false });
                 }
             }
             catch (Exception ex)
@@ -130,22 +111,24 @@ namespace ProgramGuard.Web.Pages
                 return new JsonResult(new { success = false, error = $"An error occurred: {ex.Message}" });
             }
         }
-
         public async Task<IActionResult> OnDeleteAsync(string key)
         {
             try
             {
 
                 HttpClient client = GetClient();
-                HttpResponseMessage response = await client.DeleteAsync($"/FileList/{key}");
+
+                HttpResponseMessage response = await client.DeleteAsync($"/Privilege/{key}");
 
                 if (response.IsSuccessStatusCode)
                 {
-                    return new JsonResult(new { success = true });
+                    var successContent = await response.Content.ReadAsStringAsync();
+                    return new JsonResult(new { message = successContent, success = true });
                 }
                 else
                 {
-                    return new JsonResult(new { success = false, error = "Failed to delete resource." });
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    return new JsonResult(new { message = errorContent, success = false });
                 }
             }
             catch (Exception ex)

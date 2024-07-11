@@ -1,0 +1,156 @@
+﻿@page
+@using ProgramGuard.Dtos.PrivilegeRule
+@model ProgramGuard.Web.Pages.PrivilegeManageModel
+@{
+}
+
+@Html.AntiForgeryToken()
+
+<link rel="stylesheet" href="/css/pages/privilege.css" asp-append-version="true" />
+
+
+<div class="functionPanel">
+    @(Html.DevExtreme()
+        .SelectBox()
+        .ID("privilege")
+        .DataSource(d => d.RemoteController().LoadUrl("/PrivilegeManage?handler=PrivilegeRule"))
+        .DisplayExpr("Name")
+        .OnValueChanged("onPrivilegeSelected")
+        .SearchEnabled(true)
+        .Placeholder("權限規則")
+        .NoDataText("沒有資料")
+        .ShowClearButton(true))
+
+
+    @(Html.DevExtreme()
+        .Button()
+        .ID("btnAdd")
+        .Text("新增"))
+
+    @(Html.DevExtreme()
+        .Button()
+        .ID("btnUpdate")
+        .Text("編輯"))
+
+    @(Html.DevExtreme()
+        .Button()
+        .ID("btnDelete")
+        .Text("刪除"))
+
+    <label id="lblNotice">規則調整後，帳號需再次登入後始生效</label>
+</div>
+
+@(Html.DevExtreme().Form()
+    .ID("privilegeForm")
+    .Items(items =>
+    {
+        items.AddGroup()
+            .CssClass("visible")
+            .ColCount(1)
+            .Caption("查閱權限")
+            .Items(groupItems =>
+            {
+                groupItems.AddSimple().Template(
+                    @<text>
+                        <div id="visible-privileges-container"></div>
+                    </text>);
+            });
+        items.AddGroup()
+            .CssClass("operate")
+            .ColCount(1)
+            .Caption("操作權限")
+            .Items(groupItems =>
+            {
+                groupItems.AddSimple().Template(
+                    @<text>
+                        <div id="operate-privileges-container"></div>
+                    </text>);
+            });
+    })
+)
+
+<div>
+    @(Html.DevExtreme().Popup()
+        .ID("addRulePopup")
+        .Width(300)
+        .Height(220)
+        .ShowTitle(true)
+        .Title("新增權限規則")
+        .DragEnabled(false)
+        .ShowCloseButton(false)
+        .HideOnOutsideClick(true)
+        .ContentTemplate(@<text>
+        <div class="dx-field">
+            <div class="dx-field-label">規則名稱</div>
+            <div class="dx-field-value">
+                @(
+                Html.DevExtreme().TextBox()
+                .ID("createRuleName")
+                .MaxLength(16)
+                .Placeholder("規則名稱")
+                .ShowClearButton(true)
+                )
+            </div>
+        </div>
+        <div class="dx-field">
+            <div class="dx-field-value">
+                @(Html.DevExtreme().Button()
+                .Text("確定")
+                .Type(ButtonType.Success)
+                .OnClick("createRuleSubmit")
+                )
+            </div>
+        </div>
+    </text>))
+
+    @(Html.DevExtreme().Popup()
+        .ID("updateRulePopup")
+        .Width(300)
+        .Height(220)
+        .ShowTitle(true)
+        .Title("編輯權限規則")
+        .DragEnabled(false)
+        .ShowCloseButton(false)
+        .HideOnOutsideClick(true)
+        .ContentTemplate(@<text>
+        <div class="dx-field">
+            <div class="dx-field-label">規則名稱</div>
+            <div class="dx-field-value">
+                @(
+                Html.DevExtreme().TextBox()
+                .ID("updateRuleName")
+                .MaxLength(16)
+                .Placeholder("規則名稱")
+                .ShowClearButton(true)
+                )
+            </div>
+        </div>
+        <div class="dx-field">
+            <div class="dx-field-value">
+                @(Html.DevExtreme().Button()
+                .Text("確定")
+                .Type(ButtonType.Success)
+                .OnClick("updateRuleSubmit")
+                )
+            </div>
+        </div>
+    </text>))
+
+    @(Html.DevExtreme().Popup()
+        .ID("popupDeleteRule")
+        .Width(300)
+        .Height(200)
+        .ShowTitle(true)
+        .Title("刪除權限規則")
+        .DragEnabled(false)
+        .ShowCloseButton(false)
+        .ContentTemplate(@<text>
+        <label id="popuplblNotice">確定要刪除此規則？</label>
+    </text>))
+</div>
+
+<script src="~/js/pages/privilege/addcheckBox.js"></script>
+<script src="~/js/pages/privilege/addPrivilegeRule.js"></script>
+<script src="~/js/pages/privilege/getPrivilegeRule.js"></script>
+<script src="~/js/pages/privilege/updatePrivilegeRule.js"></script>
+

@@ -41,7 +41,7 @@ namespace ProgramGuard.Enums
 
         // 帳號管理
         [Description("[進入] 帳號管理")]
-        ACCESS_ACCOUNT_MANAGER_PAGE = 3000,
+        ACCESS_MANAGER_PAGE = 3000,
 
         [Description("新增帳號")]
         ADD_ACCOUNT = 3001,
@@ -58,12 +58,12 @@ namespace ProgramGuard.Enums
         [Description("重置其他人密碼")]
         RESET_PASSWORD = 3005,
 
-        [Description("變更帳號角色")]
-        MODIFY_ROLE = 3006,
+        [Description("變更帳號權限")]
+        MODIFY_PRIVILEGE = 3006,
 
         // 操作紀錄
         [Description("[進入] 操作紀錄")]
-        ACCESS_ACCOUNT_ACTION_LOG_PAGE = 4000,
+        ACCESS_ACTION_LOG_PAGE = 4000,
 
         [Description("查閱操作紀錄")]
         VIEW_ACTION_LOG = 4001,

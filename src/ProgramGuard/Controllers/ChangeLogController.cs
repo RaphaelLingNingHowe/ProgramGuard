@@ -22,9 +22,12 @@ namespace ProgramGuard.Controllers
         }
 
         [HttpPut("confirm/{id}")]
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateConfirmAsync(int id)
         {
+            if (OperatePrivilege.HasFlag(OPERATE_PRIVILEGE.CONFIRM_CHANGE_LOG) == false)
+            {
+                return Forbid("沒有權限");
+            }
             try
             {
                 var userId = _userManager.GetUserId(User);
@@ -41,6 +44,10 @@ namespace ProgramGuard.Controllers
         [HttpGet]
         public async Task<IActionResult> GetChangeLogAsync([FromQuery] DateTime? startTime, DateTime? endTime, string fileName, bool? unConfirmed)
         {
+            if (VisiblePrivilege.HasFlag(VISIBLE_PRIVILEGE.SHOW_CHANGE_LOG) == false)
+            {
+                return Forbid("沒有權限");
+            }
             if (!startTime.HasValue && !endTime.HasValue && string.IsNullOrEmpty(fileName) && !unConfirmed.HasValue)
             {
                 return Ok(new List<GetChangeLogDto>());

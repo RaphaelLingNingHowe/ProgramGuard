@@ -31,6 +31,10 @@ namespace ProgramGuard.Controllers
         [HttpGet]
         public async Task<IActionResult> GetFileLists()
         {
+            if (VisiblePrivilege.HasFlag(VISIBLE_PRIVILEGE.SHOW_FILELIST) == false)
+            {
+                return Forbid("沒有權限");
+            }
             var filelist = await _fileListRepository.GetAllAsync();
             var fileDtos = filelist.Select(file => new FileListDto
             {
@@ -45,6 +49,10 @@ namespace ProgramGuard.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateFileListAsync([FromBody] string filePath)
         {
+            if (OperatePrivilege.HasFlag(OPERATE_PRIVILEGE.ADD_FILELIST) == false)
+            {
+                return Forbid("沒有權限");
+            }
             if (string.IsNullOrWhiteSpace(filePath))
             {
                 return BadRequest("檔案路徑不可為空");
@@ -98,10 +106,12 @@ namespace ProgramGuard.Controllers
 
 
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateFileList(int id, [FromBody] FileListModifyDto updateDto)
         {
-
+            if (OperatePrivilege.HasFlag(OPERATE_PRIVILEGE.MODIFY_FILELIST) == false)
+            {
+                return Forbid("沒有權限");
+            }
             try
             {
                 var fileList = await _fileListRepository.UpdateAsync(id, updateDto);
@@ -119,10 +129,12 @@ namespace ProgramGuard.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteFileList([FromRoute] int id)
         {
-            var currentUser = await _userManager.GetUserAsync(User);
+            if (OperatePrivilege.HasFlag(OPERATE_PRIVILEGE.DELETE_FILELIST) == false)
+            {
+                return Forbid("沒有權限");
+            }
 
             await _fileListRepository.DeleteAsync(id);
             await LogActionAsync(ACTION.DELETE_FILELIST);

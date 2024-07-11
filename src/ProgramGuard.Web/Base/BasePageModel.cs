@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 using ProgramGuard.Dtos.ActionLog;
 using ProgramGuard.Enums;
+using System.Security.Claims;
 using System.Text.Json;
 
 namespace ProgramGuard.Web.Model
@@ -11,6 +12,8 @@ namespace ProgramGuard.Web.Model
         protected readonly ILogger<BasePageModel> _logger;
         protected readonly IHttpContextAccessor _contextAccessor;
         protected readonly IConfiguration _configuration;
+        protected VISIBLE_PRIVILEGE? _visiblePrivilege;
+        protected OPERATE_PRIVILEGE? _operatePrivilege;
 
         public BasePageModel(IHttpClientFactory httpClientFactory, ILogger<BasePageModel> logger, IHttpContextAccessor contextAccessor, IConfiguration configuration)
         {
@@ -63,6 +66,44 @@ namespace ProgramGuard.Web.Model
             HttpClient client = GetClient();
 
             await client.PostAsync($"/ActionLog", stringContent);
+        }
+        protected VISIBLE_PRIVILEGE VisiblePrivilege
+        {
+            get
+            {
+                if (_visiblePrivilege == null)
+                {
+                    if (User.Claims.FirstOrDefault(c => c.Type == "visiblePrivilege") is Claim rawClaims && uint.TryParse(rawClaims.Value, out uint privilege))
+                    {
+                        _visiblePrivilege = (VISIBLE_PRIVILEGE)privilege;
+                    }
+                    else
+                    {
+                        _visiblePrivilege = VISIBLE_PRIVILEGE.UNKNOWN;
+                    }
+                }
+
+                return (VISIBLE_PRIVILEGE)_visiblePrivilege;
+            }
+        }
+        protected OPERATE_PRIVILEGE OperatePrivilege
+        {
+            get
+            {
+                if (_operatePrivilege == null)
+                {
+                    if (User.Claims.FirstOrDefault(c => c.Type == "operatePrivilege") is Claim rawClaims && uint.TryParse(rawClaims.Value, out uint privilege))
+                    {
+                        _operatePrivilege = (OPERATE_PRIVILEGE)privilege;
+                    }
+                    else
+                    {
+                        _operatePrivilege = OPERATE_PRIVILEGE.UNKNOWN;
+                    }
+                }
+
+                return (OPERATE_PRIVILEGE)_operatePrivilege;
+            }
         }
     }
 }

@@ -2,13 +2,15 @@
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using ProgramGuard.Dtos.Account;
+using ProgramGuard.Dtos.PrivilegeRule;
 using ProgramGuard.Dtos.User;
+using ProgramGuard.Enums;
 using ProgramGuard.Web.Model;
 using System.Text;
 
 namespace ProgramGuard.Web.Pages
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public class UsersModel : BasePageModel
     {
         public UsersModel(IHttpClientFactory httpClientFactory, ILogger<BasePageModel> logger, IHttpContextAccessor contextAccessor, IConfiguration configuration)
@@ -16,10 +18,11 @@ namespace ProgramGuard.Web.Pages
         {
 
         }
-        public IActionResult OnGet()
+        public async Task<IActionResult> OnGet()
         {
-            if (!User.Identity.IsAuthenticated)
+            if (VisiblePrivilege.HasFlag(VISIBLE_PRIVILEGE.SHOW_ACCOUNT_MANAGER) == false)
             {
+                await LogActionAsync(ACTION.ACCESS_MANAGER_PAGE, "嘗試進入無權限頁面");
                 return RedirectToPage("/Login");
             }
             return Page();
@@ -135,54 +138,6 @@ namespace ProgramGuard.Web.Pages
                 return new JsonResult(new { success = false, error = $"An error occurred: {ex.Message}" });
             }
         }
-        public async Task<IActionResult> OnPutSetAdminAsync(string key)
-        {
-            try
-            {
-                HttpClient client = GetClient();
-
-                HttpResponseMessage response = await client.PutAsync($"/User/{key}/SetAdmin", null);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    var successContent = await response.Content.ReadAsStringAsync();
-                    return new JsonResult(new { message = successContent, success = true });
-                }
-                else
-                {
-                    var errorContent = await response.Content.ReadAsStringAsync();
-                    return new JsonResult(new { message = errorContent, success = false });
-                }
-            }
-            catch (Exception ex)
-            {
-                return new JsonResult(new { success = false, error = $"An error occurred: {ex.Message}" });
-            }
-        }
-        public async Task<IActionResult> OnPutRemoveAdminAsync(string key)
-        {
-            try
-            {
-                HttpClient client = GetClient();
-
-                HttpResponseMessage response = await client.PutAsync($"/User/{key}/RemoveAdmin", null);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    var successContent = await response.Content.ReadAsStringAsync();
-                    return new JsonResult(new { message = successContent, success = true });
-                }
-                else
-                {
-                    var errorContent = await response.Content.ReadAsStringAsync();
-                    return new JsonResult(new { message = errorContent, success = false });
-                }
-            }
-            catch (Exception ex)
-            {
-                return new JsonResult(new { success = false, error = $"An error occurred: {ex.Message}" });
-            }
-        }
 
         public ResetPasswordDto resetPasswordDto { get; set; }
         public async Task<IActionResult> OnPostResetPasswordAsync(string key, [FromBody] ResetPasswordDto resetPasswordDto)
@@ -225,6 +180,51 @@ namespace ProgramGuard.Web.Pages
                 HttpClient client = GetClient();
 
                 HttpResponseMessage response = await client.DeleteAsync($"/User/{key}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var successContent = await response.Content.ReadAsStringAsync();
+                    return new JsonResult(new { message = successContent, success = true });
+                }
+                else
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    return new JsonResult(new { message = errorContent, success = false });
+                }
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult(new { success = false, error = $"An error occurred: {ex.Message}" });
+            }
+        }
+        public async Task<IActionResult> OnGetPrivilegeAsync()
+        {
+            try
+            {
+                HttpClient client = GetClient();
+
+                HttpResponseMessage response = await client.GetAsync("/Privilege");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    List<GetPrivilegeRuleDto> privilegeDto = await response.Content.ReadFromJsonAsync<List<GetPrivilegeRuleDto>>();
+                    return new OkObjectResult(privilegeDto);
+                }
+                return new ObjectResult($"Failed to fetch data from API. Status code:{response.StatusCode}.") { StatusCode = (int)response.StatusCode };
+            }
+            catch (HttpRequestException ex)
+            {
+                _logger.LogError(ex, "Failed to fetch data from API.");
+                return new ObjectResult($"Failed to fetch data from API, reason:{ex.Message}.") { StatusCode = 500 };
+            }
+        }
+        public async Task<IActionResult> OnPutUpdatePrivilegeAsync(string userId, int privilegeId)
+        {
+            try
+            {
+                HttpClient client = GetClient();
+
+                HttpResponseMessage response = await client.PutAsync($"/User/{userId}/privileges/{privilegeId}", null);
 
                 if (response.IsSuccessStatusCode)
                 {

@@ -7,7 +7,8 @@
 
 @Html.AntiForgeryToken()
 <script src="~/js/pages/Users/addUser.js"></script>
-<script src="~/js/pages/Users/user.js"></script>
+<script src="~/js/pages/Users/enableDisableControl.js"></script>
+<script src="~/js/pages/Users/assignPrivilege.js"></script>
 <script src="~/js/pages/Users/resetPassword.js"></script>
 
 @* 添加使用者popup *@
@@ -109,13 +110,11 @@
             .DataField("IsEnabled")
             .EditCellTemplate(new JS("switchEditorTemplate"))
             .CellTemplate(new JS("switchTemplate"));
-            columns.AddFor(m => m.IsAdmin)
-            .Caption("管理員權限")
-            .DataField("IsAdmin")
-            .EditCellTemplate(new JS("switchEditorTemplate"))
-            .CellTemplate(new JS("switchTemplate"));
             columns.Add()
-            .Caption("操作")
+            .Caption("分配權限")
+            .CellTemplate(new JS("assignPrivilegeTemplate"));
+            columns.Add()
+            .Caption("重設密碼")
             .CellTemplate(new JS("resetPasswordTemplate"));
         })
         .ShowBorders(true)
@@ -137,14 +136,14 @@
         )
 </div>
 
-@* 分配角色popup *@
-@* <div id="container">
+@* 分配權限popup *@
+<div id="container">
     @(Html.DevExtreme().Popup()
-        .ID("assignRolePopup")
+        .ID("assignPrivilegePopup")
         .Width(400)
         .Height(220)
         .ShowTitle(true)
-        .Title("分配角色")
+        .Title("分配權限")
         .DragEnabled(true)
         .HideOnOutsideClick(true)
         .ShowCloseButton(true)
@@ -153,30 +152,11 @@
         .My(HorizontalAlignment.Center, VerticalAlignment.Center)
         )
         .ContentTemplate(@<text>
-        <div class="dx-field">
-            <div class="dx-field-label">選擇角色</div>
-            <div class="dx-field-value">
-                @(Html.DevExtreme().TagBox()
-                .ID("roleTagBox")
-                .SearchEnabled(true)
-                .ShowSelectionControls(true)
-                .ApplyValueMode(EditorApplyValueMode.UseButtons)
-                )
-            </div>
-        </div>
-        <div class="dx-field">
-            <div class="dx-field-value">
-                @(Html.DevExtreme().Button()
-                .Text("保存")
-                .Type(ButtonType.Success)
-                .OnClick("saveUserRoles")
-                )
-            </div>
-        </div>
+        <div id="privilegeList" class="dx-field"></div>
     </text>)
         )
 </div>
- *@
+
 <div id="container">
     @(Html.DevExtreme().Popup()
         .ID("resetPasswordPopup")

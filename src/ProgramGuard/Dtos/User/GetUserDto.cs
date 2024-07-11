@@ -8,6 +8,6 @@
         public bool LockoutEnabled { get; set; }
         public string LockoutEnd { get; set; }
         public bool IsEnabled { get; set; }
-        public bool IsAdmin { get; set; }
+        public int Privilege { get; set; }
     }
 }

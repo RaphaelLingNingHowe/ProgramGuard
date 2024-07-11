@@ -25,7 +25,9 @@ namespace ProgramGuard.Services
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id),
                 new Claim(JwtRegisteredClaimNames.Name, user.UserName),
                 new Claim(ClaimsIdentity.DefaultNameClaimType, user.UserName),
-                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Id)
+                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Id),
+                new Claim("visiblePrivilege", $"{(uint)user.PrivilegeRule.Visible}"),
+                new Claim("operatePrivilege", $"{(uint)user.PrivilegeRule.Operate}"),
             };
 
             if (await _userManager.IsInRoleAsync(user, "Admin"))

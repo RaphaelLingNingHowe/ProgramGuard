@@ -6,21 +6,23 @@ using ProgramGuard.Web.Model;
 
 namespace ProgramGuard.Web.Pages.Account
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public class ActionLogsModel : BasePageModel
     {
         public ActionLogsModel(IHttpClientFactory httpClientFactory, ILogger<BasePageModel> logger, IHttpContextAccessor contextAccessor, IConfiguration configuration)
             : base(httpClientFactory, logger, contextAccessor, configuration)
         {
         }
-        public IActionResult OnGet()
+        public async Task<IActionResult> OnGet()
         {
-            if (!User.Identity.IsAuthenticated)
+            if (VisiblePrivilege.HasFlag(VISIBLE_PRIVILEGE.SHOW_ACTION_LOG) == false)
             {
+                await LogActionAsync(ACTION.ACCESS_ACTION_LOG_PAGE, "嘗試進入無權限頁面");
                 return RedirectToPage("/Login");
             }
             return Page();
         }
+
         public async Task<IActionResult> OnGetActionLogAsync(DateTime? startTime, DateTime? endTime)
         {
             try
@@ -48,7 +50,7 @@ namespace ProgramGuard.Web.Pages.Account
 
                 if (response.IsSuccessStatusCode)
                 {
-                    await LogActionAsync(ACTION.ACCESS_ACCOUNT_ACTION_LOG_PAGE);
+                    await LogActionAsync(ACTION.ACCESS_ACTION_LOG_PAGE);
                     var actionLog = await response.Content.ReadFromJsonAsync<List<GetActionLogDto>>();
                     return new OkObjectResult(actionLog);
                 }

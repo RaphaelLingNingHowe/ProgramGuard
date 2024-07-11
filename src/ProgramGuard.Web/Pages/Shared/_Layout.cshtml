@@ -1,13 +1,20 @@
 ﻿@inject ProgramGuard.Web.Pages.ChangePasswordModel ChangePasswordModel
 @using System.Security.Claims
+@using ProgramGuard.Enums
 
 @{
     string pagePath = ViewContext.RouteData.Values["page"].ToString();
 
-    // 反饋目前使用者選擇之功能項目
-    string GetClassName(string item)
+    VISIBLE_PRIVILEGE visiblePrivilege = VISIBLE_PRIVILEGE.UNKNOWN;
+    if (User.Claims.FirstOrDefault(c => c.Type == "visiblePrivilege") is Claim rawVisiblePrivilege)
     {
-        return pagePath.Contains(item) ? "active" : string.Empty;
+        visiblePrivilege = (VISIBLE_PRIVILEGE)uint.Parse(rawVisiblePrivilege.Value);
+    }
+
+    OPERATE_PRIVILEGE operatePrivilege = OPERATE_PRIVILEGE.UNKNOWN;
+    if (User.Claims.FirstOrDefault(c => c.Type == "operatePrivilege") is Claim rawOperatePrivilege)
+    {
+        operatePrivilege = (OPERATE_PRIVILEGE)uint.Parse(rawOperatePrivilege.Value);
     }
     
 }
@@ -56,10 +63,12 @@
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item"><a href="/FileLists" class="nav-link active">檔案清單</a></li>
                         <li class="nav-item"><a href="/ChangeLogs" class="nav-link">異動記錄</a></li>
-                        @if (User.IsInRole("Admin"))
+                        @if ((visiblePrivilege & (VISIBLE_PRIVILEGE.SHOW_ACCOUNT_MANAGER | VISIBLE_PRIVILEGE.SHOW_ACCOUNT_PRIVILEGE | VISIBLE_PRIVILEGE.SHOW_ACTION_LOG)) != 0)
                         {
                             <li class="nav-item"><a href="ActionLogs" class="nav-link">操作記錄</a></li>
                             <li class="nav-item"><a href="/Users" class="nav-link">使用者管理</a></li>
+                            <li class="nav-item"><a href="/PrivilegeManage" class="nav-link">權限管理</a></li>
+                            <li class="nav-item"><a href="/PrivilegeRule" class="nav-link">權限規則</a></li>
                         }                   
                     </ul>
                     <ul class="navbar-nav">

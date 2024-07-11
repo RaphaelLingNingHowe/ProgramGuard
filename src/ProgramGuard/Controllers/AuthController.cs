@@ -34,6 +34,7 @@ namespace ProgramGuard.Controllers
                 {
                     return BadRequest("帳號已停用");
                 }
+                await _context.Entry(user).Reference(u => u.PrivilegeRule).LoadAsync();
                 var result = await _signInManager.PasswordSignInAsync(loginDto.LoginUserName, loginDto.LoginPassword, isPersistent: false, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
