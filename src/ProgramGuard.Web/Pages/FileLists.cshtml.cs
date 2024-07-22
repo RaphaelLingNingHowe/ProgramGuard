@@ -31,10 +31,8 @@ namespace ProgramGuard.Web.Pages
 
         public async Task<IActionResult> OnGetData()
         {
-
             try
             {
-
                 HttpClient client = GetClient();
 
                 HttpResponseMessage response = await client.GetAsync("/FileList");
@@ -45,53 +43,34 @@ namespace ProgramGuard.Web.Pages
                     List<FileListDto> fileList = await response.Content.ReadFromJsonAsync<List<FileListDto>>();
                     return new OkObjectResult(fileList);
                 }
-
-
-                return new ObjectResult($"Failed to fetch data from API. Status code:{response.StatusCode}.") { StatusCode = (int)response.StatusCode };
-
-
+                return await HandleResponseAsync(response);
             }
             catch (HttpRequestException ex)
             {
-                _logger.LogError(ex, "Failed to fetch data from API.");
                 return new ObjectResult($"Failed to fetch data from API, reason:{ex.Message}.") { StatusCode = 500 };
             }
         }
 
-        [RegularExpression(@"^(?:[a-zA-Z]:|\\)\\(?:[\w\-. \u4E00-\u9FFF]+\\)*[\w\-. \u4E00-\u9FFF]+([\w.])*$", ErrorMessage = "無效的文件路徑")]
-        public string FilePath { get; set; }
-        public async Task<IActionResult> OnPostFilePathAsync([FromBody] string FilePath)
+        public CreateFileDto createFileDto { get; set; }
+        public async Task<IActionResult> OnPostCreateFileAsync([FromBody] CreateFileDto createFileDto)
         {
-            if (string.IsNullOrWhiteSpace(FilePath))
-            {
-                return BadRequest("請輸入檔案路徑");
-            }
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return BadRequest(new { message = "驗證失敗，請檢查輸入的格式"});
             }
-            if (!FileExists(FilePath))
+            if (!FileExists(createFileDto.FilePath))
             {
-                ModelState.AddModelError("FilePath", "檔案路徑不存在");
+                ModelState.AddModelError(createFileDto.FilePath, "檔案路徑不存在");
                 return BadRequest("檔案路徑不存在");
             }
             try
             {
                 HttpClient client = GetClient();
-                var jsonContent = new StringContent(JsonConvert.SerializeObject(FilePath), Encoding.UTF8, "application/json");
+                var jsonContent = new StringContent(JsonConvert.SerializeObject(createFileDto), Encoding.UTF8, "application/json");
 
                 HttpResponseMessage response = await client.PostAsync("/FileList", jsonContent);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    var successContent = await response.Content.ReadAsStringAsync();
-                    return new JsonResult(new { message = successContent, success = true });
-                }
-                else
-                {
-                    var errorContent = await response.Content.ReadAsStringAsync();
-                    return new JsonResult(new { message = errorContent, success = false });
-                }
+                return await HandleResponseAsync(response);
             }
             catch (Exception ex)
             {
@@ -116,14 +95,7 @@ namespace ProgramGuard.Web.Pages
 
                 HttpResponseMessage response = await client.PutAsync($"FileList/{key}", jsonContent);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    return new JsonResult(new { success = true });
-                }
-                else
-                {
-                    return new JsonResult(new { success = false, error = "Failed to update resource." });
-                }
+                return await HandleResponseAsync(response);
             }
             catch (Exception ex)
             {
@@ -139,14 +111,7 @@ namespace ProgramGuard.Web.Pages
                 HttpClient client = GetClient();
                 HttpResponseMessage response = await client.DeleteAsync($"/FileList/{key}");
 
-                if (response.IsSuccessStatusCode)
-                {
-                    return new JsonResult(new { success = true });
-                }
-                else
-                {
-                    return new JsonResult(new { success = false, error = "Failed to delete resource." });
-                }
+                return await HandleResponseAsync(response);
             }
             catch (Exception ex)
             {

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -33,7 +34,7 @@ namespace ProgramGuard.Controllers
         {
             if (VisiblePrivilege.HasFlag(VISIBLE_PRIVILEGE.SHOW_FILELIST) == false)
             {
-                return Forbid("沒有權限");
+                return Forbidden("沒有權限");
             }
             var filelist = await _fileListRepository.GetAllAsync();
             var fileDtos = filelist.Select(file => new FileListDto
@@ -47,16 +48,13 @@ namespace ProgramGuard.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateFileListAsync([FromBody] string filePath)
+        public async Task<IActionResult> CreateFileAsync([FromBody] CreateFileDto createFileDto)
         {
             if (OperatePrivilege.HasFlag(OPERATE_PRIVILEGE.ADD_FILELIST) == false)
             {
-                return Forbid("沒有權限");
+                return Forbidden("沒有權限");
             }
-            if (string.IsNullOrWhiteSpace(filePath))
-            {
-                return BadRequest("檔案路徑不可為空");
-            }
+            var filePath = createFileDto.FilePath;
 
             var existingFile = await _context.FileLists.FirstOrDefaultAsync(f => f.FilePath == filePath);
             if (existingFile != null)
@@ -97,11 +95,11 @@ namespace ProgramGuard.Controllers
                 var changelogModel = ChangeLogMapper.ChangeLogDtoToModel(changelog);
                 await _changeLogRepository.AddAsync(changelogModel);
                 await LogActionAsync(ACTION.ADD_FILELIST);
-                return Ok("檔案新增成功，已檢測到變更");
+                return Created("檔案新增成功，已檢測到變更");
             }
 
             await LogActionAsync(ACTION.ADD_FILELIST);
-            return Ok("檔案新增成功，未檢測到變更");
+            return Created("檔案新增成功，未檢測到變更");
         }
 
 
@@ -110,7 +108,7 @@ namespace ProgramGuard.Controllers
         {
             if (OperatePrivilege.HasFlag(OPERATE_PRIVILEGE.MODIFY_FILELIST) == false)
             {
-                return Forbid("沒有權限");
+                return Forbidden("沒有權限");
             }
             try
             {
@@ -124,7 +122,7 @@ namespace ProgramGuard.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"An error occurred: {ex.Message}");
+                return ServerError(ex.Message);
             }
         }
 
@@ -133,7 +131,7 @@ namespace ProgramGuard.Controllers
         {
             if (OperatePrivilege.HasFlag(OPERATE_PRIVILEGE.DELETE_FILELIST) == false)
             {
-                return Forbid("沒有權限");
+                return Forbidden("沒有權限");
             }
 
             await _fileListRepository.DeleteAsync(id);

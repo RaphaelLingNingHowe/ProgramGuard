@@ -22,11 +22,11 @@ namespace ProgramGuard.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllUsers()
+        public async Task<IActionResult> GetUsersAsync()
         {
             if (VisiblePrivilege.HasFlag(VISIBLE_PRIVILEGE.SHOW_ACCOUNT_MANAGER) == false)
             {
-                return Forbid("沒有權限");
+                return Forbidden("沒有權限");
             }
             try
             {
@@ -52,16 +52,16 @@ namespace ProgramGuard.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"An error occurred: {ex.Message}");
+                return ServerError(ex.Message);
             }
         }
 
-        [HttpPost("addUser")]
-        public async Task<IActionResult> AdminAddUser([FromBody] CreateUserDto createUserDto)
+        [HttpPost("createUser")]
+        public async Task<IActionResult> CreateUserAsync([FromBody] CreateUserDto createUserDto)
         {
             if (OperatePrivilege.HasFlag(OPERATE_PRIVILEGE.ADD_ACCOUNT) == false)
             {
-                return Forbid("沒有權限");
+                return Forbidden("沒有權限");
             }
             if (!ModelState.IsValid)
             {
@@ -73,14 +73,14 @@ namespace ProgramGuard.Controllers
                 var existingUser = await _userManager.FindByNameAsync(createUserDto.UserName);
                 if (existingUser != null)
                 {
-                    return BadRequest("用戶名已經存在，請選擇另一個用戶名");
+                    return Conflict("用戶名已經存在，請選擇另一個用戶名");
                 }
 
                 var user = new AppUser
                 {
                     UserName = createUserDto.UserName,
                     IsEnabled = true,
-                    Privilege = 3
+                    Privilege = 1
                 };
 
                 var createdUser = await _userManager.CreateAsync(user, createUserDto.Password);
@@ -97,16 +97,16 @@ namespace ProgramGuard.Controllers
                     _context.PasswordHistories.Add(passwordHistory);
                     await _context.SaveChangesAsync();
                     await LogActionAsync(ACTION.ADD_ACCOUNT, $"帳號 : {user.Id}");
-                    return Ok("使用者創建成功");
+                    return Created("使用者創建成功");
                 }
                 else
                 {
-                    return StatusCode(500, createdUser.Errors);
+                    return ServerError(createdUser.Errors);
                 }
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"伺服器發生問題，請稍後再試: {ex.Message}");
+                return ServerError(ex.Message);
             }
         }
 
@@ -115,7 +115,7 @@ namespace ProgramGuard.Controllers
         {
             if (OperatePrivilege.HasFlag(OPERATE_PRIVILEGE.ENABLE_ACCOUNT) == false)
             {
-                return Forbid("沒有權限");
+                return Forbidden("沒有權限");
             }
             try
             {
@@ -134,11 +134,11 @@ namespace ProgramGuard.Controllers
                     return Ok("帳號已啟用");
                 }
 
-                return BadRequest("操作失敗，請稍後再試");
+                return ServerError(result.Errors);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"伺服器發生問題，請稍後再試: {ex.Message}");
+                return ServerError(ex.Message);
             }
         }
 
@@ -147,7 +147,7 @@ namespace ProgramGuard.Controllers
         {
             if (OperatePrivilege.HasFlag(OPERATE_PRIVILEGE.DISABLE_ACCOUNT) == false)
             {
-                return Forbid("沒有權限");
+                return Forbidden("沒有權限");
             }
             try
             {
@@ -179,7 +179,7 @@ namespace ProgramGuard.Controllers
         {
             if (OperatePrivilege.HasFlag(OPERATE_PRIVILEGE.MODIFY_PRIVILEGE) == false)
             {
-                return Forbid("沒有權限");
+                return Forbidden("沒有權限");
             }
             try
             {
@@ -211,12 +211,27 @@ namespace ProgramGuard.Controllers
             }
         }
 
+        [HttpPut("{userId}/unlock")]
+        public async Task<IActionResult> UnlockUser(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            await _userManager.SetLockoutEndDateAsync(user, null);
+            await _userManager.ResetAccessFailedCountAsync(user);
+
+            return NoContent();
+        }
+
+
         [HttpPost("{userId}/ResetPassword")]
         public async Task<IActionResult> ResetPassword(string userId, [FromBody] ResetPasswordDto resetPasswordDto)
         {
             if (OperatePrivilege.HasFlag(OPERATE_PRIVILEGE.RESET_PASSWORD) == false)
             {
-                return Forbid("沒有權限");
+                return Forbidden("沒有權限");
             }
             try
             {
@@ -253,7 +268,7 @@ namespace ProgramGuard.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"伺服器發生問題，請稍後再試: {ex.Message}");
+                return ServerError(ex.Message);
             }
         }
 
@@ -262,7 +277,7 @@ namespace ProgramGuard.Controllers
         {
             if (OperatePrivilege.HasFlag(OPERATE_PRIVILEGE.DELETE_ACCOUNT) == false)
             {
-                return Forbid("沒有權限");
+                return Forbidden("沒有權限");
             }
             try
             {
@@ -279,14 +294,14 @@ namespace ProgramGuard.Controllers
                 if (result.Succeeded)
                 {
                     await LogActionAsync(ACTION.DELETE_ACCOUNT, $"帳號 : {user.UserName}");
-                    return Ok("帳號已刪除");
+                    return NoContent();
                 }
 
-                return BadRequest("操作失敗，請稍後再試");
+                return ServerError(result.Errors);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"伺服器發生問題，請稍後再試: {ex.Message}");
+                return ServerError(ex.Message);
             }
         }
     }

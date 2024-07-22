@@ -27,37 +27,37 @@ namespace ProgramGuard.Web.Pages
 
                 HttpClient client = GetClient();
                 var jsonContent = new StringContent(JsonConvert.SerializeObject(loginDto), Encoding.UTF8, "application/json");
-
                 HttpResponseMessage response = await client.PostAsync("/Auth/login", jsonContent);
+
 
                 if (response.IsSuccessStatusCode)
                 {
                     var jsonResponse = await response.Content.ReadAsStringAsync();
+                    var loginResponse = JsonConvert.DeserializeObject<LoginResponseDto>(jsonResponse);
 
-                    if (jsonResponse.Trim().StartsWith("{") && jsonResponse.Trim().EndsWith("}"))
+                    if (loginResponse.RequirePasswordChange)
                     {
-                        var responseObject = JsonConvert.DeserializeObject<RequirePasswordChangeDto>(jsonResponse);
-                        if (responseObject.RequirePasswordChange)
-                        {
-                            return new JsonResult(new { requirePasswordChange = true, message = "超過80天未更換密碼，請更換密碼", success = true });
-                        }
+                        var errorContent = await response.Content.ReadAsStringAsync();
+                        return StatusCode((int)response.StatusCode, new { requirePasswordChange = true, message = loginResponse.Message});
+
                     }
-                    else
+                    if (!string.IsNullOrEmpty(loginResponse.Token))
                     {
-                        Response.Cookies.Append("auth_token", jsonResponse, new CookieOptions
+                        Response.Cookies.Append("auth_token", loginResponse.Token, new CookieOptions
                         {
                             HttpOnly = true,
                             Secure = true,
                             SameSite = SameSiteMode.Strict
                         });
-                        return new JsonResult(new { requirePasswordChange = false, message = "登錄成功", success = true });
+                    return await HandleResponseAsync(response);
+
                     }
-                    return Page();
+                    return await HandleResponseAsync(response);
                 }
                 else
                 {
                     var errorContent = await response.Content.ReadAsStringAsync();
-                    return new JsonResult(new { message = errorContent, success = false });
+                    return StatusCode((int)response.StatusCode, new { message = errorContent });
                 }
             }
             catch (Exception ex)
@@ -65,7 +65,7 @@ namespace ProgramGuard.Web.Pages
                 return new JsonResult(new { message = $"An error occurred: {ex.Message}", success = false });
             }
         }
-
     }
 }
+
 

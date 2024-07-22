@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using ProgramGuard.Dtos.ActionLog;
 using ProgramGuard.Enums;
 using System.Security.Claims;
@@ -55,6 +56,24 @@ namespace ProgramGuard.Web.Model
 
             return client;
         }
+
+        protected async Task<JsonResult> HandleResponseAsync(HttpResponseMessage response)
+        {
+            var content = await response.Content.ReadAsStringAsync();
+            var statusCode = (int)response.StatusCode;
+
+            var result = new
+            {
+                message = content,
+                data = response.IsSuccessStatusCode ? content : null
+            };
+
+            return new JsonResult(result)
+            {
+                StatusCode = statusCode
+            };
+        }
+
         protected async Task LogActionAsync(ACTION action, string comment = "")
         {
             LogActionDto dto = new()

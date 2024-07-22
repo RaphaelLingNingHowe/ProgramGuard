@@ -5,29 +5,28 @@ using ProgramGuard.Web.Model;
 namespace ProgramGuard.Web.Pages
 {
     [AllowAnonymous]
-    [IgnoreAntiforgeryToken]
     public class LogoutModel : BasePageModel
     {
         public LogoutModel(IHttpClientFactory httpClientFactory, ILogger<BasePageModel> logger, IHttpContextAccessor contextAccessor, IConfiguration configuration)
             : base(httpClientFactory, logger, contextAccessor, configuration)
         {
-
         }
-        public async Task<IActionResult> OnGetAsync()
+
+        public async Task<IActionResult> OnPostAsync()
         {
             try
             {
                 HttpClient client = GetClient();
-                HttpResponseMessage response = await client.GetAsync("/Auth/logout");
+                HttpResponseMessage response = await client.PostAsync("/Auth/logout", null);
 
                 if (response.IsSuccessStatusCode)
                 {
                     Response.Cookies.Delete("auth_token");
-                    return Redirect("/Login");
+                    return RedirectToPage("/Login");
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Failed to send data to API.");
+                    ModelState.AddModelError(string.Empty, $"Failed to send data to API. Status code: {response.StatusCode}");
                     return Page();
                 }
             }

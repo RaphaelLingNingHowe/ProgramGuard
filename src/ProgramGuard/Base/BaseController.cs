@@ -70,5 +70,51 @@ namespace ProgramGuard.Base
                 return (OPERATE_PRIVILEGE)_operatePrivilege;
             }
         }
+
+        /* 沒有加 NonAction 會讓 Swagger 解析錯誤無法產生頁面 */
+
+        /// <summary>
+        /// 返回 HTTP 403 與失敗訊息
+        /// </summary>
+        /// <param name="value">失敗訊息</param>
+        /// <returns>返回 HTTP 403 與失敗訊息</returns>
+        [NonAction]
+        public ObjectResult Forbidden(object value)
+        {
+            return StatusCode(403, value);
+        }
+
+        /// <summary>
+        /// 返回 HTTP 201 與新增成功的資料識別項
+        /// </summary>
+        /// <param name="value">資料識別項</param>
+        /// <returns>返回 HTTP 201 與新增成功的資料識別項</returns>
+        [NonAction]
+        public ObjectResult Created(object value)
+        {
+            return StatusCode(201, value);
+        }
+
+        /// <summary>
+        /// 返回 HTTP 500 與失敗原因
+        /// </summary>
+        /// <param name="value">失敗原因</param>
+        /// <returns>返回 HTTP 500 與失敗原因</returns>
+        [NonAction]
+        public ObjectResult ServerError(object value)
+        {
+            return StatusCode(500, value);
+        }
+
+        /// <summary>
+        /// 返回 HTTP 400 與錯誤原因
+        /// </summary>
+        /// <param name="value">錯誤原因</param>
+        /// <returns>返回 HTTP 400 與錯誤原因</returns>
+        [NonAction]
+        public new ObjectResult BadRequest(object value)
+        {
+            return StatusCode(400, value);
+        }
     }
 }

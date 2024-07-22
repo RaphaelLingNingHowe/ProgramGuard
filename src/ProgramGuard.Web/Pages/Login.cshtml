@@ -3,32 +3,33 @@
 @{
     ViewData["Title"] = "Login";
 }
-
-<h1>登錄</h1>
-
-<script src="~/js/pages/login.js"></script>
-<script src="~/js/pages/changePassword.js"></script>
-@using (Html.BeginForm(FormMethod.Post))
-{
-    <div class="dx-field">
-        <div class="dx-field-label">帳號</div>
-        <div class="dx-field-value">
-            @(Html.DevExtreme().TextBoxFor(m => m.loginDto.LoginUserName)
+@section Scripts {
+    <script src="~/js/pages/login/events.js"></script>
+    <script src="~/js/pages/login/api.js"></script>
+}
+@Html.AntiForgeryToken()
+<div class="login-container">
+    <div class="login-form">
+        <h1 class="h3 mb-4 fw-normal text-center">登入</h1>
+        <div class="mb-4">
+            <label for="loginUserName" class="form-label">帳號</label>
+            @(Html.DevExtreme()
+                .TextBoxFor(m => m.loginDto.LoginUserName)
+                .Name("LoginUserName")
                 .ID("loginUserName")
                 .Placeholder("請輸入用戶名")
-            )
+                )
         </div>
-    </div>
-    <div class="dx-field">
-        <div class="dx-field-label">密碼</div>
-        <div class="dx-field-value">
-            @(
-                Html.DevExtreme().TextBoxFor(m => m.loginDto.LoginPassword)
+        <div class="mb-4">
+            <label for="loginPassword" class="form-label">密碼</label>
+            @(Html.DevExtreme()
+                .TextBoxFor(m => m.loginDto.LoginPassword)
+                .Name("LoginPassword")
                 .ID("loginPassword")
                 .Mode(TextBoxMode.Password)
                 .InputAttr("aria-label", "Password")
                 .Placeholder("請輸入密碼")
-                .OnEnterKey("loginOnEnterKey")
+                .OnEnterKey("onEnterKeyLogin")
                 .ShowClearButton(true)
                 .Buttons(buttons =>
                 {
@@ -36,22 +37,60 @@
                     .Name("password")
                     .Location(TextEditorButtonLocation.After)
                     .Widget(w => w.Button()
-                        .StylingMode(ButtonStylingMode.Text)
-                        .Icon("eyeopen")
-                        .OnClick("loginPasswordOnClick"));
+                    .StylingMode(ButtonStylingMode.Text)
+                    .Icon("eyeopen")
+                    .OnClick("() => changePasswordMode('loginPassword')"));
                 })
-            )
+                )
         </div>
-    </div>
-    <div class="dx-field">
-        <div class="dx-field-value">
-            @(Html.DevExtreme().Button()
-                .Text("登錄")
+        <div class="mt-5">
+            @(Html.DevExtreme()
+                .Button()
+                .Text("登入")
                 .Type(ButtonType.Success)
-                .OnClick("loginOnClick")
-            )
+                .UseSubmitBehavior(true)
+                .OnClick("submitLogin")
+                .Width("100%")
+                )
         </div>
     </div>
-}
+</div>
+<style>
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
 
+    .login-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 90vh;
+        background-color: #fff;
+    }
 
+    .login-form {
+        width: 100%;
+        max-width: 400px;
+        padding: 30px;
+        border: 2px solid #aaa;
+        border-radius: 10px;
+        background-color: #fff;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .dx-texteditor {
+        width: 100%;
+        height: 50px;
+    }
+
+    .dx-button {
+        height: 40px;
+    }
+
+    .form-label {
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+    }
+</style>

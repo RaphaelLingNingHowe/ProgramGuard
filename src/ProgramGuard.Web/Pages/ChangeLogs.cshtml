@@ -3,111 +3,117 @@
 @model ProgramGuard.Web.Pages.ChangeLogsModel
 @{
     ViewData["Title"] = "Change Log";
-
     /* 讓查詢能顯示到最新的資訊 */
     DateTime _timeNow = DateTime.Now.AddMinutes(1);
 }
 @Html.AntiForgeryToken()
-<script src="~/js/pages/changeLog.js"></script>
+<script src="~/js/pages/changeLog/api.js"></script>
+<script src="~/js/pages/changeLog/events.js"></script>
+<script src="~/js/pages/changeLog/ui.js"></script>
 
-<div class="dx-fieldset">
-    <div class="dx-field">
-        <div class="dx-field-label">檔案名稱</div>
-        <div class="dx-field-value">
-            @(Html.DevExtreme().TextBox()
-                .ID("fileName")
-                .ShowClearButton(true)
-                )
+<div class="container my-5">
+    <div class="row gx-5">
+        <div class="col-md-3">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label for="fileName" class="form-label">檔案名稱</label>
+                        @(Html.DevExtreme().TextBox()
+                            .ID("fileName")
+                            .OnEnterKey("validateQuery")
+                            .ShowClearButton(true)
+                            .Placeholder("輸入檔案名稱")
+                            )
+                    </div>
+                    <div class="mb-3">
+                        <label for="startTime" class="form-label">起始時間</label>
+                        @(Html.DevExtreme().DateBox()
+                            .ID("startTime")
+                            .DisplayFormat("yyyy/MM/dd HH:mm")
+                            .Type(DateBoxType.DateTime)
+                            .ShowClearButton(true)
+                            .AdaptivityEnabled(true)
+                            .Value(_timeNow.AddDays(-1))
+                            )
+                    </div>
+                    <div class="mb-3">
+                        <label for="endTime" class="form-label">結束時間</label>
+                        @(Html.DevExtreme().DateBox()
+                            .ID("endTime")
+                            .DisplayFormat("yyyy/MM/dd HH:mm")
+                            .Type(DateBoxType.DateTime)
+                            .ShowClearButton(true)
+                            .AdaptivityEnabled(true)
+                            .Value(_timeNow)
+                            )
+                    </div>
+                    <div class="mb-3">       
+                        @(Html.DevExtreme().CheckBox()
+                            .ID("unConfirmed")
+                            .Value(true)
+                            .Text("僅顯示待審核記錄")
+                            )
+                    </div>
+                    <div class="mt-4">
+                        @(Html.DevExtreme().Button()
+                            .Text("查詢")
+                            .Type(ButtonType.Success)
+                            .Width("100%")
+                            .OnClick("validateQuery")
+                            )
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="dx-field">
-        <div class="dx-field-label">起始時間</div>
-        <div class="dx-field-value">
-            @(Html.DevExtreme().DateBox()
-                .ID("startTime")
-                .DisplayFormat("yyyy/MM/dd HH:mm")
-                .Type(DateBoxType.DateTime)
-                .Value(_timeNow.AddDays(-1))
-                )
-        </div>
-    </div>
-    <div class="dx-field">
-        <div class="dx-field-label">結束時間</div>
-        <div class="dx-field-value">
-            @(Html.DevExtreme().DateBox()
-                .ID("endTime")
-                .DisplayFormat("yyyy/MM/dd HH:mm")
-                .Type(DateBoxType.DateTime)
-                .Value(_timeNow)
-                )
-        </div>
-    </div>
-    <div class="dx-field">
-        <div class="dx-field-label">未審核</div>
-        <div class="dx-field-value">
-            @(Html.DevExtreme().CheckBox()
-                .ID("unConfirmed")
-                .Value(false)
-                )
-        </div>
-    </div>
-    <div class="dx-field">
-        <div class="dx-field-value">
-            @(Html.DevExtreme().Button()
-                .Text("查詢")
-                .Type(ButtonType.Success)
-                .OnClick("searchOnClick")
-                )
+
+        <div class="col-md-9">
+            <div id="gridContainer">
+                @(
+                    Html.DevExtreme().DataGrid<GetChangeLogDto>()
+                    .ID("dataGrid")
+                    .DataSource(o => o.RemoteController()
+                    .LoadUrl("ChangeLogs?Handler=ChangeLog")
+                    .Key("Id")
+                    .LoadParams(new
+                    {
+                        unConfirmed = new JS("() => getCheckBoxValue('unConfirmed')"),
+                        StartTime = new JS("() => getDateBoxValue('startTime')"),
+                        EndTime = new JS("() => getDateBoxValue('endTime')"),
+                        FileName = new JS("() => getTextBoxValue('fileName')")
+                    }))
+                    .Columns(columns =>
+                    {
+                        columns.AddFor(m => m.Id).AllowEditing(false).Visible(false);
+                        columns.AddFor(m => m.FileName).Caption("檔案名稱");
+                        columns.AddFor(m => m.ChangeTime).Caption("異動時間").Format("yyyy-MM-dd HH:mm:ss");
+                        columns.AddFor(m => m.DigitalSignature).Caption("公司電子簽章");
+                        columns.AddFor(m => m.ConfirmBy).Caption("審核人員");
+                        columns.AddFor(m => m.ConfirmTime).Caption("審核時間").Format("yyyy-MM-dd HH:mm:ss");
+                        columns.AddFor(m => m.ConfirmStatus)
+                        .Caption("審核狀態")
+                        .DataField("ConfirmStatus")
+                        .CellTemplate(new JS("checkBoxTemplate"));
+                    })
+                    .ShowBorders(true)
+                    .ColumnAutoWidth(true)
+                    .Selection(o => o.Mode(SelectionMode.Single))
+                    .NoDataText("沒有資料")
+                    .HoverStateEnabled(true)
+                    .FocusedRowEnabled(true)
+                    .ColumnHidingEnabled(true)
+                    .Paging(paging => paging.PageSize(15))
+                    .Pager(pager =>
+                    {
+                        pager.Visible(true);
+                        pager.DisplayMode(GridPagerDisplayMode.Full);
+                        pager.ShowPageSizeSelector(true);
+                        pager.AllowedPageSizes(new JS("[15, 30, 50, 100, 200]"));
+                        pager.ShowInfo(true);
+                        pager.ShowNavigationButtons(true);
+                    })
+                    )
+            </div>
         </div>
     </div>
 </div>
 
-<div id="gridContainer">
-    @(
-        Html.DevExtreme().DataGrid<GetChangeLogDto>()
-                .ID("dataGrid")
-                .DataSource(o => o.RemoteController()
-                .LoadUrl("ChangeLogs?Handler=ChangeLog")
-                .Key("Id"))
-        .Selection(s => s
-        .Mode(SelectionMode.Multiple)
-        .Deferred(true))
-        .FilterRow(f => f.Visible(true))
-        .HeaderFilter(headerFilter => headerFilter.Visible(true))
-        .Columns(columns =>
-        {
-            columns.AddFor(m => m.Id).AllowEditing(false).Visible(false);
-
-            columns.AddFor(m => m.FileName).Caption("檔案名稱");
-
-            columns.AddFor(m => m.ChangeTime).Caption("異動時間").Format("yyyy-MM-dd HH:mm:ss");
-
-            columns.AddFor(m => m.DigitalSignature).Caption("公司電子簽章");
-
-            columns.AddFor(m => m.ConfirmBy).Caption("審核人員");
-
-            columns.AddFor(m => m.ConfirmTime).Caption("審核時間").Format("yyyy-MM-dd HH:mm:ss");
-
-            columns.AddFor(m => m.ConfirmStatus)
-            .Caption("審核狀態")
-            .DataField("ConfirmStatus")
-            .CellTemplate(new JS("checkBoxTemplate"));
-        })
-        .ShowBorders(true)
-        .ColumnAutoWidth(true)
-        .Selection(o => o.Mode(SelectionMode.Single))
-        .NoDataText("沒有資料")
-        .HoverStateEnabled(true)
-        .FocusedRowEnabled(true)
-        .Paging(paging => paging.PageSize(15))
-        .Pager(pager =>
-        {
-            pager.Visible(true);
-            pager.DisplayMode(GridPagerDisplayMode.Full);
-            pager.ShowPageSizeSelector(true);
-            pager.AllowedPageSizes(new JS("[15, 30, 50, 100, 200]"));
-            pager.ShowInfo(true);
-            pager.ShowNavigationButtons(true);
-        })
-        )
-</div>

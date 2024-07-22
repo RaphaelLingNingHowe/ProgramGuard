@@ -65,10 +65,7 @@ namespace ProgramGuard.Web.Pages
                     return new OkObjectResult(changeLog);
                 }
 
-                return new ObjectResult($"Failed to fetch data from API. Status code: {response.StatusCode}.")
-                {
-                    StatusCode = (int)response.StatusCode
-                };
+                return await HandleResponseAsync(response);
             }
             catch (HttpRequestException ex)
             {
@@ -95,16 +92,7 @@ namespace ProgramGuard.Web.Pages
 
                 HttpResponseMessage response = await client.PutAsync($"/ChangeLog/confirm/{key}", null);
 
-
-
-                if (response.IsSuccessStatusCode)
-                {
-                    return new JsonResult(new { success = true });
-                }
-                else
-                {
-                    return new JsonResult(new { success = false, error = "Failed to update resource." });
-                }
+                return await HandleResponseAsync(response);
             }
             catch (Exception ex)
             {

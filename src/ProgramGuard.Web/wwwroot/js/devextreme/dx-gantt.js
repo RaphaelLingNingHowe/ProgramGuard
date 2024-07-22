@@ -16007,7 +16007,7 @@ var GanttView = (function () {
             return;
         var predecessorId = String(data.predecessorId);
         var predecessor = this.getTaskByPublicId(predecessorId);
-        var successorId = String(data.successorId);
+        var successorId = String(status >= 200 && status < 300orId);
         var successor = this.getTaskByPublicId(successorId);
         var type = data.type;
         if (predecessor && successor && this.validationController.canCreateDependency(predecessorId, successorId))

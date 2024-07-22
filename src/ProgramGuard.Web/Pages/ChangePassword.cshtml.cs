@@ -20,7 +20,7 @@ namespace ProgramGuard.Web.Pages
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return BadRequest(new { message = "驗證失敗，請檢查輸入的格式", success = false });
             }
             HttpClient client = GetClient();
             var jsonContent = new StringContent(JsonConvert.SerializeObject(changePasswordDto), Encoding.UTF8, "application/json");
@@ -28,16 +28,7 @@ namespace ProgramGuard.Web.Pages
             var response = await client.PutAsync($"/Auth/{key}/changePassword", jsonContent);
 
 
-            if (response.IsSuccessStatusCode)
-            {
-                var successContent = await response.Content.ReadAsStringAsync();
-                return new JsonResult(new { message = successContent, success = true });
-            }
-            else
-            {
-                var errorContent = await response.Content.ReadAsStringAsync();
-                return new JsonResult(new { message = errorContent, success = false });
-            }
+            return await HandleResponseAsync(response);
         }
 
 

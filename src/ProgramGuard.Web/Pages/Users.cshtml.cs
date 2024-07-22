@@ -57,30 +57,21 @@ namespace ProgramGuard.Web.Pages
         }
 
         public CreateUserDto createUserDto { get; set; }
-        public async Task<IActionResult> OnPostAddUserAsync([FromBody] CreateUserDto createUserDto)
+        public async Task<IActionResult> OnPostCreateUserAsync([FromBody] CreateUserDto createUserDto)
         {
             try
             {
                 if (!ModelState.IsValid)
                 {
-                    return BadRequest(ModelState);
+                    return BadRequest(new { message = "驗證失敗，請檢查輸入的格式", success = false });
                 }
 
                 HttpClient client = GetClient();
                 var jsonContent = new StringContent(JsonConvert.SerializeObject(createUserDto), Encoding.UTF8, "application/json");
 
-                HttpResponseMessage response = await client.PostAsync("/User/addUser", jsonContent);
+                HttpResponseMessage response = await client.PostAsync("/User/createUser", jsonContent);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    var successContent = await response.Content.ReadAsStringAsync();
-                    return new JsonResult(new { message = successContent, success = true });
-                }
-                else
-                {
-                    var errorContent = await response.Content.ReadAsStringAsync();
-                    return new JsonResult(new { message = errorContent, success = false });
-                }
+                return await HandleResponseAsync(response);
             }
             catch (Exception ex)
             {
@@ -97,16 +88,7 @@ namespace ProgramGuard.Web.Pages
 
                 HttpResponseMessage response = await client.PutAsync($"/User/{key}/Active", null);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    var successContent = await response.Content.ReadAsStringAsync();
-                    return new JsonResult(new { message = successContent, success = true });
-                }
-                else
-                {
-                    var errorContent = await response.Content.ReadAsStringAsync();
-                    return new JsonResult(new { message = errorContent, success = false });
-                }
+                return await HandleResponseAsync(response);
             }
             catch (Exception ex)
             {
@@ -122,16 +104,23 @@ namespace ProgramGuard.Web.Pages
 
                 HttpResponseMessage response = await client.PutAsync($"/User/{key}/Disable", null);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    var successContent = await response.Content.ReadAsStringAsync();
-                    return new JsonResult(new { message = successContent, success = true });
-                }
-                else
-                {
-                    var errorContent = await response.Content.ReadAsStringAsync();
-                    return new JsonResult(new { message = errorContent, success = false });
-                }
+                return await HandleResponseAsync(response);
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult(new { success = false, error = $"An error occurred: {ex.Message}" });
+            }
+        }
+
+        public async Task<IActionResult> OnPutUnlockAccountAsync(string userId)
+        {
+            try
+            {
+                HttpClient client = GetClient();
+
+                HttpResponseMessage response = await client.PutAsync($"/User/{userId}/unlock", null);
+
+                return await HandleResponseAsync(response);
             }
             catch (Exception ex)
             {
@@ -154,16 +143,7 @@ namespace ProgramGuard.Web.Pages
 
                 HttpResponseMessage response = await client.PostAsync($"/User/{key}/ResetPassword", jsonContent);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    var successContent = await response.Content.ReadAsStringAsync();
-                    return new JsonResult(new { message = successContent, success = true });
-                }
-                else
-                {
-                    var errorContent = await response.Content.ReadAsStringAsync();
-                    return new JsonResult(new { message = errorContent, success = false });
-                }
+                return await HandleResponseAsync(response);
             }
             catch (Exception ex)
             {
@@ -181,16 +161,7 @@ namespace ProgramGuard.Web.Pages
 
                 HttpResponseMessage response = await client.DeleteAsync($"/User/{key}");
 
-                if (response.IsSuccessStatusCode)
-                {
-                    var successContent = await response.Content.ReadAsStringAsync();
-                    return new JsonResult(new { message = successContent, success = true });
-                }
-                else
-                {
-                    var errorContent = await response.Content.ReadAsStringAsync();
-                    return new JsonResult(new { message = errorContent, success = false });
-                }
+                return await HandleResponseAsync(response);
             }
             catch (Exception ex)
             {
@@ -210,7 +181,8 @@ namespace ProgramGuard.Web.Pages
                     List<GetPrivilegeRuleDto> privilegeDto = await response.Content.ReadFromJsonAsync<List<GetPrivilegeRuleDto>>();
                     return new OkObjectResult(privilegeDto);
                 }
-                return new ObjectResult($"Failed to fetch data from API. Status code:{response.StatusCode}.") { StatusCode = (int)response.StatusCode };
+                return await HandleResponseAsync(response);
+
             }
             catch (HttpRequestException ex)
             {
@@ -226,16 +198,7 @@ namespace ProgramGuard.Web.Pages
 
                 HttpResponseMessage response = await client.PutAsync($"/User/{userId}/privileges/{privilegeId}", null);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    var successContent = await response.Content.ReadAsStringAsync();
-                    return new JsonResult(new { message = successContent, success = true });
-                }
-                else
-                {
-                    var errorContent = await response.Content.ReadAsStringAsync();
-                    return new JsonResult(new { message = errorContent, success = false });
-                }
+                return await HandleResponseAsync(response);
             }
             catch (Exception ex)
             {

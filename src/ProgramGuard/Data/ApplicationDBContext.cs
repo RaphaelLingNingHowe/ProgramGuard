@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using ProgramGuard.Enums;
 using ProgramGuard.Models;
@@ -19,12 +18,6 @@ namespace ProgramGuard.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            List<IdentityRole> roles = new List<IdentityRole>
-            {
-                new IdentityRole {Name = "Admin", NormalizedName = "ADMIN" },
-                new IdentityRole {Name = "User", NormalizedName = "USER" }
-            };
-            builder.Entity<IdentityRole>().HasData(roles);
 
             List<PrivilegeRule> privilegeRules = new List<PrivilegeRule>
             {
@@ -33,6 +26,16 @@ namespace ProgramGuard.Data
                 new PrivilegeRule {Id = 3, Name = "用戶" , Visible = (VISIBLE_PRIVILEGE)3, Operate = (OPERATE_PRIVILEGE)3 }
             };
             builder.Entity<PrivilegeRule>().HasData(privilegeRules);
+
+            builder.Entity<AppUser>(entity =>
+            {
+                entity.Ignore(u => u.Email);
+                entity.Ignore(u => u.NormalizedEmail);
+                entity.Ignore(u => u.EmailConfirmed);
+                entity.Ignore(u => u.PhoneNumber);
+                entity.Ignore(u => u.PhoneNumberConfirmed);
+                entity.Ignore(u => u.TwoFactorEnabled);
+            });
         }
     }
 }

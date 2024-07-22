@@ -30,11 +30,6 @@ namespace ProgramGuard.Services
                 new Claim("operatePrivilege", $"{(uint)user.PrivilegeRule.Operate}"),
             };
 
-            if (await _userManager.IsInRoleAsync(user, "Admin"))
-            {
-                claims.Add(new Claim(ClaimTypes.Role, "Admin"));
-            }
-
             var creds = new SigningCredentials(_symmetricSecurityKey, SecurityAlgorithms.HmacSha512Signature);
 
             var identity = new ClaimsIdentity(claims, "JWT");

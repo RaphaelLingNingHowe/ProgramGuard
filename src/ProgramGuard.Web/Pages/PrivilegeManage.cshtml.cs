@@ -3,7 +3,6 @@ using Newtonsoft.Json;
 using ProgramGuard.Dtos.PrivilegeRule;
 using ProgramGuard.Enums;
 using ProgramGuard.Web.Model;
-using System.Collections.Generic;
 using System.Text;
 
 namespace ProgramGuard.Web.Pages
@@ -25,13 +24,13 @@ namespace ProgramGuard.Web.Pages
             return Page();
         }
 
-        public async Task<IActionResult> OnGetDataAsync()
+        public async Task<IActionResult> OnGetPrivilegeRuleAsync()
         {
             try
             {
                 HttpClient client = GetClient();
 
-                HttpResponseMessage response = await client.GetAsync("/Privileges");
+                HttpResponseMessage response = await client.GetAsync("/PrivilegeRule");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -52,7 +51,7 @@ namespace ProgramGuard.Web.Pages
             }
         }
 
-        public async Task<IActionResult> OnGetPrivilegeRuleAsync(string? contains)
+        public async Task<IActionResult> OnGetPrivilegeAsync(string? contains)
         {
             try
             {
@@ -62,7 +61,7 @@ namespace ProgramGuard.Web.Pages
 
                 if (response.IsSuccessStatusCode)
                 {
-                    List<GetPrivilegeRuleDto> privilegeRules = await response.Content.ReadFromJsonAsync<List<GetPrivilegeRuleDto>>();
+                    var privilegeRules = await response.Content.ReadFromJsonAsync<List<GetPrivilegeRuleDto>>();
                     return new OkObjectResult(privilegeRules);
                 }
                 else
@@ -83,30 +82,16 @@ namespace ProgramGuard.Web.Pages
             }
         }
 
-        public CreatePrivilegeDto createPrivilegeDto { get; set; }
         public async Task<IActionResult> OnPostAsync([FromBody] CreatePrivilegeDto createPrivilegeDto)
         {
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
                 HttpClient client = GetClient();
                 var jsonContent = new StringContent(JsonConvert.SerializeObject(createPrivilegeDto), Encoding.UTF8, "application/json");
 
                 HttpResponseMessage response = await client.PostAsync("/Privilege", jsonContent);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    var successContent = await response.Content.ReadAsStringAsync();
-                    return new JsonResult(new { message = successContent, success = true });
-                }
-                else
-                {
-                    var errorContent = await response.Content.ReadAsStringAsync();
-                    return new JsonResult(new { message = errorContent, success = false });
-                }
+                return await HandleResponseAsync(response);
             }
             catch (Exception ex)
             {
@@ -115,7 +100,7 @@ namespace ProgramGuard.Web.Pages
             }
         }
 
-        public async Task<IActionResult> OnPutAsync(int id, UpdatePrivilegeDto updatePrivilegeDto)
+        public async Task<IActionResult> OnPutAsync(int key, [FromBody] UpdatePrivilegeDto updatePrivilegeDto)
         {
             try
             {
@@ -123,18 +108,9 @@ namespace ProgramGuard.Web.Pages
 
                 var jsonContent = new StringContent(JsonConvert.SerializeObject(updatePrivilegeDto), Encoding.UTF8, "application/json");
 
-                HttpResponseMessage response = await client.PutAsync($"/Privilege/{id}", jsonContent);
+                HttpResponseMessage response = await client.PutAsync($"/Privilege/{key}", jsonContent);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    var successContent = await response.Content.ReadAsStringAsync();
-                    return new JsonResult(new { message = successContent, success = true });
-                }
-                else
-                {
-                    var errorContent = await response.Content.ReadAsStringAsync();
-                    return new JsonResult(new { message = errorContent, success = false });
-                }
+                return await HandleResponseAsync(response);
             }
             catch (Exception ex)
             {
@@ -150,16 +126,7 @@ namespace ProgramGuard.Web.Pages
 
                 HttpResponseMessage response = await client.DeleteAsync($"/Privilege/{key}");
 
-                if (response.IsSuccessStatusCode)
-                {
-                    var successContent = await response.Content.ReadAsStringAsync();
-                    return new JsonResult(new { message = successContent, success = true });
-                }
-                else
-                {
-                    var errorContent = await response.Content.ReadAsStringAsync();
-                    return new JsonResult(new { message = errorContent, success = false });
-                }
+                return await HandleResponseAsync(response);
             }
             catch (Exception ex)
             {

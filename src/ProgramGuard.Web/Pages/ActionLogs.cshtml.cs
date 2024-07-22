@@ -23,30 +23,13 @@ namespace ProgramGuard.Web.Pages.Account
             return Page();
         }
 
-        public async Task<IActionResult> OnGetActionLogAsync(DateTime? startTime, DateTime? endTime)
+        public async Task<IActionResult> OnGetActionLogAsync(string startTime, string endTime)
         {
             try
             {
                 HttpClient client = GetClient();
 
-                var url = "/ActionLog";
-                var queryParams = new List<string>();
-
-                if (startTime.HasValue)
-                {
-                    queryParams.Add($"startTime={startTime.Value.ToString("o")}");
-                }
-                if (endTime.HasValue)
-                {
-                    queryParams.Add($"endTime={endTime.Value.ToString("o")}");
-                }
-
-                if (queryParams.Count > 0)
-                {
-                    url += "?" + string.Join("&", queryParams);
-                }
-
-                HttpResponseMessage response = await client.GetAsync(url);
+                HttpResponseMessage response = await client.GetAsync($"/ActionLog?startTime={startTime}&endTime={endTime}");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -55,10 +38,7 @@ namespace ProgramGuard.Web.Pages.Account
                     return new OkObjectResult(actionLog);
                 }
 
-                return new ObjectResult($"Failed to fetch data from API. Status code: {response.StatusCode}.")
-                {
-                    StatusCode = (int)response.StatusCode
-                };
+                return await HandleResponseAsync(response);
             }
             catch (HttpRequestException ex)
             {

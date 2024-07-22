@@ -6,7 +6,6 @@ using ProgramGuard.Data;
 using ProgramGuard.Dtos.PrivilegeRule;
 using ProgramGuard.Enums;
 using ProgramGuard.Models;
-using ProgramGuard.Services;
 
 namespace ProgramGuard.Controllers
 {
@@ -44,12 +43,12 @@ namespace ProgramGuard.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"伺服器發生問題，請稍後再試: {ex.Message}");
+                return ServerError(ex.Message);
             }
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddPrivilegeRuleAsync(CreatePrivilegeDto createPrivilegeDto)
+        public async Task<IActionResult> CreatePrivilegeRuleAsync(CreatePrivilegeDto createPrivilegeDto)
         {
             if (!ModelState.IsValid)
             {
@@ -60,14 +59,14 @@ namespace ProgramGuard.Controllers
             {
                 if (await _context.PrivilegeRules.AnyAsync(p => p.Name == createPrivilegeDto.Name))
                 {
-                    return BadRequest("權限名稱已被使用");
+                    return Conflict("權限名稱已被使用");
                 }
 
                 var existingPrivilegeRule = await _context.PrivilegeRules.SingleOrDefaultAsync(o => o.Visible == createPrivilegeDto.Visible && o.Operate == createPrivilegeDto.Operate);
 
                 if (existingPrivilegeRule != null)
                 {
-                    return BadRequest("權限規則已存在");
+                    return Conflict("權限規則已存在");
                 }
 
                 var privilege = new PrivilegeRule()
@@ -79,50 +78,33 @@ namespace ProgramGuard.Controllers
 
                 await _context.PrivilegeRules.AddAsync(privilege);
                 await _context.SaveChangesAsync();
-                return Ok("權限創建成功");
+                return Created(privilege);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"伺服器發生問題，請稍後再試: {ex.Message}");
+                return ServerError(ex.Message);
             }
         }
 
-        [HttpPatch("{id}")]
-        public async Task<IActionResult> UpdatePrivilegeRule(int id, UpdatePrivilegeDto updatePrivilegeDto)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdatePrivilegeRuleAsync(int id, UpdatePrivilegeDto dto)
         {
-            try
+            var privilegeRule = await _context.PrivilegeRules.FindAsync(id);
+            if (privilegeRule == null)
             {
-                var privilegeRule = await _context.PrivilegeRules.FindAsync(id);
-                if (privilegeRule == null)
-                {
-                    return NotFound($"找不到此權限規則[{id}]");
-                }
-
-                if (await _context.PrivilegeRules.AnyAsync(p => p.Name == updatePrivilegeDto.Name && p.Id != id))
-                {
-                    return BadRequest("權限名稱已被使用");
-                }
-
-                var existingPrivilegeRule = await _context.PrivilegeRules.SingleOrDefaultAsync(o => o.Visible == updatePrivilegeDto.Visible && o.Operate == updatePrivilegeDto.Operate && o.Id != id);
-                if (existingPrivilegeRule != null)
-                {
-                    return BadRequest($"已具有相同規則{existingPrivilegeRule.Name}");
-                }
-
-                privilegeRule.Name = updatePrivilegeDto.Name;
-                privilegeRule.Visible = updatePrivilegeDto.Visible;
-                privilegeRule.Operate = updatePrivilegeDto.Operate;
-
-                _context.PrivilegeRules.Update(privilegeRule);
-                await _context.SaveChangesAsync();
-
-                return Ok("權限規則更新成功");
+                return NotFound($"找不到此權限規則[{id}]");
             }
-            catch (Exception ex)
+            var existingPrivilegeRule = await _context.PrivilegeRules.SingleOrDefaultAsync(o => o.Visible == dto.Visible && o.Operate == dto.Operate);
+            if (existingPrivilegeRule != null)
             {
-                return StatusCode(500, $"伺服器發生問題，請稍後再試: {ex.Message}");
+                return Conflict($"已具有相同規則-{existingPrivilegeRule.Name}");
             }
+            privilegeRule.Visible = dto.Visible;
+            privilegeRule.Operate = dto.Operate;
+            await _context.SaveChangesAsync();
+            return Ok("權限規則內容更新成功");
         }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
@@ -136,7 +118,7 @@ namespace ProgramGuard.Controllers
 
                 if (await _context.Users.AnyAsync(o => o.Privilege == id))
                 {
-                    return BadRequest($"此規則已被帳號引用、無法刪除");
+                    return Forbidden($"此規則已被帳號引用、無法刪除");
                 }
 
                 _context.PrivilegeRules.Remove(privilegeRule);
@@ -147,42 +129,45 @@ namespace ProgramGuard.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"伺服器發生問題，請稍後再試: {ex.Message}");
+                return ServerError(ex);
             }
         }
-        [HttpGet("/Privileges")]
-        public IActionResult GetPrivileges()
+
+        [HttpGet("/PrivilegeRule")]
+        public async Task<IActionResult> GetPrivilegeRulesAsync()
         {
-            var visiblePrivileges = Enum.GetValues(typeof(VISIBLE_PRIVILEGE))
-                .Cast<VISIBLE_PRIVILEGE>()
-                .Where(p => p != VISIBLE_PRIVILEGE.UNKNOWN)
-                .Select(p => new VisiblePrivilegeDto
-                {
-                    Value = (uint)p,
-                    Name = p.ToString(),
-                    Description = p.GetDescription()
-                })
-                .ToList();
-
-            var operatePrivileges = Enum.GetValues(typeof(OPERATE_PRIVILEGE))
-                .Cast<OPERATE_PRIVILEGE>()
-                .Where(p => p != OPERATE_PRIVILEGE.UNKNOWN)
-                .Select(p => new OperatePrivilegeDto
-                {
-                    Value = (uint)p,
-                    Name = p.ToString(),
-                    Description = p.GetDescription()
-                })
-                .ToList();
-
-            var privilegesDto = new PrivilegesDto
+            var privilegesDto = await Task.Run(() =>
             {
-                VisiblePrivileges = visiblePrivileges,
-                OperatePrivileges = operatePrivileges
-            };
+                var visiblePrivileges = Enum.GetValues(typeof(VISIBLE_PRIVILEGE))
+                    .Cast<VISIBLE_PRIVILEGE>()
+                    .Where(p => p != VISIBLE_PRIVILEGE.UNKNOWN)
+                    .Select(p => new VisiblePrivilegeDto
+                    {
+                        Value = (uint)p,
+                        Name = p.ToString(),
+                        Description = p.GetDescription()
+                    })
+                    .ToList();
+
+                var operatePrivileges = Enum.GetValues(typeof(OPERATE_PRIVILEGE))
+                    .Cast<OPERATE_PRIVILEGE>()
+                    .Where(p => p != OPERATE_PRIVILEGE.UNKNOWN)
+                    .Select(p => new OperatePrivilegeDto
+                    {
+                        Value = (uint)p,
+                        Name = p.ToString(),
+                        Description = p.GetDescription()
+                    })
+                    .ToList();
+
+                return new PrivilegesDto
+                {
+                    VisiblePrivileges = visiblePrivileges,
+                    OperatePrivileges = operatePrivileges
+                };
+            });
 
             return Ok(privilegesDto);
         }
-
     }
 }

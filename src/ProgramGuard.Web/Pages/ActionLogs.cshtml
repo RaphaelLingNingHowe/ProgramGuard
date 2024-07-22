@@ -3,87 +3,92 @@
 @model ProgramGuard.Web.Pages.Account.ActionLogsModel
 
 @{
-    ViewData["Title"] = "操作記錄";
     /* 讓查詢能顯示到最新的資訊 */
     DateTime _timeNow = DateTime.Now.AddMinutes(1);
 }
-
+<script src="~/js/pages/actionLog/events.js"></script>
 <!--- Razor 預設開啟 AntiForgeryToken 這個會影響 Post, Put, Patch, Delete 等行為 !--->
 @Html.AntiForgeryToken()
-<script src="~/js/pages/actionLog.js"></script>
 
-<div class="dx-fieldset">
-    <div class="dx-field">
-        <div class="dx-field-label">起始時間</div>
-        <div class="dx-field-value">
-            @(Html.DevExtreme().DateBox()
-                .ID("startTime")
-                .DisplayFormat("yyyy/MM/dd HH:mm")
-                .Type(DateBoxType.DateTime)
-                .Value(_timeNow.AddDays(-1))
-                )
+<div class="container my-5">
+    <div class="row gx-5">
+        <div class="col-md-3">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label for="startTime" class="form-label">起始時間</label>
+                        @(Html.DevExtreme().DateBox()
+                            .ID("startTime")
+                            .DisplayFormat("yyyy/MM/dd HH:mm")
+                            .Type(DateBoxType.DateTime)
+                            .ShowClearButton(true)
+                            .AdaptivityEnabled(true)
+                            .Value(_timeNow.AddDays(-1))
+                            )
+                    </div>
+                    <div class="mb-3">
+                        <label for="endTime" class="form-label">結束時間</label>
+                        @(Html.DevExtreme().DateBox()
+                            .ID("endTime")
+                            .DisplayFormat("yyyy/MM/dd HH:mm")
+                            .Type(DateBoxType.DateTime)
+                            .ShowClearButton(true)
+                            .AdaptivityEnabled(true)
+                            .Value(_timeNow)
+                            )
+                    </div>
+                    <div class="mb-3">
+                        @(Html.DevExtreme().Button()
+                            .Text("查詢")
+                            .Type(ButtonType.Success)
+                            .Width("100%")
+                            .OnClick("validateQuery")
+                            )
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="dx-field">
-        <div class="dx-field-label">結束時間</div>
-        <div class="dx-field-value">
-            @(Html.DevExtreme().DateBox()
-                .ID("endTime")
-                .DisplayFormat("yyyy/MM/dd HH:mm")
-                .Type(DateBoxType.DateTime)
-                .Value(_timeNow)
-                )
-        </div>
-    </div>
-    <div class="dx-field">
-        <div class="dx-field-value">
-            @(Html.DevExtreme().Button()
-                .Text("查詢")
-                .Type(ButtonType.Success)
-                .OnClick("searchOnClick")
-                )
+
+        <div class="col-md-9">
+            <div id="gridContainer">
+                @(
+                    Html.DevExtreme().DataGrid<GetActionLogDto>()
+                    .ID("dataGrid")
+                    .DataSource(o => o.RemoteController()
+                    .LoadUrl("ActionLogs?Handler=ActionLog")
+                    .Key("Id")
+                    .LoadParams(new
+                    {
+                        StartTime = new JS("() => getDateBoxValue('startTime')"),
+                        EndTime = new JS("() => getDateBoxValue('endTime')")
+                    }))
+                    .Columns(columns =>
+                    {
+                        columns.AddFor(m => m.UserId).Caption("使用者");
+                        columns.AddFor(m => m.Action).Caption("操作");
+                        columns.AddFor(m => m.ActionTime).Caption("操作時間").Format("yyyy-MM-dd HH:mm:ss");
+                        columns.AddFor(m => m.Comment).Caption("備註");
+                    })
+                    .ShowBorders(true)
+                    .ColumnAutoWidth(true)
+                    .Selection(o => o.Mode(SelectionMode.Single))
+                    .NoDataText("沒有資料")
+                    .HoverStateEnabled(true)
+                    .FocusedRowEnabled(true)
+                    .ColumnHidingEnabled(true)
+                    .Paging(paging => paging.PageSize(15))
+                    .Pager(pager =>
+                    {
+                        pager.Visible(true);
+                        pager.DisplayMode(GridPagerDisplayMode.Full);
+                        pager.ShowPageSizeSelector(true);
+                        pager.AllowedPageSizes(new JS("[15, 30, 50, 100, 200]"));
+                        pager.ShowInfo(true);
+                        pager.ShowNavigationButtons(true);
+                    })
+                    )
+            </div>
         </div>
     </div>
 </div>
 
-
-<div id="gridContainer">
-    @(
-        Html.DevExtreme().DataGrid<GetActionLogDto>()
-        .ID("dataGrid")
-        .DataSource(o => o.RemoteController()
-        .LoadUrl("ActionLogs?Handler=ActionLog")
-        .Key("Id"))
-        .Selection(s => s
-        .Mode(SelectionMode.Multiple)
-        .Deferred(true))
-        .FilterRow(f => f.Visible(true))
-        .HeaderFilter(headerFilter => headerFilter.Visible(true))
-        .Columns(columns =>
-        {
-            columns.AddFor(m => m.UserId).Caption("使用者");
-
-            columns.AddFor(m => m.Action).Caption("操作");
-
-            columns.AddFor(m => m.Comment).Caption("註解");
-
-            columns.AddFor(m => m.ActionTime).Caption("操作時間").Format("yyyy-MM-dd HH:mm:ss");
-        })
-        .ShowBorders(true)
-        .ColumnAutoWidth(true)
-        .Selection(o => o.Mode(SelectionMode.Single))
-        .NoDataText("沒有資料")
-        .HoverStateEnabled(true)
-        .FocusedRowEnabled(true)
-        .Paging(paging => paging.PageSize(15))
-        .Pager(pager =>
-        {
-            pager.Visible(true);
-            pager.DisplayMode(GridPagerDisplayMode.Full);
-            pager.ShowPageSizeSelector(true);
-            pager.AllowedPageSizes(new JS("[15, 30, 50, 100, 200]"));
-            pager.ShowInfo(true);
-            pager.ShowNavigationButtons(true);
-        })
-        )
-</div>

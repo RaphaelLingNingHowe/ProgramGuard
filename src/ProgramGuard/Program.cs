@@ -24,7 +24,7 @@ builder.Services.AddScoped<IChangeLogRepository, ChangeLogRepository>();
 builder.Services.AddScoped<IFileListRepository, FileListRepository>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddHostedService<Worker>();
-
+var lockoutTimeSpan = builder.Configuration.GetSection("IdentityOptions:LockoutTimeSpan").Get<int>();
 builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
 {
     options.Password.RequireDigit = true;
@@ -32,9 +32,9 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
     options.Password.RequireUppercase = true;
     options.Password.RequireNonAlphanumeric = true;
     options.Password.RequiredLength = 8;
-    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
+    
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(lockoutTimeSpan);
     options.Lockout.MaxFailedAccessAttempts = 5;
-    options.Lockout.AllowedForNewUsers = true;
 })
 .AddEntityFrameworkStores<ApplicationDBContext>()
 .AddDefaultTokenProviders();

@@ -2,76 +2,96 @@
 @using ProgramGuard.Dtos.PrivilegeRule
 @model ProgramGuard.Web.Pages.PrivilegeManageModel
 @{
+    ViewData["Title"] = "权限管理";
 }
 
 @Html.AntiForgeryToken()
 
-<link rel="stylesheet" href="/css/pages/privilege.css" asp-append-version="true" />
+@section Scripts {
+    <script src="~/js/pages/privilege/ui.js"></script>
+    <script src="~/js/pages/privilege/events.js"></script>
+    <script src="~/js/pages/privilege/api.js"></script>
+    <script src="~/js/pages/privilege/utils.js"></script>
+    <script src="~/js/pages/privilege/init.js"></script>
+}
 
+<div class="container my-5">
+    <div class="row gx-5">
+        <!-- 左侧控制面板 -->
+        <div class="col-md-3">
+            <div class="card shadow-sm">
+                <div class="card-header fs-3">權限管理</div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        @(Html.DevExtreme()
+                            .SelectBox()
+                            .ID("privilege")
+                            .DataSource(d => d.RemoteController().LoadUrl("/PrivilegeManage?handler=Privilege"))
+                            .DisplayExpr("Name")
+                            .OnValueChanged("onPrivilegeSelected")
+                            .SearchEnabled(true)
+                            .Placeholder("權限規則")
+                            .NoDataText("沒有資料")
+                            .ShowClearButton(true))
+                    </div>
+                    <div class="mb-3">
+                        @(Html.DevExtreme()
+                            .Button()
+                            .ID("btnCreate")
+                            .Type(ButtonType.Success)
+                            .Text("新增")
+                            .Width("100%"))
+                    </div>
+                    <div class="mb-3">
+                        @(Html.DevExtreme()
+                            .Button()
+                            .ID("btnUpdate")
+                            .Type(ButtonType.Default)
+                            .Text("編輯")
+                            .Width("100%"))
+                    </div>
+                    <div class="mb-3">
+                        @(Html.DevExtreme()
+                            .Button()
+                            .ID("btnDelete")
+                            .Type(ButtonType.Danger)
+                            .Text("刪除")
+                            .Width("100%"))
+                    </div>
+                    <div class="mt-4">
+                        <label id="lblNotice" class="form-text text-muted">規則調整後，帳號需再次登入後始生效</label>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-<div class="functionPanel">
-    @(Html.DevExtreme()
-        .SelectBox()
-        .ID("privilege")
-        .DataSource(d => d.RemoteController().LoadUrl("/PrivilegeManage?handler=PrivilegeRule"))
-        .DisplayExpr("Name")
-        .OnValueChanged("onPrivilegeSelected")
-        .SearchEnabled(true)
-        .Placeholder("權限規則")
-        .NoDataText("沒有資料")
-        .ShowClearButton(true))
-
-
-    @(Html.DevExtreme()
-        .Button()
-        .ID("btnAdd")
-        .Text("新增"))
-
-    @(Html.DevExtreme()
-        .Button()
-        .ID("btnUpdate")
-        .Text("編輯"))
-
-    @(Html.DevExtreme()
-        .Button()
-        .ID("btnDelete")
-        .Text("刪除"))
-
-    <label id="lblNotice">規則調整後，帳號需再次登入後始生效</label>
+        <div class="col-md-9">
+            <div class="card shadow-sm">
+                <div class="card-header fs-3 ">權限設置</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card-header fs-5">查閱權限</div>
+                            <div class="card-body">
+                                <div class ="d-grid gap-4" id="visible-privileges-container"></div>
+                            </div> 
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card-header fs-5">操作權限</div>
+                            <div class="card-body">
+                                <div class ="d-grid gap-4" id="operate-privileges-container"></div>
+                            </div>                              
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
-@(Html.DevExtreme().Form()
-    .ID("privilegeForm")
-    .Items(items =>
-    {
-        items.AddGroup()
-            .CssClass("visible")
-            .ColCount(1)
-            .Caption("查閱權限")
-            .Items(groupItems =>
-            {
-                groupItems.AddSimple().Template(
-                    @<text>
-                        <div id="visible-privileges-container"></div>
-                    </text>);
-            });
-        items.AddGroup()
-            .CssClass("operate")
-            .ColCount(1)
-            .Caption("操作權限")
-            .Items(groupItems =>
-            {
-                groupItems.AddSimple().Template(
-                    @<text>
-                        <div id="operate-privileges-container"></div>
-                    </text>);
-            });
-    })
-)
 
 <div>
     @(Html.DevExtreme().Popup()
-        .ID("addRulePopup")
+        .ID("popupCreateRule")
         .Width(300)
         .Height(220)
         .ShowTitle(true)
@@ -104,7 +124,7 @@
     </text>))
 
     @(Html.DevExtreme().Popup()
-        .ID("updateRulePopup")
+        .ID("popupUpdateRule")
         .Width(300)
         .Height(220)
         .ShowTitle(true)
@@ -114,18 +134,7 @@
         .HideOnOutsideClick(true)
         .ContentTemplate(@<text>
         <div class="dx-field">
-            <div class="dx-field-label">規則名稱</div>
-            <div class="dx-field-value">
-                @(
-                Html.DevExtreme().TextBox()
-                .ID("updateRuleName")
-                .MaxLength(16)
-                .Placeholder("規則名稱")
-                .ShowClearButton(true)
-                )
-            </div>
-        </div>
-        <div class="dx-field">
+            <span id="updateConfirm"></span>
             <div class="dx-field-value">
                 @(Html.DevExtreme().Button()
                 .Text("確定")
@@ -139,18 +148,23 @@
     @(Html.DevExtreme().Popup()
         .ID("popupDeleteRule")
         .Width(300)
-        .Height(200)
+        .Height(220)
         .ShowTitle(true)
         .Title("刪除權限規則")
         .DragEnabled(false)
         .ShowCloseButton(false)
+        .HideOnOutsideClick(true)
         .ContentTemplate(@<text>
-        <label id="popuplblNotice">確定要刪除此規則？</label>
+
+        <div class="dx-field">
+            <span id="deleteConfirm"></span>
+            <div class="dx-field-value">
+                @(Html.DevExtreme().Button()
+                .Text("確定")
+                .Type(ButtonType.Danger)
+                .OnClick("deleteRuleSubmit")
+                )
+            </div>
+        </div>
     </text>))
 </div>
-
-<script src="~/js/pages/privilege/addcheckBox.js"></script>
-<script src="~/js/pages/privilege/addPrivilegeRule.js"></script>
-<script src="~/js/pages/privilege/getPrivilegeRule.js"></script>
-<script src="~/js/pages/privilege/updatePrivilegeRule.js"></script>
-
