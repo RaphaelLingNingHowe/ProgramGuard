@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using ProgramGuard.Interfaces;
 using ProgramGuard.Models;
@@ -33,11 +34,11 @@ namespace ProgramGuard.Services
             var creds = new SigningCredentials(_symmetricSecurityKey, SecurityAlgorithms.HmacSha512Signature);
 
             var identity = new ClaimsIdentity(claims, "JWT");
-
+            var expiresInMinutes = double.Parse(_config["JWT:ExpiresInMinutes"]);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = identity,
-                Expires = DateTime.UtcNow.AddDays(7),
+                Expires = DateTime.UtcNow.AddMinutes(expiresInMinutes),
                 SigningCredentials = creds,
                 Issuer = _config["JWT:Issuer"],
                 Audience = _config["JWT:Audience"]

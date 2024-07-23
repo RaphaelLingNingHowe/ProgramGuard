@@ -43,6 +43,7 @@ namespace ProgramGuard.Controllers
                         UserName = user.UserName,
                         LastLoginTime = user.LastLoginTime,
                         LockoutEnd = user.LockoutEnd?.LocalDateTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                        IsLocked = await _userManager.IsLockedOutAsync(user),
                         IsEnabled = user.IsEnabled,
                         Privilege = user.Privilege
                     };
@@ -214,13 +215,17 @@ namespace ProgramGuard.Controllers
         [HttpPut("{userId}/unlock")]
         public async Task<IActionResult> UnlockUser(string userId)
         {
+            if (OperatePrivilege.HasFlag(OPERATE_PRIVILEGE.UNLOCK_ACCOUNT) == false)
+            {
+                return Forbidden("沒有權限");
+            }
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
                 return NotFound();
             }
             await _userManager.SetLockoutEndDateAsync(user, null);
-            await _userManager.ResetAccessFailedCountAsync(user);
+            await LogActionAsync(ACTION.UNLOCK_ACCOUNT, $"帳號 : {user.UserName}");
 
             return NoContent();
         }

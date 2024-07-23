@@ -7,9 +7,9 @@
     DateTime _timeNow = DateTime.Now.AddMinutes(1);
 }
 @Html.AntiForgeryToken()
-<script src="~/js/pages/changeLog/api.js"></script>
-<script src="~/js/pages/changeLog/events.js"></script>
-<script src="~/js/pages/changeLog/ui.js"></script>
+<script src="~/js/pages/changeLog/changelLog-api.js"></script>
+<script src="~/js/pages/changeLog/changelLog-events.js"></script>
+<script src="~/js/pages/changeLog/changelLog-ui.js"></script>
 
 <div class="container my-5">
     <div class="row gx-5">
@@ -86,7 +86,9 @@
                         columns.AddFor(m => m.Id).AllowEditing(false).Visible(false);
                         columns.AddFor(m => m.FileName).Caption("檔案名稱");
                         columns.AddFor(m => m.ChangeTime).Caption("異動時間").Format("yyyy-MM-dd HH:mm:ss");
-                        columns.AddFor(m => m.DigitalSignature).Caption("公司電子簽章");
+                        columns.AddFor(m => m.DigitalSignature)
+                        .Caption("公司電子簽章")
+                        .CellTemplate(new JS("DigitalSignatureTemplate"));
                         columns.AddFor(m => m.ConfirmBy).Caption("審核人員");
                         columns.AddFor(m => m.ConfirmTime).Caption("審核時間").Format("yyyy-MM-dd HH:mm:ss");
                         columns.AddFor(m => m.ConfirmStatus)

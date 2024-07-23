@@ -20,6 +20,10 @@ namespace ProgramGuard.Controllers
         [HttpGet]
         public async Task<ActionResult> GetPrivilegesAsync(string? contain)
         {
+            if (VisiblePrivilege.HasFlag(VISIBLE_PRIVILEGE.SHOW_ACCOUNT_PRIVILEGE) == false)
+            {
+                return Forbidden("沒有權限");
+            }
             try
             {
                 IQueryable<PrivilegeRule> query = _context.PrivilegeRules;
@@ -50,6 +54,10 @@ namespace ProgramGuard.Controllers
         [HttpPost]
         public async Task<IActionResult> CreatePrivilegeRuleAsync(CreatePrivilegeDto createPrivilegeDto)
         {
+            if (OperatePrivilege.HasFlag(OPERATE_PRIVILEGE.MODIFY_PRIVILEGE_RULE) == false)
+            {
+                return Forbidden("沒有權限");
+            }
             if (!ModelState.IsValid)
             {
                 return BadRequest("驗證失敗，請檢查輸入的格式");
@@ -78,6 +86,7 @@ namespace ProgramGuard.Controllers
 
                 await _context.PrivilegeRules.AddAsync(privilege);
                 await _context.SaveChangesAsync();
+                await LogActionAsync(ACTION.ADD_PRIVILEGE_RULE, $"權限Id{privilege.Id}, 權限名稱{privilege.Name}");
                 return Created(privilege);
             }
             catch (Exception ex)
@@ -89,6 +98,10 @@ namespace ProgramGuard.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdatePrivilegeRuleAsync(int id, UpdatePrivilegeDto dto)
         {
+            if (OperatePrivilege.HasFlag(OPERATE_PRIVILEGE.MODIFY_PRIVILEGE_RULE) == false)
+            {
+                return Forbidden("沒有權限");
+            }
             var privilegeRule = await _context.PrivilegeRules.FindAsync(id);
             if (privilegeRule == null)
             {
@@ -102,12 +115,17 @@ namespace ProgramGuard.Controllers
             privilegeRule.Visible = dto.Visible;
             privilegeRule.Operate = dto.Operate;
             await _context.SaveChangesAsync();
+            await LogActionAsync(ACTION.MODIFY_PRIVILEGE_RULE, $"權限規則已調整[{privilegeRule.Name}]");
             return Ok("權限規則內容更新成功");
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
+            if (OperatePrivilege.HasFlag(OPERATE_PRIVILEGE.MODIFY_PRIVILEGE_RULE) == false)
+            {
+                return Forbidden("沒有權限");
+            }
             try
             {
                 var privilegeRule = await _context.PrivilegeRules.FindAsync(id);
@@ -124,7 +142,7 @@ namespace ProgramGuard.Controllers
                 _context.PrivilegeRules.Remove(privilegeRule);
 
                 await _context.SaveChangesAsync();
-
+                await LogActionAsync(ACTION.MODIFY_PRIVILEGE_RULE, $"權限規則: {privilegeRule.Name}");
                 return NoContent();
             }
             catch (Exception ex)

@@ -56,11 +56,10 @@ namespace ProgramGuard.Web.Pages
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(new { message = "驗證失敗，請檢查輸入的格式"});
+                return BadRequest("驗證失敗，請檢查輸入的格式");
             }
             if (!FileExists(createFileDto.FilePath))
             {
-                ModelState.AddModelError(createFileDto.FilePath, "檔案路徑不存在");
                 return BadRequest("檔案路徑不存在");
             }
             try

@@ -24,6 +24,7 @@ namespace ProgramGuard.Controllers
             _tokenService = tokenService;
             _configuration = configuration;
         }
+
         [HttpPost("login")]
         public async Task<IActionResult> LoginAsync(LoginDto loginDto)
         {
@@ -55,6 +56,11 @@ namespace ProgramGuard.Controllers
             if (!result.Succeeded)
             {
                 return BadRequest("登入失敗，請檢查帳號和密碼");
+            }
+            if (user.LockoutEnd.HasValue && user.LockoutEnd.Value <= DateTimeOffset.Now)
+            {
+                await _userManager.SetLockoutEndDateAsync(user, null);
+                return NoContent();
             }
             var passwordChangeDays = _configuration.GetValue<int>("SecuritySettings:PasswordChangeDays");
             var daysSinceLastPasswordChange = (DateTime.UtcNow - user.LastPasswordChangedDate).TotalDays;

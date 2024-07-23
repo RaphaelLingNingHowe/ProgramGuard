@@ -29,20 +29,23 @@ namespace ProgramGuard.Enums
         [Description("刪除帳號")]
         DELETE_ACCOUNT = 32,
 
+        [Description("解鎖帳號")]
+        UNLOCK_ACCOUNT = 64,
+
         [Description("啟用帳號")]
-        ENABLE_ACCOUNT = 64,
+        ENABLE_ACCOUNT = 128,
 
         [Description("停用帳號")]
-        DISABLE_ACCOUNT = 128,
+        DISABLE_ACCOUNT = 256,
 
         [Description("變更帳號權限")]
-        MODIFY_PRIVILEGE = 256,
+        MODIFY_PRIVILEGE = 512,
 
         [Description("重置其他人密碼")]
-        RESET_PASSWORD = 512,
+        RESET_PASSWORD = 1024,
 
         [Description("調整權限規則")]
-        MODIFY_PRIVILEGE_RULE = 1024,
+        MODIFY_PRIVILEGE_RULE = 2048,
 
     }
 }

@@ -34,7 +34,10 @@ namespace ProgramGuard.Web.Pages
                 {
                     var jsonResponse = await response.Content.ReadAsStringAsync();
                     var loginResponse = JsonConvert.DeserializeObject<LoginResponseDto>(jsonResponse);
-
+                    if (loginResponse == null)
+                    {
+                        return StatusCode((int)500, new { message = "伺服器異常，請稍後再試" });
+                    }
                     if (loginResponse.RequirePasswordChange)
                     {
                         var errorContent = await response.Content.ReadAsStringAsync();

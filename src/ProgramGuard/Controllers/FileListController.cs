@@ -71,35 +71,27 @@ namespace ProgramGuard.Controllers
             var fileListModel = FileListMapper.FileListDtoToModel(fileListDto);
             await _fileListRepository.AddAsync(fileListModel);
 
-            var isFileIntact = _fileDetectionService.VerifyFileIntegrity(filePath);
+            var currentMd5 = _fileDetectionService.CalculateMD5(filePath);
+            var currentSha512 = _fileDetectionService.CalculateSHA512(filePath);
+            var signature = _fileDetectionService.HasValidDigitalSignature(filePath);
 
-            if (!isFileIntact)
+            var changelog = new ChangeLogDTO
             {
-                var currentMd5 = _fileDetectionService.CalculateMD5(filePath);
-                var currentSha512 = _fileDetectionService.CalculateSHA512(filePath);
-                var signature = _fileDetectionService.HasValidDigitalSignature(filePath);
+                FileName = fileName,
+                MD5 = currentMd5,
+                Sha512 = currentSha512,
+                DigitalSignature = signature,
+                ChangeTime = DateTime.UtcNow.ToLocalTime(),
+                ConfirmStatus = false,
+                ConfirmBy = null,
+                ConfirmTime = null,
+                FileListId = fileListModel.Id
+            };
 
-                var changelog = new ChangeLogDTO
-                {
-                    FileName = fileName,
-                    MD5 = currentMd5,
-                    Sha512 = currentSha512,
-                    DigitalSignature = signature,
-                    ChangeTime = DateTime.UtcNow.ToLocalTime(),
-                    ConfirmStatus = false,
-                    ConfirmBy = null,
-                    ConfirmTime = null,
-                    FileListId = fileListModel.Id
-                };
-
-                var changelogModel = ChangeLogMapper.ChangeLogDtoToModel(changelog);
-                await _changeLogRepository.AddAsync(changelogModel);
-                await LogActionAsync(ACTION.ADD_FILELIST);
-                return Created("檔案新增成功，已檢測到變更");
-            }
-
+            var changelogModel = ChangeLogMapper.ChangeLogDtoToModel(changelog);
+            await _changeLogRepository.AddAsync(changelogModel);
             await LogActionAsync(ACTION.ADD_FILELIST);
-            return Created("檔案新增成功，未檢測到變更");
+            return Created("檔案新增成功，已檢測到變更");
         }
 
 
@@ -113,7 +105,7 @@ namespace ProgramGuard.Controllers
             try
             {
                 var fileList = await _fileListRepository.UpdateAsync(id, updateDto);
-                await LogActionAsync(ACTION.MODIFY_FILELIST);
+                await LogActionAsync(ACTION.MODIFY_FILELIST, $"新檔案名稱: {updateDto.FileName}");
                 return Ok(fileList);
             }
             catch (ArgumentException)
@@ -135,7 +127,7 @@ namespace ProgramGuard.Controllers
             }
 
             await _fileListRepository.DeleteAsync(id);
-            await LogActionAsync(ACTION.DELETE_FILELIST);
+            await LogActionAsync(ACTION.DELETE_FILELIST, $"檔案Id: {id}");
             return NoContent();
         }
     }

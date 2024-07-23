@@ -6,9 +6,9 @@
 }
 
 @Html.AntiForgeryToken()
-<script src="~/js/pages/Users/api.js"></script>
-<script src="~/js/pages/Users/ui.js"></script>
-<script src="~/js/pages/Users/events.js"></script>
+<script src="~/js/pages/Users/users-api.js"></script>
+<script src="~/js/pages/Users/users-ui.js"></script>
+<script src="~/js/pages/Users/users-events.js"></script>
 
 <div class="container my-5">
     <div class="row align-items-center mb-2">
@@ -36,25 +36,27 @@
             .Columns(columns =>
             {
                 columns.AddFor(m => m.UserName).Caption("帳號").AllowEditing(false);
+                columns.AddFor(m => m.Privilege)
+                .Caption("權限")
+                .Width(150)
+                .AllowSorting(false)
+                .EditCellTemplate(new JS("privilegeEditorTemplate"))
+                .CellTemplate(new JS("privilegeTemplate")).Alignment(HorizontalAlignment.Left);;
                 columns.AddFor(m => m.LastLoginTime).Caption("上次登入時間").Format("yyyy-MM-dd HH:mm:ss").AllowEditing(false);
-                columns.AddFor(m => m.LockoutEnd).Caption("解鎖時間").Format("yyyy-MM-dd HH:mm:ss").AllowEditing(false);
+                columns.AddFor(m => m.LockoutEnd).Caption("解鎖時間").Format("yyyy-MM-dd HH:mm:ss").AllowEditing(false);              
+                columns.AddFor(m => m.IsLocked)
+                .Caption("帳號解鎖")
+                .Width(100)
+                .AllowSorting(false)
+                .CellTemplate(new JS("unlockAccountTemplate"));
                 columns.AddFor(m => m.IsEnabled)
                 .Caption("帳號啟用")
                 .DataField("IsEnabled")
                 .Width(100)
                 .AllowSorting(false)
+                .AllowEditing(true)
                 .EditCellTemplate(new JS("switchEditorTemplate"))
-                .CellTemplate(new JS("switchTemplate"));
-                columns.Add()
-                .Caption("帳號解鎖")
-                .Width(100)
-                .AllowSorting(false)
-                .CellTemplate(new JS("unlockAccountTemplate"));
-                columns.Add()
-                .Caption("分配權限")
-                .Width(100)
-                .AllowSorting(false)
-                .CellTemplate(new JS("assignPrivilegeTemplate"));
+                @* .CellTemplate(new JS("switchTemplate")) *@;
                 columns.Add()
                 .Caption("重設密碼")
                 .Width(100)
