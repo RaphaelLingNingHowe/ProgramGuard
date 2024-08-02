@@ -25,7 +25,14 @@ namespace ProgramGuard.Web.Model
         }
         protected HttpClient GetClient()
         {
-            string jwt = _contextAccessor.HttpContext.Request.Cookies["auth_token"];
+            var httpContext = _contextAccessor.HttpContext;
+            if (httpContext == null)
+            {
+                _logger.LogWarning("HttpContext is null.");
+                throw new InvalidOperationException("HttpContext is null.");
+            }
+
+            string? jwt = httpContext.Request.Cookies["auth_token"];
             var client = _httpClientFactory.CreateClient();
 
             if (!string.IsNullOrEmpty(jwt))
@@ -44,7 +51,7 @@ namespace ProgramGuard.Web.Model
                 _logger.LogWarning("JWT token cookie is null or empty.");
             }
 
-            string baseUrl = _configuration.GetValue<string>("ApiEndpoint:BaseUrl");
+            string? baseUrl = _configuration.GetValue<string>("ApiEndpoint:BaseUrl");
             if (!string.IsNullOrEmpty(baseUrl))
             {
                 client.BaseAddress = new Uri(baseUrl);
@@ -56,6 +63,7 @@ namespace ProgramGuard.Web.Model
 
             return client;
         }
+
 
         protected async Task<JsonResult> HandleResponseAsync(HttpResponseMessage response)
         {

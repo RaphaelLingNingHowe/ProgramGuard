@@ -1,7 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.5" />
@@ -15,8 +16,25 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="8.0.5" />
+    <PackageReference Include="NLog" Version="5.3.2" />
+    <PackageReference Include="NLog.Extensions.Logging" Version="5.3.11" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="5.3.11" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.2" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="SecurityCodeScan.VS2019" Version="5.6.7">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" /> 
   </ItemGroup>
+	<UsingTask TaskName="Babel" AssemblyName="Babel.Build, Version=9.8.0.0, Culture=neutral, PublicKeyToken=138d17b5bd621ab7" />
+	<Target Name="MyTask" AfterTargets="AfterBuild">
+		<Babel Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' " ToolPath="C:\Program Files\Babel" InputFile="$(TargetPath)" OutputFile="$(TargetPath)" CleanAttributes="\[mscorlib\]System.Runtime.CompilerServices.CompilerGeneratedAttribute;\[mscorlib\]System.Diagnostics.DebuggerDisplayAttribute;\[mscorlib\]System.Diagnostics.DebuggerBrowsableAttribute;\[mscorlib\]System.Diagnostics.DebuggerNonUserCodeAttribute;\[mscorlib\]System.Diagnostics.DebuggerHiddenAttribute;\[mscorlib\]System.Diagnostics.DebuggerStepThroughAttribute;false" ConstRemoval="true" ControlFlowObfuscation="goto=true;switch=true;case=true;if=true;call=true;value=true;token=true;underflow=true;true" CopyAttributes="true" DeadCodeElimination="false" DebuggingProtection="false" DependenciesManifest="true" DetectIfObfuscated="false" Internalize="true" DisgregateRemoval="false" DynamicProxy="None" EmitInvalidOpcodes="false" EnableObfuscationAgent="true" EnumRemoval="true" FlattenNamespaces="false" GenerateDebug="true" GenerateLogFile="true" GenerateMapOutFile="true" ILIterations="3" InlineExpansion="true" Instrument="false" InstrumentEmptyMethods="true" ModuleInitializer="false" MsilEncryption="false" NameLength="5" ObfuscateEvents="true" ObfuscateFields="true" ObfuscateMethods="true" ObfuscateParameters="true" ObfuscateProperties="false" ObfuscateTypes="true" ObfuscateXaml="keys=true;res=true;strip=true;manual=true;true" OverloadedRenaming="methods=true;properties=true;parameters=true;true" ResourceEncryption="false" SealClasses="false" SearchSatelliteAssemblies="true" ShowLogo="false" ShowStatistics="true" StringEncryption="hash" SuppressIldasm="true" SuppressReflection="false" TamperingDetection="true" UnicodeNormalization="0x3300-0x33FF" ValueEncryption="int32=true;int64=true;single=true;double=true;array=true;true" VerboseLevel="3" VirtualFunctions="true" />
+	</Target>
+
+	<Target Name="CopyFiles" AfterTargets="AfterPublish">
+		<Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ProjectDir)..\..\output\ProgramGuard" />
+		<Copy SourceFiles="$(TargetPath).map.xml" DestinationFolder="$(ProjectDir)..\..\output\ProgramGuard" />
+	</Target>
 </Project>

@@ -15,7 +15,7 @@ namespace ProgramGuard.Web.Pages
         {
         }
 
-        public LoginDto loginDto { get; set; }
+        public LoginDto loginDto { get; set; } = new LoginDto();
         public async Task<IActionResult> OnPostAsync([FromBody] LoginDto loginDto)
         {
             try
@@ -41,7 +41,7 @@ namespace ProgramGuard.Web.Pages
                     if (loginResponse.RequirePasswordChange)
                     {
                         var errorContent = await response.Content.ReadAsStringAsync();
-                        return StatusCode((int)response.StatusCode, new { requirePasswordChange = true, message = loginResponse.Message});
+                        return StatusCode((int)response.StatusCode, new { requirePasswordChange = true, message = loginResponse.Message });
 
                     }
                     if (!string.IsNullOrEmpty(loginResponse.Token))
@@ -52,7 +52,7 @@ namespace ProgramGuard.Web.Pages
                             Secure = true,
                             SameSite = SameSiteMode.Strict
                         });
-                    return await HandleResponseAsync(response);
+                        return await HandleResponseAsync(response);
 
                     }
                     return await HandleResponseAsync(response);

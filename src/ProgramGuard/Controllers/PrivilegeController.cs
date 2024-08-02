@@ -9,8 +9,6 @@ using ProgramGuard.Models;
 
 namespace ProgramGuard.Controllers
 {
-    [Route("[controller]")]
-    [ApiController]
     public class PrivilegeController : BaseController
     {
         public PrivilegeController(UserManager<AppUser> userManager, ApplicationDBContext context) : base(context, userManager)
@@ -18,7 +16,7 @@ namespace ProgramGuard.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetPrivilegesAsync(string? contain)
+        public async Task<ActionResult> GetPrivilegesAsync()
         {
             if (VisiblePrivilege.HasFlag(VISIBLE_PRIVILEGE.SHOW_ACCOUNT_PRIVILEGE) == false)
             {
@@ -26,24 +24,16 @@ namespace ProgramGuard.Controllers
             }
             try
             {
-                IQueryable<PrivilegeRule> query = _context.PrivilegeRules;
-
-                if (!string.IsNullOrEmpty(contain))
+                List<GetPrivilegeRuleDto> privilegeRule = await _context.PrivilegeRules
+                .Select(pr => new GetPrivilegeRuleDto
                 {
-                    query = query.Where(o => o.Name.Contains(contain));
-                }
-
-                IEnumerable<GetPrivilegeRuleDto> result = await query
-                    .Select(o => new GetPrivilegeRuleDto
-                    {
-                        Id = o.Id,
-                        Name = o.Name,
-                        Visible = o.Visible,
-                        Operate = o.Operate
-                    })
-                    .ToListAsync();
-
-                return Ok(result);
+                    Id = pr.Id,
+                    Name = pr.Name,
+                    Visible = pr.Visible,
+                    Operate = pr.Operate
+                })
+                .ToListAsync();
+                return Ok(privilegeRule);
             }
             catch (Exception ex)
             {
@@ -58,11 +48,6 @@ namespace ProgramGuard.Controllers
             {
                 return Forbidden("沒有權限");
             }
-            if (!ModelState.IsValid)
-            {
-                return BadRequest("驗證失敗，請檢查輸入的格式");
-            }
-
             try
             {
                 if (await _context.PrivilegeRules.AnyAsync(p => p.Name == createPrivilegeDto.Name))
@@ -77,7 +62,7 @@ namespace ProgramGuard.Controllers
                     return Conflict("權限規則已存在");
                 }
 
-                var privilege = new PrivilegeRule()
+                PrivilegeRule privilege = new PrivilegeRule()
                 {
                     Name = createPrivilegeDto.Name,
                     Visible = createPrivilegeDto.Visible,
@@ -94,6 +79,8 @@ namespace ProgramGuard.Controllers
                 return ServerError(ex.Message);
             }
         }
+
+
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdatePrivilegeRuleAsync(int id, UpdatePrivilegeDto dto)
@@ -152,40 +139,9 @@ namespace ProgramGuard.Controllers
         }
 
         [HttpGet("/PrivilegeRule")]
-        public async Task<IActionResult> GetPrivilegeRulesAsync()
+        public IActionResult GetPrivilegeRules()
         {
-            var privilegesDto = await Task.Run(() =>
-            {
-                var visiblePrivileges = Enum.GetValues(typeof(VISIBLE_PRIVILEGE))
-                    .Cast<VISIBLE_PRIVILEGE>()
-                    .Where(p => p != VISIBLE_PRIVILEGE.UNKNOWN)
-                    .Select(p => new VisiblePrivilegeDto
-                    {
-                        Value = (uint)p,
-                        Name = p.ToString(),
-                        Description = p.GetDescription()
-                    })
-                    .ToList();
-
-                var operatePrivileges = Enum.GetValues(typeof(OPERATE_PRIVILEGE))
-                    .Cast<OPERATE_PRIVILEGE>()
-                    .Where(p => p != OPERATE_PRIVILEGE.UNKNOWN)
-                    .Select(p => new OperatePrivilegeDto
-                    {
-                        Value = (uint)p,
-                        Name = p.ToString(),
-                        Description = p.GetDescription()
-                    })
-                    .ToList();
-
-                return new PrivilegesDto
-                {
-                    VisiblePrivileges = visiblePrivileges,
-                    OperatePrivileges = operatePrivileges
-                };
-            });
-
-            return Ok(privilegesDto);
+            return Ok(Privilege.Privileges);
         }
     }
 }

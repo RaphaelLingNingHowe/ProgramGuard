@@ -12,9 +12,15 @@ namespace ProgramGuard.Web.Pages
 
         public IActionResult OnGet()
         {
-            return User.Identity.IsAuthenticated
-                ? RedirectToPage("/FileLists")
-                : RedirectToPage("/Login");
+            if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                return RedirectToPage("/FileLists");
+            }
+            else
+            {
+                return RedirectToPage("/Login");
+            }
+
         }
     }
 }

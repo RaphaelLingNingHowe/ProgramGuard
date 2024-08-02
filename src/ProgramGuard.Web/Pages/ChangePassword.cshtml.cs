@@ -15,7 +15,7 @@ namespace ProgramGuard.Web.Pages
         {
         }
 
-        public ChangePasswordDto changePasswordDto { get; set; }
+        public ChangePasswordDto changePasswordDto { get; set; } = new ChangePasswordDto();
         public async Task<IActionResult> OnPutChangePasswordAsync(string key, [FromBody] ChangePasswordDto changePasswordDto)
         {
             if (!ModelState.IsValid)

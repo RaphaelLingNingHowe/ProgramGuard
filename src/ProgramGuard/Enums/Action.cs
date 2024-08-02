@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 
 namespace ProgramGuard.Enums
 {
@@ -35,10 +34,10 @@ namespace ProgramGuard.Enums
         ACCESS_CHANGE_LOG_PAGE = 2000,
 
         [Description("檔案異動確認")]
-        CONFIRM_CHANGE_LOG = 2002,
+        CONFIRM_CHANGE_LOG = 2001,
 
         [Description("查閱異動紀錄")]
-        VIEW_CHANGE_LOG = 4001,
+        VIEW_CHANGE_LOG = 2002,
 
         // 帳號管理
         [Description("[進入] 帳號管理")]
@@ -66,16 +65,16 @@ namespace ProgramGuard.Enums
         MODIFY_PRIVILEGE = 3007,
 
         // 權限管理
-        [Display(Name = "[進入] 權限管理")]
+        [Description("[進入] 權限管理")]
         ACCESS_PRIVILEGE_PAGE = 4001,
 
-        [Display(Name = "新增權限規則")]
+        [Description("新增權限規則")]
         ADD_PRIVILEGE_RULE = 4002,
 
-        [Display(Name = "編輯權限規則")]
+        [Description("編輯權限規則")]
         MODIFY_PRIVILEGE_RULE = 4003,
 
-        [Display(Name = "刪除權限規則")]
+        [Description("刪除權限規則")]
         DELETE_PRIVILEGE_RULE = 4004,
 
         // 操作紀錄

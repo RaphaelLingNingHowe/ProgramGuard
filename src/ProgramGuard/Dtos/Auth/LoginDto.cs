@@ -3,10 +3,13 @@ namespace ProgramGuard.Dtos.User
 {
     public class LoginDto
     {
+
         [Required(ErrorMessage = "請輸入帳號")]
-        public string LoginUserName { get; set; }
+        [StringLength(16, ErrorMessage = "超過可輸入上限(16)")]
+        public string LoginUserName { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "請輸入密碼")]
-        public string LoginPassword { get; set; }
+        [StringLength(256, ErrorMessage = "超過可輸入上限(256)")]
+        public string LoginPassword { get; set; } = string.Empty;
     }
 }

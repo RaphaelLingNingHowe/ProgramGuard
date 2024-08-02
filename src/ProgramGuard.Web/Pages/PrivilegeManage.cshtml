@@ -92,7 +92,7 @@
 <div>
     @(Html.DevExtreme().Popup()
         .ID("popupCreateRule")
-        .Width(300)
+        .Width(350)
         .Height(220)
         .ShowTitle(true)
         .Title("新增權限規則")
@@ -100,18 +100,17 @@
         .ShowCloseButton(false)
         .HideOnOutsideClick(true)
         .ContentTemplate(@<text>
-        <div class="dx-field">
-            <div class="dx-field-label">規則名稱</div>
-            <div class="dx-field-value">
+        
+            <div class="mb-3">
+                <label for="UserName" class="form-label">帳號</label>
                 @(
-                Html.DevExtreme().TextBox()
+                Html.DevExtreme().TextBoxFor(m => m.createPrivilegeDto.Name)
                 .ID("createRuleName")
                 .MaxLength(16)
                 .Placeholder("規則名稱")
                 .ShowClearButton(true)
                 )
             </div>
-        </div>
         <div class="dx-field">
             <div class="dx-field-value">
                 @(Html.DevExtreme().Button()

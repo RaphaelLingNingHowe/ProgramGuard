@@ -165,11 +165,11 @@ namespace ProgramGuard.Migrations
                     b.Property<ushort>("Action")
                         .HasColumnType("smallint unsigned");
 
-                    b.Property<DateTime>("ActionTime")
-                        .HasColumnType("datetime(6)");
-
                     b.Property<string>("Comment")
                         .HasColumnType("longtext");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -194,10 +194,20 @@ namespace ProgramGuard.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("longtext");
 
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("IsEnabled")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("IsLocked")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<DateTime?>("LastLoginTime")
@@ -212,6 +222,10 @@ namespace ProgramGuard.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)");
@@ -219,17 +233,29 @@ namespace ProgramGuard.Migrations
                     b.Property<string>("PasswordHash")
                         .HasColumnType("longtext");
 
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<int>("Privilege")
                         .HasColumnType("int");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("longtext");
 
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
@@ -248,17 +274,18 @@ namespace ProgramGuard.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("ChangeTime")
+                    b.Property<string>("ChangeDetails")
+                        .HasColumnType("longtext");
+
+                    b.Property<byte?>("ChangeType")
+                        .IsRequired()
+                        .HasColumnType("tinyint unsigned");
+
+                    b.Property<DateTime?>("ConfirmedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("ConfirmBy")
+                    b.Property<string>("ConfirmedBy")
                         .HasColumnType("varchar(255)");
-
-                    b.Property<bool>("ConfirmStatus")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<DateTime?>("ConfirmTime")
-                        .HasColumnType("datetime(6)");
 
                     b.Property<bool>("DigitalSignature")
                         .HasColumnType("tinyint(1)");
@@ -266,22 +293,18 @@ namespace ProgramGuard.Migrations
                     b.Property<int>("FileListId")
                         .HasColumnType("int");
 
-                    b.Property<string>("FileName")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("MD5")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<bool>("IsConfirmed")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("SHA512")
-                        .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ConfirmBy");
+                    b.HasIndex("ConfirmedBy");
 
                     b.HasIndex("FileListId");
 
@@ -296,12 +319,15 @@ namespace ProgramGuard.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("FileName")
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
 
-                    b.Property<string>("FilePath")
+                    b.Property<string>("Path")
                         .IsRequired()
                         .HasMaxLength(4096)
                         .HasColumnType("varchar(4096)");
@@ -460,7 +486,7 @@ namespace ProgramGuard.Migrations
                 {
                     b.HasOne("ProgramGuard.Models.AppUser", "AppUser")
                         .WithMany()
-                        .HasForeignKey("ConfirmBy");
+                        .HasForeignKey("ConfirmedBy");
 
                     b.HasOne("ProgramGuard.Models.FileList", "FileList")
                         .WithMany()

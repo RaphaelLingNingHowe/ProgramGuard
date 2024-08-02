@@ -82,6 +82,7 @@ namespace ProgramGuard.Web.Pages
             }
         }
 
+        public CreatePrivilegeDto createPrivilegeDto { get; set; } = new CreatePrivilegeDto();
         public async Task<IActionResult> OnPostAsync([FromBody] CreatePrivilegeDto createPrivilegeDto)
         {
             try

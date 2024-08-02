@@ -1,59 +1,127 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProgramGuard.Data;
-using ProgramGuard.Dtos.FileDetection;
-using ProgramGuard.Interfaces;
+using ProgramGuard.Dtos.FileList;
+using ProgramGuard.Interfaces.Repository;
 using ProgramGuard.Models;
-namespace ProgramGuard.Repository
+using ProgramGuard.Repository;
+
+namespace ProgramGuard.Repositories
 {
-    public class FileListRepository : IFileListRepository
+    public class FileListRepository : Repository<FileList>, IFileListRepository
     {
         private readonly ApplicationDBContext _context;
-        public FileListRepository(ApplicationDBContext context)
+        private readonly ILogger<FileListRepository> _logger;
+
+        public FileListRepository(ApplicationDBContext context,ILogger<FileListRepository> logger) : base(context)
         {
+            _logger = logger;
             _context = context;
         }
-        public async Task<FileList> AddAsync(FileList fileList)
+
+        public async Task<FileList?> GetFileAsync(string path)
         {
-            await _context.FileLists.AddAsync(fileList);
-            await _context.SaveChangesAsync();
-            return fileList;
-        }
-        public async Task<FileList> DeleteAsync(int id)
-        {
-            var fileList = await _context.FileLists.FindAsync(id);
-            if (fileList != null)
+            try
             {
-                _context.FileLists.Remove(fileList);
+                return await _context.FileLists
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(f => f.Path == path);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while getting file with path: {Path}", path);
+                throw;
+            }
+        }
+
+        public async Task<int> AddFileAsync(FileList file)
+        {
+            if (file == null)
+            {
+                throw new ArgumentNullException(nameof(file));
+            }
+
+            try
+            {
+                _context.FileLists.Add(file);
                 await _context.SaveChangesAsync();
+                return file.Id;
             }
-            return null;
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while adding file: {FilePath}", file.Path);
+                throw;
+            }
         }
-        public async Task<IEnumerable<FileList>> GetAllAsync()
+
+        public async Task<int> RenameFileAsync(string oldPath, string newPath)
         {
-            return await _context.FileLists.ToListAsync();
+            try
+            {
+                var file = await GetFileAsync(oldPath);
+                if (file == null)
+                {
+                    throw new FileNotFoundException("The file to be renamed was not found.", oldPath);
+                }
+
+                file.Path = newPath;
+                file.Name = Path.GetFileName(newPath);
+                _context.FileLists.Update(file);
+                await _context.SaveChangesAsync();
+                return file.Id;
+            }
+            catch (FileNotFoundException ex)
+            {
+                _logger.LogWarning(ex, "File not found for renaming: {OldPath}", oldPath);
+                throw;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while renaming file from {OldPath} to {NewPath}", oldPath, newPath);
+                throw;
+            }
         }
 
-        public async Task<FileList> UpdateAsync(int id, FileListModifyDto updateDto)
+        public async Task<int> DeleteFileAsync(string path)
         {
-            var fileList = await _context.FileLists.FindAsync(id);
-            if (fileList == null)
+            try
             {
-                throw new ArgumentException("File not found");
-            }
+                var file = await GetFileAsync(path);
+                if (file == null)
+                {
+                    throw new FileNotFoundException("The file to be deleted was not found.", path);
+                }
 
-            if (!string.IsNullOrEmpty(updateDto.FileName))
+                file.IsDeleted = true;
+                _context.FileLists.Update(file);
+                await _context.SaveChangesAsync();
+                return file.Id;
+            }
+            catch (FileNotFoundException ex)
             {
-                fileList.FileName = updateDto.FileName;
+                _logger.LogWarning(ex, "File not found for deletion: {Path}", path);
+                throw;
             }
-
-            if (!string.IsNullOrEmpty(updateDto.FilePath))
+            catch (Exception ex)
             {
-                fileList.FilePath = updateDto.FilePath;
+                _logger.LogError(ex, "Error occurred while deleting file: {Path}", path);
+                throw;
             }
-
-            await _context.SaveChangesAsync();
-            return fileList;
         }
 
+        public async Task<IEnumerable<FileList>> GetAllFilesAsync()
+        {
+            try
+            {
+                return await _context.FileLists
+                    .Where(f => !f.IsDeleted)
+                    .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while getting all files");
+                throw;
+            }
+
+        }
     }
 }

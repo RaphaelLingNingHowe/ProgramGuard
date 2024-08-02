@@ -87,11 +87,11 @@
 @* Popups *@
 @(Html.DevExtreme().Popup()
     .ID("popupCreateUser")
-    .Width(400)
+    .Width(350)
     .Height(300)
     .ShowTitle(true)
     .Title("新增帳號")
-    .DragEnabled(true)
+    .DragEnabled(false)
     .HideOnOutsideClick(true)
     .ShowCloseButton(true)
     .Position(p => p.At(HorizontalAlignment.Center, VerticalAlignment.Center).My(HorizontalAlignment.Center, VerticalAlignment.Center))
@@ -125,7 +125,7 @@
         })
         )
     </div>
-    <div class="mt-4">
+    <div class="d-grid mt-4">
         @(Html.DevExtreme().Button()
         .Text("確定")
         .Type(ButtonType.Success)
@@ -136,35 +136,14 @@
 </text>)
 )
 
-@* 分配權限popup *@
-<div id="container">
-    @(Html.DevExtreme().Popup()
-        .ID("popupAssignPrivilege")
-        .Width(400)
-        .Height(220)
-        .ShowTitle(true)
-        .Title("分配權限")
-        .DragEnabled(true)
-        .HideOnOutsideClick(true)
-        .ShowCloseButton(true)
-        .Position(positionConfig => positionConfig
-        .At(HorizontalAlignment.Center, VerticalAlignment.Center)
-        .My(HorizontalAlignment.Center, VerticalAlignment.Center)
-        )
-        .ContentTemplate(@<text>
-        <div id="privilegeList" class="dx-field"></div>
-    </text>)
-        )
-</div>
-
-<div id="container">
-    @(Html.DevExtreme().Popup()
+    
+@(Html.DevExtreme().Popup()
         .ID("popupResetPassword")
-        .Width(400)
+        .Width(350)
         .Height(220)
         .ShowTitle(true)
         .Title("重置密碼")
-        .DragEnabled(true)
+        .DragEnabled(false)
         .HideOnOutsideClick(true)
         .ShowCloseButton(true)
         .Position(positionConfig => positionConfig
@@ -172,32 +151,34 @@
         .My(HorizontalAlignment.Center, VerticalAlignment.Center)
         )
         .ContentTemplate(@<text>
-        <div class="dx-field">
-            <div class="dx-field-label">重置新密碼</div>
-            <div class="dx-field-value">
-                @(
-                Html.DevExtreme().TextBoxFor(m => m.resetPasswordDto.ResetPassword)
-                .ID("resetPassword")
-                .Mode(TextBoxMode.Password)
-                .InputAttr("aria-label", "Password")
-                .OnEnterKey("submitResetPassword")
-                .Placeholder("重置新密碼")
-                .ShowClearButton(true)
-                )
-            </div>
+        <div class="mb-3">
+            <label for="resetPassword" class="form-label">重置新密碼</label>
+            @(Html.DevExtreme().TextBoxFor(m => m.resetPasswordDto.ResetPassword)
+            .ID("resetPassword")
+            .Mode(TextBoxMode.Password)
+            .InputAttr("aria-label", "Password")
+            .OnEnterKey("submitResetPassword")
+            .Placeholder("重置新密碼")
+            .ShowClearButton(true)
+            .Buttons(buttons => {
+            buttons.Add()
+            .Name("password")
+            .Location(TextEditorButtonLocation.After)
+            .Widget(w => w.Button()
+            .StylingMode(ButtonStylingMode.Text)
+            .Icon("eyeopen")
+            .OnClick("() => changePasswordMode('Password')"));
+            })
+            )
         </div>
-        <div class="dx-field">
-            <div class="dx-field-value">
-                @(Html.DevExtreme().Button()
-                .Text("確定")
-                .Type(ButtonType.Success)
-                .OnClick("submitResetPassword")
-                )
-            </div>
-        </div>
-    </text>)
+        <div class="d-grid mt-4">
+            @(Html.DevExtreme().Button()
+            .Text("確定")
+            .Type(ButtonType.Success)
+            .OnClick("submitResetPassword")
+            )
+        </div></text>)
         )
-</div>
 
 <script>
     $.ajaxSetup({

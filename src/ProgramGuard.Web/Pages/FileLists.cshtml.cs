@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 using ProgramGuard.Dtos.FileDetection;
 using ProgramGuard.Enums;
 using ProgramGuard.Web.Model;
-using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace ProgramGuard.Web.Pages
@@ -40,7 +39,7 @@ namespace ProgramGuard.Web.Pages
                 if (response.IsSuccessStatusCode)
                 {
                     await LogActionAsync(ACTION.ACCESS_FILELIST_PAGE);
-                    List<FileListDto> fileList = await response.Content.ReadFromJsonAsync<List<FileListDto>>();
+                    List<FileListDto>? fileList = await response.Content.ReadFromJsonAsync<List<FileListDto>>();
                     return new OkObjectResult(fileList);
                 }
                 return await HandleResponseAsync(response);
@@ -51,7 +50,7 @@ namespace ProgramGuard.Web.Pages
             }
         }
 
-        public CreateFileDto createFileDto { get; set; }
+        public CreateFileDto createFileDto { get; set; } = new CreateFileDto();
         public async Task<IActionResult> OnPostCreateFileAsync([FromBody] CreateFileDto createFileDto)
         {
             if (!ModelState.IsValid)

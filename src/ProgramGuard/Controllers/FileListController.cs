@@ -1,134 +1,80 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using ProgramGuard.Base;
 using ProgramGuard.Data;
-using ProgramGuard.Dtos.FileDetection;
-using ProgramGuard.Enums;
-using ProgramGuard.Interfaces;
-using ProgramGuard.Mappers;
+using ProgramGuard.Dtos.FileList;
+using ProgramGuard.Dtos.PathRequest;
+using ProgramGuard.Interfaces.Repository;
+using ProgramGuard.Interfaces.Service;
 using ProgramGuard.Models;
 namespace ProgramGuard.Controllers
 {
-    [Route("[controller]")]
-    [Authorize]
-    [ApiController]
     public class FileListController : BaseController
     {
-        private readonly IFileDetectionService _fileDetectionService;
-        private readonly IChangeLogRepository _changeLogRepository;
+        private readonly IPathProcessService _pathProcessService;
         private readonly IFileListRepository _fileListRepository;
-
-        public FileListController(IFileDetectionService fileDetectionService, ApplicationDBContext context, IChangeLogRepository changeLogRepository, IFileListRepository fileListRepository, UserManager<AppUser> userManager)
+        public FileListController(ApplicationDBContext context, UserManager<AppUser> userManager, IPathProcessService pathProcessService,IFileListRepository fileListRepository)
             : base(context, userManager)
         {
-            _fileDetectionService = fileDetectionService;
-            _changeLogRepository = changeLogRepository;
             _fileListRepository = fileListRepository;
+            _pathProcessService = pathProcessService;
         }
-
         [HttpGet]
-        public async Task<IActionResult> GetFileLists()
+        public async Task<IActionResult> GetAllFilesAsync()
         {
-            if (VisiblePrivilege.HasFlag(VISIBLE_PRIVILEGE.SHOW_FILELIST) == false)
-            {
-                return Forbidden("沒有權限");
-            }
-            var filelist = await _fileListRepository.GetAllAsync();
-            var fileDtos = filelist.Select(file => new FileListDto
-            {
-                Id = file.Id,
-                FileName = file.FileName,
-                FilePath = file.FilePath
-            }).ToList();
-
-            return Ok(fileDtos);
+            var files = await _fileListRepository.GetAllFilesAsync();
+            return Ok(files);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateFileAsync([FromBody] CreateFileDto createFileDto)
+        public async Task<IActionResult> AddPathToLists([FromBody] PathRequestDto pathRequestDto)
         {
-            if (OperatePrivilege.HasFlag(OPERATE_PRIVILEGE.ADD_FILELIST) == false)
-            {
-                return Forbidden("沒有權限");
-            }
-            var filePath = createFileDto.FilePath;
+            await _pathProcessService.ProcessPathAsync(pathRequestDto.Path);
 
-            var existingFile = await _context.FileLists.FirstOrDefaultAsync(f => f.FilePath == filePath);
-            if (existingFile != null)
-            {
-                return Conflict("檔案已經存在");
-            }
-
-            var fileName = Path.GetFileName(filePath);
-            var fileListDto = new FileListDto
-            {
-                FilePath = filePath,
-                FileName = fileName
-            };
-            var fileListModel = FileListMapper.FileListDtoToModel(fileListDto);
-            await _fileListRepository.AddAsync(fileListModel);
-
-            var currentMd5 = _fileDetectionService.CalculateMD5(filePath);
-            var currentSha512 = _fileDetectionService.CalculateSHA512(filePath);
-            var signature = _fileDetectionService.HasValidDigitalSignature(filePath);
-
-            var changelog = new ChangeLogDTO
-            {
-                FileName = fileName,
-                MD5 = currentMd5,
-                Sha512 = currentSha512,
-                DigitalSignature = signature,
-                ChangeTime = DateTime.UtcNow.ToLocalTime(),
-                ConfirmStatus = false,
-                ConfirmBy = null,
-                ConfirmTime = null,
-                FileListId = fileListModel.Id
-            };
-
-            var changelogModel = ChangeLogMapper.ChangeLogDtoToModel(changelog);
-            await _changeLogRepository.AddAsync(changelogModel);
-            await LogActionAsync(ACTION.ADD_FILELIST);
-            return Created("檔案新增成功，已檢測到變更");
+            return Ok();
         }
 
-
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateFileList(int id, [FromBody] FileListModifyDto updateDto)
+        public async Task<IActionResult> UpdateFileAsync(int id, [FromBody] FileListUpdateDto fileUpdateDto)
         {
-            if (OperatePrivilege.HasFlag(OPERATE_PRIVILEGE.MODIFY_FILELIST) == false)
+            var fileList = await _fileListRepository.GetByIdAsync(id);
+            if (fileList == null)
             {
-                return Forbidden("沒有權限");
+                return NotFound(); 
             }
+            fileList.Path = fileUpdateDto.Path;
+            fileList.Name = fileUpdateDto.Name;
             try
             {
-                var fileList = await _fileListRepository.UpdateAsync(id, updateDto);
-                await LogActionAsync(ACTION.MODIFY_FILELIST, $"新檔案名稱: {updateDto.FileName}");
-                return Ok(fileList);
-            }
-            catch (ArgumentException)
-            {
-                return NotFound();
+                await _fileListRepository.UpdateAsync(fileList);
+                return Ok();
             }
             catch (Exception ex)
             {
-                return ServerError(ex.Message);
+                return ServerError(ex);
             }
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteFileList([FromRoute] int id)
+        public async Task<IActionResult> DeleteFileAsync(int id)
         {
-            if (OperatePrivilege.HasFlag(OPERATE_PRIVILEGE.DELETE_FILELIST) == false)
+            var fileList = await _fileListRepository.GetByIdAsync(id);
+            if (fileList == null)
             {
-                return Forbidden("沒有權限");
+                return NotFound();
             }
-
-            await _fileListRepository.DeleteAsync(id);
-            await LogActionAsync(ACTION.DELETE_FILELIST, $"檔案Id: {id}");
-            return NoContent();
+            fileList.IsDeleted = true;
+            try
+            {
+                await _fileListRepository.UpdateAsync(fileList);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return ServerError(ex);
+            }
         }
+
+
     }
 }

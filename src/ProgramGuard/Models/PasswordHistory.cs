@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 namespace ProgramGuard.Models
 {
     public class PasswordHistory
@@ -8,12 +7,11 @@ namespace ProgramGuard.Models
         public int Id { get; set; }
 
         [Required]
-        public string UserId { get; set; }
+        public string UserId { get; set; } = string.Empty;
 
         [Required]
-        public string PasswordHash { get; set; }
+        public string PasswordHash { get; set; } = string.Empty;
         public DateTime CreatedDate { get; set; }
-        [JsonIgnore]
-        public AppUser User { get; set; }
+        public AppUser? User { get; set; }
     }
 }

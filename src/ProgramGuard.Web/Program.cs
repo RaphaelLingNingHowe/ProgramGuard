@@ -14,7 +14,11 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddAntiforgery();
 builder.Services.AddScoped<ChangePasswordModel>();
 // 其他需要的服务配置
-
+var signingKey = builder.Configuration["JWT:SigningKey"];
+if (string.IsNullOrEmpty(signingKey))
+{
+    throw new InvalidOperationException("JWT:SigningKey is not configured or is empty.");
+}
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -42,7 +46,7 @@ builder.Services.AddAuthentication(options =>
         ValidateAudience = true,
         ValidAudience = builder.Configuration["JWT:Audience"],
         ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:SigningKey"])
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(signingKey)
         )
     };
 });

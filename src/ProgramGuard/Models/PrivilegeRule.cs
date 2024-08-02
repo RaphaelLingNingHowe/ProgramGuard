@@ -8,7 +8,7 @@ namespace ProgramGuard.Models
         public int Id { get; set; }
 
         [Required]
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         [Required]
         public VISIBLE_PRIVILEGE Visible { get; set; }

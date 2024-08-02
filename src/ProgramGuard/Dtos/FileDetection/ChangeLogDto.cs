@@ -2,9 +2,8 @@
 {
     public class ChangeLogDTO
     {
-        public string FileName { get; set; }
-        public string MD5 { get; set; }
-        public string Sha512 { get; set; }
+        public string FileName { get; set; } = string.Empty;
+        public string Sha512 { get; set; } = string.Empty;
         public bool DigitalSignature { get; set; }
         public DateTime ChangeTime { get; set; }
         public bool ConfirmStatus { get; set; }

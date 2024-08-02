@@ -3,7 +3,7 @@
 @using ProgramGuard.Enums
 
 @{
-    string pagePath = ViewContext.RouteData.Values["page"].ToString();
+    var pagePath = ViewContext.RouteData.Values["page"]?.ToString() ?? string.Empty;
 
     VISIBLE_PRIVILEGE visiblePrivilege = VISIBLE_PRIVILEGE.UNKNOWN;
     if (User.Claims.FirstOrDefault(c => c.Type == "visiblePrivilege") is Claim rawVisiblePrivilege)
@@ -56,7 +56,7 @@
             </button>
                 
             
-            @if (User.Identity.IsAuthenticated && pagePath.Contains("Login") == false)
+            @if (User.Identity != null && User.Identity.IsAuthenticated && !pagePath.Contains("Login"))
             {
                 <label hidden id="hiddenAccount">@User.Identity.Name</label>
                 <div id="navbar" class="collapse navbar-collapse">

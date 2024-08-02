@@ -1,151 +1,98 @@
-﻿using ProgramGuard.Data;
-using ProgramGuard.Interfaces;
+﻿using ProgramGuard.Config;
+using ProgramGuard.Data;
+using ProgramGuard.Dtos.FileVerification;
+using ProgramGuard.Interfaces.Service;
+using ProgramGuard.Models;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
-using System.Text;
+
 namespace ProgramGuard.Services
 {
+    /// <summary>
+    /// 負責檔案檢測和驗證的服務類別。
+    /// </summary>
     public class FileDetectionService : IFileDetectionService
     {
         private readonly ApplicationDBContext _context;
-        public FileDetectionService(ApplicationDBContext context)
+        private readonly ILogger<FileDetectionService> _logger;
+        public FileDetectionService(ApplicationDBContext context, ILogger<FileDetectionService> logger)
         {
             _context = context;
+            _logger = logger;
         }
-        public string CalculateMD5(string filePath)
+
+        /// <summary>
+        /// 獲取指定檔案的驗證結果，包括 SHA-512 哈希值和數位簽章驗證。
+        /// </summary>
+        /// <param name="filePath">要驗證的檔案路徑。</param>
+        /// <returns>返回 <see cref="FileVerificationResultDto"/> 包含檔案的 SHA-512 哈希值和數位簽章狀態。</returns>
+        public FileVerificationResultDto GetFileVerificationResult(string filePath)
         {
+            var result = new FileVerificationResultDto();
+
             try
             {
-                using (var md5 = MD5.Create())
-                {
-                    using (var stream = File.OpenRead(filePath))
-                    {
-                        byte[] hash = md5.ComputeHash(stream);
-                        StringBuilder sb = new StringBuilder();
-                        foreach (byte b in hash)
-                        {
-                            sb.Append(b.ToString("x2"));
-                        }
-                        return sb.ToString();
-                    }
-                }
+                // 計算檔案的 SHA-512 哈希值
+                using var sha512 = SHA512.Create();
+                using var stream = File.OpenRead(filePath);
+                byte[] hash = sha512.ComputeHash(stream);
+                result.SHA512 = BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error calculating MD5: {ex.Message}");
-                return null;
+                // 記錄計算哈希值時發生的錯誤
+                _logger.LogError(ex, "計算 SHA-512 時發生錯誤: {ErrorMessage}", ex.Message);
+                result.SHA512 = string.Empty;
             }
-        }
-        public string CalculateSHA512(string filePath)
-        {
+
             try
             {
-                using (var sha512 = SHA512.Create())
-                {
-                    using (var stream = File.OpenRead(filePath))
-                    {
-                        byte[] hash = sha512.ComputeHash(stream);
-                        StringBuilder sb = new StringBuilder();
-                        foreach (byte b in hash)
-                        {
-                            sb.Append(b.ToString("x2"));
-                        }
-                        return sb.ToString();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error calculating SHA-512: {ex.Message}");
-                return null;
-            }
-        }
-        public List<string> GetDigitalSignature(string filePath)
-        {
-            List<string> signatureInfo = new List<string>(); // 創建存儲數位簽章信息的列表
-            try
-            {
-                using (X509Certificate2 certificate = new X509Certificate2(filePath))
-                {
-                    // 獲取憑證的發行者和有效期
-                    string subject = certificate.Subject;
-                    string issuer = certificate.Issuer;
-                    DateTime expirationDate = certificate.NotAfter;
-                    // 添加數位簽章信息到列表中
-                    signatureInfo.Add($"Subject: {subject}");
-                    signatureInfo.Add($"Issuer: {issuer}");
-                    signatureInfo.Add($"Expiration Date: {expirationDate}");
-                }
-                // 返回包含數位簽章信息的列表
-                return signatureInfo;
+                // 驗證檔案的數位簽章是否與參考證書匹配
+                using var referenceCertificate = new X509Certificate2(AppSettings.CertificatePath);
+                using var currentCertificate = new X509Certificate2(filePath);
+                result.DigitalSignature = referenceCertificate.Thumbprint == currentCertificate.Thumbprint;
             }
             catch (CryptographicException)
             {
-                // 憑證沒有數位簽章的處理
-                return null;
+                // 記錄檔案沒有數位簽章的情況
+                _logger.LogInformation("檔案沒有數位簽章: {FilePath}", filePath);
+                result.DigitalSignature = false;
             }
             catch (FileNotFoundException ex)
             {
-                // 檔案不存在的處理
-                throw new Exception($"Error processing certificate: File not found - {ex.Message}");
+                // 記錄找不到檔案的錯誤
+                _logger.LogError(ex, "找不到檔案: {FilePath}", filePath);
+                result.DigitalSignature = false;
             }
             catch (Exception ex)
             {
-                // 其他異常的處理
-                throw new Exception($"Error processing certificate: {ex.Message}");
+                // 記錄處理證書時發生的其他錯誤
+                _logger.LogError(ex, "處理證書時發生錯誤: {ErrorMessage}", ex.Message);
+                result.DigitalSignature = false;
             }
-        }
-        public bool HasValidDigitalSignature(string filePath)
-        {
-            try
-            {
-                using (X509Certificate2 certificate = new X509Certificate2(filePath))
-                {
-                    // Define the expected issuer and subject for your company's valid signature
-                    string expectedIssuer = "CN=Sectigo RSA Code Signing CA, O=Sectigo Limited, L=Salford, S=Greater Manchester, C=GB";
-                    string expectedSubject = "CN=\"Systemcom Co., Ltd.\", O=\"Systemcom Co., Ltd.\", STREET=4F No72 Sec2 NanKing E Rd, L=Taipei City, PostalCode=10457, C=TW";
 
-                    // Compare the actual issuer and subject with the expected values
-                    bool isValid = certificate.Issuer.Equals(expectedIssuer) && certificate.Subject.Equals(expectedSubject);
-
-                    return isValid;
-                }
-            }
-            catch (CryptographicException)
-            {
-                // Certificate does not have a digital signature
-                return false;
-            }
-            catch (FileNotFoundException ex)
-            {
-                // File not found handling
-                throw new Exception($"Error processing certificate: File not found - {ex.Message}");
-            }
-            catch (Exception ex)
-            {
-                // Other exceptions handling
-                throw new Exception($"Error processing certificate: {ex.Message}");
-            }
+            return result;
         }
 
+        /// <summary>
+        /// 驗證指定檔案的完整性，即檔案的 SHA-512 哈希值是否與異動記錄中的值匹配。
+        /// </summary>
+        /// <param name="filePath">要驗證的檔案路徑。</param>
+        /// <returns>如果檔案的哈希值與異動記錄中的值匹配，則返回 <c>true</c>；否則返回 <c>false</c></returns>
         public bool VerifyFileIntegrity(string filePath)
         {
-            var changeLog = _context.ChangeLogs
-                .Where(c => c.FileList.FilePath == filePath)
-                .OrderByDescending(c => c.ChangeTime)
-                .FirstOrDefault();
-            if (changeLog == null)
+            // 查找最新的異動記錄條目
+            if (_context.ChangeLogs
+                .Where(c => c.FileList != null && c.FileList.Path == filePath)
+                .OrderByDescending(c => c.Timestamp)
+                .FirstOrDefault() is not ChangeLog changeLog)
             {
-                // 文件不存在或無法驗證
                 return false;
             }
-            var oldMD5 = changeLog.MD5;
-            var oldSha512 = changeLog.SHA512;
-            // 計算新的 MD5 和 SHA512 值
-            var newMD5 = CalculateMD5(filePath);
-            var newSha512 = CalculateSHA512(filePath);
-            // 比較 MD5 和 SHA512 值
-            return oldMD5 == newMD5 && oldSha512 == newSha512;
+
+            // 計算檔案的 SHA-512 哈希值
+            var newSha512 = GetFileVerificationResult(filePath).SHA512;
+            return changeLog.SHA512 == newSha512;
         }
     }
 }

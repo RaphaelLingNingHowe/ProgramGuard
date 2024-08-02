@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProgramGuard.Base;
@@ -10,15 +9,10 @@ using ProgramGuard.Enums;
 using ProgramGuard.Models;
 namespace ProgramGuard.Controllers
 {
-    [Route("[controller]")]
-    [Authorize]
-    [ApiController]
     public class UserController : BaseController
     {
-        private readonly RoleManager<IdentityRole> _roleManager;
-        public UserController(ApplicationDBContext context, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager) : base(context, userManager)
+        public UserController(ApplicationDBContext context, UserManager<AppUser> userManager) : base(context, userManager)
         {
-            _roleManager = roleManager;
         }
 
         [HttpGet]
@@ -30,26 +24,23 @@ namespace ProgramGuard.Controllers
             }
             try
             {
-                var userInfos = await _context.Users.Where(u => u.IsDeleted == false).OrderByDescending(u => u.LastLoginTime).ToListAsync();
-
-                var userDtos = new List<GetUserDto>();
-
-                foreach (var user in userInfos)
-                {
-
-                    var userDto = new GetUserDto
+                var users = await _context.Users
+                    .Where(u => u.IsDeleted == false)
+                    .OrderByDescending(u => u.LastLoginTime)
+                    .Select(u => new GetUserDto
                     {
-                        UserId = user.Id,
-                        UserName = user.UserName,
-                        LastLoginTime = user.LastLoginTime,
-                        LockoutEnd = user.LockoutEnd?.LocalDateTime.ToString("yyyy-MM-dd HH:mm:ss"),
-                        IsLocked = await _userManager.IsLockedOutAsync(user),
-                        IsEnabled = user.IsEnabled,
-                        Privilege = user.Privilege
-                    };
-                    userDtos.Add(userDto);
-                }
-                return Ok(userDtos);
+                        UserId = u.Id,
+                        UserName = u.UserName ?? string.Empty,
+                        LastLoginTime = u.LastLoginTime,
+                        LockoutEnd = u.LockoutEnd.HasValue ? (DateTime?)u.LockoutEnd.Value.DateTime : null,
+                        IsLocked = u.IsLocked,
+                        IsEnabled = u.IsEnabled,
+                        Privilege = u.Privilege
+
+                    })
+                    .ToListAsync();
+
+                return Ok(users);
             }
             catch (Exception ex)
             {
@@ -64,11 +55,6 @@ namespace ProgramGuard.Controllers
             {
                 return Forbidden("沒有權限");
             }
-            if (!ModelState.IsValid)
-            {
-                return BadRequest("驗證失敗，請檢查輸入的格式");
-            }
-
             try
             {
                 var existingUser = await _userManager.FindByNameAsync(createUserDto.UserName);
@@ -171,7 +157,7 @@ namespace ProgramGuard.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"伺服器發生問題，請稍後再試: {ex.Message}");
+                return ServerError(ex.Message);
             }
         }
 

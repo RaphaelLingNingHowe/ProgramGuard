@@ -2,17 +2,16 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProgramGuard.Base;
+using ProgramGuard.Config;
 using ProgramGuard.Data;
 using ProgramGuard.Dtos.User;
 using ProgramGuard.Enums;
-using ProgramGuard.Interfaces;
+using ProgramGuard.Interfaces.Service;
 using ProgramGuard.Models;
 namespace ProgramGuard.Controllers
 {
-    [Route("[controller]")]
-    [ApiController]
+    [AllowAnonymous]
     public class AuthController : BaseController
     {
         private readonly SignInManager<AppUser> _signInManager;
@@ -24,17 +23,30 @@ namespace ProgramGuard.Controllers
             _tokenService = tokenService;
             _configuration = configuration;
         }
+        [HttpPost]
+        public async Task<IActionResult> LockUser(string userId, DateTimeOffset? lockoutEnd)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            // 使用自定义 UserManager 中的 SetLockoutEndDateAsync 方法
+            var result = await _userManager.SetLockoutEndDateAsync(user, lockoutEnd);
+
+            if (result.Succeeded)
+            {
+                return Ok();
+            }
+
+            return BadRequest(result.Errors);
+        }
 
         [HttpPost("login")]
         public async Task<IActionResult> LoginAsync(LoginDto loginDto)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest("驗證失敗，請檢查輸入的格式");
-            }
-
-            var user = await _userManager.FindByNameAsync(loginDto.LoginUserName);
-            if (user == null)
+            if (await _userManager.FindByNameAsync(loginDto.LoginUserName) is not AppUser user)
             {
                 return NotFound("帳號不存在");
             }
@@ -50,7 +62,7 @@ namespace ProgramGuard.Controllers
 
             if (result.IsLockedOut)
             {
-                var lockoutEnd = user.LockoutEnd.Value.UtcDateTime.ToLocalTime();
+                var lockoutEnd = user.LockoutEnd?.UtcDateTime.ToLocalTime();
                 return Forbidden($"帳號因多次登入失敗而被鎖定，請在{lockoutEnd}後再試");
             }
             if (!result.Succeeded)
@@ -62,7 +74,7 @@ namespace ProgramGuard.Controllers
                 await _userManager.SetLockoutEndDateAsync(user, null);
                 return NoContent();
             }
-            var passwordChangeDays = _configuration.GetValue<int>("SecuritySettings:PasswordChangeDays");
+            var passwordChangeDays = AppSettings.PasswordChangeDays;
             var daysSinceLastPasswordChange = (DateTime.UtcNow - user.LastPasswordChangedDate).TotalDays;
             if (daysSinceLastPasswordChange > passwordChangeDays)
             {
@@ -112,18 +124,18 @@ namespace ProgramGuard.Controllers
             {
                 return NotFound("當前密碼不正確");
             }
-            var passwordHistories = await _context.PasswordHistories
+            var newPasswordHash = _userManager.PasswordHasher.HashPassword(user, changePasswordDto.NewPassword);
+            var passwordHistoryCount = AppSettings.PasswordHistoryCount;
+            bool isPasswordUsed = await _context.PasswordHistories
                                     .Where(ph => ph.UserId == user.Id)
                                     .OrderByDescending(ph => ph.CreatedDate)
-                                    .Take(3)
-                                    .ToListAsync();
-            foreach (var history in passwordHistories)
+                                    .Take(passwordHistoryCount)
+                                    .AnyAsync(ph => ph.PasswordHash == newPasswordHash);
+            if (isPasswordUsed)
             {
-                if (_userManager.PasswordHasher.VerifyHashedPassword(user, history.PasswordHash, changePasswordDto.NewPassword) == PasswordVerificationResult.Success)
-                {
-                    return Forbidden("新密碼不能與前三次使用的密碼相同");
-                }
+                return Forbidden("新密碼不能與前三次使用的密碼相同");
             }
+
             var result = await _userManager.ChangePasswordAsync(user, changePasswordDto.CurrentPassword, changePasswordDto.NewPassword);
             if (!result.Succeeded)
             {

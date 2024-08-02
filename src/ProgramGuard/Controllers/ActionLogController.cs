@@ -1,21 +1,20 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProgramGuard.Base;
+using ProgramGuard.Config;
 using ProgramGuard.Data;
 using ProgramGuard.Dtos.ActionLog;
 using ProgramGuard.Enums;
 using ProgramGuard.Models;
 namespace ProgramGuard.Controllers
 {
-    [Route("[controller]")]
-    [Authorize]
-    [ApiController]
     public class ActionLogController : BaseController
     {
-        public ActionLogController(UserManager<AppUser> userManager, ApplicationDBContext context) : base(context, userManager)
+        private readonly IConfiguration _configuration;
+        public ActionLogController(UserManager<AppUser> userManager, ApplicationDBContext context, IConfiguration configuration) : base(context, userManager)
         {
+            _configuration = configuration;
         }
 
         [HttpGet]
@@ -29,37 +28,37 @@ namespace ProgramGuard.Controllers
             {
                 return BadRequest("結束時間不能早於開始時間");
             }
-            if ((endTime - startTime).TotalDays > 7)
+            if ((endTime - startTime).TotalDays > AppSettings.MaxRangeInDays)
             {
-                return BadRequest("時間範圍不能超過7天");
+                return BadRequest($"時間範圍不能超過{AppSettings.MaxRangeInDays}天");
             }
 
             var query = _context.ActionLogs
-                .Include(a => a.User)
-                .Where(a => a.ActionTime >= startTime && a.ActionTime <= endTime)
-                .OrderByDescending(a => a.ActionTime);
+            .Include(a => a.User)
+            .Where(a => a.Timestamp >= startTime && a.Timestamp <= endTime)
+            .OrderByDescending(a => a.Timestamp);
 
-            var result = await query
-                .Select(a => new GetActionLogDto
-                {
-                    Id = a.Id,
-                    UserId = a.User.UserName,
-                    Action = a.Action.GetDescription(),
-                    Comment = a.Comment,
-                    ActionTime = a.ActionTime
-                })
-                .ToListAsync();
+            IEnumerable<GetActionLogDto> result = await query.Select(a => new GetActionLogDto
+            {
+                Id = a.Id,
+                UserId = a.User == null ? "Unknown" :
+                         string.IsNullOrEmpty(a.User.UserName) ? "Unknown" :
+                         a.User.UserName,
+                Action = a.Action.GetDescription(),
+                Comment = a.Comment,
+                ActionTime = a.Timestamp
+            }).ToListAsync();
+
 
             await LogActionAsync(ACTION.VIEW_ACTION_LOG, $"時間區間：{startTime:yyyy/MM/dd HH:mm}-{endTime:yyyy/MM/dd HH:mm}");
 
             return Ok(result);
         }
 
-
         [HttpPost]
         public async Task<IActionResult> LogActionAsync(LogActionDto dto)
         {
-            await LogActionAsync(dto.Action, dto.Comment);
+            await LogActionAsync(dto.Action);
             return Created();
         }
     }

@@ -39,7 +39,7 @@ namespace ProgramGuard.Web.Pages
 
                 if (response.IsSuccessStatusCode)
                 {
-                    List<GetUserDto> userDtos = await response.Content.ReadFromJsonAsync<List<GetUserDto>>();
+                    List<GetUserDto>? userDtos = await response.Content.ReadFromJsonAsync<List<GetUserDto>>();
                     return new OkObjectResult(userDtos);
                 }
 
@@ -56,7 +56,7 @@ namespace ProgramGuard.Web.Pages
 
         }
 
-        public CreateUserDto createUserDto { get; set; }
+        public CreateUserDto createUserDto { get; set; } = new CreateUserDto();
         public async Task<IActionResult> OnPostCreateUserAsync([FromBody] CreateUserDto createUserDto)
         {
             try
@@ -128,7 +128,7 @@ namespace ProgramGuard.Web.Pages
             }
         }
 
-        public ResetPasswordDto resetPasswordDto { get; set; }
+        public ResetPasswordDto resetPasswordDto { get; set; } = new ResetPasswordDto();
         public async Task<IActionResult> OnPostResetPasswordAsync(string key, [FromBody] ResetPasswordDto resetPasswordDto)
         {
             try
@@ -178,7 +178,7 @@ namespace ProgramGuard.Web.Pages
 
                 if (response.IsSuccessStatusCode)
                 {
-                    List<GetPrivilegeRuleDto> privilegeDto = await response.Content.ReadFromJsonAsync<List<GetPrivilegeRuleDto>>();
+                    List<GetPrivilegeRuleDto>? privilegeDto = await response.Content.ReadFromJsonAsync<List<GetPrivilegeRuleDto>>();
                     return new OkObjectResult(privilegeDto);
                 }
                 return await HandleResponseAsync(response);
